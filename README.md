@@ -64,6 +64,10 @@ You can show or hide row numbers in the file explorer.
 
 You can print folder contents with all the customizations you make or export them to different file formats (such as Excel or PDF)
 
+![Printing](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Printing.png?raw=true)
+
 ### Standard&Touch Themes
 
 File Explorer comes with 8 standard and 6 touch themes.
+
+![Themes](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Themes.png?raw=true)
