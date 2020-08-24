@@ -13,12 +13,6 @@ Tabbed browsing let you keep multiple folders open and switch quickly between th
 
 ![Tabbed Browsing](https://github.com/omeryanar/Resources/blob/master/FileExplorer/TabbedBrowsing.png?raw=true)
 
-### Multiple Panes
-
-You can display folders side-by-side (vertically or horizontally) by dragging the tab headers and placing them to the left, right, top, or bottom of the window.
-
-![Multiple Panes](https://github.com/omeryanar/Resources/blob/master/FileExplorer/MultiplePanes.png?raw=true)
-
 ### Batch Rename
 
 You can rename multiple files by using excel-style formulas.
@@ -68,6 +62,6 @@ You can print folder contents with all the customizations you make or export the
 
 ### Standard&Touch Themes
 
-File Explorer comes with 8 standard and 6 touch themes.
+File Explorer comes with 4 standard and touch themes.
 
 ![Themes](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Themes.png?raw=true)
