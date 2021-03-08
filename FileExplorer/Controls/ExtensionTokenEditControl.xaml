@@ -1,0 +1,15 @@
+﻿<dxe:ComboBoxEdit x:Class="FileExplorer.Controls.ExtensionTokenEditControl"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                  xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" SeparatorString="|">
+
+    <dxe:ComboBoxEdit.StyleSettings>
+        <dxe:TokenComboBoxStyleSettings AllowEditTokens="True" NewTokenPosition="Far" EnableTokenWrapping="True" />
+    </dxe:ComboBoxEdit.StyleSettings>
+
+    <dxmvvm:Interaction.Behaviors>
+        <dxe:TokenEditorBehavior TokenTextChanging="OnTokenTextChanging" />
+    </dxmvvm:Interaction.Behaviors>
+
+</dxe:ComboBoxEdit>

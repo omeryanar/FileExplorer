@@ -1,0 +1,18 @@
+﻿<dx:DXTabbedWindow x:Class="FileExplorer.View.WarmupView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                   xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/expressioneditor"
+                   xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/richedit"
+                   xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+                   xmlns:controls="clr-namespace:FileExplorer.Controls">
+
+    <dxlc:LayoutControl>
+        <controls:BreadCrumbControl />
+        <controls:FileListViewControl />
+        <controls:FileTreeViewControl />
+        <dxe:ExpressionEditorControl />
+        <dxr:RichEditControl CommandBarStyle="Ribbon" />
+    </dxlc:LayoutControl>
+
+</dx:DXTabbedWindow>

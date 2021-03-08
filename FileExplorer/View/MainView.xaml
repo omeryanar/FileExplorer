@@ -1,0 +1,55 @@
+﻿<dx:DXTabbedWindow x:Class="FileExplorer.View.MainView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                   xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                   xmlns:common="clr-namespace:FileExplorer.Core"
+                   ShowTitle="False" ShowIcon="False" WindowState="Maximized"
+                   HeaderIndentInNormalState="0" HeaderIndentInMaximizedState="0"
+                   Title="{Binding SelectedItem.DataContext.Title, ElementName=MainTabControl}"
+                   Icon="{Binding SelectedItem.DataContext.CurrentFolder.MediumIcon, ElementName=MainTabControl}">
+
+    <dxmvvm:Interaction.Behaviors>
+        <common:ActiveWindowService />
+    </dxmvvm:Interaction.Behaviors>
+
+    <dx:DXTabControl x:Name="MainTabControl" Padding="0" TabContentCacheMode="CacheAllTabs" NewTabbedWindow="OnNewTabbedWindow">
+        <dxmvvm:Interaction.Behaviors>
+            <dx:TabbedWindowDocumentUIService ShowNewItemOnStartup="False" />
+        </dxmvvm:Interaction.Behaviors>
+        <dx:DXTabControl.ItemHeaderTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding DataContext.CurrentFolder.SmallIcon, RelativeSource={RelativeSource AncestorType=dx:DXTabItem}}" />
+                    <TextBlock Margin="10,0,0,0" DataContext="{Binding DataContext.CurrentFolder, RelativeSource={RelativeSource AncestorType=dx:DXTabItem}}" Text="{Binding}">
+                        <TextBlock.ToolTip>
+                            <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                <StackPanel Margin="3">
+                                    <TextBlock FontWeight="Medium" Text="{Binding Name}" />
+                                    <TextBlock Margin="0,5,0,0" Text="{Binding FullPath}" />
+                                </StackPanel>
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
+                </StackPanel>
+            </DataTemplate>
+        </dx:DXTabControl.ItemHeaderTemplate>
+        <dx:DXTabControl.ItemContainerStyle>
+            <Style TargetType="dx:DXTabItem">
+                <Setter Property="AllowDrop" Value="True" />
+                <EventSetter Event="DragOver" Handler="OnTabDragOver" />
+            </Style>
+        </dx:DXTabControl.ItemContainerStyle>
+        <dx:DXTabControl.View>
+            <dx:TabControlStretchView HideButtonShowMode="InAllTabs" CloseWindowOnSingleTabItemHiding="True" RemoveTabItemsOnHiding="True"
+                                      DragDropMode="Full" NewButtonShowMode="InTabPanel" NewTabCommand="{Binding CreateNewTabCommand}">
+                <dx:TabControlStretchView.NewTabControlStyle>
+                    <Style TargetType="dx:DXTabControl">
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </dx:TabControlStretchView.NewTabControlStyle>
+            </dx:TabControlStretchView>
+        </dx:DXTabControl.View>
+    </dx:DXTabControl>
+
+</dx:DXTabbedWindow>

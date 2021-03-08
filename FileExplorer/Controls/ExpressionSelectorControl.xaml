@@ -1,0 +1,14 @@
+﻿<dxe:ComboBoxEdit x:Class="FileExplorer.Controls.ExpressionSelectorControl"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                  xmlns:main="clr-namespace:FileExplorer" 
+                  IsTextEditable="False" AllowDefaultButton="False" ValueMember="Statement"
+                  ItemsSource="{Binding Expressions, Source={x:Static main:App.Repository}}">
+
+    <dxe:ComboBoxEdit.Buttons>
+        <dxe:ButtonInfo GlyphKind="Regular" Command="{DXCommand '@a($dxe:ComboBoxEdit).ShowManageExpressionView()'}" />
+        <dxe:ButtonInfo GlyphKind="DropDown" IsDefaultButton="True" />
+    </dxe:ComboBoxEdit.Buttons>
+    
+</dxe:ComboBoxEdit>

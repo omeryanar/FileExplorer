@@ -1,0 +1,631 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddColumn" xml:space="preserve">
+    <value>Sütun Ekle</value>
+  </data>
+  <data name="AddCustomColumn" xml:space="preserve">
+    <value>Özel Sütun Ekle</value>
+  </data>
+  <data name="AddRemoveMenuItems" xml:space="preserve">
+    <value>Menü Öğelerini Ekle / Kaldır</value>
+  </data>
+  <data name="AddToStartup" xml:space="preserve">
+    <value>Başlangıca Ekle</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Gelişmiş</value>
+  </data>
+  <data name="AllSubfolders" xml:space="preserve">
+    <value>Tüm Alt Klasörler</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="ApplicationError" xml:space="preserve">
+    <value>Uygulama Hatası</value>
+  </data>
+  <data name="ApplicationErrorOccured" xml:space="preserve">
+    <value>Bir uygulama hatası oluştu.</value>
+  </data>
+  <data name="BackToDefault" xml:space="preserve">
+    <value>Varsayılana Dön</value>
+  </data>
+  <data name="Backward" xml:space="preserve">
+    <value>Geri '{0}'</value>
+  </data>
+  <data name="BestFitAllColumns" xml:space="preserve">
+    <value>Tüm Sütunlara En Uygun</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="ClearSorting" xml:space="preserve">
+    <value>Sıralamayı Temizle</value>
+  </data>
+  <data name="Clipboard" xml:space="preserve">
+    <value>Pano</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Kapat</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>Sütun Adı</value>
+  </data>
+  <data name="ColumnType" xml:space="preserve">
+    <value>Sütun Tipi</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Komut</value>
+  </data>
+  <data name="CompressedSize" xml:space="preserve">
+    <value>Sıkıştırılmış Boyut</value>
+  </data>
+  <data name="Computer" xml:space="preserve">
+    <value>Bilgisayar</value>
+  </data>
+  <data name="ConfirmCopy" xml:space="preserve">
+    <value>Kopyalamayı Onayla</value>
+  </data>
+  <data name="ConfirmCopyMessage" xml:space="preserve">
+    <value>'{0}' öğesini '{1}' konumuna kopyalamak istiyor musunuz?</value>
+  </data>
+  <data name="ConfirmMove" xml:space="preserve">
+    <value>Taşımayı Onayla</value>
+  </data>
+  <data name="ConfirmMoveMessage" xml:space="preserve">
+    <value>'{0}' öğesini '{1}' konumuna taşımak istiyor musunuz?</value>
+  </data>
+  <data name="ConfirmMultipleCopy" xml:space="preserve">
+    <value>Seçili nesneleri '{0}' konumuna kopyalamak istiyor musunuz?</value>
+  </data>
+  <data name="ConfirmMultipleMove" xml:space="preserve">
+    <value>Seçili nesneleri '{0}' konumuna taşımak istiyor musunuz?</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopyala</value>
+  </data>
+  <data name="CopyAllColumns" xml:space="preserve">
+    <value>Panoya Kopyala (tüm sütunlar)</value>
+  </data>
+  <data name="CopyMove" xml:space="preserve">
+    <value>Kopyala &amp; Taşı</value>
+  </data>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Yolu Kopyala</value>
+  </data>
+  <data name="CopyThisColumn" xml:space="preserve">
+    <value>Panoya Kopyala</value>
+  </data>
+  <data name="CopyTo" xml:space="preserve">
+    <value>Kopyalama Hedefi</value>
+  </data>
+  <data name="CopyWindows" xml:space="preserve">
+    <value>Kopyala (Windows Standardı)</value>
+  </data>
+  <data name="CurrentFolder" xml:space="preserve">
+    <value>Geçerli Klasör</value>
+  </data>
+  <data name="CustomColumn" xml:space="preserve">
+    <value>Özel Sütun</value>
+  </data>
+  <data name="Customizations" xml:space="preserve">
+    <value>Özelleştirmeler</value>
+  </data>
+  <data name="CustomMenuItems" xml:space="preserve">
+    <value>Özel Menü Öğeleri</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Kes</value>
+  </data>
+  <data name="DateAccessed" xml:space="preserve">
+    <value>Erişim Tarihi</value>
+  </data>
+  <data name="DateCreated" xml:space="preserve">
+    <value>Oluşturulma Tarihi</value>
+  </data>
+  <data name="DateModified" xml:space="preserve">
+    <value>Değiştirilme Tarihi</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detaylar</value>
+  </data>
+  <data name="DetailsPane" xml:space="preserve">
+    <value>Ayrıntılar Bölmesi</value>
+  </data>
+  <data name="DragDrop" xml:space="preserve">
+    <value>Sürükle &amp; Bırak</value>
+  </data>
+  <data name="DragDropDifferentDrive" xml:space="preserve">
+    <value>Farklı Sürücüye Sürükle &amp; Bırak</value>
+  </data>
+  <data name="DragDropSameDrive" xml:space="preserve">
+    <value>Aynı Sürücüye Sürükle &amp; Bırak</value>
+  </data>
+  <data name="DuplicateFileName" xml:space="preserve">
+    <value>Yinelenen Dosya Adı</value>
+  </data>
+  <data name="DuplicateFileNameMessage" xml:space="preserve">
+    <value>Bazı isimler birden fazla dosyaya atandı.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="EditCustomColumn" xml:space="preserve">
+    <value>Özel Sütunu Düzenle</value>
+  </data>
+  <data name="EmptyFiles" xml:space="preserve">
+    <value>Klasörler ve Boş Dosyalar</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>İfade</value>
+  </data>
+  <data name="Extension" xml:space="preserve">
+    <value>Uzantı</value>
+  </data>
+  <data name="ExtensionFilter" xml:space="preserve">
+    <value>Uzantı Filtresi</value>
+  </data>
+  <data name="ExtraLargeIcons" xml:space="preserve">
+    <value>Çok Büyük Simgeler</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtrele</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Klasör</value>
+  </data>
+  <data name="FolderNotFound" xml:space="preserve">
+    <value>Windows belirtilen klasörü bulamıyor. Yazımı kontrol edin ve tekrar deneyin.</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>İleri '{0}'</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Genel</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Grupla</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Grup İsmi</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Giriş</value>
+  </data>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>Geçersiz Dosya Adı</value>
+  </data>
+  <data name="InvalidFileNameMessage" xml:space="preserve">
+    <value>Dosya adı boş olamaz veya şu karakterlerden herhangi birini içeremez:
+\ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="InvertSelection" xml:space="preserve">
+    <value>Diğerlerini Seç</value>
+  </data>
+  <data name="ItemTypeFilter" xml:space="preserve">
+    <value>Öğe Türü Filtresi</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Büyük Simgeler</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Düzen</value>
+  </data>
+  <data name="LayoutLoadError" xml:space="preserve">
+    <value>Düzen Yükleme Hatası</value>
+  </data>
+  <data name="LayoutLoadErrorOccured" xml:space="preserve">
+    <value>Düzen yüklenirken bir hata oluştu. Varsayılan düzene geri dönüldü.</value>
+  </data>
+  <data name="LayoutSaved" xml:space="preserve">
+    <value>Düzen Kaydedildi</value>
+  </data>
+  <data name="LayoutSaveSuccessful" xml:space="preserve">
+    <value>Düzen başarıyla kaydedildi.</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Liste</value>
+  </data>
+  <data name="LoadDefaultLayout" xml:space="preserve">
+    <value>Varsayılan Düzeni Yükle</value>
+  </data>
+  <data name="LoadLayout" xml:space="preserve">
+    <value>Düzen Yükle</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Konum</value>
+  </data>
+  <data name="LowerCase" xml:space="preserve">
+    <value>Tümü Küçük Harf</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Posta</value>
+  </data>
+  <data name="ManageExpressions" xml:space="preserve">
+    <value>İfadeleri Yönet</value>
+  </data>
+  <data name="ManageSavedLayouts" xml:space="preserve">
+    <value>Kaydedilen Düzenleri Yönet</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Orta Boy Simgeler</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Taşı</value>
+  </data>
+  <data name="MoveTo" xml:space="preserve">
+    <value>Taşıma Hedefi</value>
+  </data>
+  <data name="MoveWindows" xml:space="preserve">
+    <value>Taşı (Windows Standardı)</value>
+  </data>
+  <data name="Multiple" xml:space="preserve">
+    <value>Çoklu</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>İsim</value>
+  </data>
+  <data name="NavigationPane" xml:space="preserve">
+    <value>Gezinti Bölmesi</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Yeni</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Yeni Dosya</value>
+  </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>Yeni Klasör</value>
+  </data>
+  <data name="NewMenuItem" xml:space="preserve">
+    <value>Yeni Menü Öğesi</value>
+  </data>
+  <data name="NewName" xml:space="preserve">
+    <value>Yeni İsim</value>
+  </data>
+  <data name="NewTab" xml:space="preserve">
+    <value>Yeni Sekme</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Hayır</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Yok</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>Tamam</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Aç</value>
+  </data>
+  <data name="OpenContainingFolder" xml:space="preserve">
+    <value>Dosyayı içeren klasörü aç</value>
+  </data>
+  <data name="OpenInNewTab" xml:space="preserve">
+    <value>Yeni Sekmede Aç</value>
+  </data>
+  <data name="OpenInNewWindow" xml:space="preserve">
+    <value>Yeni Pencerede Aç</value>
+  </data>
+  <data name="OpenWithApplication" xml:space="preserve">
+    <value>Uygulama ile Aç</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Seçenekler</value>
+  </data>
+  <data name="Organize" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="Panes" xml:space="preserve">
+    <value>Bölmeler</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>Parametre</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Üst Klasör</value>
+  </data>
+  <data name="ParentName" xml:space="preserve">
+    <value>Üst Klasör Adı</value>
+  </data>
+  <data name="ParentPath" xml:space="preserve">
+    <value>Üst Klasör Yolu</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Parola</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Yapıştır</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Yol</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>Desen</value>
+  </data>
+  <data name="PermanentlyDelete" xml:space="preserve">
+    <value>Kalıcı olarak sil</value>
+  </data>
+  <data name="PinToQuickAccess" xml:space="preserve">
+    <value>Hızlı Erişime Sabitle</value>
+  </data>
+  <data name="PreviewPane" xml:space="preserve">
+    <value>Önizleme Bölmesi</value>
+  </data>
+  <data name="PrintPreview" xml:space="preserve">
+    <value>Baskı Önizleme</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>İlerleme</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Özellikler</value>
+  </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>Hızlı Erişim</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Son Konumlar</value>
+  </data>
+  <data name="Recycle" xml:space="preserve">
+    <value>Geri Dönüşüm Kutusu'na gönder</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Yenile</value>
+  </data>
+  <data name="RemoveCustomColumn" xml:space="preserve">
+    <value>Özel Sütunu Kaldır</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Yeniden Adlandır</value>
+  </data>
+  <data name="Row" xml:space="preserve">
+    <value>Satır</value>
+  </data>
+  <data name="RowsColumns" xml:space="preserve">
+    <value>Satırlar &amp; Sütunlar</value>
+  </data>
+  <data name="SaveLayout" xml:space="preserve">
+    <value>Düzeni Kaydet</value>
+  </data>
+  <data name="SearchFilter" xml:space="preserve">
+    <value>Ara &amp; Filtrele</value>
+  </data>
+  <data name="SearchTitle" xml:space="preserve">
+    <value>Ara: {0}</value>
+  </data>
+  <data name="SearchTools" xml:space="preserve">
+    <value>Arama Araçları</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Seç</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Hepsini Seç</value>
+  </data>
+  <data name="SelectionFilter" xml:space="preserve">
+    <value>Seçim Filtresi</value>
+  </data>
+  <data name="SelectNone" xml:space="preserve">
+    <value>Hiçbirini Seçme</value>
+  </data>
+  <data name="SentenceCase" xml:space="preserve">
+    <value>Cümle Düzeni</value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value>Kısayol</value>
+  </data>
+  <data name="ShowCheckBoxes" xml:space="preserve">
+    <value>Onay Kutularını Göster</value>
+  </data>
+  <data name="ShowColumnChooser" xml:space="preserve">
+    <value>Sütun Seçiciyi Göster</value>
+  </data>
+  <data name="ShowFileExtensions" xml:space="preserve">
+    <value>Dosya Uzantılarını Göster</value>
+  </data>
+  <data name="ShowHiddenItems" xml:space="preserve">
+    <value>Gizli Öğeleri Göster</value>
+  </data>
+  <data name="ShowHide" xml:space="preserve">
+    <value>Göster / Gizle</value>
+  </data>
+  <data name="ShowRowNumbers" xml:space="preserve">
+    <value>Satır Numaralarını Göster</value>
+  </data>
+  <data name="ShowSystemItems" xml:space="preserve">
+    <value>Sistem Öğelerini Göster</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>Tekli</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Boyut</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Küçük Simgeler</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sırala</value>
+  </data>
+  <data name="StandardThemes" xml:space="preserve">
+    <value>Standart Temalar</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Temalar</value>
+  </data>
+  <data name="TitleCase" xml:space="preserve">
+    <value>İlk Harfler Büyük</value>
+  </data>
+  <data name="ToggleCase" xml:space="preserve">
+    <value>Büyük / Küçük Harf Değiştir</value>
+  </data>
+  <data name="TotalFormat" xml:space="preserve">
+    <value>Toplam: {0}</value>
+  </data>
+  <data name="TouchThemes" xml:space="preserve">
+    <value>Dokunmatik Temalar</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tür</value>
+  </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Sıkıştırılmamış Boyut</value>
+  </data>
+  <data name="UnpinFromQuickAccess" xml:space="preserve">
+    <value>Hızlı Erişimden Kaldır</value>
+  </data>
+  <data name="Unzip" xml:space="preserve">
+    <value>Arşivi Aç</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>Yukarı '{0}'</value>
+  </data>
+  <data name="UpperCase" xml:space="preserve">
+    <value>Tümü Büyük Harf</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Görünüm</value>
+  </data>
+  <data name="WrongPassword" xml:space="preserve">
+    <value>Yanlış Şifre</value>
+  </data>
+  <data name="WrongPasswordMessage" xml:space="preserve">
+    <value>Girilen şifre yanlış. Bu dosyayı atlamak ister misiniz?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Evet</value>
+  </data>
+  <data name="Zip" xml:space="preserve">
+    <value>Sıkıştır</value>
+  </data>
+</root>

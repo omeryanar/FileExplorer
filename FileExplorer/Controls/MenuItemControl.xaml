@@ -1,0 +1,8 @@
+﻿<dxb:BarButtonItem x:Class="FileExplorer.Controls.MenuItemControl"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+                   IsVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"                   
+                   Command="{Binding ExecuteCommand}" Glyph="{Binding Icon}" Content="{Binding Name}" KeyGesture="{Binding Shortcut}" CategoryName="{Binding GroupName}">
+
+</dxb:BarButtonItem>

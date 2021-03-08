@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="FileExplorer.View.OptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:settings="clr-namespace:FileExplorer.Properties"
+             xmlns:common="clr-namespace:FileExplorer.Core"
+             MinWidth="400" MinHeight="500">
+
+    <dxlc:LayoutControl Orientation="Vertical">
+        <dxlc:LayoutControl.Resources>
+            <Style TargetType="dxlc:GroupBox">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style TargetType="dxe:ToggleSwitch">
+                <Setter Property="ContentPlacement" Value="Far" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="CheckedStateContent" Value="{Binding Yes, Source={StaticResource ResourceProvider}}" />
+                <Setter Property="UncheckedStateContent" Value="{Binding No, Source={StaticResource ResourceProvider}}" />
+            </Style>
+            <Style TargetType="dxe:ListBoxEdit">
+                <Setter Property="StyleSettings">
+                    <Setter.Value>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </dxlc:LayoutControl.Resources>
+        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" ItemLabelsAlignment="Local" Header="{Binding General, Source={StaticResource ResourceProvider}}">
+            <dxlc:LayoutItem Label="{Binding NewTab, Source={StaticResource ResourceProvider}}">
+                <dxe:ListBoxEdit SelectedIndex="{Binding FirstFolderToOpen, Source={x:Static settings:Settings.Default}}">
+                    <dxe:ListBoxEditItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Margin="5,0" Source="/Assets/Images/QuickAccess16.png" />
+                            <TextBlock Text="{Binding QuickAccess, Source={StaticResource ResourceProvider}}" />
+                        </StackPanel>
+                    </dxe:ListBoxEditItem>
+                    <dxe:ListBoxEditItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Margin="5,0" Source="/Assets/Images/Computer16.png" />
+                            <TextBlock Text="{Binding Computer, Source={StaticResource ResourceProvider}}" />
+                        </StackPanel>
+                    </dxe:ListBoxEditItem>
+                </dxe:ListBoxEdit>
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding Language, Source={StaticResource ResourceProvider}}">
+                <dxe:ListBoxEdit ValueMember="Key" DisplayMember="Value" EditValue="{Binding Language, Source={x:Static settings:Settings.Default}}">
+                    <dxe:ListBoxEdit.ItemsSource>
+                        <collections:ArrayList>
+                            <collections:DictionaryEntry Key="en" Value="English"/>
+                            <collections:DictionaryEntry Key="tr" Value="Türkçe"/>
+                        </collections:ArrayList>
+                    </dxe:ListBoxEdit.ItemsSource>
+                </dxe:ListBoxEdit>
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding Layout, Source={StaticResource ResourceProvider}}">
+                <dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True"
+                                  SelectedIndex="{Binding Layout, Source={x:Static settings:Settings.Default}}">
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:Layout}"/>
+                    </dxmvvm:Interaction.Behaviors>
+                </dxe:ComboBoxEdit>
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding AddToStartup, Source={StaticResource ResourceProvider}}">
+                <dxe:ToggleSwitch IsChecked="{Binding AddToStartup, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+        </dxlc:LayoutGroup>
+        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" Header="{Binding CopyMove, Source={StaticResource ResourceProvider}}">
+            <dxlc:LayoutItem Label="{Binding ConfirmCopy, Source={StaticResource ResourceProvider}}">
+                <dxe:ToggleSwitch IsChecked="{Binding ConfirmCopy, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding ConfirmMove, Source={StaticResource ResourceProvider}}">
+                <dxe:ToggleSwitch IsChecked="{Binding ConfirmMove, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+        </dxlc:LayoutGroup>
+        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" Header="{Binding DragDrop, Source={StaticResource ResourceProvider}}">
+            <dxlc:LayoutItem Label="{Binding ConfirmCopy, Source={StaticResource ResourceProvider}}">
+                <dxe:ToggleSwitch IsChecked="{Binding DragDropConfirmCopy, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding ConfirmMove, Source={StaticResource ResourceProvider}}">
+                <dxe:ToggleSwitch IsChecked="{Binding DragDropConfirmMove, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding DragDropSameDrive, Source={StaticResource ResourceProvider}}">
+                <dxe:ListBoxEdit SelectedIndex="{Binding DragDropSameDrive, Source={x:Static settings:Settings.Default}}">
+                    <dxe:ListBoxEditItem Content="{Binding MoveWindows, Source={StaticResource ResourceProvider}}" />
+                    <dxe:ListBoxEditItem Content="{Binding Copy, Source={StaticResource ResourceProvider}}" />
+                </dxe:ListBoxEdit>
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding DragDropDifferentDrive, Source={StaticResource ResourceProvider}}">
+                <dxe:ListBoxEdit SelectedIndex="{Binding DragDropDifferentDrive, Source={x:Static settings:Settings.Default}}">
+                    <dxe:ListBoxEditItem Content="{Binding CopyWindows, Source={StaticResource ResourceProvider}}" />
+                    <dxe:ListBoxEditItem Content="{Binding Move, Source={StaticResource ResourceProvider}}" />
+                </dxe:ListBoxEdit>
+            </dxlc:LayoutItem>
+        </dxlc:LayoutGroup>
+    </dxlc:LayoutControl>
+
+</UserControl>

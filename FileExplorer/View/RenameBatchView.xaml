@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="FileExplorer.View.RenameBatchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:controls="clr-namespace:FileExplorer.Controls"
+             MinWidth="500" MinHeight="200">
+
+    <dxmvvm:Interaction.Behaviors>
+        <dx:DialogService DialogWindowStartupLocation="CenterOwner" DialogStyle="{StaticResource DialogWindowStyle}" />
+    </dxmvvm:Interaction.Behaviors>
+
+    <dxlc:LayoutControl Orientation="Vertical">
+        <dxlc:LayoutItem Label="{Binding Pattern, Source={StaticResource ResourceProvider}}">
+            <controls:ExpressionSelectorControl EditValue="{Binding Columns[NewName].UnboundExpression, ElementName=FileRenameControl, UpdateSourceTrigger=PropertyChanged}" />
+        </dxlc:LayoutItem>
+        <controls:FileRenameControl x:Name="FileRenameControl" ItemsSource="{Binding FileModelList}" />
+    </dxlc:LayoutControl>
+        
+</UserControl>

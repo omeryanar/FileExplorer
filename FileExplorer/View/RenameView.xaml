@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="FileExplorer.View.RenameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             MinWidth="450" MinHeight="50" Tag="NoResize">
+
+    <UserControl.Resources>
+        <Style x:Key="FormatButton" TargetType="Button">
+            <Setter Property="Height" Value="25" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="FontFamily" Value="Times New Roman" />
+            <Setter Property="Command" Value="{Binding ChangeFormatCommand}" />
+            <Setter Property="CommandParameter" Value="{Binding Content, RelativeSource={RelativeSource Self}}" />
+        </Style>
+    </UserControl.Resources>
+
+    <dxlc:LayoutControl Orientation="Vertical">
+        <dxlc:LayoutGroup x:Name="ValidationContainer" VerticalAlignment="Top" dxe:ValidationService.IsValidationContainer="True">
+            <dxe:TextEdit ShowErrorToolTip="False" EditValue="{Binding Name}" Validate="{DXEvent 'ValidateName(@args)'}">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:FocusBehavior />
+                </dxmvvm:Interaction.Behaviors>
+            </dxe:TextEdit>
+            <dxe:TextEdit SelectAllOnGotFocus="False" HorizontalAlignment="Right" EditValue="{Binding Extension}"
+                          Visibility="{Binding Text, RelativeSource={RelativeSource Self}, Converter={dxmvvm:StringToVisibilityConverter}}" />
+        </dxlc:LayoutGroup>
+        <dxe:FlyoutControl PlacementTarget="{Binding ElementName=ValidationContainer}" 
+                           Content="{Binding InvalidFileNameMessage, Source={StaticResource ResourceProvider}}"
+                           IsOpen="{Binding Path=(dxe:ValidationService.HasValidationError), ElementName=ValidationContainer}">
+            <dxe:FlyoutControl.Settings>
+                <dxe:FlyoutSettings ShowIndicator="True" />
+            </dxe:FlyoutControl.Settings>
+        </dxe:FlyoutControl>
+        <dxlc:LayoutItem Label="{Binding Pattern, Source={StaticResource ResourceProvider}}" VerticalAlignment="Top"
+                         Visibility="{Binding ShowPatternButtons, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+            <dxlc:LayoutGroup>
+                <Button Style="{StaticResource FormatButton}" ToolTip="{Binding Parent, Source={StaticResource ResourceProvider}}" CommandParameter="Parent">
+                    <TextBlock FontWeight="Normal" Style="{StaticResource IconText}">
+                        <Run Text="{StaticResource IconFolder}" />
+                        <Run Text="{StaticResource IconUp}" />
+                    </TextBlock>
+                </Button>
+                <Button Content="Aa Aa" Style="{StaticResource FormatButton}" ToolTip="{Binding TitleCase, Source={StaticResource ResourceProvider}}" />
+                <Button Content="AA AA" Style="{StaticResource FormatButton}" ToolTip="{Binding UpperCase, Source={StaticResource ResourceProvider}}" />
+                <Button Content="Aa aa" Style="{StaticResource FormatButton}" ToolTip="{Binding SentenceCase, Source={StaticResource ResourceProvider}}" />
+                <Button Content="aa aa" Style="{StaticResource FormatButton}" ToolTip="{Binding LowerCase, Source={StaticResource ResourceProvider}}" />
+                <Button Content="aA aA" Style="{StaticResource FormatButton}" ToolTip="{Binding ToggleCase, Source={StaticResource ResourceProvider}}" />
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutItem>
+        <dxa:AccordionControl Width="400" HorizontalAlignment="Right" Visibility="{Binding ShowAdvancedOptions, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+            <dxa:AccordionItem Header="{Binding Advanced, Source={StaticResource ResourceProvider}}">
+                <dxlc:LayoutControl Orientation="Vertical" TextBlock.FontSize="12">
+                    <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
+                        <dxe:DateEdit Mask="G" MaskUseAsDisplayFormat="True" EditValue="{Binding DateCreated}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="{Binding DateModified, Source={StaticResource ResourceProvider}}">
+                        <dxe:DateEdit Mask="G" MaskUseAsDisplayFormat="True" EditValue="{Binding DateModified}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="{Binding DateAccessed, Source={StaticResource ResourceProvider}}">
+                        <dxe:DateEdit Mask="G" MaskUseAsDisplayFormat="True" EditValue="{Binding DateAccessed}" />
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutControl>
+            </dxa:AccordionItem>
+        </dxa:AccordionControl>
+    </dxlc:LayoutControl>
+
+</UserControl>

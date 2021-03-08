@@ -1,0 +1,34 @@
+﻿<dx:DXWindow x:Class="FileExplorer.View.CustomColumnView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxd="clr-namespace:DevExpress.Data;assembly=DevExpress.Data.v20.2"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:controls="clr-namespace:FileExplorer.Controls"             
+             Width="400" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+
+    <dx:DXWindow.Title>
+        <Binding Path="CustomColumn" Source="{StaticResource ResourceProvider}" />
+    </dx:DXWindow.Title>
+
+    <dxlc:LayoutControl Orientation="Vertical">
+        <dxlc:LayoutItem Label="{Binding ColumnName, Source={StaticResource ResourceProvider}}">
+            <dxe:TextEdit EditValue="{Binding Header, UpdateSourceTrigger=PropertyChanged}" />
+        </dxlc:LayoutItem>
+        <dxlc:LayoutItem Label="{Binding ColumnType, Source={StaticResource ResourceProvider}}">
+            <dxe:ComboBoxEdit EditValue="{Binding UnboundType}">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type dxd:UnboundColumnType}" />
+                </dxmvvm:Interaction.Behaviors>
+            </dxe:ComboBoxEdit>
+        </dxlc:LayoutItem>
+        <dxlc:LayoutItem Label="{Binding Expression, Source={StaticResource ResourceProvider}}">
+            <controls:ExpressionSelectorControl EditValue="{Binding UnboundExpression, UpdateSourceTrigger=PropertyChanged}" />
+        </dxlc:LayoutItem>
+        <Button HorizontalAlignment="Right" Margin="0,10,0,0" Width="75" Height="25" Command="{DXCommand '@a($Window).Close()'}"
+                Content="{Binding OK, Source={StaticResource ResourceProvider}}" />
+    </dxlc:LayoutControl>
+    
+</dx:DXWindow>

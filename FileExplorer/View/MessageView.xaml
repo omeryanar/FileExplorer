@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="FileExplorer.View.MessageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             MinWidth="500" MinHeight="150">
+
+    <dxlc:LayoutControl Padding="10">
+        <dxlc:LayoutGroup View="Tabs">
+            <dxlc:LayoutGroup Header="{Binding Title}">
+                <Label Width="75" FontSize="64" VerticalAlignment="Center" Content="{Binding Icon, Converter={StaticResource MessageIconConverter}}" Style="{StaticResource IconLabel}" />
+                <dxe:TextEdit Padding="10" HorizontalAlignment="Stretch" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Content}" />
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Header="{Binding Details, Source={StaticResource ResourceProvider}}" Visibility="{Binding Details, Converter={dxmvvm:StringToVisibilityConverter}}">
+                <dxe:TextEdit Padding="10" HorizontalAlignment="Stretch" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Details}" VerticalScrollBarVisibility="Auto" />
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutGroup>
+    </dxlc:LayoutControl>
+
+</UserControl>

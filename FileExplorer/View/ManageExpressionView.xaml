@@ -1,0 +1,52 @@
+﻿<dx:DXWindow x:Class="FileExplorer.View.ManageExpressionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:controls="clr-namespace:FileExplorer.Controls"
+             Width="800" Height="400" WindowStartupLocation="CenterOwner">
+
+    <dx:DXWindow.Title>
+        <Binding Path="ManageExpressions" Source="{StaticResource ResourceProvider}" />
+    </dx:DXWindow.Title>
+
+    <dxlc:LayoutControl Orientation="Vertical">
+        <dxg:GridControl ItemsSource="{Binding}">
+            <dxg:GridControl.View>
+                <dxg:TableView AutoWidth="True" AllowColumnFiltering="False" AllowColumnMoving="False" AllowSorting="False"
+                               IsColumnMenuEnabled="False" ShowGroupPanel="False" VerticalScrollbarVisibility="Auto" NavigationStyle="Row"
+                               EditFormShowMode="Inline" EditFormPostConfirmation="YesNoCancel" EditFormPostMode="Immediate" NewItemRowPosition="Bottom" ValidateRow="{DXEvent 'Update(@args.Row)'}">
+                </dxg:TableView>
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="Name" EditFormColumnSpan="3" Header="{Binding Name, Source={StaticResource ResourceProvider}}" />
+                <dxg:GridColumn FieldName="Statement" EditFormColumnSpan="3" Header="{Binding Expression, Source={StaticResource ResourceProvider}}">
+                    <dxg:GridColumn.EditFormTemplate>
+                        <DataTemplate>
+                            <controls:ExpressionEditorControl x:Name="PART_Editor" />
+                        </DataTemplate>
+                    </dxg:GridColumn.EditFormTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn EditFormVisible="False" FixedWidth="True" Width="75">
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding RowData.IsNewItemRow, Converter={dxmvvm:BooleanToVisibilityConverter Inverse=True}}">
+                                <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconEdit}" Command="{x:Static dxg:GridCommands.EditFocusedRow}"
+                                        ToolTip="{Binding Edit, Source={StaticResource ResourceProvider}}" />
+                                <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconDelete}" Command="{x:Static dxg:GridCommands.DeleteFocusedRow}"
+                                        ToolTip="{Binding Delete, Source={StaticResource ResourceProvider}}" />
+                                <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconClone}" Command="{DXCommand 'View.DataContext.Duplicate(Row)'}"
+                                        ToolTip="{Binding Copy, Source={StaticResource ResourceProvider}}" IsEnabled="{Binding View.IsEditing, Converter={dxmvvm:BooleanNegationConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
+                </dxg:GridColumn>
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+        <Button HorizontalAlignment="Right" Margin="0,10,0,0" Width="75" Height="25" Command="{DXCommand '@a($Window).Close()'}"
+                Content="{Binding OK, Source={StaticResource ResourceProvider}}" />
+    </dxlc:LayoutControl>
+
+</dx:DXWindow>

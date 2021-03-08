@@ -1,0 +1,36 @@
+﻿<dxe:ButtonEdit x:Class="FileExplorer.Controls.ExpressionEditorControl"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+                xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
+
+    <dxe:ButtonEdit.Template>
+        <ControlTemplate TargetType="dxe:ButtonEdit">
+            <Grid>
+                <dxg:GridControl x:Name="Grid" Width="0" Height="0">
+                    <dxg:GridControl.Columns>
+                        <dxg:GridColumn FieldName="RowNumber" Header="{Binding Row, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Name" Header="{Binding Name, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="ParentName" Header="{Binding ParentName, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="ParentPath" Header="{Binding ParentPath, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="FullPath" Header="{Binding Path, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Size" Header="{Binding Size, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Unbound" AllowUnboundExpressionEditor="True" 
+                                        UnboundExpression="{Binding EditValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </dxg:GridControl.Columns>
+                </dxg:GridControl>
+                <dxe:ButtonEdit IsTextEditable="False" AllowDefaultButton="False" EditValue="{Binding Columns[Unbound].UnboundExpression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ElementName=Grid}">
+                    <dxe:ButtonEdit.Buttons>
+                        <dxe:ButtonInfo GlyphKind="Edit" Command="{Binding View.Commands.ShowUnboundExpressionEditor, ElementName=Grid}" CommandParameter="{Binding Columns[Unbound], ElementName=Grid}" />
+                    </dxe:ButtonEdit.Buttons>
+                </dxe:ButtonEdit>
+            </Grid>
+        </ControlTemplate>
+    </dxe:ButtonEdit.Template>
+
+</dxe:ButtonEdit>

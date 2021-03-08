@@ -1,0 +1,143 @@
+﻿<dx:DXWindow x:Class="FileExplorer.View.CustomMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:common="clr-namespace:FileExplorer.Core"             
+             xmlns:editors="clr-namespace:FileExplorer.Editors"
+             xmlns:controls="clr-namespace:FileExplorer.Controls"
+             Width="800" Height="400" WindowStartupLocation="CenterOwner">
+
+    <dx:DXWindow.Resources>
+        <Style x:Key="RadioListBoxStyle" TargetType="dxe:ListBoxEdit">
+            <Setter Property="StyleSettings">
+                <Setter.Value>
+                    <dxe:RadioListBoxEditStyleSettings />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Height="20" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </dx:DXWindow.Resources>
+
+    <dx:DXWindow.Title>
+        <Binding Path="CustomMenuItems" Source="{StaticResource ResourceProvider}" />
+    </dx:DXWindow.Title>
+
+    <dxlc:LayoutControl Orientation="Vertical">
+        <dxg:GridControl ItemsSource="{Binding}">
+
+            <dxg:GridControl.Resources>
+                <DataTemplate x:Key="CommandEditorTemplate">
+                    <dxe:ComboBoxEdit x:Name="PART_Editor">
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:CommandType}" />
+                        </dxmvvm:Interaction.Behaviors>
+                    </dxe:ComboBoxEdit>
+                </DataTemplate>
+                <DataTemplate x:Key="ParameterEditorTemplate">
+                    <dxe:ComboBoxEdit x:Name="PART_Editor">
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:ParameterType}" />
+                        </dxmvvm:Interaction.Behaviors>
+                    </dxe:ComboBoxEdit>
+                </DataTemplate>
+            </dxg:GridControl.Resources>
+            
+            <dxg:GridControl.View>
+                <dxg:TableView AutoWidth="True" AllowColumnFiltering="False" AllowColumnMoving="False" AllowSorting="False" 
+                               IsColumnMenuEnabled="False" ShowGroupPanel="False" VerticalScrollbarVisibility="Auto" NavigationStyle="Row"
+                               EditFormShowMode="Inline" EditFormPostConfirmation="YesNoCancel" EditFormPostMode="Immediate" NewItemRowPosition="Bottom" ValidateRow="{DXEvent 'Update(@args.Row)'}" />
+            </dxg:GridControl.View>
+
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="Name" Header="{Binding Name, Source={StaticResource ResourceProvider}}" EditFormVisibleIndex="0" Width="100" />
+                <dxg:GridColumn FieldName="GroupName" Header="{Binding GroupName, Source={StaticResource ResourceProvider}}" EditFormVisibleIndex="1" Width="100" />
+                <dxg:GridColumn FieldName="Shortcut" Header="{Binding Shortcut, Source={StaticResource ResourceProvider}}" EditFormVisibleIndex="2" EditFormVisible="True" Visible="False">
+                    <dxg:GridColumn.EditFormTemplate>
+                        <DataTemplate>
+                            <editors:KeyGestureEdit x:Name="PART_Editor" />
+                        </DataTemplate>
+                    </dxg:GridColumn.EditFormTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Command" Header="{Binding Command, Source={StaticResource ResourceProvider}}" EditFormVisibleIndex="3"
+                                CellTemplate="{StaticResource CommandEditorTemplate}" EditFormTemplate="{StaticResource CommandEditorTemplate}" />
+                <dxg:GridColumn FieldName="Application" Header="{Binding Application, Source={StaticResource ResourceProvider}}" EditFormVisibleIndex="4" EditFormColumnSpan="2" EditFormVisible="True" Visible="False">
+                    <dxg:GridColumn.EditFormTemplate>
+                        <DataTemplate>
+                            <editors:OpenFileDialogButton x:Name="PART_Editor" IsEnabled="{DXBinding 'RowData.Source.Row.Command==$common:CommandType.OpenWithApplication'}" 
+                                                          FileFilter="Programs (*.exe)|*.exe|All Files (*.*)|*.*" />
+                        </DataTemplate>
+                    </dxg:GridColumn.EditFormTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Parameter" Header="{Binding Parameter, Source={StaticResource ResourceProvider}}" EditFormVisibleIndex="5"
+                                CellTemplate="{StaticResource ParameterEditorTemplate}" EditFormTemplate="{StaticResource ParameterEditorTemplate}" />
+                <dxg:GridColumn FieldName="Expression" Header="{Binding Expression, Source={StaticResource ResourceProvider}}" EditFormVisibleIndex="5" EditFormColumnSpan="2" EditFormVisible="True" Visible="False">
+                    <dxg:GridColumn.EditFormTemplate>
+                        <DataTemplate>
+                            <controls:ExpressionSelectorControl x:Name="PART_Editor" IsEnabled="{DXBinding 'RowData.Source.Row.Parameter==$common:ParameterType.Expression'}" />
+                        </DataTemplate>
+                    </dxg:GridColumn.EditFormTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn EditFormVisibleIndex="6" EditFormColumnSpan="3" EditFormVisible="True" Visible="False"
+                                EditFormCaption="{Binding ExtensionFilter, Source={StaticResource ResourceProvider}}" 
+                                Binding="{Binding ExtensionFilter, Mode=TwoWay, Converter={common:StringToEnumerableObjectConverter}}">
+                    <dxg:GridColumn.EditFormTemplate>
+                        <DataTemplate>
+                            <controls:ExtensionTokenEditControl x:Name="PART_Editor" />
+                        </DataTemplate>
+                    </dxg:GridColumn.EditFormTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn EditFormVisibleIndex="7" EditFormColumnSpan="3" EditFormVisible="True" Visible="False"
+                                EditFormCaption="{Binding SelectionFilter, Source={StaticResource ResourceProvider}}" Binding="{Binding SelectionFilter, Mode=TwoWay}">
+                    <dxg:GridColumn.EditFormTemplate>
+                        <DataTemplate>
+                            <dxe:ListBoxEdit x:Name="PART_Editor" Style="{StaticResource RadioListBoxStyle}">
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:SelectionFilter}" />
+                                </dxmvvm:Interaction.Behaviors>
+                            </dxe:ListBoxEdit>
+                        </DataTemplate>
+                    </dxg:GridColumn.EditFormTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn EditFormVisibleIndex="8" EditFormColumnSpan="3" EditFormVisible="True" Visible="False"
+                                EditFormCaption="{Binding ItemTypeFilter, Source={StaticResource ResourceProvider}}" Binding="{Binding ItemTypeFilter, Mode=TwoWay}">
+                    <dxg:GridColumn.EditFormTemplate>
+                        <DataTemplate>
+                            <dxe:ListBoxEdit x:Name="PART_Editor" Style="{StaticResource RadioListBoxStyle}">
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:ItemTypeFilter}" />
+                                </dxmvvm:Interaction.Behaviors>
+                            </dxe:ListBoxEdit>
+                        </DataTemplate>
+                    </dxg:GridColumn.EditFormTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn EditFormVisible="False" FixedWidth="True" Width="75">
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding RowData.IsNewItemRow, Converter={dxmvvm:BooleanToVisibilityConverter Inverse=True}}">
+                                <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconEdit}" Command="{x:Static dxg:GridCommands.EditFocusedRow}"
+                                        ToolTip="{Binding Edit, Source={StaticResource ResourceProvider}}" />
+                                <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconDelete}" Command="{x:Static dxg:GridCommands.DeleteFocusedRow}"
+                                        ToolTip="{Binding Delete, Source={StaticResource ResourceProvider}}" />
+                                <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconClone}" Command="{DXCommand 'View.DataContext.Duplicate(Row)'}"
+                                        ToolTip="{Binding Copy, Source={StaticResource ResourceProvider}}" IsEnabled="{Binding View.IsEditing, Converter={dxmvvm:BooleanNegationConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
+                </dxg:GridColumn>
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+        <Button HorizontalAlignment="Right" Margin="0,10,0,0" Width="75" Height="25" Command="{DXCommand '@a($Window).Close()'}"
+                Content="{Binding OK, Source={StaticResource ResourceProvider}}" />
+    </dxlc:LayoutControl>
+
+</dx:DXWindow>

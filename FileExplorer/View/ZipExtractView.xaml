@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="FileExplorer.View.ZipExtractView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:common="clr-namespace:FileExplorer.Core"
+             xmlns:editors="clr-namespace:FileExplorer.Editors"
+             MinWidth="900" MinHeight="300">
+
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:DispatcherService />
+        <dxmvvm:CurrentWindowService />
+        <dxwui:WinUIMessageBoxService />
+        <dxwui:WinUIDialogService DialogWindowStartupLocation="CenterOwner">
+            <dxwui:WinUIDialogService.ViewTemplate>
+                <DataTemplate>
+                    <dxlc:LayoutControl Orientation="Vertical">
+                        <dxlc:LayoutItem Label="{Binding Password, Source={StaticResource ResourceProvider}}">
+                            <dxe:PasswordBoxEdit Width="100" EditValue="{Binding Password}" />
+                        </dxlc:LayoutItem>
+                    </dxlc:LayoutControl>
+                </DataTemplate>
+            </dxwui:WinUIDialogService.ViewTemplate>
+        </dxwui:WinUIDialogService>
+    </dxmvvm:Interaction.Behaviors>
+
+    <dxlc:LayoutControl Orientation="Vertical">
+        <dxlc:LayoutItem Label="{Binding Path, Source={StaticResource ResourceProvider}}">
+            <editors:OpenFolderDialogButton EditValue="{Binding FilePath}" />
+        </dxlc:LayoutItem>
+        <dxlc:LayoutItem Label="{Binding Password, Source={StaticResource ResourceProvider}}"
+                         Visibility="{Binding PasswordProtected, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+            <dxe:PasswordBoxEdit EditValue="{Binding Password}" />
+        </dxlc:LayoutItem>
+        <dxg:GridControl ItemsSource="{Binding ZipItemModelList}">
+            <dxg:GridControl.View>
+                <dxg:TreeListView KeyFieldName="Path" ParentFieldName="Parent" ShowHorizontalLines="False" ShowVerticalLines="False" AutoWidth="True"
+                                  ShowIndicator="False" AutoExpandAllNodes="True" RowIndent="20" AllowEditing="False" ShowFilterPanelMode="Never"
+                                  ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="Icon" HighlightItemOnHover="True"
+                                  NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True" ShowTotalSummary="True" />
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="Name" Width="250" Header="{Binding Name, Source={StaticResource ResourceProvider}}" />
+                <dxg:GridColumn FieldName="CompressedSize" Header="{Binding CompressedSize, Source={StaticResource ResourceProvider}}"
+                                Binding="{Binding CompressedSize, Converter={common:IntToFileSizeConverter}}" />
+                <dxg:GridColumn FieldName="UncompressedSize" Header="{Binding UncompressedSize, Source={StaticResource ResourceProvider}}"
+                                Binding="{Binding UncompressedSize, Converter={common:IntToFileSizeConverter}}" />
+                <dxg:GridColumn FieldName="CreationTime" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings DisplayFormat="dd.MM.yyyy HH:mm"/>
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="LastWriteTime" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings DisplayFormat="dd.MM.yyyy HH:mm"/>
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+            </dxg:GridControl.Columns>
+            <dxg:GridControl.TotalSummary>
+                <dxg:GridSummaryItem FieldName="Name" SummaryType="Count" DisplayFormat="{Binding TotalFormat, Source={StaticResource ResourceProvider}}" />
+                <dxg:GridSummaryItem FieldName="CompressedSize" SummaryType="Sum" DisplayFormat="{Binding TotalFormat, Source={StaticResource ResourceProvider}}">
+                    <dxg:GridSummaryItem.TotalSummaryElementStyle>
+                        <Style TargetType="Run">
+                            <Setter Property="Text" Value="{Binding Value, Mode=OneWay, Converter={common:IntToFileSizeConverter}}" />
+                        </Style>
+                    </dxg:GridSummaryItem.TotalSummaryElementStyle>
+                </dxg:GridSummaryItem>
+                <dxg:GridSummaryItem FieldName="UncompressedSize" SummaryType="Sum" DisplayFormat="{Binding TotalFormat, Source={StaticResource ResourceProvider}}">
+                    <dxg:GridSummaryItem.TotalSummaryElementStyle>
+                        <Style TargetType="Run">
+                            <Setter Property="Text" Value="{Binding Value, Mode=OneWay, Converter={common:IntToFileSizeConverter}}" />
+                        </Style>
+                    </dxg:GridSummaryItem.TotalSummaryElementStyle>
+                </dxg:GridSummaryItem>
+            </dxg:GridControl.TotalSummary>
+        </dxg:GridControl>
+        <dxlc:LayoutItem Label="{Binding Progress, Source={StaticResource ResourceProvider}}"
+                         Visibility="{Binding RunCommand.IsExecuting, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+            <dxe:ProgressBarEdit IsPercent="True" ContentDisplayMode="Value" DisplayFormatString="{}{0:P0}" Value="{Binding Progress}" Maximum="{Binding MaxProgress}" />
+        </dxlc:LayoutItem>
+    </dxlc:LayoutControl>
+
+</UserControl>
