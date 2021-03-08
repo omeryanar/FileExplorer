@@ -42,10 +42,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlphaFS">
-      <HintPath>..\..\..\Library\AlphaFS.2.2.6.net452\AlphaFS.dll</HintPath>
+      <HintPath>..\Library\AlphaFS.dll</HintPath>
     </Reference>
     <Reference Include="CommandLine">
-      <HintPath>..\..\..\Library\CommandLineParser\CommandLine.dll</HintPath>
+      <HintPath>..\Library\CommandLine.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Docs.v20.2, Version=20.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
@@ -111,17 +111,17 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
-      <HintPath>..\..\..\Library\Hardcodet.Wpf.TaskbarNotification\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+      <HintPath>..\Library\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
     <Reference Include="LiteDB">
-      <HintPath>..\..\..\Library\LiteDB\LiteDB.dll</HintPath>
+      <HintPath>..\Library\LiteDB.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Mono.Cecil">
-      <HintPath>..\..\..\Library\Mono.Cecil\Mono.Cecil.dll</HintPath>
+      <HintPath>..\Library\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\..\..\Library\NLog.dll</HintPath>
+      <HintPath>..\Library\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
