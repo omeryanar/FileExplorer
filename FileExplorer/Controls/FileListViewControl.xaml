@@ -280,10 +280,6 @@
                 <dx:EventArgsToDataRowConverter />
             </common:MouseEventToCommand.EventArgsConverter>
         </common:MouseEventToCommand>
-        <common:MouseEventToCommand MouseButton="XButton1" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
-                                    MarkRoutedEventsAsHandled="True" ExecuteCommandWhenParameterNull="True" Command="{Binding MoveBackCommand}" />
-        <common:MouseEventToCommand MouseButton="XButton2" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
-                                    MarkRoutedEventsAsHandled="True" ExecuteCommandWhenParameterNull="True" Command="{Binding MoveNextCommand}" />
     </dxmvvm:Interaction.Behaviors>
 
     <dxg:GridControl.Columns>

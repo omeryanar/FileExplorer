@@ -22,10 +22,11 @@ namespace FileExplorer.ViewModel
                 if (!ActiveWindowService.IsActive)
                     return;
 
+                var files = message.Parameters.OfType<FileModel>();
                 switch (message.CommandType)
                 {
                     case CommandType.Open:
-                        foreach (FileModel file in message.Parameters)
+                        foreach (FileModel file in files)
                         {
                             BrowserTabViewModel viewModel = DocumentManagerService.ActiveDocument?.Content as BrowserTabViewModel;
                             if (viewModel != null)
@@ -34,7 +35,7 @@ namespace FileExplorer.ViewModel
                         break;
 
                     case CommandType.OpenInNewTab:
-                        foreach (FileModel file in message.Parameters)
+                        foreach (FileModel file in files)
                         {
                             if (file.IsDirectory)
                                 CreateNewTab(file);
@@ -42,7 +43,7 @@ namespace FileExplorer.ViewModel
                         break;
 
                     case CommandType.OpenInNewWindow:
-                        foreach (FileModel file in message.Parameters)
+                        foreach (FileModel file in files)
                         {
                             if (file.IsDirectory)
                                 App.CreateNewVindow(file);
