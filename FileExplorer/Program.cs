@@ -42,7 +42,7 @@ namespace FileExplorer
     {
         public SingleInstanceApp()
         {
-            IsSingleInstance = true;
+            //IsSingleInstance = true;
         }
 
         protected override bool OnStartup(StartupEventArgs e)

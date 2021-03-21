@@ -36,7 +36,7 @@
     </dxmvvm:Interaction.Behaviors>
 
     <dx:LoadingDecorator>
-        <dxlc:DockLayoutControl>            
+        <dxlc:DockLayoutControl>
             <dxr:RibbonControl dxlc:DockLayoutControl.Dock="Top" RibbonTitleBarVisibility="Collapsed" RibbonStyle="Office2019" ToolbarShowMode="Hide"
                                ShowApplicationButton="False" AllowCustomization="False" IsSimplified="{Binding Settings.SimplifiedRibbon, Mode=TwoWay}">
                 <dxr:RibbonDefaultPageCategory>
@@ -400,7 +400,7 @@
                     </dxe:ButtonEdit>
                 </StackPanel>
             </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Margin="3" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="400"
+            <dxlc:LayoutGroup Margin="3" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="400" MaxWidth="800"
                               Visibility="{Binding Settings.ShowNavigationPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
                 <controls:FileTreeViewControl />
             </dxlc:LayoutGroup>
