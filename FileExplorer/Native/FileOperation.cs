@@ -26,6 +26,9 @@ namespace FileExplorer.Native
         public static IntPtr GetIcon(string source, int width, int height)
         {
             IShellItem sourceItem = SafeNativeMethods.CreateShellItem(source);
+            if (sourceItem is null)
+                return IntPtr.Zero;
+
             SIIGBF options = SIIGBF.IconOnly;
             Size size = new Size { Width = width, Height = height };
             HResult hr = ((IShellItemImageFactory)sourceItem).GetImage(size, options, out IntPtr hBitmap);

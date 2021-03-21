@@ -21,7 +21,7 @@ namespace FileExplorer.Editors
                     OpenFileDialog openFileDialog = new OpenFileDialog();
                     openFileDialog.Filter = FileFilter;
 
-                    if (!String.IsNullOrEmpty(Text))
+                    if (!String.IsNullOrEmpty(Text) && File.Exists(Text))
                     {
                         openFileDialog.FileName = Text;
                         openFileDialog.InitialDirectory = Path.GetDirectoryName(Text);

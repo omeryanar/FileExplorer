@@ -175,10 +175,14 @@ namespace FileExplorer.Helpers
             {
                 foreach (string folder in Settings.Default.QuickAccessFolders.Split(';'))
                 {
-                    FileModel childFileModel = FileModel.FromDirectoryInfo(new DirectoryInfo(folder));
-                    childFileModel.Parent = fileModel;
+                    DirectoryInfo directory = new DirectoryInfo(folder);
+                    if (directory.Exists)
+                    {
+                        FileModel childFileModel = FileModel.FromDirectoryInfo(directory);
+                        childFileModel.Parent = fileModel;
 
-                    fileModelList.Add(childFileModel);
+                        fileModelList.Add(childFileModel);
+                    }
                 }
             }
 

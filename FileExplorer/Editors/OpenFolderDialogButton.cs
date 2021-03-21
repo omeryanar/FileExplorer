@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Editors;
 using FileExplorer.Native;
@@ -19,7 +20,7 @@ namespace FileExplorer.Editors
                 {
                     OpenFolderDialog openFolderDialog = new OpenFolderDialog();
 
-                    if (!String.IsNullOrEmpty(Text))
+                    if (!String.IsNullOrEmpty(Text) && Directory.Exists(Text))
                         openFolderDialog.InitialFolder = Text;
 
                     if (openFolderDialog.ShowDialog() == true)

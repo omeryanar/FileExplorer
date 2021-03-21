@@ -52,6 +52,9 @@ namespace FileExplorer.Helpers
         public static ImageSource GetImage(string path, int size)
         {
             IntPtr intPtr = FileOperation.GetIcon(path, size, size);
+            if (intPtr == IntPtr.Zero)
+                return null;
+
             ImageSource imageSource = Imaging.CreateBitmapSourceFromHBitmap(intPtr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             if (imageSource != null)
                 imageSource.Freeze();

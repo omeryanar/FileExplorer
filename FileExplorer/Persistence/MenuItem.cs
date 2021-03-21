@@ -70,7 +70,7 @@ namespace FileExplorer.Persistence
         [BsonIgnore]
         public ImageSource Icon
         {
-            get 
+            get
             {
                 switch (Command)
                 {
@@ -121,7 +121,7 @@ namespace FileExplorer.Persistence
         protected static ImageSource OpenInNewTab = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/OpenFolder16.png"));
 
         [BsonIgnore]
-        protected static ImageSource OpenInNewWindow = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/OpenNewWindow16.png"));        
+        protected static ImageSource OpenInNewWindow = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/OpenNewWindow16.png"));
 
         public bool CanExecute(IList<object> items)
         {
@@ -151,7 +151,7 @@ namespace FileExplorer.Persistence
             try
             {
                 List<string> parameters = new List<string>();
-                List<FileModel> files = items.OfType<FileModel>().ToList();               
+                List<FileModel> files = items.OfType<FileModel>().ToList();
 
                 if (Parameter == ParameterType.Name)
                     parameters = files.Select(x => String.Format("\"{0}\"", x.FullName)).ToList();
@@ -159,12 +159,20 @@ namespace FileExplorer.Persistence
                     parameters = files.Select(x => String.Format("\"{0}\"", x.FullPath)).ToList();
                 else if (!String.IsNullOrEmpty(Expression))
                 {
+                    List<FileModel> expressionResults = new List<FileModel>();
                     foreach (FileModel file in files)
                     {
                         object result = new ExpressionEvaluator(Properties, CriteriaOperator.Parse(Expression)).Evaluate(file);
                         if (result != null)
+                        {
                             parameters.Add(result.ToString());
+
+                            string parsingName = FileSystemHelper.GetFileParsingName(result.ToString());
+                            if (!String.IsNullOrEmpty(parsingName))
+                                expressionResults.Add(FileModel.FromPath(parsingName));
+                        }
                     }
+                    files = expressionResults;
                 }
 
                 if (Command == CommandType.OpenWithApplication)
@@ -186,7 +194,7 @@ namespace FileExplorer.Persistence
                     };
 
                     Messenger.Default.Send(message);
-                }                
+                }
             }
             catch (Exception ex)
             {

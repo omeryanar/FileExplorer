@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using DevExpress.Mvvm;
+﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
@@ -22,11 +21,10 @@ namespace FileExplorer.ViewModel
                 if (!ActiveWindowService.IsActive)
                     return;
 
-                var files = message.Parameters.OfType<FileModel>();
                 switch (message.CommandType)
                 {
                     case CommandType.Open:
-                        foreach (FileModel file in files)
+                        foreach (FileModel file in message.Parameters)
                         {
                             BrowserTabViewModel viewModel = DocumentManagerService.ActiveDocument?.Content as BrowserTabViewModel;
                             if (viewModel != null)
@@ -35,7 +33,7 @@ namespace FileExplorer.ViewModel
                         break;
 
                     case CommandType.OpenInNewTab:
-                        foreach (FileModel file in files)
+                        foreach (FileModel file in message.Parameters)
                         {
                             if (file.IsDirectory)
                                 CreateNewTab(file);
@@ -43,7 +41,7 @@ namespace FileExplorer.ViewModel
                         break;
 
                     case CommandType.OpenInNewWindow:
-                        foreach (FileModel file in files)
+                        foreach (FileModel file in message.Parameters)
                         {
                             if (file.IsDirectory)
                                 App.CreateNewVindow(file);

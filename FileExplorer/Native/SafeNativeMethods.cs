@@ -21,6 +21,9 @@ namespace FileExplorer.Native
 
         public static IShellItem CreateShellItem(string path)
         {
+            if (!PathFileExists(path))
+                return null;
+
             IShellItem shellItem;
             SHCreateItemFromParsingName(path, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
 
@@ -82,6 +85,9 @@ namespace FileExplorer.Native
 
         [DllImport("user32.dll")]
         private static extern IntPtr GetActiveWindow();
+
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+        private static extern bool PathFileExists(string path);
 
         [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
         private static extern int StrCmpLogicalW(string psz1, string psz2);
