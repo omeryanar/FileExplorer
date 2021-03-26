@@ -35,6 +35,12 @@ You can filter which menu items will appear for which item types.
 
 ![Custom Context Menu](https://github.com/omeryanar/Resources/blob/master/FileExplorer/CustomMenuItems.png?raw=true)
 
+You can use expressions while creating custom context menu items.
+Assume that you want to create a context menu item that creates thumbnail images when clicked by using a movie thumbnailer software, such as MTN.exe (http://moviethumbnail.sourceforge.net/)
+Then you can  use the following expression: '-P -i -o .jpg -c 3 -r 4 "' + [Path] + '"'
+It will create a thumbnail .jpg image of 4 rows and 3 columns with the same location and name of the video file.
+You can tweak the arguments for your needs.
+
 ### Custom Columns
 
 You can create calculated columns by using excel-style formulas.
