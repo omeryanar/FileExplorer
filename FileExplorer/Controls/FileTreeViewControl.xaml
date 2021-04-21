@@ -6,6 +6,7 @@
                      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                      xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                      xmlns:common="clr-namespace:FileExplorer.Core"
+                     xmlns:controls="clr-namespace:FileExplorer.Controls"
                      ShowBorder="False" ItemsSource="{Binding RootFolders}" CurrentItem="{Binding CurrentFolder}" FixedFilter="{Binding FilterCriteria}">
 
     <dxmvvm:Interaction.Behaviors>
@@ -35,19 +36,19 @@
     </dxg:TreeListControl.Columns>
 
     <dxg:TreeListControl.View>
-        <dxg:TreeListView ShowColumnHeaders="False" ShowHorizontalLines="False" ShowVerticalLines="False" AutoWidth="True"
-                          AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}" 
-                          TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Folders" AllowChildNodeSourceUpdates="True" FetchSublevelChildrenOnExpand="True"
-                          ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True" IsSynchronizedWithCurrentItem="True"
-                          ShowIndicator="False" AutoExpandAllNodes="False" RowIndent="20" AllowEditing="False" ShowFilterPanelMode="Never" ShowSearchPanelMode="Never"
-                          NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True" EnableDynamicLoading="False">
+        <controls:TreeListViewEx ShowColumnHeaders="False" ShowHorizontalLines="False" ShowVerticalLines="False" AutoWidth="True"
+                                 AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}" 
+                                 TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Folders" AllowChildNodeSourceUpdates="True" FetchSublevelChildrenOnExpand="True"
+                                 ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True" IsSynchronizedWithCurrentItem="True"
+                                 ShowIndicator="False" AutoExpandAllNodes="False" RowIndent="20" AllowEditing="False" ShowFilterPanelMode="Never" ShowSearchPanelMode="Never"
+                                 NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True" EnableDynamicLoading="False">
             <dxmvvm:Interaction.Behaviors>
                 <common:DragDropFilesBehavior />
                 <common:DynamicTreeLoadBehavior />
                 <common:SortOnlyFocusedNodeBehavior />
                 <common:SortOrderOnHeaderClickBehavior />
             </dxmvvm:Interaction.Behaviors>
-        </dxg:TreeListView>
+        </controls:TreeListViewEx>
     </dxg:TreeListControl.View>
 
     <dxb:BarManager.DXContextMenu>

@@ -23,7 +23,7 @@ namespace FileExplorer.Editors
 
                     if (!String.IsNullOrEmpty(Text) && File.Exists(Text))
                     {
-                        openFileDialog.FileName = Text;
+                        openFileDialog.FileName = Path.GetFileName(Text);
                         openFileDialog.InitialDirectory = Path.GetDirectoryName(Text);
                     }
 
