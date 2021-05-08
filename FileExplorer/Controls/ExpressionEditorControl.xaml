@@ -24,7 +24,13 @@
                                         UnboundExpression="{Binding EditValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
                     </dxg:GridControl.Columns>
                 </dxg:GridControl>
-                <dxe:ButtonEdit IsTextEditable="False" AllowDefaultButton="False" EditValue="{Binding Columns[Unbound].UnboundExpression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ElementName=Grid}">
+                <dxe:ButtonEdit IsTextEditable="False" AllowDefaultButton="False" EditValue="{Binding Columns[Unbound].UnboundExpression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ElementName=Grid}"
+                                ButtonsSource="{Binding Buttons, RelativeSource={RelativeSource TemplatedParent}}">
+                    <dxe:ButtonEdit.ButtonTemplate>
+                        <DataTemplate>
+                            <dxe:ButtonInfo GlyphKind="{Binding GlyphKind}" Command="{Binding Command}" />
+                        </DataTemplate>
+                    </dxe:ButtonEdit.ButtonTemplate>
                     <dxe:ButtonEdit.Buttons>
                         <dxe:ButtonInfo GlyphKind="Edit" Command="{Binding View.Commands.ShowUnboundExpressionEditor, ElementName=Grid}" CommandParameter="{Binding Columns[Unbound], ElementName=Grid}" />
                     </dxe:ButtonEdit.Buttons>

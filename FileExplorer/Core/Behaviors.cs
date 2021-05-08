@@ -817,6 +817,9 @@ namespace FileExplorer.Core
                     FileModel target = e.TargetRecord as FileModel;
                     string targetPath = target?.IsDirectory == true ? target.FullPath : CurrentFolderPath;
 
+                    if (targetPath == null)
+                        return;
+
                     IEnumerable<String> filePaths = e.Data.GetData(DataFormats.FileDrop) as IEnumerable<String>;
                     if (filePaths == null || filePaths.Count() == 0)
                         return;
