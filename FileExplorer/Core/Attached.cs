@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,6 +10,7 @@ using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Core.Native;
 using FileExplorer.Messages;
+using FileExplorer.Model;
 
 namespace FileExplorer.Core
 {
@@ -19,52 +19,48 @@ namespace FileExplorer.Core
         #region Source
 
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.RegisterAttached("Source", typeof(string), typeof(ImagePreview), new PropertyMetadata(null, SourcePropertyChanged));
+            DependencyProperty.RegisterAttached("Source", typeof(object), typeof(ImagePreview), new PropertyMetadata(null, SourcePropertyChanged));
 
-        public static string GetSource(DependencyObject obj)
+        public static object GetSource(DependencyObject obj)
         {
-            return (string)obj.GetValue(SourceProperty);
+            return obj.GetValue(SourceProperty);
         }
 
-        public static void SetSource(DependencyObject obj, string value)
+        public static void SetSource(DependencyObject obj, object value)
         {
             obj.SetValue(SourceProperty, value);
         }
 
         private static async void SourcePropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (e.OldValue is string oldFilePath && PreviewedFilePaths.Contains(oldFilePath))
-                PreviewedFilePaths.Remove(oldFilePath);
+            if (e.OldValue is FileModel oldFileModel && PreviewedFilePaths.Contains(oldFileModel.FullPath))
+                PreviewedFilePaths.Remove(oldFileModel.FullPath);
 
             if (obj is Image image)
             {
-                if (e.NewValue is string filePath && !String.IsNullOrEmpty(filePath))
+                if (e.NewValue is FileModel fileModel && !fileModel.IsDirectory && SupportedExtensions.Any(x => x.OrdinalEquals(fileModel.Extension)))
                 {
-                    FileInfo file = new FileInfo(filePath);
-                    if (file.Exists && SupportedExtensions.Any(x => x.OrdinalEquals(file.Extension)))
+                    try
                     {
-                        try
-                        {
-                            image.Tag = filePath;
-                            PreviewedFilePaths.Add(filePath);
-                            
-                            int hashCode = image.GetHashCode();
-                            if (!ImageReferences.ContainsKey(hashCode))
-                            {
-                                ImageReferences.Add(hashCode, new WeakReference<Image>(image));
-                                image.Unloaded += (x, y) => { PreviewedFilePaths.Remove(image.Tag?.ToString()); };
-                            }
+                        image.Tag = fileModel.FullPath;
+                        PreviewedFilePaths.Add(fileModel.FullPath);
 
-                            if (file.Length > 1048576)
-                                image.Visibility = Visibility.Collapsed;
-
-                            image.Tag = file.FullName;
-                            image.Source = await ReadImageAsync(file.FullName);
-                        }
-                        finally
+                        int hashCode = image.GetHashCode();
+                        if (!ImageReferences.ContainsKey(hashCode))
                         {
-                            image.Visibility = Visibility.Visible;
+                            ImageReferences.Add(hashCode, new WeakReference<Image>(image));
+                            image.Unloaded += (x, y) => { PreviewedFilePaths.Remove(image.Tag?.ToString()); };
                         }
+
+                        if (fileModel.Size > 1048576)
+                            image.Visibility = Visibility.Collapsed;
+
+                        image.Tag = fileModel.FullPath;
+                        image.Source = await ReadImageAsync(fileModel.FullPath);
+                    }
+                    finally
+                    {
+                        image.Visibility = Visibility.Visible;
                     }
                 }
                 else

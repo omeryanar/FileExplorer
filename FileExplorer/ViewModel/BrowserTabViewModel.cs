@@ -54,7 +54,7 @@ namespace FileExplorer.ViewModel
 
         public FileModelCollection RecentLocations { get; } = new FileModelCollection();
 
-        public FileModelCollection RootFolders { get; } = new FileModelCollection { FileSystemHelper.QuickAccess, FileSystemHelper.Computer };
+        public FileModelCollection RootFolders { get; } = new FileModelCollection { FileSystemHelper.QuickAccess, FileSystemHelper.Computer, FileSystemHelper.Network };
 
         #endregion
 

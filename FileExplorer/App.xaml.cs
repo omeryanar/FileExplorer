@@ -141,7 +141,6 @@ namespace FileExplorer
             Repository = new Repository("Data.db");
             TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;
 
-            FileSystemWatcherHelper = new FileSystemWatcherHelper();
             FileSystemWatcherHelper.Start();
 
             ParseArgumentsAndRun(e.Args);
@@ -160,8 +159,6 @@ namespace FileExplorer
             Shutdown();
             base.OnSessionEnding(e);
         }
-
-        private FileSystemWatcherHelper FileSystemWatcherHelper;
 
         #region Events
 

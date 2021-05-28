@@ -628,4 +628,7 @@
   <data name="ParentPath" xml:space="preserve">
     <value>Parent Path</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>Network</value>
+  </data>
 </root>

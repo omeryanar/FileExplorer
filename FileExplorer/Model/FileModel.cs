@@ -87,7 +87,32 @@ namespace FileExplorer.Model
             {
                 DriveInfo driveInfo = new DriveInfo(path);
                 fileModel.Initialize(driveInfo);
-            }            
+            }
+            if (FileSystemHelper.IsNetworkHost(path))
+            {
+                string hostName = FileSystemHelper.GetHostName(path);
+
+                fileModel.Name = hostName;
+                fileModel.FullName = hostName;
+                fileModel.FullPath = path;
+                fileModel.Extension = String.Empty;
+
+                fileModel.IsRoot = true;
+                fileModel.IsDirectory = true;
+
+                fileModel.Parent = FileSystemHelper.Network;
+                fileModel.ParentPath = FileSystemHelper.NetworkPath;
+
+                FileSystemHelper.Network.Folders.Add(fileModel);
+            }
+            else if (FileSystemHelper.IsNetworkShare(path))
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                fileModel.Initialize(directoryInfo);
+
+                fileModel.ParentPath = FileSystemHelper.GetParentFolderPath(path);
+                fileModel.Parent = FromPath(fileModel.ParentPath);
+            }
             else if (Directory.Exists(path))
             {
                 DirectoryInfo directoryInfo = new DirectoryInfo(path);
@@ -138,8 +163,8 @@ namespace FileExplorer.Model
             FullPath = info.FullName;
             Extension = String.Empty;
 
-            ParentName = info.Parent.Name;
-            ParentPath = info.Parent.FullName;
+            ParentName = info.Parent?.Name;
+            ParentPath = info.Parent?.FullName;
 
             Description = "Folder";
 
@@ -249,23 +274,35 @@ namespace FileExplorer.Model
         {
             FileModel fileModel = ViewModelSource.Create<FileModel>();
 
-            if (path == FileSystemHelper.ComputerPath)
+            switch(path)
             {
-                fileModel.IsRoot = true;
-                fileModel.IsDirectory = true;
-                fileModel.ParentPath = String.Empty;
-                fileModel.Name = Properties.Resources.Computer;
-                fileModel.FullName = Properties.Resources.Computer;
-                fileModel.FullPath = FileSystemHelper.ComputerPath;
-            }
-            else if (path == FileSystemHelper.QuickAccessPath)
-            {
-                fileModel.IsRoot = true;
-                fileModel.IsDirectory = true;
-                fileModel.ParentPath = String.Empty;
-                fileModel.Name = Properties.Resources.QuickAccess;
-                fileModel.FullName = Properties.Resources.QuickAccess;
-                fileModel.FullPath = FileSystemHelper.QuickAccessPath;
+                case FileSystemHelper.ComputerPath:
+                    fileModel.IsRoot = true;
+                    fileModel.IsDirectory = true;
+                    fileModel.ParentPath = String.Empty;
+                    fileModel.Name = Properties.Resources.Computer;
+                    fileModel.FullName = Properties.Resources.Computer;
+                    fileModel.FullPath = FileSystemHelper.ComputerPath;
+                    break;
+
+                case FileSystemHelper.QuickAccessPath:
+                    fileModel.IsRoot = true;
+                    fileModel.IsDirectory = true;
+                    fileModel.ParentPath = String.Empty;
+                    fileModel.Name = Properties.Resources.QuickAccess;
+                    fileModel.FullName = Properties.Resources.QuickAccess;
+                    fileModel.FullPath = FileSystemHelper.QuickAccessPath;
+                    break;
+
+                case FileSystemHelper.NetworkPath:
+                    fileModel.IsRoot = true;
+                    fileModel.IsDirectory = true;
+                    fileModel.ParentPath = String.Empty;
+                    fileModel.Name = Properties.Resources.Network;
+                    fileModel.FullName = Properties.Resources.Network;
+                    fileModel.FullPath = FileSystemHelper.NetworkPath;
+                    fileModel.Folders = new FileModelCollection();
+                    break;
             }
 
             return fileModel;
@@ -361,6 +398,9 @@ namespace FileExplorer.Model
 
                     FileSystemHelper.QuickAccess.Name = Properties.Resources.QuickAccess;
                     FileSystemHelper.QuickAccess.FullName = Properties.Resources.QuickAccess;
+
+                    FileSystemHelper.Network.Name = Properties.Resources.Network;
+                    FileSystemHelper.Network.FullName = Properties.Resources.Network;
                 }
             };
         }

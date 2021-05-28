@@ -11,16 +11,12 @@ namespace FileExplorer.Helpers
 {
     public class FileSystemWatcherHelper
     {
-        public void Start()
+        public static void Start()
         {
-            if (DeviceWatcher == null)
-                DeviceWatcher = new DeviceWatcher();
-
             DeviceWatcher.DeviceArrived += DeviceWatcher_DeviceArrived;
             DeviceWatcher.DeviceQueryRemove += DeviceWatcher_DeviceQueryRemove;
             DeviceWatcher.DeviceRemoveComplete += DeviceWatcher_DeviceRemoveComplete;
 
-            DirectoryWatchers = new Dictionary<string, DirectoryWatcher>(StringComparer.OrdinalIgnoreCase);
             foreach (DriveInfo drive in DriveInfo.GetDrives())
             {
                 if (drive.IsReady)
@@ -33,31 +29,33 @@ namespace FileExplorer.Helpers
             }
         }
 
-        public void Stop()
+        public static void Stop()
         {
-            if (DirectoryWatchers != null)
-            {
-                foreach (DirectoryWatcher directoryWatcher in DirectoryWatchers.Values)
-                    directoryWatcher.Stop();
-            }
+            foreach (DirectoryWatcher directoryWatcher in DirectoryWatchers.Values)
+                directoryWatcher.Stop();
 
-            if (DeviceWatcher != null)
-            {
-                DeviceWatcher.DeviceArrived -= DeviceWatcher_DeviceArrived;
-                DeviceWatcher.DeviceQueryRemove -= DeviceWatcher_DeviceQueryRemove;
-                DeviceWatcher.DeviceRemoveComplete -= DeviceWatcher_DeviceRemoveComplete;
-            }
+            DirectoryWatchers.Clear();
+
+            DeviceWatcher.DeviceArrived -= DeviceWatcher_DeviceArrived;
+            DeviceWatcher.DeviceQueryRemove -= DeviceWatcher_DeviceQueryRemove;
+            DeviceWatcher.DeviceRemoveComplete -= DeviceWatcher_DeviceRemoveComplete;
         }
 
-        private void RegisterDirectoryWatcher(string path)
+        public static void RegisterDirectoryWatcher(string path)
         {
             DirectoryWatcher directoryWatcher = new DirectoryWatcher(path, OnFileEvent, OnError);
             directoryWatcher.Start();
 
+            if (DirectoryWatchers.ContainsKey(path))
+            {
+                DirectoryWatchers[path].Stop();
+                DirectoryWatchers.Remove(path);
+            }
+
             DirectoryWatchers.Add(path, directoryWatcher);
         }
 
-        private void OnFileEvent(FileEvent fileEvent)
+        private static void OnFileEvent(FileEvent fileEvent)
         {
             if (SuppressNotification(fileEvent.Path))
                 return;
@@ -92,12 +90,12 @@ namespace FileExplorer.Helpers
             }
         }
 
-        private void OnError(ErrorEventArgs e)
+        private static void OnError(ErrorEventArgs e)
         {
             Journal.WriteLog(e.GetException());
         }
 
-        private bool IsPathExcluded(string path)
+        private static bool IsPathExcluded(string path)
         {
             if (String.IsNullOrEmpty(path))
                 return true;
@@ -115,7 +113,7 @@ namespace FileExplorer.Helpers
             return false;
         }
 
-        private bool SuppressNotification(string path)
+        private static bool SuppressNotification(string path)
         {
             if (IsPathExcluded(path))
                 return true;
@@ -130,7 +128,7 @@ namespace FileExplorer.Helpers
             catch { return true; }
         }
 
-        private void DeviceWatcher_DeviceArrived(object sender, DeviceNotificationEventArgs e)
+        private static void DeviceWatcher_DeviceArrived(object sender, DeviceNotificationEventArgs e)
         {
             if (DirectoryWatchers.ContainsKey(e.Name))
                 DirectoryWatchers[e.Name].Start();
@@ -140,26 +138,22 @@ namespace FileExplorer.Helpers
             SendNotificationMessage(NotificationType.Add, e.Name);
         }
 
-        private void DeviceWatcher_DeviceQueryRemove(object sender, DeviceNotificationEventArgs e)
+        private static void DeviceWatcher_DeviceQueryRemove(object sender, DeviceNotificationEventArgs e)
         {
             if (DirectoryWatchers.ContainsKey(e.Name))
                 DirectoryWatchers[e.Name].Stop();
         }
 
-        private void DeviceWatcher_DeviceRemoveComplete(object sender, DeviceNotificationEventArgs e)
+        private static void DeviceWatcher_DeviceRemoveComplete(object sender, DeviceNotificationEventArgs e)
         {
             SendNotificationMessage(NotificationType.Remove, e.Name);
         }
 
-        private void SendNotificationMessage(NotificationType notificationType, string path, string newPath = null)
+        private static void SendNotificationMessage(NotificationType notificationType, string path, string newPath = null)
         {
             NotificationMessage notificationMessage = new NotificationMessage { Path = path, NewPath = newPath, NotificationType = notificationType };
             Application.Current.Dispatcher.Invoke(() => Messenger.Default.Send(notificationMessage));
         }
-
-        private DeviceWatcher DeviceWatcher;
-
-        private Dictionary<string, DirectoryWatcher> DirectoryWatchers;
 
         private static readonly string RecycleBin = "$Recycle.Bin";
 
@@ -170,5 +164,9 @@ namespace FileExplorer.Helpers
         private static readonly string LocalApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         private static readonly string CommonApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+
+        private static DeviceWatcher DeviceWatcher = new DeviceWatcher();
+
+        private static Dictionary<string, DirectoryWatcher> DirectoryWatchers = new Dictionary<string, DirectoryWatcher>(StringComparer.OrdinalIgnoreCase);
     }
 }

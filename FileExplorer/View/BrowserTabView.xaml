@@ -417,7 +417,7 @@
                                       Visibility="{Binding Settings.ShowPreviewPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
                         <Grid>
                             <Viewbox StretchDirection="DownOnly">
-                                <Image x:Name="PreviewImage" common:ImagePreview.Source="{Binding SelectedItem.FullPath, ElementName=FileList}" />
+                                <Image x:Name="PreviewImage" common:ImagePreview.Source="{Binding SelectedItem, ElementName=FileList}" />
                             </Viewbox>
                             <dx:WaitIndicator DeferedVisibility="{Binding Visibility, ElementName=PreviewImage, Converter={StaticResource VisibilityToInverseBooleanConverter}}" />
                         </Grid>

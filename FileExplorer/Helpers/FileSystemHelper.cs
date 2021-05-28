@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Alphaleonis.Win32.Filesystem;
+using Alphaleonis.Win32.Network;
+using FileExplorer.Core;
 using FileExplorer.Model;
 using FileExplorer.Native;
 using FileExplorer.Properties;
@@ -18,6 +20,8 @@ namespace FileExplorer.Helpers
 
         public const string QuickAccessPath = "Quick Access";
 
+        public const string NetworkPath = "Network";
+
         public static FileModel Computer
         {
             get
@@ -25,7 +29,7 @@ namespace FileExplorer.Helpers
                 if (computer == null)
                 {
                     computer = FileModel.FromPath(ComputerPath);
-                    computer.Folders = GetDrives(computer);
+                    computer.Folders = GetDrives();
                 }
 
                 return computer;
@@ -40,13 +44,25 @@ namespace FileExplorer.Helpers
                 if (quickAccess == null)
                 {
                     quickAccess = FileModel.FromPath(QuickAccessPath);
-                    quickAccess.Folders = GetQuickAccess(quickAccess);
+                    quickAccess.Folders = GetQuickAccess();
                 }
 
                 return quickAccess;
             }
         }
         private static FileModel quickAccess;
+
+        public static FileModel Network
+        {
+            get
+            {
+                if (network == null)
+                    network = FileModel.FromPath(NetworkPath);
+
+                return network;
+            }
+        }
+        private static FileModel network;
 
         public static string[] UserFolders
         {
@@ -75,15 +91,33 @@ namespace FileExplorer.Helpers
             return Regex.IsMatch(path, @"^[A-Za-z]:\\?$");
         }
 
+        public static bool IsNetworkHost(string path)
+        {
+            return path.StartsWith(Path.UncPrefix) && path.Split(Separator).Length == 1;
+        }
+
+        public static bool IsNetworkShare(string path)
+        {
+            return path.StartsWith(Path.UncPrefix) && path.Split(Separator).Length == 2;
+        }
+
         public static bool DirectoryExists(string path)
         {
             return Directory.Exists(path);
+        }
+
+        public static string GetHostName(string path)
+        {
+            return path.Split(Separator).First();
         }
 
         public static string GetFileParsingName(string path)
         {
             try
             {
+                if (IsNetworkHost(path))
+                    return path;
+
                 return FileOperation.GetParsingName(path);
             }
             catch (Exception)
@@ -98,6 +132,12 @@ namespace FileExplorer.Helpers
             {
                 if (IsDrive(path))
                     return Computer.FullPath;
+
+                if (IsNetworkHost(path))
+                    return Network.FullPath;
+
+                if (IsNetworkShare(path))
+                    return Path.UncPrefix + GetHostName(path);
 
                 return Path.GetDirectoryName(path);
             }
@@ -139,54 +179,6 @@ namespace FileExplorer.Helpers
             {
                 return new string[0];
             }
-        }        
-
-        public static FileModelCollection GetDrives(FileModel fileModel)
-        {
-            List<FileModel> fileModelList = new List<FileModel>();
-
-            foreach (DriveInfo drive in DriveInfo.GetDrives())
-            {
-                if (drive.IsReady)
-                {
-                    FileModel childFileModel = FileModel.FromDriveInfo(drive);
-                    childFileModel.Parent = fileModel;
-
-                    fileModelList.Add(childFileModel);
-                }
-            }
-
-            return new FileModelCollection(fileModelList);
-        }
-
-        public static FileModelCollection GetQuickAccess(FileModel fileModel)
-        {
-            List<FileModel> fileModelList = new List<FileModel>();            
-
-            foreach (string folder in UserFolders)
-            {
-                FileModel childFileModel = FileModel.FromDirectoryInfo(new DirectoryInfo(folder));
-                childFileModel.Parent = fileModel;
-
-                fileModelList.Add(childFileModel);
-            }
-
-            if (!String.IsNullOrEmpty(Settings.Default.QuickAccessFolders))
-            {
-                foreach (string folder in Settings.Default.QuickAccessFolders.Split(';'))
-                {
-                    DirectoryInfo directory = new DirectoryInfo(folder);
-                    if (directory.Exists)
-                    {
-                        FileModel childFileModel = FileModel.FromDirectoryInfo(directory);
-                        childFileModel.Parent = fileModel;
-
-                        fileModelList.Add(childFileModel);
-                    }
-                }
-            }
-
-            return new FileModelCollection(fileModelList);
         }
 
         public static async Task<FileModelCollection> GetFiles(FileModel fileModel)
@@ -210,14 +202,18 @@ namespace FileExplorer.Helpers
         public static async Task<FileModelCollection> GetFolders(FileModel fileModel)
         {
             if (fileModel == Computer)
-                return GetDrives(fileModel);
+                return GetDrives();
             if (fileModel == QuickAccess)
-                return GetQuickAccess(fileModel);
+                return GetQuickAccess();
+            if (fileModel == Network)
+                return Network.Folders;
+            if (fileModel.Parent == Network)
+                return await GetNetworkShares(fileModel);
 
             List<FileModel> fileModelList = new List<FileModel>();
             DirectoryInfo[] folders = await GetFolders(fileModel.FullPath);
             if (folders != null)
-            {                
+            {
                 foreach (DirectoryInfo folder in folders)
                 {
                     FileModel childFileModel = FileModel.FromDirectoryInfo(folder);
@@ -225,6 +221,35 @@ namespace FileExplorer.Helpers
 
                     fileModelList.Add(childFileModel);
                 }
+            }
+
+            return new FileModelCollection(fileModelList);
+        }
+
+        public static async Task<FileModelCollection> GetNetworkShares(FileModel host)
+        {
+            List<DirectoryInfo> folders = new List<DirectoryInfo>();
+            await Task.Run(() =>
+            {
+                try
+                {
+                    foreach (ShareInfo shareInfo in Host.EnumerateShares(host.FullPath, ShareType.DiskTree, true))
+                    {
+                        if (shareInfo.DirectoryInfo.Exists)
+                            folders.Add(shareInfo.DirectoryInfo);
+                    }
+                }
+                catch { }
+            }).ConfigureAwait(false);
+
+            List<FileModel> fileModelList = new List<FileModel>();
+            foreach (DirectoryInfo directoryInfo in folders)
+            {
+                FileModel fileModel = FileModel.FromDirectoryInfo(directoryInfo);
+                fileModel.Parent = host;
+
+                fileModelList.Add(fileModel);
+                FileSystemWatcherHelper.RegisterDirectoryWatcher(fileModel.FullPath);
             }
 
             return new FileModelCollection(fileModelList);
@@ -292,13 +317,61 @@ namespace FileExplorer.Helpers
                     if (directoryInfo.Exists)
                     {
                         bool emptySearchPattern = String.IsNullOrEmpty(searchPattern);
-                        folders = emptySearchPattern ? directoryInfo.GetDirectories() : directoryInfo.GetDirectories(searchPattern);                        
+                        folders = emptySearchPattern ? directoryInfo.GetDirectories() : directoryInfo.GetDirectories(searchPattern);
                     }
                 }
                 catch { }
             }).ConfigureAwait(false);
 
             return folders;
+        }
+
+        private static FileModelCollection GetDrives()
+        {
+            List<FileModel> fileModelList = new List<FileModel>();
+
+            foreach (DriveInfo drive in DriveInfo.GetDrives())
+            {
+                if (drive.IsReady)
+                {
+                    FileModel childFileModel = FileModel.FromDriveInfo(drive);
+                    childFileModel.Parent = Computer;
+
+                    fileModelList.Add(childFileModel);
+                }
+            }
+
+            return new FileModelCollection(fileModelList);
+        }
+
+        private static FileModelCollection GetQuickAccess()
+        {
+            List<FileModel> fileModelList = new List<FileModel>();
+
+            foreach (string folder in UserFolders)
+            {
+                FileModel childFileModel = FileModel.FromDirectoryInfo(new DirectoryInfo(folder));
+                childFileModel.Parent = QuickAccess;
+
+                fileModelList.Add(childFileModel);
+            }
+
+            if (!String.IsNullOrEmpty(Settings.Default.QuickAccessFolders))
+            {
+                foreach (string folder in Settings.Default.QuickAccessFolders.Split(';'))
+                {
+                    DirectoryInfo directory = new DirectoryInfo(folder);
+                    if (directory.Exists)
+                    {
+                        FileModel childFileModel = FileModel.FromDirectoryInfo(directory);
+                        childFileModel.Parent = QuickAccess;
+
+                        fileModelList.Add(childFileModel);
+                    }
+                }
+            }
+
+            return new FileModelCollection(fileModelList);
         }
     }
 }

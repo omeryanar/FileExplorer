@@ -397,6 +397,9 @@
   <data name="NavigationPane" xml:space="preserve">
     <value>Gezinti Bölmesi</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>Ağ</value>
+  </data>
   <data name="New" xml:space="preserve">
     <value>Yeni</value>
   </data>

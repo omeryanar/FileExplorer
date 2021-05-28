@@ -163,7 +163,7 @@ namespace FileExplorer.Core
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value?.ToString().Split(new string[] { Separator }, StringSplitOptions.RemoveEmptyEntries);
+            return value?.ToString().Split(Separator);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

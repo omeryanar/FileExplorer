@@ -74,6 +74,11 @@ namespace FileExplorer.Core
             return String.Join(separator, values);
         }
 
+        public static string[] Split(this string text, string separator)
+        {
+            return text?.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
         public static bool OrdinalEquals(this string value1, string value2)
         {
             return String.Compare(value1, value2, StringComparison.OrdinalIgnoreCase) == 0;

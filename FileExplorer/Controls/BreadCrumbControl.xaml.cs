@@ -97,7 +97,7 @@ namespace FileExplorer.Controls
 
                     if (e.UpdateSource == UpdateEditorSource.ValueChanging || e.UpdateSource == UpdateEditorSource.EnterKeyPressed)
                     {
-                        if (FileSystemHelper.DirectoryExists(path))
+                        if (FileSystemHelper.DirectoryExists(path) || FileSystemHelper.IsNetworkHost(path))
                         {
                             NavigatePathCommand?.Execute(path);
                             IsTextEditable = false;

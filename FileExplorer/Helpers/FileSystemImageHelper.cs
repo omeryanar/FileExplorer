@@ -15,11 +15,6 @@ namespace FileExplorer.Helpers
     {
         public static ImageSource GetImage(FileModel fileModel, IconSize iconSize)
         {
-            if (fileModel.FullPath == FileSystemHelper.ComputerPath)
-                return iconSize == IconSize.Small ? ComputerSmall : ComputerMedium;
-            if (fileModel.FullPath == FileSystemHelper.QuickAccessPath)
-                return iconSize == IconSize.Small ? QuickAccessSmall : QuickAccessMedium;
-
             string key = GetKey(fileModel, iconSize);
             if (ImageSourceCache.TryGetValue(key, out ImageSource imageSource))
                 return imageSource;
@@ -65,22 +60,25 @@ namespace FileExplorer.Helpers
 
         protected static string GetKey(FileModel fileModel, IconSize iconSize)
         {
-            string key = String.Format("{0}_{1}", fileModel.FullPath, iconSize);
+            string key = String.Format(KeyFormat, fileModel.FullPath, iconSize);
+            if (fileModel.ParentPath == FileSystemHelper.NetworkPath)
+                key = String.Format(KeyFormat, FileSystemHelper.ComputerPath, iconSize);
 
+            if (fileModel.IsRoot)
+                return key;
             if (fileModel.IsDrive)
                 return key;
             if (fileModel.FullPath.OrdinalStartsWith(UserProfile))
                 return key;
+            if (fileModel.IsDirectory)
+                return String.Format(KeyFormat, Windows, iconSize);
             if (fileModel.Extension.OrdinalEquals(".exe") ||
                 fileModel.Extension.OrdinalEquals(".ico") ||
                 fileModel.Extension.OrdinalEquals(".lnk") ||
                 fileModel.Extension.OrdinalEquals(".cur"))
                 return key;
 
-            if (fileModel.IsDirectory)
-                return String.Format("{0}_{1}", Windows, iconSize);
-            else
-                return String.Format("{0}_{1}", fileModel.Extension, iconSize);
+            return String.Format(KeyFormat, fileModel.Extension, iconSize);
         }
 
         protected static string Windows = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
@@ -89,12 +87,23 @@ namespace FileExplorer.Helpers
 
         protected static ConcurrentDictionary<String, ImageSource> ImageSourceCache = new ConcurrentDictionary<String, ImageSource>();
 
-        protected static ImageSource ComputerSmall = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Computer16.png"));
+        protected const string RootUrl = "pack://application:,,,/FileExplorer;component/Assets/Images/";
 
-        protected static ImageSource ComputerMedium = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Computer32.png"));
+        protected const string KeyFormat = "{0}_{1}";
 
-        protected static ImageSource QuickAccessSmall = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/QuickAccess16.png"));
+        static FileSystemImageHelper()
+        {
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, FileSystemHelper.ComputerPath, IconSize.Small), new BitmapImage(new Uri(RootUrl + "Computer16.png")));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, FileSystemHelper.ComputerPath, IconSize.Medium), new BitmapImage(new Uri(RootUrl + "Computer32.png")));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, FileSystemHelper.QuickAccessPath, IconSize.Small), new BitmapImage(new Uri(RootUrl + "QuickAccess16.png")));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, FileSystemHelper.QuickAccessPath, IconSize.Medium), new BitmapImage(new Uri(RootUrl + "QuickAccess32.png")));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, FileSystemHelper.NetworkPath, IconSize.Small), new BitmapImage(new Uri(RootUrl + "Network16.png")));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, FileSystemHelper.NetworkPath, IconSize.Medium), new BitmapImage(new Uri(RootUrl + "Network32.png")));
 
-        protected static ImageSource QuickAccessMedium = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/QuickAccess32.png"));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, Windows, IconSize.Small), GetImage(Windows, 16));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, Windows, IconSize.Medium), GetImage(Windows, 32));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, Windows, IconSize.Large), GetImage(Windows, 128));
+            ImageSourceCache.TryAdd(String.Format(KeyFormat, Windows, IconSize.ExtraLarge), GetImage(Windows, 256));
+        }
     }
 }
