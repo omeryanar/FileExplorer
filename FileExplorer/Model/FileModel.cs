@@ -76,7 +76,7 @@ namespace FileExplorer.Model
         {
             get { return FileSystemImageHelper.GetImage(this, IconSize.ExtraLarge); }
         }
-        
+
         public static FileModel FromPath(string path)
         {
             FileModel fileModel = FileModelCache.GetOrAdd(path, Create);
@@ -88,7 +88,7 @@ namespace FileExplorer.Model
                 DriveInfo driveInfo = new DriveInfo(path);
                 fileModel.Initialize(driveInfo);
             }
-            if (FileSystemHelper.IsNetworkHost(path))
+            else if (FileSystemHelper.IsNetworkHost(path))
             {
                 string hostName = FileSystemHelper.GetHostName(path);
 
@@ -189,7 +189,7 @@ namespace FileExplorer.Model
             Extension = info.Extension;
 
             ParentName = info.Directory.Name;
-            ParentPath = info.Directory.FullName;            
+            ParentPath = info.Directory.FullName;
 
             DateCreated = info.CreationTime;
             DateModified = info.LastWriteTime;
@@ -204,7 +204,7 @@ namespace FileExplorer.Model
             try
             {
                 Description = Shell32.GetFileFriendlyDocName(info.FullName);
-                Size = info.Length;                
+                Size = info.Length;
             }
             catch { }
         }
@@ -274,7 +274,7 @@ namespace FileExplorer.Model
         {
             FileModel fileModel = ViewModelSource.Create<FileModel>();
 
-            switch(path)
+            switch (path)
             {
                 case FileSystemHelper.ComputerPath:
                     fileModel.IsRoot = true;
@@ -315,7 +315,7 @@ namespace FileExplorer.Model
             Messenger.Default.Register(Application.Current, (NotificationMessage message) =>
             {
                 if (message.NotificationType == NotificationType.Add)
-                {                    
+                {
                     string parentPath = FileSystemHelper.GetParentFolderPath(message.Path);
                     if (FileModelCache.TryGetValue(parentPath, out FileModel parentFileModel))
                     {
@@ -361,7 +361,7 @@ namespace FileExplorer.Model
                             {
                                 folder.ParentName = fileModel.Name;
                                 folder.Rename(message.Path, message.NewPath);
-                            }                                
+                            }
                         }
 
                         if (fileModel.Files != null)
@@ -370,7 +370,7 @@ namespace FileExplorer.Model
                             {
                                 file.ParentName = fileModel.Name;
                                 file.Rename(message.Path, message.NewPath);
-                            }                                
+                            }
                         }
                     }
                 }
@@ -383,7 +383,7 @@ namespace FileExplorer.Model
                             return;
 
                         FromPath(parsingName);
-                    }    
+                    }
                 }
             });
 

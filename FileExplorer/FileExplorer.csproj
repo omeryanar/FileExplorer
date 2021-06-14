@@ -15,6 +15,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkProfile />
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -137,6 +138,27 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Vanara.Core">
+      <HintPath>..\Library\Vanara.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.PInvoke.ComCtl32">
+      <HintPath>..\Library\Vanara.PInvoke.ComCtl32.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.PInvoke.Kernel32">
+      <HintPath>..\Library\Vanara.PInvoke.Kernel32.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.PInvoke.Shared">
+      <HintPath>..\Library\Vanara.PInvoke.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.PInvoke.Shell32">
+      <HintPath>..\Library\Vanara.PInvoke.Shell32.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.PInvoke.ShlwApi">
+      <HintPath>..\Library\Vanara.PInvoke.ShlwApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.PInvoke.User32">
+      <HintPath>..\Library\Vanara.PInvoke.User32.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -189,16 +211,13 @@
     <Compile Include="Core\CustomFunctions.cs" />
     <Compile Include="Helpers\FileSystemWatcherHelper.cs" />
     <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Helpers\LockProvider.cs" />
     <Compile Include="Messages\CommandMessage.cs" />
     <Compile Include="Messages\NotificationMessage.cs" />
     <Compile Include="Model\FileModelCollection.cs" />
     <Compile Include="Model\ZipItemModel.cs" />
     <Compile Include="Native\DeviceWatcher.cs" />
     <Compile Include="Native\DirectoryWatcher.cs" />
-    <Compile Include="Native\Interop\Common.cs" />
-    <Compile Include="Native\Interop\Device.cs" />
-    <Compile Include="Native\Interop\IShellItemImageFactory.cs" />
-    <Compile Include="Native\KnownFolders.cs" />
     <Compile Include="Native\SafeNativeMethods.cs" />
     <Compile Include="Native\OpenFolderDialog.cs" />
     <Compile Include="Persistence\Expression.cs" />
@@ -356,9 +375,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Native\FileOperation.cs" />
-    <Compile Include="Native\Interop\IFileOperation.cs" />
-    <Compile Include="Native\Interop\IFileOperationProgressSink.cs" />
-    <Compile Include="Native\Interop\IShellItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

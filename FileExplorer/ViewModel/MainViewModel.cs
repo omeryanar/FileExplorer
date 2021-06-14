@@ -26,8 +26,7 @@ namespace FileExplorer.ViewModel
                     case CommandType.Open:
                         foreach (FileModel file in message.Parameters)
                         {
-                            BrowserTabViewModel viewModel = DocumentManagerService.ActiveDocument?.Content as BrowserTabViewModel;
-                            if (viewModel != null)
+                            if (DocumentManagerService.ActiveDocument?.Content is BrowserTabViewModel viewModel)
                                 viewModel.OpenItem(file);
                         }
                         break;

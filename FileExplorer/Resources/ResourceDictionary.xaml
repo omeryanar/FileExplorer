@@ -57,6 +57,7 @@
             </Style>
             <Style x:Key="DialogWindowStyle" TargetType="dx:DXDialogWindow">
                 <Setter Property="Padding" Value="0" />
+                <Setter Property="ShowIcon" Value="False" />
                 <Setter Property="Width" Value="{DXBinding '@Self.Content.MinWidth + 20'}" />
                 <Setter Property="Height" Value="{DXBinding '@Self.Content.MinHeight + 90'}" />
                 <Setter Property="MinWidth" Value="{DXBinding '@Self.Content.MinWidth + 20'}" />

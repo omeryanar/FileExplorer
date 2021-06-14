@@ -106,6 +106,17 @@ namespace FileExplorer.Helpers
             return Directory.Exists(path);
         }
 
+        public static bool NetworkHostAccessible(string path)
+        {
+            if (!IsNetworkHost(path))
+                return false;
+
+            foreach (ShareInfo shareInfo in Host.EnumerateShares(path, true))
+                return true;
+
+            return false;
+        }
+
         public static string GetHostName(string path)
         {
             return path.Split(Separator).First();

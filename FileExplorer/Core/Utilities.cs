@@ -205,12 +205,12 @@ namespace FileExplorer.Core
             ShowMultipleProperties(new string[] { path });
         }
 
-        public static int ShowMultipleProperties(IEnumerable<String> files)
+        public static void ShowMultipleProperties(IEnumerable<String> files)
         {
-            IDataObject data = CreateDataObject(files.ToArray(), false);
+            DataObject data = CreateDataObject(files.ToArray());
             data.SetData(ShellIdListArray, SafeNativeMethods.CreateShellIdList(files.ToArray()), true);
 
-            return SafeNativeMethods.MultiFileProperties(data);
+            SafeNativeMethods.MultiFileProperties(data);
         }
 
         public static bool FileExistsInClipboard()
@@ -227,13 +227,13 @@ namespace FileExplorer.Core
             return memoryStream.ReadByte();
         }
 
-        public static IDataObject CreateDataObject(string[] files, bool cut = false)
+        public static DataObject CreateDataObject(string[] files, bool cut = false)
         {
             byte[] bytes = new byte[] { (byte)(cut ? 2 : 5), 0, 0, 0 };
             MemoryStream memoryStream = new MemoryStream(4);
             memoryStream.Write(bytes, 0, bytes.Length);
 
-            IDataObject dataObject = new DataObject(DataFormats.FileDrop, files);
+            DataObject dataObject = new DataObject(DataFormats.FileDrop, files);
             dataObject.SetData(PreferredDropEffect, memoryStream);
 
             return dataObject;

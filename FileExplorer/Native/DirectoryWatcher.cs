@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FileExplorer.Core;
 
 namespace FileExplorer.Native
 {
@@ -67,7 +68,14 @@ namespace FileExplorer.Native
 
         public void Start()
         {
-            fileSystemWatcher.EnableRaisingEvents = true;
+            try
+            {
+                fileSystemWatcher.EnableRaisingEvents = true;
+            }
+            catch (Exception e)
+            {
+                Journal.WriteLog(e);
+            }
         }
 
         public void Stop()

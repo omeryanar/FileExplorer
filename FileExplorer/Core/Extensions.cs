@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static Vanara.PInvoke.Shell32;
 
 namespace FileExplorer.Core
 {
@@ -97,6 +98,23 @@ namespace FileExplorer.Core
         public static bool OrdinalEndsWith(this string value1, string value2)
         {
             return value1.EndsWith(value2, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static SHIL ToSHIL(this IconSize iconSize)
+        {
+            switch (iconSize)
+            {
+                case IconSize.Small:
+                    return SHIL.SHIL_SMALL;
+                case IconSize.Medium:
+                    return SHIL.SHIL_LARGE;
+                case IconSize.Large:
+                    return SHIL.SHIL_EXTRALARGE;
+                case IconSize.ExtraLarge:
+                    return SHIL.SHIL_JUMBO;
+                default:
+                    return SHIL.SHIL_SMALL;
+            }
         }
     }
 }

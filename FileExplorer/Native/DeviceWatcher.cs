@@ -63,7 +63,7 @@ namespace FileExplorer.Native
 
         public void RegisterDeviceNotification(string deviceName)
         {
-            IntPtr fileHandle = SafeNativeMethods.CreateFile(deviceName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
+            IntPtr fileHandle = CreateFile(deviceName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
                                     0, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_ATTRIBUTE_NORMAL, 0);
 
             if (fileHandle != INVALID_HANDLE_VALUE)
@@ -82,7 +82,7 @@ namespace FileExplorer.Native
                 IntPtr buffer = Marshal.AllocHGlobal(size);
                 Marshal.StructureToPtr(data, buffer, true);
 
-                IntPtr deviceHandle = SafeNativeMethods.RegisterDeviceNotification(SpongeWindow.Handle, buffer, 0);
+                IntPtr deviceHandle = RegisterDeviceNotification(SpongeWindow.Handle, buffer, 0);
                 if (deviceHandle != IntPtr.Zero)
                     DeviceHandles.Add(deviceHandle, deviceName);
             }
@@ -92,8 +92,8 @@ namespace FileExplorer.Native
         {
             if (DeviceHandles.ContainsKey(deviceHandle))
             {
-                SafeNativeMethods.CloseHandle(fileHandle);
-                SafeNativeMethods.UnregisterDeviceNotification(deviceHandle);
+                CloseHandle(fileHandle);
+                UnregisterDeviceNotification(deviceHandle);
             }
         }
 
@@ -127,6 +127,19 @@ namespace FileExplorer.Native
 
         private readonly SpongeWindow SpongeWindow;
         private readonly Dictionary<IntPtr, string> DeviceHandles;
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr RegisterDeviceNotification(IntPtr hRecipient, IntPtr NotificationFilter, uint Flags);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool UnregisterDeviceNotification(IntPtr hHandle);
+
+        [DllImport("kernel32", SetLastError = true)]
+        private static extern IntPtr CreateFile(string FileName, uint DesiredAccess, uint ShareMode,
+            uint SecurityAttributes, uint CreationDisposition, uint FlagsAndAttributes, int hTemplateFile);
+
+        [DllImport("kernel32", SetLastError = true)]
+        private static extern bool CloseHandle(IntPtr hObject);
     }
 
     public sealed class SpongeWindow : NativeWindow
@@ -153,5 +166,27 @@ namespace FileExplorer.Native
         }
 
         public string Name { get; private set; }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct DEV_BROADCAST_VOLUME
+    {
+        public int DBVC_Size;
+        public int DBVC_DeviceType;
+        public int DBVC_Reserved;
+        public int DBVC_UnitMask;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct DEV_BROADCAST_HANDLE
+    {
+        public int DBCH_Size;
+        public int DBCH_DeviceType;
+        public int DBCH_Reserved;
+        public IntPtr DBCH_Handle;
+        public IntPtr DBCH_HDevNotify;
+        public Guid DBCH_EventGuid;
+        public long DBCH_NameOffset;
+        public byte DBCH_Data;
     }
 }

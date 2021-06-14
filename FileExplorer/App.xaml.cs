@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -106,25 +105,23 @@ namespace FileExplorer
             {
                 mainView = new MainView();
                 mainView.DataContext = ViewModelSource.Create<MainViewModel>();
-            }            
+            }
 
             MainViewModel mainViewModel = mainView.DataContext as MainViewModel;
-            if (folders?.Count() > 0)
+            List<string> validFolders = folders?.Where(x => FileSystemHelper.DirectoryExists(x)).ToList();
+            if (validFolders?.Count > 0)
             {
-                foreach (string folder in folders)
+                foreach (string folder in validFolders)
                 {
-                    if (Directory.Exists(folder))
-                    {
-                        FileModel fileModel = FileModel.FromPath(folder);
-                        mainViewModel.CreateNewTab(fileModel);
-                    }
+                    FileModel fileModel = FileModel.FromPath(folder);
+                    mainViewModel.CreateNewTab(fileModel);
                 }
             }
             else
                 mainViewModel.CreateNewTab();
 
             mainView.Show();
-        }        
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -149,7 +146,7 @@ namespace FileExplorer
         }
 
         protected override void OnExit(ExitEventArgs e)
-        {            
+        {
             Journal.Shutdown();
             base.OnExit(e);
         }
@@ -177,7 +174,7 @@ namespace FileExplorer
         private void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            
+
             Journal.WriteLog(e.Exception);
             Utilities.ShowMessage(e.Exception);
         }

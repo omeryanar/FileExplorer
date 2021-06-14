@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using static Vanara.PInvoke.Shell32;
 
 namespace FileExplorer.Native
 {
@@ -11,8 +12,8 @@ namespace FileExplorer.Native
 
         public FileOperation()
         {
-            fileOperation = (IFileOperation)Activator.CreateInstance(fileOperationType);
-            fileOperation.SetOperationFlags(FileOperationFlags.FOF_NOCONFIRMMKDIR);
+            fileOperation = (IFileOperation)Activator.CreateInstance(typeof(CFileOperations));
+            fileOperation.SetOperationFlags(FILEOP_FLAGS.FOF_NOCONFIRMMKDIR);
             fileOperation.SetOwnerWindow(SafeNativeMethods.GetActiveWindowHandle());
         }        
 
@@ -21,22 +22,6 @@ namespace FileExplorer.Native
             IShellItem sourceItem = SafeNativeMethods.CreateShellItem(source);
                 
             return sourceItem?.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
-        }
-
-        public static IntPtr GetIcon(string source, int width, int height)
-        {
-            IShellItem sourceItem = SafeNativeMethods.CreateShellItem(source);
-            if (sourceItem is null)
-                return IntPtr.Zero;
-
-            SIIGBF options = SIIGBF.IconOnly;
-            Size size = new Size { Width = width, Height = height };
-            HResult hr = ((IShellItemImageFactory)sourceItem).GetImage(size, options, out IntPtr hBitmap);
-
-            if (hr == HResult.Ok)
-                return hBitmap;
-
-            return IntPtr.Zero;
         }
 
         public void CopyItem(string source, string destination, string newName)
@@ -87,7 +72,7 @@ namespace FileExplorer.Native
 
         public void AllowUndo()
         {
-            fileOperation.SetOperationFlags(FileOperationFlags.FOF_ALLOWUNDO);
+            fileOperation.SetOperationFlags(FILEOP_FLAGS.FOF_ALLOWUNDO);
         }
 
         public void Dispose()
@@ -98,7 +83,5 @@ namespace FileExplorer.Native
                 Marshal.FinalReleaseComObject(fileOperation);
             }
         }
-
-        private static readonly Type fileOperationType = Type.GetTypeFromCLSID(new Guid(Constants.FileOperationGuid));
     }
 }

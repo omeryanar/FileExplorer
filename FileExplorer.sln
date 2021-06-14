@@ -13,6 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{609B
 		Library\LiteDB.dll = Library\LiteDB.dll
 		Library\Mono.Cecil.dll = Library\Mono.Cecil.dll
 		Library\NLog.dll = Library\NLog.dll
+		Library\Vanara.Core.dll = Library\Vanara.Core.dll
+		Library\Vanara.PInvoke.ComCtl32.dll = Library\Vanara.PInvoke.ComCtl32.dll
+		Library\Vanara.PInvoke.Kernel32.dll = Library\Vanara.PInvoke.Kernel32.dll
+		Library\Vanara.PInvoke.Ole.dll = Library\Vanara.PInvoke.Ole.dll
+		Library\Vanara.PInvoke.Shared.dll = Library\Vanara.PInvoke.Shared.dll
+		Library\Vanara.PInvoke.Shell32.dll = Library\Vanara.PInvoke.Shell32.dll
+		Library\Vanara.PInvoke.ShlwApi.dll = Library\Vanara.PInvoke.ShlwApi.dll
+		Library\Vanara.PInvoke.User32.dll = Library\Vanara.PInvoke.User32.dll
 	EndProjectSection
 EndProject
 Global

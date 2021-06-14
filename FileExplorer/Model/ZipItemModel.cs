@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DevExpress.Compression;
+using FileExplorer.Core;
+using FileExplorer.Helpers;
 
 namespace FileExplorer.Model
 {
@@ -32,7 +34,7 @@ namespace FileExplorer.Model
         public ZipItemModel(ZipItem zipItem)
         {
             ZipItem = zipItem;
-            Icon = zipItem.Attributes.HasFlag(FileAttributes.Directory) ? Folder : File;
+            Icon = zipItem.Attributes.HasFlag(FileAttributes.Directory) ? Folder : FileSystemImageHelper.GetImage(zipItem.Name, IconSize.Small);
 
             string[] items = zipItem.Name.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -40,8 +42,6 @@ namespace FileExplorer.Model
             Path = String.Join("/", items);
             Parent = String.Join("/", items.Take(items.Length - 1));
         }
-
-        protected static ImageSource File = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/File16.png"));
 
         protected static ImageSource Folder = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/NewFolder16.png"));
     }

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 using DevExpress.Xpf.Core;
+using FileExplorer.Properties;
 
 namespace FileExplorer.View
 {
@@ -8,7 +9,32 @@ namespace FileExplorer.View
     {
         public MainView()
         {
+            if (Settings.Default.WindowState != WindowState.Minimized)
+                WindowState = Settings.Default.WindowState;
+            
+            Top = Settings.Default.WindowTop;
+            Left = Settings.Default.WindowLeft;
+            Width = Settings.Default.WindowWidth;
+            Height = Settings.Default.WindowHeight;
+
             InitializeComponent();
+
+            StateChanged += (s, e) =>
+            {
+                Settings.Default.WindowState = WindowState;
+            };
+
+            SizeChanged += (s, e) =>
+            {
+                Settings.Default.WindowWidth = Width;
+                Settings.Default.WindowHeight = Height;
+            };
+
+            LocationChanged += (s, e) =>
+            {
+                Settings.Default.WindowTop = Top;
+                Settings.Default.WindowLeft = Left;
+            };
         }
 
         private void OnTabDragOver(object sender, DragEventArgs e)

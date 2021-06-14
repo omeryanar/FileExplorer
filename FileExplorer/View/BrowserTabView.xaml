@@ -37,6 +37,12 @@
 
     <dx:LoadingDecorator>
         <dxlc:DockLayoutControl>
+            <dxlc:DockLayoutControl.ItemSizerStyle>
+                <Style TargetType="dxlc:ElementSizer">
+                    <EventSetter Event="PreviewMouseDoubleClick" Handler="ElementSizer_PreviewMouseDoubleClick" />
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ElementSizer_PreviewMouseLeftButtonUp" />
+                </Style>
+            </dxlc:DockLayoutControl.ItemSizerStyle>
             <dxr:RibbonControl dxlc:DockLayoutControl.Dock="Top" RibbonTitleBarVisibility="Collapsed" RibbonStyle="Office2019" ToolbarShowMode="Hide"
                                ShowApplicationButton="False" AllowCustomization="False" IsSimplified="{Binding Settings.SimplifiedRibbon, Mode=TwoWay}">
                 <dxr:RibbonDefaultPageCategory>
@@ -400,11 +406,11 @@
                     </dxe:ButtonEdit>
                 </StackPanel>
             </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Margin="3" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="400" MaxWidth="800"
+            <dxlc:LayoutGroup Margin="3" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.LeftPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                               Visibility="{Binding Settings.ShowNavigationPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
                 <controls:FileTreeViewControl />
             </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Right" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="400">
+            <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Right" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.RightPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
                 <dxlc:LayoutGroup.Visibility>
                     <MultiBinding Converter="{common:RightPaneVisibilityConverter}">
                         <Binding Path="SelectedItem" ElementName="FileList" />

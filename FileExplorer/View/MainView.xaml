@@ -4,7 +4,7 @@
                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                    xmlns:common="clr-namespace:FileExplorer.Core"
-                   ShowTitle="False" ShowIcon="False" WindowState="Maximized"
+                   ShowTitle="False" ShowIcon="False"
                    HeaderIndentInNormalState="0" HeaderIndentInMaximizedState="0"
                    Title="{Binding SelectedItem.DataContext.Title, ElementName=MainTabControl}"
                    Icon="{Binding SelectedItem.DataContext.CurrentFolder.MediumIcon, ElementName=MainTabControl}">
@@ -20,7 +20,7 @@
         <dx:DXTabControl.ItemHeaderTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding DataContext.CurrentFolder.SmallIcon, RelativeSource={RelativeSource AncestorType=dx:DXTabItem}}" />
+                    <Image Width="16" Height="16" Source="{Binding DataContext.CurrentFolder.SmallIcon, RelativeSource={RelativeSource AncestorType=dx:DXTabItem}}" />
                     <TextBlock Margin="10,0,0,0" DataContext="{Binding DataContext.CurrentFolder, RelativeSource={RelativeSource AncestorType=dx:DXTabItem}}" Text="{Binding}">
                         <TextBlock.ToolTip>
                             <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">

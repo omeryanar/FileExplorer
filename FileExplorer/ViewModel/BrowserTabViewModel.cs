@@ -191,6 +191,9 @@ namespace FileExplorer.ViewModel
             Settings.Default.ShowRowNumbers = Settings.ShowRowNumbers;
             Settings.Default.SimplifiedRibbon = Settings.SimplifiedRibbon;
 
+            Settings.Default.LeftPaneWidth = Settings.LeftPaneWidth;
+            Settings.Default.RightPaneWidth = Settings.RightPaneWidth;
+
             Settings.Default.Save();
         }
 
