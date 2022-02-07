@@ -102,7 +102,7 @@ You can print folder contents with all the customizations you make or export the
 
 ### Standard&Touch Themes
 
-File Explorer comes with 6 standard and 4 touch themes.
+File Explorer comes with 6 standard and 4 touch themes, including Visual Studio Light & Dark Themes.
 
 ![Themes](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Themes.png?raw=true)
 
