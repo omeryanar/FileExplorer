@@ -3,10 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+    xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
+    xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
     xmlns:dxet="http://schemas.devexpress.com/winfx/2008/xaml/editors/themekeys"
-    xmlns:dxci="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
-    xmlns:dxwuit="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/themekeys"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:viewmodels="clr-namespace:FileExplorer.ViewModel">
@@ -91,7 +93,7 @@
                             <Label x:Name="ButtonLabel" Content="{TemplateBinding Content}" />
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="ButtonLabel" Property="Foreground" Value="{dxci:ThemeResource {dxwuit:AppBarElementsThemeKey ResourceKey=Background}}" />
+                                    <Setter TargetName="ButtonLabel" Property="Foreground" Value="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Focused}}" />
                                 </Trigger>
                                 <Trigger Property ="IsPressed" Value ="True">
                                     <Setter Property="FontSize" Value="12" />
@@ -104,14 +106,14 @@
         </ResourceDictionary>
         <ResourceDictionary>
             <DataTemplate x:Key="DragDropHintTemplate">
-                <Border Padding="5" BorderThickness="{dxci:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=BorderThickness}}"
-                        BorderBrush="{dxci:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=BorderBrush}}" Background="{dxci:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=Background}}">
+                <Border Padding="5" BorderThickness="{dxi:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=BorderThickness}}"
+                        BorderBrush="{dxi:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=BorderBrush}}" Background="{dxi:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=Background}}">
                     <StackPanel>
                         <dxe:ListBoxEdit ShowBorder="False" ItemsSource="{Binding Records}">
                             <dxe:ListBoxEdit.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding SmallIcon}" />
+                                        <Image Width="16" Height="16" Source="{Binding SmallIcon}" />
                                         <TextBlock Margin="5,0,0,0" Text="{Binding Name}" />
                                     </StackPanel>
                                 </DataTemplate>
@@ -120,7 +122,7 @@
                         <StackPanel Visibility="{Binding DropPosition, Converter={dxmvvm:NumericToVisibilityConverter}}">
                             <TextBlock Margin="20,5" FontSize="16" Text="{StaticResource IconDown}" Style="{StaticResource IconText}" />
                             <StackPanel Margin="4" Orientation="Horizontal">
-                                <Image Source="{Binding TargetRecord.SmallIcon}" />
+                                <Image Width="16" Height="16" Source="{Binding TargetRecord.SmallIcon}" />
                                 <TextBlock Margin="5,0,0,0" Text="{Binding TargetRecord.Name}" />
                             </StackPanel>
                         </StackPanel>
@@ -149,6 +151,58 @@
                     </tb:TaskbarIcon.ContextMenu>
                 </tb:TaskbarIcon>
             </UserControl>
+        </ResourceDictionary>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="CaptionBorderTemplate" TargetType="{x:Type dxr:RibbonCheckedBorderControl}">
+                <Grid x:Name="PART_Root" Background="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Window.Background}}">
+                    <Border x:Name="IsDefault" Margin="14,0" Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,3" />
+                    <ContentPresenter />
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetName="IsDefault" Storyboard.TargetProperty="Margin" From="14,0" To="0" Duration="0:0:0.2" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetName="IsDefault" Storyboard.TargetProperty="Margin" From="0" To="14,0" Duration="0:0:0.2" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.ExitActions>
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter TargetName="IsDefault" Property="BorderBrush" Value="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Focused}}" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <Style TargetType="{x:Type dxr:RibbonPageCaptionControl}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{DXBinding '@s.($dx:ThemeManager.TreeWalker).ThemeName.Contains(`VS2017Dark`)'}" Value="True">
+                        <Setter Property="BorderTemplate" Value="{StaticResource CaptionBorderTemplate}" />
+                        <Setter Property="HighlightedBorderTemplate" Value="{StaticResource CaptionBorderTemplate}" />
+                        <Setter Property="BorderTemplateInMinimizedRibbon" Value="{StaticResource CaptionBorderTemplate}" />                        
+                        <Setter Property="HighlightedBorderTemplateInMinimizedRibbon" Value="{StaticResource CaptionBorderTemplate}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type dxb:BarCheckItem}">
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Value="True" />
+                            <Condition Binding="{DXBinding '@s.($dx:ThemeManager.TreeWalker).ThemeName.Contains(`VS2017Dark`)'}" Value="True" />
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.Setters>
+                            <Setter Property="Background" Value="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Focused}}" />
+                        </MultiDataTrigger.Setters>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 

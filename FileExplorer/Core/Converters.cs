@@ -50,13 +50,10 @@ namespace FileExplorer.Core
 
     public class IntToFileSizeConverter : MarkupExtension, IValueConverter
     {
-        const string ByteFormat = "{0:0.0} Bytes";
-
-        const string KiloByteFormat = "{0:0.0} KB";
-
-        const string MegaByteFormat = "{0:0.0} MB";
-
-        const string GigaByteFormat = "{0:0.0} GB";
+        private const string ByteFormat = "{0:0.0} Bytes";
+        private const string KiloByteFormat = "{0:0.0} KB";
+        private const string MegaByteFormat = "{0:0.0} MB";
+        private const string GigaByteFormat = "{0:0.0} GB";
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

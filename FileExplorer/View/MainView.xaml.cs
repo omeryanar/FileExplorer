@@ -11,7 +11,7 @@ namespace FileExplorer.View
         {
             if (Settings.Default.WindowState != WindowState.Minimized)
                 WindowState = Settings.Default.WindowState;
-            
+
             Top = Settings.Default.WindowTop;
             Left = Settings.Default.WindowLeft;
             Width = Settings.Default.WindowWidth;

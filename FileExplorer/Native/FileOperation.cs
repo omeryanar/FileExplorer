@@ -15,12 +15,12 @@ namespace FileExplorer.Native
             fileOperation = (IFileOperation)Activator.CreateInstance(typeof(CFileOperations));
             fileOperation.SetOperationFlags(FILEOP_FLAGS.FOF_NOCONFIRMMKDIR);
             fileOperation.SetOwnerWindow(SafeNativeMethods.GetActiveWindowHandle());
-        }        
+        }
 
         public static string GetParsingName(string source)
         {
             IShellItem sourceItem = SafeNativeMethods.CreateShellItem(source);
-                
+
             return sourceItem?.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
         }
 

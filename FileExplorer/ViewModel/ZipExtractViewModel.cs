@@ -12,7 +12,7 @@ namespace FileExplorer.ViewModel
     {
         public virtual FileModel FileModel { get; set; }
 
-        public virtual double MaxProgress { get; protected set; }        
+        public virtual double MaxProgress { get; protected set; }
 
         public virtual List<ZipItemModel> ZipItemModelList { get; protected set; }
 
@@ -52,7 +52,7 @@ namespace FileExplorer.ViewModel
                     MessageResult skip = await Extract(zipItem);
                     if (skip == MessageResult.Cancel)
                         break;
-                }  
+                }
             }
         }
 
@@ -71,7 +71,7 @@ namespace FileExplorer.ViewModel
             }
             catch (WrongPasswordException)
             {
-                skip = MessageBoxService.ShowMessage(String.Format("{0}\r\n\r\n{1}", Properties.Resources.WrongPasswordMessage, zipItem.Name), 
+                skip = MessageBoxService.ShowMessage(String.Format("{0}\r\n\r\n{1}", Properties.Resources.WrongPasswordMessage, zipItem.Name),
                     Properties.Resources.WrongPassword, MessageButton.YesNoCancel, MessageIcon.Error);
 
                 if (skip == MessageResult.No)

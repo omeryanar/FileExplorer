@@ -284,8 +284,11 @@
                         <dxr:RibbonPageGroup Caption="{Binding StandardThemes, Source={StaticResource ResourceProvider}}">
                             <dxr:RibbonGalleryBarItem Content="{Binding CurrentItem.DisplayName}" Glyph="{Binding CurrentItem.Theme.SvgGlyph}">
                                 <dxmvvm:Interaction.Behaviors>
-                                    <dxr:RibbonGalleryItemThemeSelectorBehavior ThemesCollection="{Binding DataContext.ThemeCollection, RelativeSource={RelativeSource AncestorType=dxr:RibbonControl}}" />
+                                    <dxr:RibbonGalleryItemThemeSelectorBehavior  ThemesCollection="{Binding DataContext.ThemeCollection, RelativeSource={RelativeSource AncestorType=dxr:RibbonControl}}" />
                                 </dxmvvm:Interaction.Behaviors>
+                                <dxr:RibbonGalleryBarItem.Gallery>
+                                    <dxb:Gallery ColCount="4" SizeMode="Both" />
+                                </dxr:RibbonGalleryBarItem.Gallery>
                             </dxr:RibbonGalleryBarItem>
                             <dxr:RibbonGalleryBarItem>
                                 <dxmvvm:Interaction.Behaviors>
@@ -298,6 +301,9 @@
                                 <dxmvvm:Interaction.Behaviors>
                                     <dxr:RibbonGalleryItemThemeSelectorBehavior ThemesCollection="{Binding DataContext.TouchThemeCollection, RelativeSource={RelativeSource AncestorType=dxr:RibbonControl}}" />
                                 </dxmvvm:Interaction.Behaviors>
+                                <dxr:RibbonGalleryBarItem.Gallery>
+                                    <dxb:Gallery ColCount="4" SizeMode="Both" />
+                                </dxr:RibbonGalleryBarItem.Gallery>
                             </dxr:RibbonGalleryBarItem>
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>

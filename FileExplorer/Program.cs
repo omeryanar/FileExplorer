@@ -49,7 +49,7 @@ namespace FileExplorer
         {
             CultureInfo currentCulture = new CultureInfo(Settings.Default.Language);
             CultureResources.ChangeCulture(currentCulture);
-            
+
             Thread.CurrentThread.CurrentCulture = currentCulture;
             Thread.CurrentThread.CurrentUICulture = currentCulture;
 

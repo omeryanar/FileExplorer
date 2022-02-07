@@ -388,7 +388,9 @@ namespace FileExplorer.Core
                 Theme.Office2019White,
                 Theme.Office2019Black,
                 Theme.Office2019DarkGray,
-                Theme.Office2019Colorful
+                Theme.Office2019Colorful,
+                Theme.VS2017Light,
+                Theme.VS2017Dark
             };
 
             ICollectionView themes = CollectionViewSource.GetDefaultView(themeList.Select(x => new ThemeViewModel(x)).ToList());

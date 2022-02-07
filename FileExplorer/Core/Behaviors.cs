@@ -430,16 +430,18 @@ namespace FileExplorer.Core
 
         private void AssociatedObject_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            DependencyObject target = e.OriginalSource as DependencyObject;
+            GridViewHitInfoBase hitInfo = AssociatedObject.View.CalcHitInfo(target);
+
             if (e.ClickCount == 2)
             {
                 Reset();
-                ExecuteCommand(DoubleClickCommand);
+
+                if (hitInfo != null && hitInfo.RowHandle >= 0)
+                    ExecuteCommand(DoubleClickCommand);
             }
             else
             {
-                DependencyObject target = e.OriginalSource as DependencyObject;
-                GridViewHitInfoBase hitInfo = AssociatedObject.View.CalcHitInfo(target);
-
                 if (hitInfo != null && hitInfo.RowHandle >= 0)
                 {
                     object row = AssociatedObject.GetRow(hitInfo.RowHandle);
