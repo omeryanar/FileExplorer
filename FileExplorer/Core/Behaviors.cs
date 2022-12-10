@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -52,21 +51,12 @@ namespace FileExplorer.Core
         }
     }
 
-    public class DynamicTreeLoadBehavior : Behavior<TreeListView>
+    public class ExpandFocusedNodeBehavior : Behavior<TreeListView>
     {
         protected override void OnAttached()
         {
             base.OnAttached();
-
-            AssociatedObject.AllowRecreateNodesOnEndDataUpdate = false;
-
-            AssociatedObject.NodeExpanded += AssociatedObject_NodeExpanded;
             AssociatedObject.DataControl.CurrentItemChanged += DataControl_CurrentItemChanged;
-
-            AssociatedObject.NodeExpanding += (s, e) => { e.Allow = !IsUpdating; };
-            AssociatedObject.NodeCollapsing += (s, e) => { e.Allow = !IsUpdating; };
-
-            DataControlReferences.Add(new WeakReference<DataControlBase>(AssociatedObject.DataControl));
         }
 
         protected override void OnDetaching()
@@ -74,100 +64,11 @@ namespace FileExplorer.Core
             base.OnDetaching();
         }
 
-        private async void AssociatedObject_NodeExpanded(object sender, TreeListNodeEventArgs e)
+        private void DataControl_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
         {
-            if (!IsUpdating && e.Node != AssociatedObject.FocusedNode && e.Node.Content is FileModel fileModel)
-                await UpdateSubFolders(fileModel);
-        }
-
-        private async void DataControl_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
-        {
-            if (!IsUpdating && e.NewItem is FileModel fileModel)
-                await UpdateSubFolders(fileModel);
-
             if (AssociatedObject.FocusedNode != null)
                 AssociatedObject.FocusedNode.IsExpanded = true;
         }
-
-        private static async Task UpdateSubFolders(FileModel fileModel)
-        {
-            if (fileModel.Folders == null)
-            {
-                try
-                {
-                    BeginDataUpdate();
-                    fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
-                }
-                finally
-                {
-                    EndDataUpdate();
-                }
-            }
-
-            if (fileModel.Folders.Any(x => x.Folders == null))
-                UpdateSubFolders(fileModel.Folders);
-        }
-
-        private static async void UpdateSubFolders(FileModelCollection collection)
-        {
-            Dictionary<FileModel, FileModelCollection> folders = new Dictionary<FileModel, FileModelCollection>();
-
-            foreach (FileModel fileModel in collection)
-            {
-                if (fileModel.Folders == null)
-                    folders.Add(fileModel, await FileSystemHelper.GetFolders(fileModel));
-            }
-
-            try
-            {                
-                BeginDataUpdate();
-
-                foreach (FileModel fileModel in folders.Keys)
-                    fileModel.Folders = folders[fileModel];
-            }
-            finally
-            {
-                EndDataUpdate();                
-            }
-        }        
-
-        private static void BeginDataUpdate()
-        {
-            IsUpdating = true;
-
-            List<WeakReference<DataControlBase>> deadReferences = new List<WeakReference<DataControlBase>>();
-            foreach (WeakReference<DataControlBase> reference in DataControlReferences)
-            {
-                if (reference.TryGetTarget(out DataControlBase dataControl))
-                    dataControl.BeginDataUpdate();
-                else
-                    deadReferences.Add(reference);
-            }
-
-            if (deadReferences.Count > 0)
-                deadReferences.ForEach(x => DataControlReferences.Remove(x));
-        }
-
-        private static void EndDataUpdate()
-        {
-            List<WeakReference<DataControlBase>> deadReferences = new List<WeakReference<DataControlBase>>();
-            foreach (WeakReference<DataControlBase> reference in DataControlReferences)
-            {
-                if (reference.TryGetTarget(out DataControlBase dataControl))
-                    dataControl.EndDataUpdate();
-                else
-                    deadReferences.Add(reference);
-            }
-
-            if (deadReferences.Count > 0)
-                deadReferences.ForEach(x => DataControlReferences.Remove(x));
-
-            IsUpdating = false;
-        }
-
-        private static readonly List<WeakReference<DataControlBase>> DataControlReferences = new List<WeakReference<DataControlBase>>();
-
-        private static bool IsUpdating = false;
     }
 
     public class SortOnlyFocusedNodeBehavior : Behavior<TreeListView>

@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using Alphaleonis.Win32.Filesystem;
 using DevExpress.Mvvm;
-using DevExpress.Mvvm.POCO;
+using DevExpress.Mvvm.CodeGenerators;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
 using FileExplorer.Messages;
@@ -13,39 +13,56 @@ using FileExplorer.Resources;
 
 namespace FileExplorer.Model
 {
-    public class FileModel
+    [GenerateViewModel]
+    public partial class FileModel
     {
-        public virtual long Size { get; set; }
+        [GenerateProperty]
+        private long size;
 
-        public virtual long FreeSpace { get; set; }
+        [GenerateProperty]
+        private long freeSpace;
 
-        public virtual string Name { get; set; }
+        [GenerateProperty]
+        private string name;
 
-        public virtual string FullName { get; set; }
+        [GenerateProperty]
+        private string fullName;
 
-        public virtual string FullPath { get; set; }
+        [GenerateProperty]
+        private string fullPath;
 
-        public virtual string ParentName { get; set; }
+        [GenerateProperty]
+        private string parentName;
 
-        public virtual string ParentPath { get; set; }
+        [GenerateProperty]
+        private string parentPath;
 
-        public virtual string Extension { get; set; }
+        [GenerateProperty]
+        private string extension;
 
-        public virtual string Description { get; set; }
+        [GenerateProperty]
+        private string description;
 
-        public virtual DateTime DateCreated { get; set; }
+        [GenerateProperty]
+        private DateTime dateCreated;
 
-        public virtual DateTime DateModified { get; set; }
+        [GenerateProperty]
+        private DateTime dateModified;
 
-        public virtual DateTime DateAccessed { get; set; }
+        [GenerateProperty]
+        private DateTime dateAccessed;
 
-        public virtual object Tag { get; set; }
+        [GenerateProperty]
+        private object tag;
 
-        public virtual FileModel Parent { get; set; }
+        [GenerateProperty]
+        private FileModel parent;
 
-        public virtual FileModelCollection Files { get; set; }
+        [GenerateProperty]
+        private FileModelCollection files;
 
-        public virtual FileModelCollection Folders { get; set; }
+        [GenerateProperty]
+        private FileModelCollection folders;
 
         public bool IsDirectory { get; internal set; }
 
@@ -272,7 +289,7 @@ namespace FileExplorer.Model
 
         private static FileModel Create(string path)
         {
-            FileModel fileModel = ViewModelSource.Create<FileModel>();
+            FileModel fileModel = new FileModel();
 
             switch (path)
             {

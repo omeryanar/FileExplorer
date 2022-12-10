@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.181
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileExplorer", "FileExplorer\FileExplorer.csproj", "{99DEFCA0-AAA5-43C1-BEC2-899F2F06BC22}"
 EndProject
@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{609B
 	ProjectSection(SolutionItems) = preProject
 		Library\AlphaFS.dll = Library\AlphaFS.dll
 		Library\CommandLine.dll = Library\CommandLine.dll
+		Library\DevExpress.Mvvm.CodeGenerators.dll = Library\DevExpress.Mvvm.CodeGenerators.dll
 		Library\Hardcodet.Wpf.TaskbarNotification.dll = Library\Hardcodet.Wpf.TaskbarNotification.dll
 		Library\LiteDB.dll = Library\LiteDB.dll
 		Library\Mono.Cecil.dll = Library\Mono.Cecil.dll
