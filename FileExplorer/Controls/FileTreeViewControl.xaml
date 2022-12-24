@@ -9,10 +9,6 @@
                      xmlns:controls="clr-namespace:FileExplorer.Controls"
                      ShowBorder="False" ItemsSource="{Binding RootFolders}" CurrentItem="{Binding CurrentFolder}" FixedFilter="{Binding FilterCriteria}">
 
-    <dxg:TreeListControl.Resources>
-        <common:AsyncChildNodesSelector x:Key="AsyncChildNodesSelector"/>
-    </dxg:TreeListControl.Resources>
-    
     <dxmvvm:Interaction.Behaviors>
         <common:MouseEventToCommand MouseButton="Middle" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
                                     MarkRoutedEventsAsHandled="True" Command="{Binding OpenInNewTabCommand}">
@@ -42,13 +38,12 @@
     <dxg:TreeListControl.View>
         <controls:TreeListViewEx ShowColumnHeaders="False" ShowHorizontalLines="False" ShowVerticalLines="False" AutoWidth="True"
                                  AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}" 
-                                 TreeDerivationMode="ChildNodesSelector" ChildNodesSelector="{StaticResource AsyncChildNodesSelector}"
-                                 ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True" IsSynchronizedWithCurrentItem="True"
+                                 TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Folders" AllowChildNodeSourceUpdates="True"
+                                 ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True" ExpandStateFieldName="IsExpanded"
                                  ShowIndicator="False" AutoExpandAllNodes="False" RowIndent="20" AllowEditing="False" ShowFilterPanelMode="Never" ShowSearchPanelMode="Never"
                                  NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True">
             <dxmvvm:Interaction.Behaviors>
                 <common:DragDropFilesBehavior />
-                <common:ExpandFocusedNodeBehavior />
                 <common:SortOnlyFocusedNodeBehavior />
                 <common:SortOrderOnHeaderClickBehavior />
             </dxmvvm:Interaction.Behaviors>

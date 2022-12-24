@@ -631,4 +631,10 @@
   <data name="Network" xml:space="preserve">
     <value>Network</value>
   </data>
+  <data name="ExpandToOpenFolder" xml:space="preserve">
+    <value>Expand To Open Folder</value>
+  </data>
+  <data name="ShowNavigationPane" xml:space="preserve">
+    <value>Show Navigation Pane</value>
+  </data>
 </root>

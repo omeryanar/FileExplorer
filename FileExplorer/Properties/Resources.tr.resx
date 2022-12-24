@@ -279,6 +279,9 @@
   <data name="Exit" xml:space="preserve">
     <value>Çıkış</value>
   </data>
+  <data name="ExpandToOpenFolder" xml:space="preserve">
+    <value>Açık Klasörü Genişlet</value>
+  </data>
   <data name="Expression" xml:space="preserve">
     <value>İfade</value>
   </data>
@@ -561,6 +564,9 @@
   </data>
   <data name="ShowHide" xml:space="preserve">
     <value>Göster / Gizle</value>
+  </data>
+  <data name="ShowNavigationPane" xml:space="preserve">
+    <value>Gezinti Bölmesi'ni Göster</value>
   </data>
   <data name="ShowRowNumbers" xml:space="preserve">
     <value>Satır Numaralarını Göster</value>

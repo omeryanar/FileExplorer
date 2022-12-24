@@ -125,9 +125,7 @@ namespace FileExplorer.Native
             { KnownFolder.Videos, new Guid("{18989B1D-99B5-455B-841C-AB7C74E4DDFC}") }
         };
 
-        private const KNOWN_FOLDER_FLAG KnownFolderGetFlags =
-            KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT_PATH | KNOWN_FOLDER_FLAG.KF_FLAG_NOT_PARENT_RELATIVE |
-            KNOWN_FOLDER_FLAG.KF_FLAG_NO_ALIAS | KNOWN_FOLDER_FLAG.KF_FLAG_DONT_VERIFY;
+        private const KNOWN_FOLDER_FLAG KnownFolderGetFlags = KNOWN_FOLDER_FLAG.KF_FLAG_NO_ALIAS | KNOWN_FOLDER_FLAG.KF_FLAG_DONT_VERIFY;
     }
 
     public enum KnownFolder

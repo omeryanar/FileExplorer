@@ -1,6 +1,8 @@
-﻿using DevExpress.Data.TreeList;
+﻿using System.Windows;
+using DevExpress.Data.TreeList;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Grid.TreeList;
+using FileExplorer.Properties;
 
 namespace FileExplorer.Controls
 {
@@ -33,12 +35,27 @@ namespace FileExplorer.Controls
     {
         public TreeListDataProviderEx(TreeListViewEx view) : base(view)
         {
+            view.PreviewMouseDown += (s, e) =>
+            {
+                DependencyObject target = e.OriginalSource as DependencyObject;
+                TreeListViewHitInfo hitInfo = view.CalcHitInfo(target);
+                if (hitInfo.InNodeExpandButton || hitInfo.InRow)
+                    allowExpandNode = true;
+            };
+
+            view.NodeExpanding += (s, e) => 
+            {
+                e.Allow = allowExpandNode || Settings.Default.ExpandFocusedNode;
+                allowExpandNode = false;
+            };
         }
         
         protected override TreeListDataController CreateDataController()
         {
             return new TreeListDataControllerEx(this);
         }
+
+        private bool allowExpandNode;
     }
 
     public class TreeListDataControllerEx : TreeListDataController
@@ -57,5 +74,5 @@ namespace FileExplorer.Controls
             else
                 treeListView.RaiseNodeCollapsed(treeListNode);
         }
-    } 
+    }
 }

@@ -180,6 +180,7 @@ namespace FileExplorer.ViewModel
         public void SaveSettings()
         {
             Settings.Default.ShowNavigationPane = Settings.ShowNavigationPane;
+            Settings.Default.ExpandFocusedNode = Settings.ExpandFocusedNode;
             Settings.Default.ShowDetailsPane = Settings.ShowDetailsPane;
             Settings.Default.ShowPreviewPane = Settings.ShowPreviewPane;
 
@@ -274,6 +275,7 @@ namespace FileExplorer.ViewModel
                 if (CurrentFolder.Folders == null)
                     CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
 
+                CurrentFolder.IsExpanded = true;
                 DisplayItems = new FileModelCollection(CurrentFolder.Folders.Concat(CurrentFolder.Files));
 
             }
@@ -289,6 +291,7 @@ namespace FileExplorer.ViewModel
                 CurrentFolder.Files = await FileSystemHelper.GetFiles(CurrentFolder);
                 CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
 
+                CurrentFolder.IsExpanded = true;
                 DisplayItems = new FileModelCollection(CurrentFolder.Folders.Concat(CurrentFolder.Files));
 
             }

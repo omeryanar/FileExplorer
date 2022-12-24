@@ -39,7 +39,7 @@ namespace FileExplorer.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FileExplorer.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -543,6 +543,15 @@ namespace FileExplorer.Properties {
         public static string Exit {
             get {
                 return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand To Open Folder.
+        /// </summary>
+        public static string ExpandToOpenFolder {
+            get {
+                return ResourceManager.GetString("ExpandToOpenFolder", resourceCulture);
             }
         }
         
@@ -1390,6 +1399,15 @@ namespace FileExplorer.Properties {
         public static string ShowHide {
             get {
                 return ResourceManager.GetString("ShowHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Navigation Pane.
+        /// </summary>
+        public static string ShowNavigationPane {
+            get {
+                return ResourceManager.GetString("ShowNavigationPane", resourceCulture);
             }
         }
         

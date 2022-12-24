@@ -165,8 +165,13 @@
                     </dxr:RibbonPage>
                     <dxr:RibbonPage Caption="{Binding View, Source={StaticResource ResourceProvider}}">
                         <dxr:RibbonPageGroup Caption="{Binding Panes, Source={StaticResource ResourceProvider}}">
-                            <dxb:BarCheckItem Content="{Binding NavigationPane, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.ShowNavigationPane}"
-                                              Glyph="/Assets/Images/NavigationPane16.png" LargeGlyph="/Assets/Images/NavigationPane32.png" />
+                            <dxb:BarSplitButtonItem Content="{Binding NavigationPane, Source={StaticResource ResourceProvider}}" ActAsDropDown="True"
+                                              Glyph="/Assets/Images/NavigationPane16.png" LargeGlyph="/Assets/Images/NavigationPane32.png">
+                                <dxb:PopupMenu>
+                                    <dxb:BarCheckItem Content="{Binding ShowNavigationPane, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.ShowNavigationPane}" />
+                                    <dxb:BarCheckItem Content="{Binding ExpandToOpenFolder, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.ExpandFocusedNode}" />
+                                </dxb:PopupMenu>
+                            </dxb:BarSplitButtonItem>
                             <dxb:BarCheckItem Content="{Binding PreviewPane, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.ShowPreviewPane}"
                                               Glyph="/Assets/Images/PreviewPane16.png" />
                             <dxb:BarCheckItem Content="{Binding DetailsPane, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.ShowDetailsPane}"

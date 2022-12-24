@@ -51,26 +51,6 @@ namespace FileExplorer.Core
         }
     }
 
-    public class ExpandFocusedNodeBehavior : Behavior<TreeListView>
-    {
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            AssociatedObject.DataControl.CurrentItemChanged += DataControl_CurrentItemChanged;
-        }
-
-        protected override void OnDetaching()
-        {
-            base.OnDetaching();
-        }
-
-        private void DataControl_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
-        {
-            if (AssociatedObject.FocusedNode != null)
-                AssociatedObject.FocusedNode.IsExpanded = true;
-        }
-    }
-
     public class SortOnlyFocusedNodeBehavior : Behavior<TreeListView>
     {
         protected override void OnAttached()

@@ -53,6 +53,9 @@ namespace FileExplorer.Model
         private DateTime dateAccessed;
 
         [GenerateProperty]
+        private bool isExpanded;
+
+        [GenerateProperty]
         private object tag;
 
         [GenerateProperty]

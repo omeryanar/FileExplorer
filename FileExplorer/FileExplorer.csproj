@@ -36,6 +36,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>FileExplorer</RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlphaFS">
       <HintPath>..\Library\AlphaFS.dll</HintPath>
@@ -193,7 +196,6 @@
     <Compile Include="Controls\MenuSubItemControl.xaml.cs">
       <DependentUpon>MenuSubItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\AsyncChildNodesSelector.cs" />
     <Compile Include="Core\Attached.cs" />
     <Compile Include="Core\Behaviors.cs" />
     <Compile Include="Core\Common.cs" />

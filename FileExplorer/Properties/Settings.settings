@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FileExplorer.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="ShowFileExtensions" Type="System.Boolean" Scope="User">
@@ -85,6 +85,9 @@
     </Setting>
     <Setting Name="WindowState" Type="System.Windows.WindowState" Scope="User">
       <Value Profile="(Default)">Maximized</Value>
+    </Setting>
+    <Setting Name="ExpandFocusedNode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
