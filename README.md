@@ -4,7 +4,7 @@ File Explorer is a windows file manager application that has an interface simila
 However, it browses and searches folders with many files faster than windows explorer.
 It also has many features that are not available in windows explorer.
 
-File Explorer is portable (requires .NET Framework 4.5.2), extract the ZIP file below and start using it.
+File Explorer is portable (requires .NET Framework 4.8), extract the ZIP file below and start using it.
 https://github.com/omeryanar/FileExplorer/releases/latest/download/FileExplorer.zip
 
 ## Features
