@@ -275,7 +275,6 @@ namespace FileExplorer.ViewModel
                 if (CurrentFolder.Folders == null)
                     CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
 
-                CurrentFolder.IsExpanded = true;
                 DisplayItems = new FileModelCollection(CurrentFolder.Folders.Concat(CurrentFolder.Files));
 
             }
@@ -291,7 +290,6 @@ namespace FileExplorer.ViewModel
                 CurrentFolder.Files = await FileSystemHelper.GetFiles(CurrentFolder);
                 CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
 
-                CurrentFolder.IsExpanded = true;
                 DisplayItems = new FileModelCollection(CurrentFolder.Folders.Concat(CurrentFolder.Files));
 
             }

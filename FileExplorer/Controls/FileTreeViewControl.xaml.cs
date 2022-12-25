@@ -21,6 +21,22 @@ namespace FileExplorer.Controls
             return new TreeListDataProviderEx(this);
         }
 
+        protected override void OnFocusedNodeChanged()
+        {
+            base.OnFocusedNodeChanged();
+
+            if (FocusedNode!= null)
+                FocusedNode.IsExpanded = Settings.Default.ExpandFocusedNode;
+        }
+
+        protected override void RaiseNodeChanged(TreeListNode node, NodeChangeType changeType)
+        {
+            base.RaiseNodeChanged(node, changeType);
+
+            if (Settings.Default.ExpandFocusedNode && changeType == NodeChangeType.Content && node == FocusedNode)
+                node.IsExpanded = true;
+        }
+
         public new void RaiseNodeExpanded(TreeListNode node)
         {
             base.RaiseNodeExpanded(node);

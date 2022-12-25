@@ -39,7 +39,7 @@
         <controls:TreeListViewEx ShowColumnHeaders="False" ShowHorizontalLines="False" ShowVerticalLines="False" AutoWidth="True"
                                  AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}" 
                                  TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Folders" AllowChildNodeSourceUpdates="True"
-                                 ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True" ExpandStateFieldName="IsExpanded"
+                                 ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True"
                                  ShowIndicator="False" AutoExpandAllNodes="False" RowIndent="20" AllowEditing="False" ShowFilterPanelMode="Never" ShowSearchPanelMode="Never"
                                  NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True">
             <dxmvvm:Interaction.Behaviors>
