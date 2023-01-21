@@ -44,7 +44,9 @@ namespace FileExplorer.ViewModel
 
         public virtual CriteriaOperator FilterCriteria { get; protected set; }
 
-        public virtual FileModelCollection DisplayItems { get; protected set; }
+        public virtual FileModelCollection SearchResults { get; protected set; }
+
+        public virtual FileModelReadOnlyCollection DisplayItems { get; protected set; }        
 
         public virtual IDialogService DialogService { get { return null; } }        
 
@@ -101,19 +103,22 @@ namespace FileExplorer.ViewModel
 
             Messenger.Default.Register(this, (NotificationMessage message) =>
             {
+                if (SearchResults == null || HighlightedText == null)
+                    return;
+
                 if (message.NotificationType == NotificationType.Add && CurrentFolder.FullPath.OrdinalEquals(FileSystemHelper.GetParentFolderPath(message.Path)))
                 {
                     FileModel fileModel = FileModel.FromPath(message.Path);
-                    if (!DisplayItems.Contains(fileModel))
-                        DisplayItems.Add(fileModel);
+                    if (fileModel.Name.OrdinalContains(HighlightedText) && !SearchResults.Contains(fileModel))
+                        SearchResults.Add(fileModel);
                 }
                 else if (message.NotificationType == NotificationType.Remove && message.Path.OrdinalStartsWith(CurrentFolder.FullPath))
                 {
-                    FileModel fileModel = DisplayItems.FirstOrDefault(x => x.FullPath.OrdinalEquals(message.Path));
+                    FileModel fileModel = SearchResults.FirstOrDefault(x => x.FullPath.OrdinalEquals(message.Path));
                     if (fileModel != null)
-                        DisplayItems.Remove(fileModel);
+                        SearchResults.Remove(fileModel);
                 }
-            });            
+            });
         }        
 
         public void ShowOptions()
@@ -266,6 +271,12 @@ namespace FileExplorer.ViewModel
 
         public async void Show()
         {
+            if (CurrentFolder?.Content != null)
+            {
+                DisplayItems = CurrentFolder.Content;
+                return;
+            }
+
             try
             {
                 IsLoading = true;
@@ -275,7 +286,8 @@ namespace FileExplorer.ViewModel
                 if (CurrentFolder.Folders == null)
                     CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
 
-                DisplayItems = new FileModelCollection(CurrentFolder.Folders.Concat(CurrentFolder.Files));
+                CurrentFolder.Content = new FileModelReadOnlyCollection(CurrentFolder.Folders, CurrentFolder.Files);
+                DisplayItems = CurrentFolder.Content;
 
             }
             finally { IsLoading = false; }
@@ -290,7 +302,8 @@ namespace FileExplorer.ViewModel
                 CurrentFolder.Files = await FileSystemHelper.GetFiles(CurrentFolder);
                 CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
 
-                DisplayItems = new FileModelCollection(CurrentFolder.Folders.Concat(CurrentFolder.Files));
+                CurrentFolder.Content = new FileModelReadOnlyCollection(CurrentFolder.Folders, CurrentFolder.Files);
+                DisplayItems = CurrentFolder.Content;
 
             }
             finally { IsLoading = false; }
@@ -308,22 +321,24 @@ namespace FileExplorer.ViewModel
                     try
                     {
                         IsLoading = true;
-                        DisplayItems = new FileModelCollection();
+
+                        SearchResults = new FileModelCollection();
+                        DisplayItems = new FileModelReadOnlyCollection(SearchResults);
 
                         if (SearchText.OrdinalEquals(HighlightedText))
                             SearchText = String.Format("*{0}*", SearchText);
 
-                        await Search(CurrentFolder.FullPath, DisplayItems, this.GetAsyncCommand(x => x.Search()).CancellationTokenSource);
+                        await Search(CurrentFolder.FullPath, this.GetAsyncCommand(x => x.Search()).CancellationTokenSource);
                     }
                     finally { IsLoading = false; }
                 }
             }
         }
 
-        protected async Task Search(string path, FileModelCollection searchResults, CancellationTokenSource cancellationToken)
+        protected async Task Search(string path, CancellationTokenSource cancellationToken)
         {
             FileModelCollection results = await FileSystemHelper.SearchFolder(path, SearchText);
-            searchResults.AddRange(results);
+            SearchResults.AddRange(results);
 
             string[] childFolders = await FileSystemHelper.GetFolderPaths(path);
             foreach (string childFolder in childFolders)
@@ -331,7 +346,7 @@ namespace FileExplorer.ViewModel
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
-                await Search(childFolder, searchResults, cancellationToken);
+                await Search(childFolder, cancellationToken);
             }
         }
 
@@ -339,7 +354,9 @@ namespace FileExplorer.ViewModel
         {
             if (String.IsNullOrWhiteSpace(SearchText))
             {
-                HighlightedText = null;
+                SearchResults = null;
+                HighlightedText = null;                
+
                 Show();
             }
         }

@@ -198,6 +198,9 @@
   <data name="ConfirmMultipleMove" xml:space="preserve">
     <value>Seçili nesneleri '{0}' konumuna taşımak istiyor musunuz?</value>
   </data>
+  <data name="Content" xml:space="preserve">
+    <value>İçerik</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopyala</value>
   </data>

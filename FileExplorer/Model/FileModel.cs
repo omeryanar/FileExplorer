@@ -64,6 +64,9 @@ namespace FileExplorer.Model
         [GenerateProperty]
         private FileModelCollection folders;
 
+        [GenerateProperty]
+        private FileModelReadOnlyCollection content;
+
         public bool IsDirectory { get; internal set; }
 
         public bool IsDrive { get; internal set; }

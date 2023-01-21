@@ -31,6 +31,12 @@ namespace FileExplorer.Controls
                     SaveLayoutToStream(DefaultLayoutStream);
                 }
             };
+
+            EndSorting += (s, e) =>
+            {
+                if (SelectedItem != null)
+                    View.ScrollIntoView(SelectedItem);
+            };
         }
 
         public void InvertSelection()
@@ -65,7 +71,7 @@ namespace FileExplorer.Controls
             {
                 int startRowHandle = rowHandles[0];
                 int endRowHandle = rowHandles[rowHandles.Length - 1];
-                GridColumn startColumn = gridColumn != null ? gridColumn : tableView.VisibleColumns[1];
+                GridColumn startColumn = gridColumn != null ? gridColumn : tableView.VisibleColumns[0];
                 GridColumn endColumn = gridColumn != null ? gridColumn : tableView.VisibleColumns[tableView.VisibleColumns.Count - 1];
 
                 tableView.CopyCellsToClipboard(startRowHandle, startColumn, endRowHandle, endColumn);
@@ -132,7 +138,9 @@ namespace FileExplorer.Controls
         protected override void InitiallyFocusedRowAfterFiltering(object row)
         {
             base.InitiallyFocusedRowAfterFiltering(row);
-            View.ScrollIntoView(SelectedItem);
+
+            if (SelectedItem != null)
+                View.ScrollIntoView(SelectedItem);
         }
 
         private static MemoryStream DefaultLayoutStream;

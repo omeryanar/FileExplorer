@@ -216,6 +216,7 @@
     <Compile Include="Messages\CommandMessage.cs" />
     <Compile Include="Messages\NotificationMessage.cs" />
     <Compile Include="Model\FileModelCollection.cs" />
+    <Compile Include="Model\FileModelReadOnlyCollection.cs" />
     <Compile Include="Model\ZipItemModel.cs" />
     <Compile Include="Native\DeviceWatcher.cs" />
     <Compile Include="Native\DirectoryWatcher.cs" />
@@ -564,6 +565,9 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\Library\DevExpress.Mvvm.CodeGenerators.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Layout\Content.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

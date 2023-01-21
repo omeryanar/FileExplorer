@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -46,18 +47,18 @@ namespace FileExplorer
 
         public static void ParseArgumentsAndRun(IEnumerable<string> args)
         {
-            Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
+            Parser.Default.ParseArguments<Options>(args).WithParsed(async (options) =>
             {
                 if (options.Shutdown)
                     Current.Shutdown();
                 else if (options.Background)
                     CreateWarmupView();
                 else
-                    CreateMainview(options.Folders);
+                    await CreateMainview(options.Folders);
 
-            }).WithNotParsed(errors =>
+            }).WithNotParsed(async (errors) =>
             {
-                CreateMainview();
+                await CreateMainview();
             });
         }
 
@@ -98,7 +99,7 @@ namespace FileExplorer
             warmupView.Hide();
         }
 
-        private static void CreateMainview(IEnumerable<string> folders = null)
+        private static async Task CreateMainview(IEnumerable<string> folders = null)
         {
             MainView mainView = Current.Windows.OfType<MainView>().FirstOrDefault(x => x.IsActive);
             if (mainView == null)
@@ -113,8 +114,21 @@ namespace FileExplorer
             {
                 foreach (string folder in validFolders)
                 {
-                    FileModel fileModel = FileModel.FromPath(folder);
-                    mainViewModel.CreateNewTab(fileModel);
+                    FileModel selectedFolder = FileModel.FromPath(folder);
+
+                    FileModel fileModel = selectedFolder;
+                    while (fileModel != null)
+                    {
+                        if (!fileModel.IsRoot && fileModel.Parent == null)
+                            fileModel.Parent = FileModel.FromPath(fileModel.ParentPath);
+
+                        fileModel = fileModel.Parent;
+
+                        if (fileModel != null && fileModel.Folders == null)
+                            fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
+                    }
+
+                    mainViewModel.CreateNewTab(selectedFolder);
                 }
             }
             else

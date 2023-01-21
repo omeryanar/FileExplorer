@@ -38,10 +38,10 @@
     <dxg:TreeListControl.View>
         <controls:TreeListViewEx ShowColumnHeaders="False" ShowHorizontalLines="False" ShowVerticalLines="False" AutoWidth="True"
                                  AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}" 
-                                 TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Folders" AllowChildNodeSourceUpdates="True"
-                                 ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True"
+                                 TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Folders" AllowChildNodeSourceUpdates="True" FetchSublevelChildrenOnExpand="True"
+                                 ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True" IsSynchronizedWithCurrentItem="True"
                                  ShowIndicator="False" AutoExpandAllNodes="False" RowIndent="20" AllowEditing="False" ShowFilterPanelMode="Never" ShowSearchPanelMode="Never"
-                                 NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True">
+                                 NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True" EnableDynamicLoading="False">
             <dxmvvm:Interaction.Behaviors>
                 <common:DragDropFilesBehavior />
                 <common:SortOnlyFocusedNodeBehavior />

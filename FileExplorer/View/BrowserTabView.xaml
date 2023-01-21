@@ -194,6 +194,8 @@
                                                              Caption="{Binding List, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Layout/List.png" />
                                             <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.Details'}" IsChecked="{DXBinding 'Layout==$common:Layout.Details'}"
                                                              Caption="{Binding Details, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Layout/Details.png" />
+                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.Content'}" IsChecked="{DXBinding 'Layout==$common:Layout.Content'}"
+                                                             Caption="{Binding Content, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Layout/Content.png" />
                                         </dxb:GalleryItemGroup>
                                     </dxb:Gallery>
                                 </dxr:RibbonGalleryBarItem.Gallery>

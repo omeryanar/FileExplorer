@@ -637,4 +637,7 @@
   <data name="ShowNavigationPane" xml:space="preserve">
     <value>Show Navigation Pane</value>
   </data>
+  <data name="Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
 </root>

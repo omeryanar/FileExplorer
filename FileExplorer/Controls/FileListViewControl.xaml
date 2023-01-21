@@ -17,7 +17,7 @@
     <dxg:GridControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>                    
+                <ResourceDictionary>
                     <Style x:Key="FileIconImageStyle" TargetType="Image">
                         <Setter Property="Margin" Value="3,0" />
                         <Style.Triggers>
@@ -86,7 +86,7 @@
                                                 <Border Style="{StaticResource CardViewBorderStyle}">
                                                     <StackPanel Margin="3" Width="200" Orientation="Horizontal">
                                                         <dxe:CheckEdit Style="{StaticResource CheckBoxSelectorStyle}" />
-                                                        <Image Source="{Binding Row.SmallIcon, IsAsync=True}" Style="{StaticResource FileIconImageStyle}" />                                                        
+                                                        <Image Source="{Binding Row.SmallIcon, IsAsync=True}" Style="{StaticResource FileIconImageStyle}" />
                                                         <dxe:TextEdit Width="175" TextTrimming="CharacterEllipsis" ToolTip="{Binding Row.FullName}" Style="{StaticResource FileNameEditStyle}">
                                                             <dxmvvm:Interaction.Behaviors>
                                                                 <common:TextHighlightingBehavior HighlightedText="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}" />
@@ -194,7 +194,7 @@
                                 </Setter>
                             </DataTrigger>
                         </Style.Triggers>
-                    </Style>                   
+                    </Style>
                 </ResourceDictionary>
                 <ResourceDictionary>
                     <ControlTemplate x:Key="{dxgt:GridCardThemeKey ResourceKey=ContainerTemplate}" TargetType="{x:Type ContentControl}">
@@ -209,10 +209,10 @@
                                    ShowSearchPanelMode="Never" SearchColumns="Name;Extension" ShowSearchPanelResultInfo="True" ShowSearchPanelMRUButton="True"
                                    ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
                                    CheckBoxSelectorColumnWidth="25" ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
-                                   RetainSelectionOnClickOutsideCheckBoxSelector="False" ShowCheckBoxSelectorColumn="{Binding Settings.ShowCheckBoxes}"
+                                   RetainSelectionOnClickOutsideCheckBoxSelector="False"
                                    SearchString="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}">
                         <dxmvvm:Interaction.Behaviors>
-                            <common:CustomColumnBehavior />                            
+                            <common:CustomColumnBehavior />
                             <common:AllowDragDropBehavior />
                             <common:SortOrderOnHeaderClickBehavior />
                             <common:DragDropFilesBehavior CurrentFolderPath="{Binding CurrentFolder.FullPath}" />
@@ -242,15 +242,34 @@
                                   ScrollViewer.IsDeferredScrollingEnabled="True"
                                   NavigationStyle="Row" SeparatorThickness="0" CardMargin="0" Style="{StaticResource CardViewStyle}">
                         <dxmvvm:Interaction.Behaviors>
+                            <common:CustomColumnBehavior />
                             <common:AllowDragDropBehavior />
                             <common:SortOrderOnHeaderClickBehavior />
                             <common:DragDropFilesBehavior CurrentFolderPath="{Binding CurrentFolder.FullPath}" />
                         </dxmvvm:Interaction.Behaviors>
                     </dxg:CardView>                    
+                    <dxg:TreeListView x:Key="TreeView" AllowEditing="False" AllowCascadeUpdate="True" AllowConditionalFormattingMenu="True"
+                                      AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"                                    
+                                      ShowFocusedRectangle="False" ShowFixedTotalSummary="True"
+                                      ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                                      ShowSearchPanelMode="Never" SearchColumns="Name;Extension" ShowSearchPanelResultInfo="True" ShowSearchPanelMRUButton="True"
+                                      ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
+                                      ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"                                      
+                                      SearchString="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}"
+                                      TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Content" AllowChildNodeSourceUpdates="True"
+                                      HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False">
+                        <dxmvvm:Interaction.Behaviors>
+                            <common:CustomColumnBehavior />
+                            <common:DragDropFilesBehavior />
+                            <common:SortOrderOnHeaderClickBehavior />
+                            <common:FileModelTreeViewBehavior />
+                        </dxmvvm:Interaction.Behaviors>
+                    </dxg:TreeListView>                    
                 </ResourceDictionary>
                 <ResourceDictionary>
                     <dxmvvm:ObjectToObjectConverter x:Key="ViewConverter" DefaultTarget="{StaticResource CardView}">
                         <dxmvvm:MapItem Source="Details" Target="{StaticResource ListView}" />
+                        <dxmvvm:MapItem Source="Content" Target="{StaticResource TreeView}" />
                     </dxmvvm:ObjectToObjectConverter>
                     <DXDataTemplateSelector x:Key="FileSizeTemplateSelector">
                         <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDrive}" Value="True">
@@ -304,6 +323,7 @@
             <dxg:GridColumn.CellTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" DataContext="{Binding RowData}">
+                        <dxe:CheckEdit Margin="3,0,0,0" Style="{StaticResource CheckBoxSelectorStyle}" />
                         <Image Width="16" Height="16" Margin="3,0" Source="{Binding Row.SmallIcon, IsAsync=True}" Style="{StaticResource FileIconImageStyle}" />
                         <dxe:TextEdit TextTrimming="CharacterEllipsis" ToolTip="{Binding Row.FullName}" Style="{StaticResource FileNameEditStyle}">
                             <dxmvvm:Interaction.Behaviors>
@@ -313,7 +333,7 @@
                     </StackPanel>
                 </DataTemplate>
             </dxg:GridColumn.CellTemplate>
-        </dxg:GridColumn>        
+        </dxg:GridColumn>
         <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" SortMode="Custom" SortFieldName="Extension" />
         <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
             <dxg:GridColumn.PredefinedFilters>
@@ -385,14 +405,14 @@
                 <dxb:BarSubItemLink BarItemName="MoveTo" />
                 <dxb:BarSubItemLink BarItemName="CopyTo" />
                 <dxb:BarSplitButtonItemLink BarItemName="Delete" />
-                <dxb:BarButtonItemLink BarItemName="Rename" />                
+                <dxb:BarButtonItemLink BarItemName="Rename" />
                 <dxb:BarItemLinkSeparator />
                 <dxb:BarButtonItemLink BarItemName="NewFolder" />
                 <dxb:BarButtonItemLink BarItemName="NewFile" />
                 <dxb:BarButtonItemLink BarItemName="Mail" />
                 <dxb:BarButtonItemLink BarItemName="Zip" />
                 <dxb:BarButtonItemLink BarItemName="Unzip" />
-                <dxb:BarItemLinkSeparator />                
+                <dxb:BarItemLinkSeparator />
                 <dxb:BarButtonItemLink BarItemName="Open" />
                 <dxb:BarButtonItemLink BarItemName="OpenInNewTab" />
                 <dxb:BarButtonItemLink BarItemName="OpenInNewWindow" />

@@ -66,7 +66,11 @@ namespace FileExplorer.Core
 
         [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/ExtraLargeIcons.png")]
         [Display(Name = "ExtraLargeIcons", ResourceType = typeof(Properties.Resources))]
-        ExtraLargeIcons
+        ExtraLargeIcons,
+
+        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/Content.png")]
+        [Display(Name = "Content", ResourceType = typeof(Properties.Resources))]
+        Content
     }
 
     public enum CommandType

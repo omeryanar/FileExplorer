@@ -77,6 +77,153 @@ namespace FileExplorer.Core
         }
     }
 
+    public class FileModelTreeViewBehavior : Behavior<TreeListView>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            AssociatedObject.Loaded += AssociatedObject_Loaded;
+
+            AssociatedObject.NodeExpanding += AssociatedObject_NodeExpanding;            
+            AssociatedObject.CanSelectRow += AssociatedObject_CanSelectRow;
+            AssociatedObject.CustomColumnSort += AssociatedObject_CustomColumnSort;
+            AssociatedObject.EndSorting += AssociatedObject_EndSorting;                
+        }
+
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            AssociatedObject.Loaded -= AssociatedObject_Loaded;
+            AssociatedObject.Unloaded += AssociatedObject_Unloaded;
+
+            MainWindow = Window.GetWindow(AssociatedObject);
+            MainWindow.PreviewMouseLeftButtonDown += MainWindow_PreviewMouseLeftButtonDown;
+        }        
+
+        private void AssociatedObject_Unloaded(object sender, RoutedEventArgs e)
+        {
+            AssociatedObject.Loaded += AssociatedObject_Loaded;
+            AssociatedObject.Unloaded -= AssociatedObject_Unloaded;
+
+            MainWindow.PreviewMouseLeftButtonDown -= MainWindow_PreviewMouseLeftButtonDown;
+        }
+
+        private void MainWindow_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!Settings.Default.ShowCheckBoxes)
+                return;
+
+            DependencyObject target = e.OriginalSource as DependencyObject;
+            GridViewHitInfoBase hitInfo = AssociatedObject.CalcHitInfo(target);
+
+            if (hitInfo != null && hitInfo.RowHandle >= 0)
+            {
+                if (target.ParentExists<CheckEdit>())
+                {
+                    object row = AssociatedObject.DataControl.GetRow(hitInfo.RowHandle);
+                    UnselectDifferentParent(row);
+
+                    if (AssociatedObject.DataControl.SelectedItems.Contains(row))
+                        AssociatedObject.DataControl.SelectedItems.Remove(row);
+                    else
+                        AssociatedObject.DataControl.SelectedItems.Add(row);
+
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private async void AssociatedObject_NodeExpanding(object sender, TreeListNodeAllowEventArgs e)
+        {
+            if (e.Row is FileModel fileModel && fileModel.Content == null)
+            {
+                if (fileModel.Files == null)
+                    fileModel.Files = await FileSystemHelper.GetFiles(fileModel);
+                if (fileModel.Folders == null)
+                    fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
+
+                fileModel.Content = new FileModelReadOnlyCollection(fileModel.Folders, fileModel.Files);
+            }
+        }
+
+        private void AssociatedObject_CanSelectRow(object sender, CanSelectRowEventArgs e)
+        {
+            UnselectDifferentParent(e.Row);
+        }        
+
+        private void AssociatedObject_CustomColumnSort(object sender, TreeListCustomColumnSortEventArgs e)
+        {
+            FileModel value1 = e.Node1.Content as FileModel;
+            FileModel value2 = e.Node2.Content as FileModel;
+
+            if (value1 == null || value2 == null)
+                return;
+
+            if (e.Column.FieldName == "Name")
+            {
+                if (value1.IsDrive == true && value2.IsDrive == true)
+                {
+                    e.Result = value1.FullPath.CompareTo(value2.FullPath);
+                    e.Handled = true;
+                }
+                else if (value1.IsDirectory == value2.IsDirectory)
+                {
+                    e.Result = SafeNativeMethods.NaturalCompare(value1.FullName, value2.FullName);
+                    e.Handled = true;
+                }
+            }
+            else if (e.Column.FieldName == "ParentName")
+            {
+                if (value1.IsDirectory == value2.IsDirectory)
+                {
+                    e.Result = SafeNativeMethods.NaturalCompare(value1.ParentName, value2.ParentName);
+                    e.Handled = true;
+                }
+            }
+            else if (e.Column.UnboundType != UnboundColumnType.Bound)
+            {
+                object nodeValue1 = AssociatedObject.GetNodeValue(e.Node1, e.Column);
+                object nodeValue2 = AssociatedObject.GetNodeValue(e.Node2, e.Column);
+
+                if (nodeValue1 is UnboundErrorObject)
+                    e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
+                else if (nodeValue2 is UnboundErrorObject)
+                    e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
+                else
+                    e.Result = Comparer.Default.Compare(nodeValue1, nodeValue2);
+
+                e.Handled = true;                
+            }
+
+            if (value1.IsDirectory == true && value2.IsDirectory == false)
+            {
+                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? -1 : 1;
+                e.Handled = true;
+            }
+            else if (value2.IsDirectory == true && value1.IsDirectory == false)
+            {
+                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
+                e.Handled = true;
+            }
+        }
+
+        private void AssociatedObject_EndSorting(object sender, RoutedEventArgs e)
+        {
+            if (AssociatedObject.DataControl.SelectedItem != null)
+                AssociatedObject.ScrollIntoView(AssociatedObject.DataControl.SelectedItem);
+        }
+
+        private void UnselectDifferentParent(object row)
+        {
+            FileModel selection1 = AssociatedObject.DataControl.SelectedItem as FileModel;
+            FileModel selection2 = row as FileModel;
+
+            if (selection1 != null && selection2 != null && selection1.ParentPath.OrdinalEquals(selection2.ParentPath) == false)
+                AssociatedObject.DataControl.SelectedItems.Clear();
+        }
+
+        private Window MainWindow;
+    }
+
     public class FileModelGroupBehavior : Behavior<GridControl>
     {
         const string IntervalFormat = "1 - 1024 {0}";
@@ -200,8 +347,8 @@ namespace FileExplorer.Core
 
         private void AssociatedObject_CustomColumnSort(object sender, CustomColumnSortEventArgs e)
         {
-            FileModel value1 = AssociatedObject.GetRowByListIndex(e.ListSourceRowIndex1) as FileModel;
-            FileModel value2 = AssociatedObject.GetRowByListIndex(e.ListSourceRowIndex2) as FileModel;
+            FileModel value1 = e.Row1 as FileModel;
+            FileModel value2 = e.Row2 as FileModel;
 
             if (value1 == null || value2 == null)
                 return;
@@ -239,7 +386,7 @@ namespace FileExplorer.Core
                 e.Handled = true;
             }
         }
-    }
+    }    
 
     public class SortOrderOnHeaderClickBehavior : Behavior<GridDataViewBase>
     {
@@ -313,7 +460,7 @@ namespace FileExplorer.Core
         {
             DependencyObject target = e.OriginalSource as DependencyObject;
             GridViewHitInfoBase hitInfo = AssociatedObject.View.CalcHitInfo(target);
-
+            
             if (e.ClickCount == 2)
             {
                 Reset();
@@ -323,23 +470,26 @@ namespace FileExplorer.Core
             }
             else
             {
+                inNodeExpandButton = false;
+                if (hitInfo is TreeListViewHitInfo treeHitInfo && treeHitInfo.InNodeExpandButton)
+                    inNodeExpandButton = true;
+
                 if (hitInfo != null && hitInfo.RowHandle >= 0)
                 {
-                    object row = AssociatedObject.GetRow(hitInfo.RowHandle);
-                    SecondClickedItem = FirstClickedItem;
-                    FirstClickedItem = row;
+                    OldClickedItem = NewClickedItem;                    
+                    NewClickedItem = AssociatedObject.GetRow(hitInfo.RowHandle);
                 }
                 else
                 {
-                    SecondClickedItem = FirstClickedItem;
-                    FirstClickedItem = null;
+                    OldClickedItem = NewClickedItem;
+                    NewClickedItem = null;
                 }
             }
         }
 
         private void AssociatedObject_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (FirstClickedItem != null && SecondClickedItem != null && FirstClickedItem == SecondClickedItem)
+            if (NewClickedItem != null && OldClickedItem != null && NewClickedItem == OldClickedItem && !inNodeExpandButton)
                 ClickTimer.Start();
         }
 
@@ -347,8 +497,8 @@ namespace FileExplorer.Core
         {
             ClickTimer.Stop();
 
-            FirstClickedItem = null;
-            SecondClickedItem = null;
+            NewClickedItem = null;
+            OldClickedItem = null;
         }
 
         private void ExecuteCommand(ICommand command)
@@ -357,9 +507,11 @@ namespace FileExplorer.Core
             command?.Execute(CommandParameter);
         }
 
-        private object FirstClickedItem;
+        private object NewClickedItem;
 
-        private object SecondClickedItem;
+        private object OldClickedItem;
+
+        private bool inNodeExpandButton;
 
         private DispatcherTimer ClickTimer = new DispatcherTimer();
     }
@@ -482,13 +634,15 @@ namespace FileExplorer.Core
         private static readonly BitmapImage AddRemoveMenuItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Menu16.png"));
     }
 
-    public class CustomColumnBehavior : Behavior<TableView>
+    public class CustomColumnBehavior : Behavior<GridDataViewBase>
     {
         protected override void OnAttached()
         {
             base.OnAttached();
             AssociatedObject.ShowGridMenu += AssociatedObject_ShowGridMenu;
         }
+
+        private GridControl Grid => AssociatedObject.DataControl as GridControl;
 
         private void AssociatedObject_ShowGridMenu(object sender, GridMenuEventArgs e)
         {
@@ -506,9 +660,10 @@ namespace FileExplorer.Core
                             Header = Properties.Resources.CustomColumn,
                             FieldName = Guid.NewGuid().ToString(),
                             UnboundType = UnboundColumnType.String,
-                            AllowUnboundExpressionEditor = true
+                            AllowUnboundExpressionEditor = true,
+                            SortMode = ColumnSortMode.Custom
                         };
-                        AssociatedObject.Grid.Columns.Add(gridColumn);
+                        Grid.Columns.Add(gridColumn);
 
                         CustomColumnView customColumnView = new CustomColumnView
                         {
@@ -527,7 +682,7 @@ namespace FileExplorer.Core
                         Glyph = RemoveCustomColumnItemGlyph,
                         Command = new DelegateCommand(() =>
                         {
-                            AssociatedObject.Grid.Columns.Remove(e.MenuInfo.Column as GridColumn);
+                            Grid.Columns.Remove(e.MenuInfo.Column as GridColumn);
                         })
                     });
 
@@ -708,6 +863,7 @@ namespace FileExplorer.Core
                         return;
 
                     bool isTargetRoot = target?.IsRoot == true;
+                    bool isTargetFile = target?.IsDirectory == false;
                     bool isTargetSubFolder = filePaths.Any(x => targetPath?.OrdinalStartsWith(x + FileSystemHelper.Separator) == true);
                     bool isTargetSameParent = filePaths.Any(x => targetPath?.OrdinalEquals(x) == true || targetPath?.OrdinalEquals(FileSystemHelper.GetParentFolderPath(x)) == true);
 
@@ -717,7 +873,7 @@ namespace FileExplorer.Core
                         (sameDrive && Settings.Default.DragDropSameDrive == 1) ||
                         (!sameDrive && Settings.Default.DragDropDifferentDrive == 0);
 
-                    DragDropEffects allowedEffect = isTargetRoot || isTargetSubFolder || isTargetSameParent ? DragDropEffects.None :
+                    DragDropEffects allowedEffect = isTargetRoot || isTargetFile || isTargetSubFolder || isTargetSameParent ? DragDropEffects.None :
                         copy ? DragDropEffects.Copy : DragDropEffects.Move;
 
                     if (targetPath == CurrentFolderPath)
