@@ -1,8 +1,8 @@
 # File Explorer
 
-File Explorer is a windows file manager application that has an interface similar to Windows Explorer.
-However, it browses and searches folders with many files faster than windows explorer.
-It also has many features that are not available in windows explorer.
+File Explorer is a Windows file manager application that has an interface similar to Windows Explorer.
+However, it browses and searches folders with many files faster than Windows Explorer.
+It also has many features that are not available in Windows Explorer.
 
 File Explorer is portable (requires .NET Framework 4.8), extract the ZIP file below and start using it.
 https://github.com/omeryanar/FileExplorer/releases/latest/download/FileExplorer.zip
@@ -19,7 +19,7 @@ You can detach the tabs in to a new window by dragging a tab and move it up or d
 
 ### Batch Rename
 
-You can rename multiple files by using excel-style formulas.
+You can rename multiple files by using Excel-style formulas.
 
 ![Batch Rename](https://github.com/omeryanar/Resources/blob/master/FileExplorer/BatchRename.png?raw=true)
 
@@ -47,13 +47,13 @@ You can tweak the arguments for your needs.
 
 ### Custom Columns
 
-You can create calculated columns by using excel-style formulas.
+You can create calculated columns by using Excel-style formulas.
 
 ![Custom Columns](https://github.com/omeryanar/Resources/blob/master/FileExplorer/CustomColumns.png?raw=true)
 
 ### Filtering
 
-You can filter file and folders by using excel-style drop-down filter.
+You can filter file and folders by using Excel-style drop-down filter.
 
 ![Excel Filtering](https://github.com/omeryanar/Resources/blob/master/FileExplorer/ExcelFiltering.png?raw=true)
 
@@ -96,7 +96,7 @@ You can show or hide row numbers in the file explorer.
 
 ### Printing and Exporting
 
-You can print folder contents with all the customizations you make or export them to different file formats (such as Excel or PDF)
+You can print folder contents with all the customizations you make or export them to different file formats (such as Excel or PDF).
 
 ![Printing](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Printing.png?raw=true)
 
