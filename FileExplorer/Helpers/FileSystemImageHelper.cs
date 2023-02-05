@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Windows.Media;
 using Alphaleonis.Win32.Filesystem;
+using AsyncKeyedLock;
 using FileExplorer.Core;
 using FileExplorer.Model;
 using FileExplorer.Native;
@@ -79,7 +80,11 @@ namespace FileExplorer.Helpers
 
         protected static string UserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-        protected static LockProvider ImageKeyLockProvider = new LockProvider();
+        protected static AsyncKeyedLocker<string> ImageKeyLockProvider = new(o =>
+        {
+            o.PoolSize = 20;
+            o.PoolInitialFill = 1;
+        });
 
         protected static ConcurrentDictionary<String, ImageSource> ImageSourceCache = new ConcurrentDictionary<String, ImageSource>();
 
