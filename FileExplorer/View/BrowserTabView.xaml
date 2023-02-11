@@ -60,7 +60,7 @@
                                                Command="{Binding CopyToClipboardCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
                                                Glyph="/Assets/Images/Copy16.png" LargeGlyph="/Assets/Images/Copy32.png" />
                             <dxb:BarButtonItem x:Name="Paste" Content="{Binding Paste, Source={StaticResource ResourceProvider}}" KeyGesture="Ctrl+V"
-                                               Command="{Binding PasteFromClipboardCommand}"
+                                               Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}"
                                                Glyph="/Assets/Images/Paste16.png" LargeGlyph="/Assets/Images/Paste32.png" />
                             <dxb:BarButtonItem x:Name="Cut" Content="{Binding Cut, Source={StaticResource ResourceProvider}}" KeyGesture="Ctrl+X"
                                                Command="{Binding CutToClipboardCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
@@ -486,7 +486,7 @@
                     <dxmvvm:KeyToCommand KeyGesture="Ctrl+C" Event="PreviewKeyDown" MarkRoutedEventsAsHandled="True"
                                          Command="{Binding CopyToClipboardCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" />
                     <dxmvvm:KeyToCommand KeyGesture="Ctrl+V" Event="PreviewKeyDown" MarkRoutedEventsAsHandled="True"
-                                         Command="{Binding PasteFromClipboardCommand}" />
+                                         Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" />
                 </dxmvvm:Interaction.Behaviors>
             </controls:FileListViewControl>
         </dxlc:DockLayoutControl>

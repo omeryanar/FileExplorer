@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Input;
 using DevExpress.Data.TreeList;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Grid.TreeList;
@@ -8,24 +11,64 @@ namespace FileExplorer.Controls
 {
     public partial class FileTreeViewControl : TreeListControl
     {
+        public object ClickedItem
+        {
+            get { return GetValue(ClickedItemProperty); }
+            set { SetValue(ClickedItemProperty, value); }
+        }
+        public static readonly DependencyProperty ClickedItemProperty = DependencyProperty.Register(nameof(ClickedItem), typeof(object), typeof(FileTreeViewControl));
+
+        public IList ClickedItems
+        {
+            get { return (IList)GetValue(ClickedItemsProperty); }
+            set { SetValue(ClickedItemsProperty, value); }
+        }
+        public static readonly DependencyProperty ClickedItemsProperty = DependencyProperty.Register(nameof(ClickedItems), typeof(IList), typeof(FileTreeViewControl));
+
         public FileTreeViewControl()
         {
             InitializeComponent();
+        }
+
+        protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            if (View is not null)
+            {
+                DependencyObject target = e.OriginalSource as DependencyObject;
+                GridViewHitInfoBase hitInfo = View.CalcHitInfo(target);
+                if (hitInfo != null && hitInfo.RowHandle >= 0)
+                {
+                    ClickedItem = GetRow(hitInfo.RowHandle);
+                    ClickedItems = new List<object> { ClickedItem };
+
+                    if (e.RightButton == MouseButtonState.Pressed)
+                        return;
+                }
+            }
+
+            base.OnPreviewMouseRightButtonDown(e);
         }
     }
 
     public class TreeListViewEx : TreeListView
     {
-        protected override TreeListDataProvider CreateDataProvider()
+        public TreeListViewEx()
         {
-            return new TreeListDataProviderEx(this);
+            NodeExpanding += (s, e) =>
+            {
+                e.Allow = allowExpandNode || Settings.Default.ExpandFocusedNode;
+                allowExpandNode = false;
+            };
+
+            NodeCollapsing += (s, e) => { nodeCollapsing = true; };
+            NodeCollapsed += (s, e) => { nodeCollapsing = false; };
         }
 
         protected override void OnFocusedNodeChanged()
         {
             base.OnFocusedNodeChanged();
 
-            if (FocusedNode!= null)
+            if (!nodeCollapsing && FocusedNode != null)
                 FocusedNode.IsExpanded = Settings.Default.ExpandFocusedNode;
         }
 
@@ -37,58 +80,18 @@ namespace FileExplorer.Controls
                 node.IsExpanded = true;
         }
 
-        public new void RaiseNodeExpanded(TreeListNode node)
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
-            base.RaiseNodeExpanded(node);
-        }
-        public new void RaiseNodeCollapsed(TreeListNode node)
-        {
-            base.RaiseNodeCollapsed(node);
-        }
-    }
+            base.OnPreviewMouseDown(e);
 
-    public class TreeListDataProviderEx : TreeListDataProvider
-    {
-        public TreeListDataProviderEx(TreeListViewEx view) : base(view)
-        {
-            view.PreviewMouseDown += (s, e) =>
-            {
-                DependencyObject target = e.OriginalSource as DependencyObject;
-                TreeListViewHitInfo hitInfo = view.CalcHitInfo(target);
-                if (hitInfo.InNodeExpandButton || hitInfo.InRow)
-                    allowExpandNode = true;
-            };
-
-            view.NodeExpanding += (s, e) => 
-            {
-                e.Allow = allowExpandNode || Settings.Default.ExpandFocusedNode;
-                allowExpandNode = false;
-            };
-        }
-        
-        protected override TreeListDataController CreateDataController()
-        {
-            return new TreeListDataControllerEx(this);
+            DependencyObject target = e.OriginalSource as DependencyObject;
+            TreeListViewHitInfo hitInfo = CalcHitInfo(target);
+            if (hitInfo.InNodeExpandButton || hitInfo.InRow)
+                allowExpandNode = true;
         }
 
         private bool allowExpandNode;
-    }
 
-    public class TreeListDataControllerEx : TreeListDataController
-    {
-        public TreeListDataControllerEx(TreeListDataProviderEx dataProvider) : base(dataProvider)
-        {
-        }
-
-        protected override void OnNodeExpandedOrCollapsed(TreeListNodeBase node)
-        {
-            TreeListNode treeListNode = node as TreeListNode;
-            TreeListViewEx treeListView = DataProvider.View as TreeListViewEx;
-
-            if (treeListNode.IsExpanded)
-                treeListView.RaiseNodeExpanded(treeListNode);
-            else
-                treeListView.RaiseNodeCollapsed(treeListNode);
-        }
+        private bool nodeCollapsing;
     }
 }

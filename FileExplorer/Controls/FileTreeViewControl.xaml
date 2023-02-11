@@ -41,7 +41,7 @@
                                  TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Folders" AllowChildNodeSourceUpdates="True" FetchSublevelChildrenOnExpand="True"
                                  ShowNodeImages="True" NodeImageSize="16,16" ImageFieldName="SmallIcon" HighlightItemOnHover="True" IsSynchronizedWithCurrentItem="True"
                                  ShowIndicator="False" AutoExpandAllNodes="False" RowIndent="20" AllowEditing="False" ShowFilterPanelMode="Never" ShowSearchPanelMode="Never"
-                                 NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True" EnableDynamicLoading="False">
+                                 NavigationStyle="Row" VerticalScrollbarVisibility="Auto" AllowCascadeUpdate="True" EnableDynamicLoading="False" RestoreFocusOnExpand="True">
             <dxmvvm:Interaction.Behaviors>
                 <common:DragDropFilesBehavior />
                 <common:SortOnlyFocusedNodeBehavior />
@@ -53,7 +53,7 @@
     <dxb:BarManager.DXContextMenu>
         <dxb:PopupMenu>
             <dxmvvm:Interaction.Behaviors>
-                <common:CustomMenuBehavior CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                <common:CustomMenuBehavior CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
             </dxmvvm:Interaction.Behaviors>
             <dxb:PopupMenu.Items>
                 <dxb:BarSubItem Content="{Binding SortBy, Source={StaticResource ResourceProvider}}" ItemLinksSource="{Binding Columns, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}"
@@ -71,48 +71,48 @@
                                    IsEnabled="{Binding SortInfo.Count, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}, Converter={dxmvvm:NumericToBooleanConverter}}" />
                 <dxb:BarItemSeparator />
                 <dxb:BarButtonItem Content="{Binding PinToQuickAccess, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Pin16.png"
-                                   Command="{Binding PinToQuickAccessCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}"
+                                   Command="{Binding PinToQuickAccessCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}"
                                    IsVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
                 <dxb:BarButtonItem Content="{Binding UnpinFromQuickAccess, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Unpin16.png"
-                                   Command="{Binding UnpinFromQuickAccessCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}"
+                                   Command="{Binding UnpinFromQuickAccessCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}"
                                    IsVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
                 <dxb:BarButtonItem Content="{Binding Copy, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Copy16.png"
-                                   Command="{Binding CopyToClipboardCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Command="{Binding CopyToClipboardCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding Paste, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Paste16.png"
-                                   Command="{Binding PasteFromClipboardCommand}" />
+                                   Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding Cut, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Cut16.png"
-                                   Command="{Binding CutToClipboardCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Command="{Binding CutToClipboardCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding CopyPath, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/CopyPath16.png"
-                                   Command="{Binding CopyPathToClipboardCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Command="{Binding CopyPathToClipboardCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarItemSeparator />
                 <dxb:BarSplitButtonItem Content="{Binding Delete, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Delete16.png"
-                                        Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}">
+                                        Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}">
                     <dxb:PopupMenu>
                         <dxb:BarButtonItem Content="{Binding Recycle, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Recycle16.png"
-                                           Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                           Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                         <dxb:BarButtonItem Content="{Binding PermanentlyDelete, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Delete16.png"
-                                           Command="{Binding DeleteItemsCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                           Command="{Binding DeleteItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                     </dxb:PopupMenu>
                 </dxb:BarSplitButtonItem>
                 <dxb:BarButtonItem Content="{Binding Rename, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Rename16.png"
-                                   Command="{Binding RenameItemsCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Command="{Binding RenameItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarItemSeparator />
                 <dxb:BarButtonItem Content="{Binding NewFolder, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/NewFolder16.png"
                                    Command="{Binding CreateNewFolderCommand}" />
                 <dxb:BarButtonItem Content="{Binding NewFile, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/NewTextDocument16.png"
                                    Command="{Binding CreateNewFileCommand}" />
                 <dxb:BarButtonItem Content="{Binding Zip, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Zip16.png"
-                                   Command="{Binding ZipItemsCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Command="{Binding ZipItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarItemSeparator />
                 <dxb:BarButtonItem Content="{Binding Open, Source={StaticResource ResourceProvider}}"
-                                   Command="{Binding OpenItemCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}"
+                                   Command="{Binding OpenItemCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}"
                                    Glyph="{Binding SelectedItem.SmallIcon, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding OpenInNewTab, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/OpenFolder16.png"
-                                   Command="{Binding OpenInNewTabCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Command="{Binding OpenInNewTabCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding OpenInNewWindow, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/OpenNewWindow16.png"
-                                   Command="{Binding OpenInNewWindowCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Command="{Binding OpenInNewWindowCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding Properties, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Properties16.png"
-                                   Command="{Binding ShowPropertiesCommand}" CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Command="{Binding ShowPropertiesCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
             </dxb:PopupMenu.Items>
         </dxb:PopupMenu>
     </dxb:BarManager.DXContextMenu>

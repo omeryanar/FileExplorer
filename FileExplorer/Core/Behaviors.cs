@@ -84,11 +84,12 @@ namespace FileExplorer.Core
             base.OnAttached();
             AssociatedObject.Loaded += AssociatedObject_Loaded;
 
-            AssociatedObject.NodeExpanding += AssociatedObject_NodeExpanding;            
+            AssociatedObject.NodeExpanding += AssociatedObject_NodeExpanding;
+            AssociatedObject.NodeCollapsing += AssociatedObject_NodeCollapsing;
             AssociatedObject.CanSelectRow += AssociatedObject_CanSelectRow;
             AssociatedObject.CustomColumnSort += AssociatedObject_CustomColumnSort;
-            AssociatedObject.EndSorting += AssociatedObject_EndSorting;                
-        }
+            AssociatedObject.EndSorting += AssociatedObject_EndSorting;
+        }        
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
         {
@@ -134,6 +135,8 @@ namespace FileExplorer.Core
 
         private async void AssociatedObject_NodeExpanding(object sender, TreeListNodeAllowEventArgs e)
         {
+            SynchronizeFocusedNode(e.Node);
+
             if (e.Row is FileModel fileModel && fileModel.Content == null)
             {
                 if (fileModel.Files == null)
@@ -143,6 +146,11 @@ namespace FileExplorer.Core
 
                 fileModel.Content = new FileModelReadOnlyCollection(fileModel.Folders, fileModel.Files);
             }
+        }
+
+        private void AssociatedObject_NodeCollapsing(object sender, TreeListNodeAllowEventArgs e)
+        {
+            SynchronizeFocusedNode(e.Node);
         }
 
         private void AssociatedObject_CanSelectRow(object sender, CanSelectRowEventArgs e)
@@ -210,6 +218,15 @@ namespace FileExplorer.Core
         {
             if (AssociatedObject.DataControl.SelectedItem != null)
                 AssociatedObject.ScrollIntoView(AssociatedObject.DataControl.SelectedItem);
+        }
+
+        private void SynchronizeFocusedNode(TreeListNode node)
+        {
+            if (AssociatedObject.FocusedNode != node)
+            {
+                AssociatedObject.FocusedNode = node;
+                AssociatedObject.DataControl.SelectedItem = node.Content;
+            }
         }
 
         private void UnselectDifferentParent(object row)

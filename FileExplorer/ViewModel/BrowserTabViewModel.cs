@@ -613,19 +613,21 @@ namespace FileExplorer.ViewModel
             Utilities.CopyFilesToClipboard(files, true);
         }
 
-        public bool CanPasteFromClipboard()
+        public bool CanPasteFromClipboard(FileModel fileMode)
         {
             return IsChildFolder && Utilities.FileExistsInClipboard();
         }
 
-        public void PasteFromClipboard()
+        public void PasteFromClipboard(FileModel fileModel)
         {
+            string targetPath = fileModel?.IsDirectory == true ? fileModel.FullPath : CurrentFolder.FullPath;
+
             if (Settings.Default.ConfirmCopy && Utilities.GetCopyOrMoveFlagInClipboard() == 5)
             {
                 MessageViewModel viewModel = ViewModelSource.Create<MessageViewModel>();
                 viewModel.Icon = IconType.Question;
                 viewModel.Title = Properties.Resources.ConfirmCopy;
-                viewModel.Content = String.Format(Properties.Resources.ConfirmMultipleCopy, CurrentFolder.FullPath);
+                viewModel.Content = String.Format(Properties.Resources.ConfirmMultipleCopy, targetPath);
 
                 MessageResult result = DialogService.ShowDialog(MessageButton.YesNo, Properties.Resources.Copy, "MessageView", viewModel);
                 if (result == MessageResult.No)
@@ -637,14 +639,14 @@ namespace FileExplorer.ViewModel
                 MessageViewModel viewModel = ViewModelSource.Create<MessageViewModel>();
                 viewModel.Icon = IconType.Question;
                 viewModel.Title = Properties.Resources.ConfirmMove;
-                viewModel.Content = String.Format(Properties.Resources.ConfirmMultipleMove, CurrentFolder.FullPath);
+                viewModel.Content = String.Format(Properties.Resources.ConfirmMultipleMove, targetPath);
 
                 MessageResult result = DialogService.ShowDialog(MessageButton.YesNo, Properties.Resources.Move, "MessageView", viewModel);
                 if (result == MessageResult.No)
                     return;
             }
 
-            Utilities.PasteFromClipboard(CurrentFolder.FullPath);
+            Utilities.PasteFromClipboard(targetPath);
         }
 
         #endregion
