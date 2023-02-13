@@ -55,7 +55,8 @@ namespace FileExplorer.Native
             if (result == IntPtr.Zero)
                 return null;
 
-            SHGetImageList(size, ImageListId, out IImageList iImageList);
+            SHGetImageList(size, ImageListId, out object image);
+            IImageList iImageList = image as IImageList;
             SafeHICON hIcon = iImageList.GetIcon(shFileInfo.iIcon, IMAGELISTDRAWFLAGS.ILD_IMAGE);
 
             ImageSource imageSource = hIcon.ToBitmapSource();

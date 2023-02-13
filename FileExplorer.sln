@@ -5,25 +5,6 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileExplorer", "FileExplorer\FileExplorer.csproj", "{99DEFCA0-AAA5-43C1-BEC2-899F2F06BC22}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{609BE784-F01A-482A-BFB8-EF23E90C27DE}"
-	ProjectSection(SolutionItems) = preProject
-		Library\AlphaFS.dll = Library\AlphaFS.dll
-		Library\CommandLine.dll = Library\CommandLine.dll
-		Library\DevExpress.Mvvm.CodeGenerators.dll = Library\DevExpress.Mvvm.CodeGenerators.dll
-		Library\Hardcodet.Wpf.TaskbarNotification.dll = Library\Hardcodet.Wpf.TaskbarNotification.dll
-		Library\LiteDB.dll = Library\LiteDB.dll
-		Library\Mono.Cecil.dll = Library\Mono.Cecil.dll
-		Library\NLog.dll = Library\NLog.dll
-		Library\Vanara.Core.dll = Library\Vanara.Core.dll
-		Library\Vanara.PInvoke.ComCtl32.dll = Library\Vanara.PInvoke.ComCtl32.dll
-		Library\Vanara.PInvoke.Kernel32.dll = Library\Vanara.PInvoke.Kernel32.dll
-		Library\Vanara.PInvoke.Ole.dll = Library\Vanara.PInvoke.Ole.dll
-		Library\Vanara.PInvoke.Shared.dll = Library\Vanara.PInvoke.Shared.dll
-		Library\Vanara.PInvoke.Shell32.dll = Library\Vanara.PInvoke.Shell32.dll
-		Library\Vanara.PInvoke.ShlwApi.dll = Library\Vanara.PInvoke.ShlwApi.dll
-		Library\Vanara.PInvoke.User32.dll = Library\Vanara.PInvoke.User32.dll
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
