@@ -542,7 +542,7 @@
     <value>Copy to Clipboard (all columns)</value>
   </data>
   <data name="CopyThisColumn" xml:space="preserve">
-    <value>Copy to Clipboard</value>
+    <value>Copy to Clipboard (this column)</value>
   </data>
   <data name="ShowColumnChooser" xml:space="preserve">
     <value>Show Column Chooser</value>

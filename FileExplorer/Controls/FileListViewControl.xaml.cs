@@ -1,12 +1,18 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using DevExpress.Data.Helpers;
 using DevExpress.Mvvm;
+using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.Grid.TreeList;
 using FileExplorer.Core;
 using FileExplorer.Persistence;
+using static Vanara.PInvoke.Shell32;
 
 namespace FileExplorer.Controls
 {
@@ -54,28 +60,37 @@ namespace FileExplorer.Controls
 
         public void ToggleGrouping(string fieldName)
         {
-            GridColumn column = Columns[fieldName];
-            GridViewBase view = View as GridViewBase;
-            bool isGroupedColumn = view.GroupedColumns.Contains(column);
+            if (View is GridViewBase gridView)
+            {
+                GridColumn column = Columns[fieldName];
+                bool isGroupedColumn = gridView.GroupedColumns.Contains(column);
 
-            ClearGrouping();
-            if (!isGroupedColumn)
-                GroupBy(column);
+                if (isGroupedColumn)
+                    UngroupBy(column);
+                else
+                    GroupBy(column, true);
+            }
         }
 
         public void CopySelectedRowsToClipboard(GridColumn gridColumn = null)
         {
-            TableView tableView = View as TableView;
-            int[] rowHandles = GetSelectedRowHandles();
-            if (tableView != null && rowHandles?.Length > 0)
-            {
-                int startRowHandle = rowHandles[0];
-                int endRowHandle = rowHandles[rowHandles.Length - 1];
-                GridColumn startColumn = gridColumn != null ? gridColumn : tableView.VisibleColumns[0];
-                GridColumn endColumn = gridColumn != null ? gridColumn : tableView.VisibleColumns[tableView.VisibleColumns.Count - 1];
+            int startRowHandle = GetRowHandleByVisibleIndex(0);
+            int endRowHandle = GetRowHandleByVisibleIndex(VisibleRowCount - 1);
 
-                tableView.CopyCellsToClipboard(startRowHandle, startColumn, endRowHandle, endColumn);
+            if (gridColumn == null)
+            {
+                if (SelectedItem != null)
+                    CopySelectedItemsToClipboard();
+                else
+                    CopyRangeToClipboard(startRowHandle, endRowHandle);
+
+                return;
             }
+            
+            if (View is TableView tableView)
+                tableView.CopyCellsToClipboard(startRowHandle, gridColumn, endRowHandle, gridColumn);
+            else if (View is TreeListView treeView)
+                treeView.CopyCellsToClipboard(startRowHandle, gridColumn, endRowHandle, gridColumn);
         }
 
         public void SaveFolderLayout(string folderPath, bool applyToSubFolders = false)

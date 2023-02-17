@@ -214,7 +214,7 @@
     <value>Yolu Kopyala</value>
   </data>
   <data name="CopyThisColumn" xml:space="preserve">
-    <value>Panoya Kopyala</value>
+    <value>Panoya Kopyala (bu sütun)</value>
   </data>
   <data name="CopyTo" xml:space="preserve">
     <value>Kopyalama Hedefi</value>

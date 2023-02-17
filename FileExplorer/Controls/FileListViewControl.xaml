@@ -257,13 +257,29 @@
                                       ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"                                      
                                       SearchString="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}"
                                       TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Content" AllowChildNodeSourceUpdates="True"
-                                      HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False">
+                                      HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False" PrintExpandButtons="False">
                         <dxmvvm:Interaction.Behaviors>
                             <common:CustomColumnBehavior />
                             <common:DragDropFilesBehavior />
                             <common:SortOrderOnHeaderClickBehavior />
                             <common:FileModelTreeViewBehavior />
                         </dxmvvm:Interaction.Behaviors>
+                        <dxg:TreeListView.ColumnMenuCustomizations>
+                            <dxb:BarButtonItem Content="{Binding PrintPreview, Source={StaticResource ResourceProvider}}" Glyph="pack://application:,,,/FileExplorer;component/Assets/Images/Print16.png"
+                                               Command="{Binding View.TreeListCommands.ShowPrintPreviewDialog}" dxb:BarItemLinkActionBase.ItemLinkIndex="0" />
+                            <dxb:BarButtonItem Content="{Binding CopyThisColumn, Source={StaticResource ResourceProvider}}" dxb:BarItemLinkActionBase.ItemLinkIndex="1"
+                                               Command="{DXCommand 'DataControl.CopySelectedRowsToClipboard(Column)'}" />
+                            <dxb:BarButtonItem Content="{Binding CopyAllColumns, Source={StaticResource ResourceProvider}}" dxb:BarItemLinkActionBase.ItemLinkIndex="2"
+                                               Command="{DXCommand 'DataControl.CopySelectedRowsToClipboard()'}" />
+                            <dxb:BarItemSeparator dxb:BarItemLinkActionBase.ItemLinkIndex="3" />
+                        </dxg:TreeListView.ColumnMenuCustomizations>
+                        <dxg:TreeListView.FormatConditions>
+                            <dxg:DataBarFormatCondition FieldName="Size">
+                                <dxg:DataBarFormatCondition.Format>
+                                    <dx:DataBarFormat Fill="#FF26A0DA" />
+                                </dxg:DataBarFormatCondition.Format>
+                            </dxg:DataBarFormatCondition>
+                        </dxg:TreeListView.FormatConditions>
                     </dxg:TreeListView>                    
                 </ResourceDictionary>
                 <ResourceDictionary>

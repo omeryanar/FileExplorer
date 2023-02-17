@@ -349,7 +349,7 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy to Clipboard.
+        ///   Looks up a localized string similar to Copy to Clipboard (this column).
         /// </summary>
         public static string CopyThisColumn {
             get {
