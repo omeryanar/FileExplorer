@@ -17,6 +17,14 @@ You can detach the tabs in to a new window by dragging a tab and move it up or d
 
 ![Tabbed Browsing](https://github.com/omeryanar/Resources/blob/master/FileExplorer/TabbedBrowsing.png?raw=true)
 
+### Combined Navigation & Content View
+
+File Explorer has a different content view than Windows Explorer: a combination of the navigation pane and the detailed view.
+You can navigate through folders by selecting them in the navigation pane or double-clicking them in the main pane, which also sets the current working directory.
+In addition, you can also expand the subfolders of the current working directory in the main pane and view both folders and files in a tree-like fashion.
+
+![Combined View](https://github.com/omeryanar/Resources/blob/master/FileExplorer/CombinedView.png?raw=true)
+
 ### Batch Rename
 
 You can rename multiple files by using Excel-style formulas.
