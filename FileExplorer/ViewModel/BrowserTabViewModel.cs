@@ -168,7 +168,7 @@ namespace FileExplorer.ViewModel
         public void OpenInNewWindow(FileModel fileModel)
         {
             if (CanOpenInNewWindow(fileModel))
-                App.CreateNewVindow(fileModel);
+                App.CreateNewWindow(fileModel);
         }
 
         public bool CanEditImage(FileModel fileModel)
@@ -554,24 +554,28 @@ namespace FileExplorer.ViewModel
 
         public bool CanPinToQuickAccess(FileModel fileModel)
         {
-            return IsChildFolder && fileModel != null && fileModel.IsDirectory && !QuickAccess.Folders.Contains(fileModel);
+            return fileModel != null && !fileModel.IsRoot && fileModel.IsDirectory && !QuickAccess.Folders.Contains(fileModel);
         }
 
         public void PinToQuickAccess(FileModel fileModel)
         {
             QuickAccess.Folders.Add(fileModel);
             SaveQuickAccessFolders();
+
+            App.AddToJumpList(fileModel);
         }
 
         public bool CanUnpinFromQuickAccess(FileModel fileModel)
         {
-            return IsChildFolder && fileModel != null && !FileSystemHelper.UserFolders.Contains(fileModel.FullPath) && QuickAccess.Folders.Contains(fileModel);
+            return fileModel != null && !fileModel.IsRoot && !FileSystemHelper.UserFolders.Contains(fileModel.FullPath) && QuickAccess.Folders.Contains(fileModel);
         }
 
         public void UnpinFromQuickAccess(FileModel fileModel)
         {
             QuickAccess.Folders.Remove(fileModel);
             SaveQuickAccessFolders();
+
+            App.RemoveFromJumpList(fileModel);
         }
 
         public bool CanCopyPathToClipboard(IList<object> items)

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shell;
 using System.Windows.Threading;
 using CommandLine;
 using DevExpress.Data.Filtering;
@@ -45,6 +47,14 @@ namespace FileExplorer
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
+        public static bool BringToFront(Window window)
+        {
+            if (window.WindowState == WindowState.Minimized)
+                SystemCommands.RestoreWindow(window);
+
+            return window.Activate();
+        }
+
         public static void ParseArgumentsAndRun(IEnumerable<string> args)
         {
             Parser.Default.ParseArguments<Options>(args).WithParsed(async (options) =>
@@ -62,7 +72,7 @@ namespace FileExplorer
             });
         }
 
-        public static void CreateNewVindow(FileModel fileModel = null)
+        public static void CreateNewWindow(FileModel fileModel = null)
         {
             MainView mainView = new MainView();
             MainViewModel mainViewModel = ViewModelSource.Create<MainViewModel>();
@@ -101,7 +111,7 @@ namespace FileExplorer
 
         private static async Task CreateMainview(IEnumerable<string> folders = null)
         {
-            MainView mainView = Current.Windows.OfType<MainView>().FirstOrDefault(x => x.IsActive);
+            MainView mainView = Current.Windows.OfType<MainView>().FirstOrDefault();
             if (mainView == null)
             {
                 mainView = new MainView();
@@ -135,6 +145,7 @@ namespace FileExplorer
                 mainViewModel.CreateNewTab();
 
             mainView.Show();
+            App.BringToFront(mainView);
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -150,10 +161,11 @@ namespace FileExplorer
             CriteriaOperator.RegisterCustomFunction(new StringFormatFunction());
 
             Repository = new Repository("Data.db");
-            TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;
+            TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;            
 
             FileSystemWatcherHelper.Start();
 
+            InitializeJumpList();
             ParseArgumentsAndRun(e.Args);
 
             base.OnStartup(e);
@@ -213,6 +225,69 @@ namespace FileExplorer
                 Environment.Exit(-1);
             }
         }
+
+        #endregion
+
+        #region JumpList
+
+        public static void AddToJumpList(FileModel fileModel)
+        {
+            if (fileModel?.IsDirectory == true)
+            {
+                JumpTask jumpTask = CreateJumpTask(fileModel);
+                ApplicationJumpList.JumpItems.Add(jumpTask);
+                ApplicationJumpList.Apply();
+            }
+        }
+
+        public static void RemoveFromJumpList(FileModel fileModel)
+        {
+            JumpTask jumpTask = ApplicationJumpList.JumpItems.OfType<JumpTask>().FirstOrDefault(x => x.Arguments == fileModel.FullPath);
+            if (jumpTask != null)
+            {
+                ApplicationJumpList.JumpItems.Remove(jumpTask);
+                ApplicationJumpList.Apply();
+            }
+        }
+
+        private void InitializeJumpList()
+        {
+            foreach (FileModel fileModel in FileSystemHelper.QuickAccess.Folders)
+            {
+                JumpTask jumpTask = CreateJumpTask(fileModel);
+                ApplicationJumpList.JumpItems.Add(jumpTask);
+            }
+
+            JumpList.SetJumpList(this, ApplicationJumpList);
+            ApplicationJumpList.Apply();
+        }
+
+        private static JumpTask CreateJumpTask(FileModel fileModel)
+        {
+            JumpTask jumpTask = new JumpTask();
+            jumpTask.CustomCategory = "Quick Access";
+            jumpTask.ApplicationPath = Assembly.GetExecutingAssembly().Location;
+            jumpTask.IconResourcePath = "%WINDIR%\\system32\\imageres.dll";
+            jumpTask.Title = fileModel.Name;
+            jumpTask.Arguments = fileModel.FullPath;
+            jumpTask.Description = fileModel.Description;
+
+            jumpTask.IconResourceIndex = folderIndexes.ContainsKey(fileModel.FullPath) ? folderIndexes[fileModel.FullPath] : 4;
+
+            return jumpTask;
+        }
+
+        private static readonly JumpList ApplicationJumpList = new JumpList();
+
+        private static readonly Dictionary<string, int> folderIndexes = new Dictionary<string, int>()
+        {
+            { FileSystemHelper.UserFolders[0], 105 },
+            { FileSystemHelper.UserFolders[1], 107 },
+            { FileSystemHelper.UserFolders[2], 175 },
+            { FileSystemHelper.UserFolders[3], 103 },
+            { FileSystemHelper.UserFolders[4], 108 },
+            { FileSystemHelper.UserFolders[5], 18 }
+        };
 
         #endregion
     }

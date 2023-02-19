@@ -6,17 +6,17 @@ namespace FileExplorer.ViewModel
     {
         public void OpenDefault()
         {
-            App.CreateNewVindow();
+            App.CreateNewWindow();
         }
 
         public void OpenComputer()
         {
-            App.CreateNewVindow(FileSystemHelper.Computer);
+            App.CreateNewWindow(FileSystemHelper.Computer);
         }
 
         public void OpenQuickAccess()
         {
-            App.CreateNewVindow(FileSystemHelper.QuickAccess);
+            App.CreateNewWindow(FileSystemHelper.QuickAccess);
         }
 
         public void Exit()

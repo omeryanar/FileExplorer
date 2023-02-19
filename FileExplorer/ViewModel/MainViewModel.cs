@@ -43,7 +43,7 @@ namespace FileExplorer.ViewModel
                         foreach (FileModel file in message.Parameters)
                         {
                             if (file.IsDirectory)
-                                App.CreateNewVindow(file);
+                                App.CreateNewWindow(file);
                         }
                         break;
                 }
