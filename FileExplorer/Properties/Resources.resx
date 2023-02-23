@@ -640,4 +640,10 @@
   <data name="Content" xml:space="preserve">
     <value>Content</value>
   </data>
+  <data name="StaticTaskbarIcon" xml:space="preserve">
+    <value>Static Taskbar Icon</value>
+  </data>
+  <data name="StaticTaskbarTitle" xml:space="preserve">
+    <value>Static Taskbar Title</value>
+  </data>
 </root>

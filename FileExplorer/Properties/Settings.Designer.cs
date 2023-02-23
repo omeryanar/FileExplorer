@@ -370,5 +370,29 @@ namespace FileExplorer.Properties {
                 this["ExpandFocusedNode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StaticTaskbarIcon {
+            get {
+                return ((bool)(this["StaticTaskbarIcon"]));
+            }
+            set {
+                this["StaticTaskbarIcon"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StaticTaskbarTitle {
+            get {
+                return ((bool)(this["StaticTaskbarTitle"]));
+            }
+            set {
+                this["StaticTaskbarTitle"] = value;
+            }
+        }
     }
 }

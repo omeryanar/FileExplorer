@@ -7,7 +7,7 @@
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:settings="clr-namespace:FileExplorer.Properties"
              xmlns:common="clr-namespace:FileExplorer.Core"
-             MinWidth="400" MinHeight="500">
+             MinWidth="400" MinHeight="600">
 
     <dxlc:LayoutControl Orientation="Vertical">
         <dxlc:LayoutControl.Resources>
@@ -28,7 +28,7 @@
                 </Setter>
             </Style>
         </dxlc:LayoutControl.Resources>
-        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" ItemLabelsAlignment="Local" Header="{Binding General, Source={StaticResource ResourceProvider}}">
+        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" ItemSpace="10" ItemLabelsAlignment="Local" Header="{Binding General, Source={StaticResource ResourceProvider}}">
             <dxlc:LayoutItem Label="{Binding NewTab, Source={StaticResource ResourceProvider}}">
                 <dxe:ListBoxEdit SelectedIndex="{Binding FirstFolderToOpen, Source={x:Static settings:Settings.Default}}">
                     <dxe:ListBoxEditItem>
@@ -66,8 +66,14 @@
             <dxlc:LayoutItem Label="{Binding AddToStartup, Source={StaticResource ResourceProvider}}">
                 <dxe:ToggleSwitch IsChecked="{Binding AddToStartup, Source={x:Static settings:Settings.Default}}" />
             </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding StaticTaskbarIcon, Source={StaticResource ResourceProvider}}">
+                <dxe:ToggleSwitch IsChecked="{Binding StaticTaskbarIcon, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding StaticTaskbarTitle, Source={StaticResource ResourceProvider}}">
+                <dxe:ToggleSwitch IsChecked="{Binding StaticTaskbarTitle, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
-        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" Header="{Binding CopyMove, Source={StaticResource ResourceProvider}}">
+        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" ItemSpace="10" Header="{Binding CopyMove, Source={StaticResource ResourceProvider}}">
             <dxlc:LayoutItem Label="{Binding ConfirmCopy, Source={StaticResource ResourceProvider}}">
                 <dxe:ToggleSwitch IsChecked="{Binding ConfirmCopy, Source={x:Static settings:Settings.Default}}" />
             </dxlc:LayoutItem>
@@ -75,7 +81,7 @@
                 <dxe:ToggleSwitch IsChecked="{Binding ConfirmMove, Source={x:Static settings:Settings.Default}}" />
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
-        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" Header="{Binding DragDrop, Source={StaticResource ResourceProvider}}">
+        <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" ItemSpace="10" Header="{Binding DragDrop, Source={StaticResource ResourceProvider}}">
             <dxlc:LayoutItem Label="{Binding ConfirmCopy, Source={StaticResource ResourceProvider}}">
                 <dxe:ToggleSwitch IsChecked="{Binding DragDropConfirmCopy, Source={x:Static settings:Settings.Default}}" />
             </dxlc:LayoutItem>

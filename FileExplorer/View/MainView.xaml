@@ -7,15 +7,13 @@
                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                    xmlns:common="clr-namespace:FileExplorer.Core"
                    ShowTitle="False" ShowIcon="False"
-                   HeaderIndentInNormalState="0" HeaderIndentInMaximizedState="0"
-                   Title="{Binding SelectedItem.DataContext.Title, ElementName=MainTabControl}"
-                   Icon="{Binding SelectedItem.DataContext.CurrentFolder.MediumIcon, ElementName=MainTabControl}">
+                   HeaderIndentInNormalState="0" HeaderIndentInMaximizedState="0">
 
     <dxmvvm:Interaction.Behaviors>
         <common:ActiveWindowService />
     </dxmvvm:Interaction.Behaviors>
 
-    <dx:DXTabControl x:Name="MainTabControl" Padding="0" TabContentCacheMode="CacheAllTabs" NewTabbedWindow="OnNewTabbedWindow">
+    <dx:DXTabControl Padding="0" TabContentCacheMode="CacheAllTabs">
         <dxmvvm:Interaction.Behaviors>
             <dx:TabbedWindowDocumentUIService ShowNewItemOnStartup="False" />
         </dxmvvm:Interaction.Behaviors>

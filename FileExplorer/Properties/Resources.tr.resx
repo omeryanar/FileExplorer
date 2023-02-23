@@ -592,6 +592,12 @@
   <data name="StandardThemes" xml:space="preserve">
     <value>Standart Temalar</value>
   </data>
+  <data name="StaticTaskbarIcon" xml:space="preserve">
+    <value>Statik Görev Çubuğu Simgesi</value>
+  </data>
+  <data name="StaticTaskbarTitle" xml:space="preserve">
+    <value>Statik Görev Çubuğu Başlığı</value>
+  </data>
   <data name="Themes" xml:space="preserve">
     <value>Temalar</value>
   </data>

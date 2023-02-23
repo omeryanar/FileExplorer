@@ -19,6 +19,20 @@ namespace FileExplorer.View
 
             InitializeComponent();
 
+            Loaded += (s, e) =>
+            {
+                SetWindowIcon();
+                SetWindowTitle();
+            };
+
+            Settings.Default.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(Settings.Default.StaticTaskbarIcon))
+                    SetWindowIcon();
+                if (e.PropertyName == nameof(Settings.Default.StaticTaskbarTitle))
+                    SetWindowTitle();
+            };
+
             StateChanged += (s, e) =>
             {
                 Settings.Default.WindowState = WindowState;
@@ -37,25 +51,26 @@ namespace FileExplorer.View
             };
         }
 
+        private void SetWindowIcon()
+        {
+            if (Settings.Default.StaticTaskbarIcon)
+                SetBinding(IconProperty, new Binding());
+            else
+                SetBinding(IconProperty, new Binding("SelectedItem.DataContext.CurrentFolder.MediumIcon") { Source = TabControl });
+        }
+
+        private void SetWindowTitle()
+        {
+            if (Settings.Default.StaticTaskbarTitle)
+                SetBinding(TitleProperty, new Binding() { Source = "File Explorer" });
+            else
+                SetBinding(TitleProperty, new Binding("SelectedItem.DataContext.Title") { Source = TabControl });
+        }
+
         private void OnTabDragOver(object sender, DragEventArgs e)
         {
             if (sender is DXTabItem tabItem)
                 tabItem.IsSelected = true;
-        }
-
-        private void OnNewTabbedWindow(object sender, TabControlNewTabbedWindowEventArgs e)
-        {
-            e.NewTabControl.NewTabbedWindow += OnNewTabbedWindow;
-
-            e.NewWindow.SetBinding(TitleProperty, new Binding("SelectedItem.DataContext.Title")
-            {
-                Source = e.NewTabControl
-            });
-
-            e.NewWindow.SetBinding(IconProperty, new Binding("SelectedItem.DataContext.CurrentFolder.MediumIcon")
-            {
-                Source = e.NewTabControl
-            });
         }
     }
 }

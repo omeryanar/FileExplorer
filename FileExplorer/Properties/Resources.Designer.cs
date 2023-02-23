@@ -1484,6 +1484,24 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Static Taskbar Icon.
+        /// </summary>
+        public static string StaticTaskbarIcon {
+            get {
+                return ResourceManager.GetString("StaticTaskbarIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Static Taskbar Title.
+        /// </summary>
+        public static string StaticTaskbarTitle {
+            get {
+                return ResourceManager.GetString("StaticTaskbarTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Themes.
         /// </summary>
         public static string Themes {

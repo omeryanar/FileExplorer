@@ -95,7 +95,7 @@ namespace FileExplorer.ViewModel
             UpdateFilterCriteria();
             Settings.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == "ShowHiddenItems" || (e.PropertyName == "ShowSystemItems"))
+                if (e.PropertyName == nameof(Settings.ShowHiddenItems) || (e.PropertyName == nameof(Settings.ShowSystemItems)))
                     UpdateFilterCriteria();
 
                 SaveSettings();
@@ -199,6 +199,9 @@ namespace FileExplorer.ViewModel
 
             Settings.Default.LeftPaneWidth = Settings.LeftPaneWidth;
             Settings.Default.RightPaneWidth = Settings.RightPaneWidth;
+
+            Settings.Default.StaticTaskbarIcon = Settings.StaticTaskbarIcon;
+            Settings.Default.StaticTaskbarTitle = Settings.StaticTaskbarTitle;
 
             Settings.Default.Save();
         }
