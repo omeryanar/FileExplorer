@@ -168,4 +168,27 @@ namespace FileExplorer.Core
             return value is IEnumerable<object> list ? String.Join(Separator, list) : null;
         }
     }
+
+    public class ObjectToVisibilityConverter : MarkupExtension, IValueConverter
+    {
+        public bool Inverse { get; set; }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return Inverse ? Visibility.Visible : Visibility.Collapsed;
+            else
+                return Inverse ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
 }

@@ -24,11 +24,6 @@
                 <dxmvvm:MapItem Source="Ascending" Target="/Assets/Images/SortAsc.png" />
                 <dxmvvm:MapItem Source="Descending" Target="/Assets/Images/SortDesc.png" />
             </dxmvvm:ObjectToObjectConverter>
-            <dxmvvm:ObjectToObjectConverter x:Key="VisibilityToInverseBooleanConverter">
-                <dxmvvm:MapItem Source="Visible" Target="False" />
-                <dxmvvm:MapItem Source="Collapsed" Target="True" />
-                <dxmvvm:MapItem Source="Hidden" Target="True" />
-            </dxmvvm:ObjectToObjectConverter>
         </ResourceDictionary>
         <ResourceDictionary>            
             <system:String x:Key="IconBack">&#xF060;</system:String>

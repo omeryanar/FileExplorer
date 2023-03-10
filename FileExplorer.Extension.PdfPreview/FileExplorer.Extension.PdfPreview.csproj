@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net4.8</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\RotateLeft.svg" />
+    <None Remove="Assets\RotateRight.svg" />
+    <None Remove="Assets\ZoomIn.svg" />
+    <None Remove="Assets\ZoomOut.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Wpf.Core" Version="22.2.*-*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Wpf.PdfViewer" Version="22.2.*-*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Composition" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\RotateLeft.svg" />
+    <Resource Include="Assets\RotateRight.svg" />
+    <Resource Include="Assets\ZoomIn.svg" />
+    <Resource Include="Assets\ZoomOut.svg" />
+  </ItemGroup>
+
+</Project>

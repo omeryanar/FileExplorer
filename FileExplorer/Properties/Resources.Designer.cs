@@ -998,6 +998,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no preview extensions registered for this file type.
+        /// </summary>
+        public static string NoPreviewAvailable {
+            get {
+                return ResourceManager.GetString("NoPreviewAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string OK {

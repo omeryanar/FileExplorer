@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -14,7 +12,6 @@ using System.Windows.Media;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
-using DevExpress.XtraEditors;
 using FileExplorer.Native;
 using NLog;
 
@@ -286,37 +283,6 @@ namespace FileExplorer.Core
             }
 
             return emlFilePath;
-        }
-
-        public static void ShowImageEditor(string path)
-        {
-            Image image = Image.FromFile(path);
-            ImageFormat format = GetImageFormat(image);
-            PictureEdit pictureEdit = new PictureEdit();
-
-            pictureEdit.Image = image;
-            if (pictureEdit.ShowImageEditorDialog() == System.Windows.Forms.DialogResult.OK)
-                pictureEdit.Image.Save(path, format);
-        }
-
-        public static ImageFormat GetImageFormat(Image image)
-        {
-            if (image.RawFormat.Equals(ImageFormat.Jpeg))
-                return ImageFormat.Jpeg;
-            if (image.RawFormat.Equals(ImageFormat.Bmp))
-                return ImageFormat.Bmp;
-            if (image.RawFormat.Equals(ImageFormat.Png))
-                return ImageFormat.Png;
-            if (image.RawFormat.Equals(ImageFormat.Gif))
-                return ImageFormat.Gif;
-            if (image.RawFormat.Equals(ImageFormat.Icon))
-                return ImageFormat.Icon;
-            if (image.RawFormat.Equals(ImageFormat.MemoryBmp))
-                return ImageFormat.MemoryBmp;
-            if (image.RawFormat.Equals(ImageFormat.Tiff))
-                return ImageFormat.Tiff;
-            else
-                return ImageFormat.Jpeg;
         }
     }
 

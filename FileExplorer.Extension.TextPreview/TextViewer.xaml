@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="FileExplorer.Extension.TextPreview.TextViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:ave="http://icsharpcode.net/sharpdevelop/avalonedit"
+             x:Name="CodeBehind" DataContext="{Binding ElementName=CodeBehind}">
+
+    <DockPanel>
+        <dxb:ToolBarControl DockPanel.Dock="Bottom" Padding="10" Background="Transparent" HorizontalAlignment="Center" AllowQuickCustomization="False">
+            <dxb:BarEditItem EditValue="{Binding SyntaxHighlighting, Mode=TwoWay, ElementName=textEditor}">
+                <dxb:BarEditItem.EditSettings>
+                    <dxe:ComboBoxEditSettings AllowNullInput="True" IsTextEditable="False" ItemsSource="{Binding HighlightingDefinitions, Source={x:Static ave:HighlightingManager.Instance}}" />
+                </dxb:BarEditItem.EditSettings>
+            </dxb:BarEditItem>
+            <dxb:BarEditItem EditValue="{Binding FontFamily, ElementName=textEditor}" EditSettings="{dxe:FontSettings IsTextEditable=False}" />
+            <dxb:BarEditItem EditValue="{Binding FontSize, ElementName=textEditor}">
+                <dxb:BarEditItem.EditSettings>
+                    <dxe:ComboBoxEditSettings IsTextEditable="False">
+                        <dxe:ComboBoxEditSettings.ItemsSource>
+                            <DoubleCollection>8,9,10,11,12,14,16,18,20,22,24,26,28,36,48,72</DoubleCollection>
+                        </dxe:ComboBoxEditSettings.ItemsSource>
+                    </dxe:ComboBoxEditSettings>
+                </dxb:BarEditItem.EditSettings>
+            </dxb:BarEditItem>
+            <dxb:BarCheckItem Margin="5,0,0,0" IsChecked="{Binding ShowLineNumbers, ElementName=textEditor}" Glyph="{dx:SvgImageSource Size='12,12', Uri=Assets/ShowNumbers.svg}" />
+        </dxb:ToolBarControl>
+        <ave:TextEditor x:Name="textEditor" IsReadOnly="True" ShowLineNumbers="True" Padding="10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" FontFamily="Consolas"
+                        SyntaxHighlighting="{Binding SyntaxHighlighting, Mode=TwoWay}" Document="{Binding Document, Mode=OneWay}" />
+    </DockPanel>
+
+</UserControl>

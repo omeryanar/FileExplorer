@@ -5,6 +5,14 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileExplorer", "FileExplorer\FileExplorer.csproj", "{99DEFCA0-AAA5-43C1-BEC2-899F2F06BC22}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileExplorer.Extension", "FileExplorer.Extension\FileExplorer.Extension.csproj", "{DCEF0EC4-D0A0-4E15-B918-BC78E9441427}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileExplorer.Extension.ImagePreview", "FileExplorer.Extension.ImagePreview\FileExplorer.Extension.ImagePreview.csproj", "{EC86C303-9E2D-4384-8535-72F9B5464A9B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileExplorer.Extension.TextPreview", "FileExplorer.Extension.TextPreview\FileExplorer.Extension.TextPreview.csproj", "{F022A038-6764-4438-B959-E02758B6AB01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileExplorer.Extension.PdfPreview", "FileExplorer.Extension.PdfPreview\FileExplorer.Extension.PdfPreview.csproj", "{E1B226A0-EA3B-4D2F-8EE3-143A2038FD39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{99DEFCA0-AAA5-43C1-BEC2-899F2F06BC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99DEFCA0-AAA5-43C1-BEC2-899F2F06BC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99DEFCA0-AAA5-43C1-BEC2-899F2F06BC22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCEF0EC4-D0A0-4E15-B918-BC78E9441427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCEF0EC4-D0A0-4E15-B918-BC78E9441427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCEF0EC4-D0A0-4E15-B918-BC78E9441427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCEF0EC4-D0A0-4E15-B918-BC78E9441427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC86C303-9E2D-4384-8535-72F9B5464A9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC86C303-9E2D-4384-8535-72F9B5464A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC86C303-9E2D-4384-8535-72F9B5464A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC86C303-9E2D-4384-8535-72F9B5464A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F022A038-6764-4438-B959-E02758B6AB01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F022A038-6764-4438-B959-E02758B6AB01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F022A038-6764-4438-B959-E02758B6AB01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F022A038-6764-4438-B959-E02758B6AB01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1B226A0-EA3B-4D2F-8EE3-143A2038FD39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1B226A0-EA3B-4D2F-8EE3-143A2038FD39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1B226A0-EA3B-4D2F-8EE3-143A2038FD39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1B226A0-EA3B-4D2F-8EE3-143A2038FD39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

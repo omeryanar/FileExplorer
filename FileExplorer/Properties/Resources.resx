@@ -646,4 +646,7 @@
   <data name="StaticTaskbarTitle" xml:space="preserve">
     <value>Static Taskbar Title</value>
   </data>
+  <data name="NoPreviewAvailable" xml:space="preserve">
+    <value>There are no preview extensions registered for this file type</value>
+  </data>
 </root>

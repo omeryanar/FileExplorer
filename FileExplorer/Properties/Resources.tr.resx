@@ -430,6 +430,9 @@
   <data name="None" xml:space="preserve">
     <value>Yok</value>
   </data>
+  <data name="NoPreviewAvailable" xml:space="preserve">
+    <value>Bu dosya türü için kayıtlı önizleme uzantısı bulunamadı</value>
+  </data>
   <data name="OK" xml:space="preserve">
     <value>Tamam</value>
   </data>

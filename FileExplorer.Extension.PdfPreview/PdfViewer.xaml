@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="FileExplorer.Extension.PdfPreview.PdfViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxpdf="http://schemas.devexpress.com/winfx/2008/xaml/pdf"
+             x:Name="CodeBehind" DataContext="{Binding ElementName=CodeBehind}">
+
+    <DockPanel>
+        <dxb:ToolBarControl DockPanel.Dock="Bottom" Padding="10" Background="Transparent" HorizontalAlignment="Center" AllowQuickCustomization="False">
+            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateLeft.svg}" Command="{Binding CounterClockwiseRotateCommand, ElementName=pdfViewer}" />
+            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateRight.svg}" Command="{Binding ClockwiseRotateCommand, ElementName=pdfViewer}" />
+            <dxb:BarEditItem Margin="0,0,5,0" EditValue="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ElementName=pdfViewer}">
+                <dxb:BarEditItem.EditSettings>
+                    <dxe:ButtonEditSettings AllowDefaultButton="False" TextBlock.TextAlignment="Center" MaskType="RegEx" Mask="[1-9][0-9]*">
+                        <dxe:ButtonEditSettings.Buttons>
+                            <dxe:ButtonInfo GlyphKind="Up" IsLeft="True" Command="{Binding PreviousPageCommand, ElementName=pdfViewer}" />
+                            <dxe:ButtonInfo GlyphKind="Down" Command="{Binding NextPageCommand, ElementName=pdfViewer}" />
+                        </dxe:ButtonEditSettings.Buttons>
+                    </dxe:ButtonEditSettings>
+                </dxb:BarEditItem.EditSettings>
+            </dxb:BarEditItem>
+            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomIn.svg}" Command="{Binding ZoomInCommand, ElementName=pdfViewer}" />
+            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomOut.svg}" Command="{Binding ZoomOutCommand, ElementName=pdfViewer}" />
+        </dxb:ToolBarControl>
+        <dxpdf:PdfViewerControl x:Name="pdfViewer" CommandBarStyle="None" ShowStartScreen="False" ZoomMode="PageLevel"
+                                ZoomFactor="{Binding ZoomFactor, Mode=TwoWay}" DocumentSource="{Binding Document}" Loaded="OnPdfViewerLoaded">
+            <dxpdf:PdfViewerControl.CommentViewerSettings>
+                <dxpdf:PdfCommentViewerSettings HideCommentViewer="True" />
+            </dxpdf:PdfViewerControl.CommentViewerSettings>
+            <dxpdf:PdfViewerControl.OutlinesViewerSettings>
+                <dxpdf:PdfOutlinesViewerSettings HideOutlinesViewer="True" />
+            </dxpdf:PdfViewerControl.OutlinesViewerSettings>
+            <dxpdf:PdfViewerControl.ThumbnailsViewerSettings>
+                <dxpdf:PdfThumbnailsViewerSettings HideThumbnailsViewer="True" />
+            </dxpdf:PdfViewerControl.ThumbnailsViewerSettings>
+            <dxpdf:PdfViewerControl.AttachmentsViewerSettings>
+                <dxpdf:PdfAttachmentsViewerSettings HideAttachmentsViewer="True" />
+            </dxpdf:PdfViewerControl.AttachmentsViewerSettings>
+        </dxpdf:PdfViewerControl>
+    </DockPanel>
+
+</UserControl>

@@ -171,17 +171,6 @@ namespace FileExplorer.ViewModel
                 App.CreateNewWindow(fileModel);
         }
 
-        public bool CanEditImage(FileModel fileModel)
-        {
-            return ImageEditExtensions.Any(x => x.OrdinalEquals(fileModel?.Extension));
-        }
-
-        public void EditImage(FileModel fileModel)
-        {
-            if (CanEditImage(fileModel))
-                Utilities.ShowImageEditor(fileModel.FullPath);
-        }
-
         public void SaveSettings()
         {
             Settings.Default.ShowNavigationPane = Settings.ShowNavigationPane;

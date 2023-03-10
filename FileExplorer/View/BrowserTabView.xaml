@@ -434,19 +434,7 @@
                 <dxlc:LayoutGroup Orientation="Vertical">
                     <dxlc:LayoutGroup Orientation="Vertical" Header="{Binding PreviewPane, Source={StaticResource ResourceProvider}}"
                                       Visibility="{Binding Settings.ShowPreviewPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                        <Grid>
-                            <Viewbox StretchDirection="DownOnly">
-                                <Image x:Name="PreviewImage" common:ImagePreview.Source="{Binding SelectedItem, ElementName=FileList}" />
-                            </Viewbox>
-                            <dx:WaitIndicator DeferedVisibility="{Binding Visibility, ElementName=PreviewImage, Converter={StaticResource VisibilityToInverseBooleanConverter}}" />
-                        </Grid>
-                        <Button DockPanel.Dock="Bottom" Margin="5" Height="25" Width="90" Command="{Binding EditImageCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}"
-                                Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center" Text="{StaticResource IconEdit}" Style="{StaticResource IconText}" />
-                                <TextBlock Margin="5,0" Text="{Binding Edit, Source={StaticResource ResourceProvider}}" />
-                            </StackPanel>
-                        </Button>
+                        <controls:PreviewControl Margin="3,0" File="{Binding SelectedItem, ElementName=FileList}" />
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup VerticalAlignment="Top" Header="{Binding DetailsPane, Source={StaticResource ResourceProvider}}"
                                       Visibility="{Binding Settings.ShowDetailsPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
