@@ -649,4 +649,25 @@
   <data name="NoPreviewAvailable" xml:space="preserve">
     <value>There are no preview extensions registered for this file type</value>
   </data>
+  <data name="Extensions" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Preferred" xml:space="preserve">
+    <value>Preferred</value>
+  </data>
+  <data name="ExtensionError" xml:space="preserve">
+    <value>This extension contains an error and cannot be enabled. Refer to error details for more information.</value>
+  </data>
+  <data name="ErrorDetails" xml:space="preserve">
+    <value>Error Details</value>
+  </data>
 </root>

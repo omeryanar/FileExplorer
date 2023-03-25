@@ -255,6 +255,9 @@
   <data name="DetailsPane" xml:space="preserve">
     <value>Ayrıntılar Bölmesi</value>
   </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Devredışı</value>
+  </data>
   <data name="DragDrop" xml:space="preserve">
     <value>Sürükle &amp; Bırak</value>
   </data>
@@ -279,6 +282,12 @@
   <data name="EmptyFiles" xml:space="preserve">
     <value>Klasörler ve Boş Dosyalar</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Hata</value>
+  </data>
+  <data name="ErrorDetails" xml:space="preserve">
+    <value>Hata Detayları</value>
+  </data>
   <data name="Exit" xml:space="preserve">
     <value>Çıkış</value>
   </data>
@@ -291,8 +300,14 @@
   <data name="Extension" xml:space="preserve">
     <value>Uzantı</value>
   </data>
+  <data name="ExtensionError" xml:space="preserve">
+    <value>Bu uzantı bir hata içeriyor ve etkinleştirilemez. Daha fazla bilgi için hata ayrıntılarına bakın.</value>
+  </data>
   <data name="ExtensionFilter" xml:space="preserve">
     <value>Uzantı Filtresi</value>
+  </data>
+  <data name="Extensions" xml:space="preserve">
+    <value>Eklentiler</value>
   </data>
   <data name="ExtraLargeIcons" xml:space="preserve">
     <value>Çok Büyük Simgeler</value>
@@ -490,6 +505,9 @@
   <data name="PinToQuickAccess" xml:space="preserve">
     <value>Hızlı Erişime Sabitle</value>
   </data>
+  <data name="Preferred" xml:space="preserve">
+    <value>Öncelikli</value>
+  </data>
   <data name="PreviewPane" xml:space="preserve">
     <value>Önizleme Bölmesi</value>
   </data>
@@ -633,6 +651,9 @@
   </data>
   <data name="UpperCase" xml:space="preserve">
     <value>Tümü Büyük Harf</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Sürüm</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>Görünüm</value>

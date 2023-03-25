@@ -16,6 +16,9 @@ using DevExpress.Xpf.Core.Native;
 namespace FileExplorer.Extension.ImagePreview
 {
     [Export(typeof(IPreviewExtension))]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.AssemblyName), "FileExplorer.Extension.ImagePreview")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Image Viewer")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class ImageViewer : UserControl, IPreviewExtension
     {
         public ImageSource ImageSource

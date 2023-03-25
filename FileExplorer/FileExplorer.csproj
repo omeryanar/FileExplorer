@@ -123,7 +123,7 @@
       <HintPath>..\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.5.1.1\lib\net46\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.5.1.2\lib\net46\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -239,6 +239,7 @@
     <Compile Include="Core\Behaviors.cs" />
     <Compile Include="Core\Common.cs" />
     <Compile Include="Core\Converters.cs" />
+    <Compile Include="Core\ExtensionManager.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Services.cs" />
     <Compile Include="Editors\FileDialogButton.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Native\SafeNativeMethods.cs" />
     <Compile Include="Native\OpenFolderDialog.cs" />
     <Compile Include="Persistence\Expression.cs" />
+    <Compile Include="Persistence\ExtensionMetadata.cs" />
     <Compile Include="Persistence\MenuItem.cs" />
     <Compile Include="Persistence\Persistent.cs" />
     <Compile Include="Persistence\Repository.cs" />
@@ -269,6 +271,7 @@
     <Compile Include="Model\FileModel.cs" />
     <Compile Include="Persistence\FolderLayout.cs" />
     <Compile Include="ViewModel\BrowserTabViewModel.cs" />
+    <Compile Include="ViewModel\ExtensionViewModel.cs" />
     <Compile Include="ViewModel\RenameBatchViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MessageViewModel.cs" />
@@ -285,6 +288,9 @@
     </Compile>
     <Compile Include="View\CustomMenuView.xaml.cs">
       <DependentUpon>CustomMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExtensionsView.xaml.cs">
+      <DependentUpon>ExtensionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ManageExpressionView.xaml.cs">
       <DependentUpon>ManageExpressionView.xaml</DependentUpon>
@@ -376,6 +382,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ExtensionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ManageExpressionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -437,7 +447,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>FileExplorer.Properties</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.tr.resx" />
+    <EmbeddedResource Include="Properties\Resources.tr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="App.config" />
     <Resource Include="Assets\Fonts\AwesomeSolid.ttf" />
     <None Include="packages.config" />
@@ -617,6 +629,10 @@
       <Project>{dcef0ec4-d0a0-4e15-b918-bc78e9441427}</Project>
       <Name>FileExplorer.Extension</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Extensions16.png" />
+    <Resource Include="Assets\Images\Extensions32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

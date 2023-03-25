@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="FileExplorer.View.ExtensionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:common="clr-namespace:FileExplorer.Core"
+             xmlns:controls="clr-namespace:FileExplorer.Controls"
+             MinWidth="800" MinHeight="200">
+
+    <dxmvvm:Interaction.Behaviors>
+        <dx:DialogService DialogWindowStartupLocation="CenterOwner" DialogStyle="{StaticResource DialogWindowStyle}" />
+    </dxmvvm:Interaction.Behaviors>
+
+    <dxlc:LayoutControl Orientation="Vertical">
+        <dxg:GridControl ItemsSource="{Binding Extensions}">
+            <dxg:GridControl.View>
+                <dxg:TableView AutoWidth="True" AllowColumnFiltering="False" AllowColumnMoving="False" AllowSorting="False"
+                               IsColumnMenuEnabled="False" ShowGroupPanel="False" VerticalScrollbarVisibility="Auto" NavigationStyle="Row" NewItemRowPosition="None"
+                               EditFormShowMode="Inline" EditFormPostConfirmation="YesNoCancel" EditFormPostMode="Immediate" ValidateRow="{DXEvent 'Extensions.Update(@args.Row)'}">
+                    <dxg:TableView.EditFormTemplate>
+                        <DataTemplate>                            
+                            <dxlc:LayoutControl>
+                                <dxlc:LayoutGroup Orientation="Vertical" Visibility="{Binding Source.Row.Error, Converter={dxmvvm:StringToVisibilityConverter Inverse=True}}">
+                                    <dxlc:LayoutItem Label="{Binding Disabled, Source={StaticResource ResourceProvider}}">
+                                        <dxg:EditFormEditor FieldName="Disabled" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding Preferred, Source={StaticResource ResourceProvider}}">
+                                        <dxg:EditFormEditor FieldName="DummyField" />
+                                    </dxlc:LayoutItem>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Margin="0,10,10,0" Width="75" Height="25" Command="{Binding CommitCommand}"
+                                                Content="{Binding OK, Source={StaticResource ResourceProvider}}" />
+                                        <Button Margin="0,10,0,0" Width="75" Height="25" Command="{Binding CancelCommand}"
+                                                Content="{Binding Cancel, Source={StaticResource ResourceProvider}}" />
+                                    </StackPanel>
+                                </dxlc:LayoutGroup>
+                                <dxlc:LayoutGroup Visibility="{Binding Source.Row.Error, Converter={dxmvvm:StringToVisibilityConverter}}">
+                                    <dxlc:LayoutItem Label="{Binding ExtensionError, Source={StaticResource ResourceProvider}}">
+                                        <dxe:HyperlinkEdit ShowNavigationUrlToolTip="False" Text="{Binding ErrorDetails, Source={StaticResource ResourceProvider}}" CommandParameter="{Binding Source.Row.Error}"
+                                                           Command="{Binding DataContext.ShowErrorDetailsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+                            </dxlc:LayoutControl>
+                        </DataTemplate>
+                    </dxg:TableView.EditFormTemplate>
+                </dxg:TableView>
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="DisplayName" Header="{Binding Name, Source={StaticResource ResourceProvider}}" Width="200" />
+                <dxg:GridColumn FieldName="Version" Header="{Binding Version, Source={StaticResource ResourceProvider}}" />
+                <dxg:GridColumn FieldName="Disabled" Header="{Binding Disabled, Source={StaticResource ResourceProvider}}" />
+                <dxg:GridColumn FieldName="DummyField"  Header="{Binding Preferred, Source={StaticResource ResourceProvider}}" Width="200"
+                                Binding="{Binding RowData.Row.Preferred, Mode=TwoWay, Converter={common:StringToEnumerableObjectConverter}}">
+                    <dxg:GridColumn.CellDisplayTemplate>
+                        <DataTemplate>
+                            <dxe:ComboBoxEdit x:Name="PART_Editor">
+                                <dxe:ComboBoxEdit.StyleSettings>
+                                    <dxe:TokenComboBoxStyleSettings NewTokenPosition="None" ShowTokenButtons="False" />
+                                </dxe:ComboBoxEdit.StyleSettings>
+                            </dxe:ComboBoxEdit>
+                        </DataTemplate>
+                    </dxg:GridColumn.CellDisplayTemplate>
+                    <dxg:GridColumn.EditFormTemplate>
+                        <DataTemplate>
+                            <controls:ExtensionTokenEditControl x:Name="PART_Editor" />
+                        </DataTemplate>
+                    </dxg:GridColumn.EditFormTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn FixedWidth="True" Width="25">
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconEdit}" Command="{x:Static dxg:GridCommands.EditFocusedRow}"
+                                    ToolTip="{Binding Edit, Source={StaticResource ResourceProvider}}" />
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
+                </dxg:GridColumn>
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+    </dxlc:LayoutControl>
+        
+</UserControl>

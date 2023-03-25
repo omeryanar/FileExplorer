@@ -50,12 +50,12 @@
                                 Binding="{Binding UncompressedSize, Converter={common:IntToFileSizeConverter}}" />
                 <dxg:GridColumn FieldName="CreationTime" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings DisplayFormat="dd.MM.yyyy HH:mm"/>
+                        <dxe:TextEditSettings DisplayFormat="G"/>
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
                 <dxg:GridColumn FieldName="LastWriteTime" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings DisplayFormat="dd.MM.yyyy HH:mm"/>
+                        <dxe:TextEditSettings DisplayFormat="G"/>
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
             </dxg:GridControl.Columns>

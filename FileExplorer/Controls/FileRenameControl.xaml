@@ -49,17 +49,17 @@
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="dd.MM.yyyy HH:mm"/>
+                <dxe:TextEditSettings DisplayFormat="G"/>
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="dd.MM.yyyy HH:mm"/>
+                <dxe:TextEditSettings DisplayFormat="G"/>
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="dd.MM.yyyy HH:mm"/>
+                <dxe:TextEditSettings DisplayFormat="G"/>
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
     </dxg:GridControl.Columns>

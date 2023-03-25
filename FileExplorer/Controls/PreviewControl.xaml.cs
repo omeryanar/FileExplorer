@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using DevExpress.Mvvm;
 using FileExplorer.Core;
+using FileExplorer.Extension;
 using FileExplorer.Messages;
 using FileExplorer.Model;
-using FileExplorer.Extension;
+using FileExplorer.Persistence;
 
 namespace FileExplorer.Controls
 {
@@ -44,27 +41,13 @@ namespace FileExplorer.Controls
             (nameof(Loading), typeof(bool), typeof(PreviewControl), new PropertyMetadata(null));
         public static readonly DependencyProperty LoadingProperty = LoadingPropertyKey.DependencyProperty;
 
-        public static readonly string ExtensionDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PreviewExtensions");
+        private Dictionary<string, IPreviewExtension> ExtensionCache = new Dictionary<string, IPreviewExtension>();
 
-        [ImportMany]
-        public List<IPreviewExtension> Extensions { get; private set; }
+        private ExtensionManager ExtensionManager;
 
         public PreviewControl()
         {
-            InitializeComponent();            
-
-            AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>
-            {
-                string fileName = new AssemblyName(e.Name).Name + ".dll";
-                
-                string[] files = Directory.GetFiles(ExtensionDirectory, fileName, SearchOption.AllDirectories);
-                if (files?.Length > 0) 
-                    return Assembly.LoadFile(files[0]);
-
-                return null;
-            };
-
-            LoadExtensions();
+            InitializeComponent();
 
             Messenger.Default.Register(this, async (NotificationMessage message) =>
             {
@@ -90,64 +73,19 @@ namespace FileExplorer.Controls
                     }
                 }
             });
-        }
 
-        private void LoadExtensions()
-        {
-            if (Directory.Exists(ExtensionDirectory))
-            {
-                AggregateCatalog aggregateCatalog = new AggregateCatalog();
-                DummyExtensionLoader dummyExtensionLoader = new DummyExtensionLoader();
-
-                foreach (string assemblyFile in Directory.EnumerateFiles(ExtensionDirectory, "FileExplorer.Extension.*.dll", SearchOption.AllDirectories))
-                {
-                    try
-                    {
-                        AssemblyCatalog assemblyCatalog = new AssemblyCatalog(assemblyFile);
-
-                        CompositionContainer compositionContainer = new CompositionContainer(assemblyCatalog);
-                        compositionContainer.ComposeParts(dummyExtensionLoader);
-
-                        aggregateCatalog.Catalogs.Add(assemblyCatalog);
-                    }
-                    catch (ReflectionTypeLoadException ex)
-                    {
-                        Journal.WriteLog(ex);
-
-                        if (ex.LoaderExceptions != null)
-                        {
-                            foreach (Exception exception in ex.LoaderExceptions)
-                                Journal.WriteLog(exception);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Journal.WriteLog(ex);
-                    }
-                }
-
-                CompositionContainer aggregateContainer = new CompositionContainer(aggregateCatalog);
-                aggregateContainer.ComposeParts(this);
-
-                if (Extensions != null)
-                {
-                    foreach (IPreviewExtension extension in Extensions)
-                    {
-                        if (extension is UIElement element)
-                            Children.Add(element);
-                    }
-                }
-            }
+            ExtensionManager = ExtensionManager.Instance;
         }
 
         private async Task HideAllExtensions()
         {
-            foreach (IPreviewExtension extension in Extensions)
+            foreach (UIElement element in Children)
             {
-                await extension.UnloadFile();
-
-                if (extension is UIElement element)
+                if (element is IPreviewExtension extension)
+                {
+                    await extension.UnloadFile();
                     element.Visibility = Visibility.Collapsed;
+                }
             }
         }
 
@@ -155,21 +93,26 @@ namespace FileExplorer.Controls
         {
             if (d is PreviewControl previewControl && e.NewValue is FileModel fileModel)
             {
+                UpdateExtensionCache(previewControl);
                 await previewControl.HideAllExtensions();
                 
                 if (fileModel.IsDirectory)
                     return;
 
-                previewControl.ActiveExtension = previewControl.Extensions?.FirstOrDefault(x => x.CanPreviewFile(fileModel.FullPath));
-                if (previewControl.ActiveExtension == null)
-                    return;
+                string fileType = fileModel.Extension.StartsWith(".") ? fileModel.Extension.Substring(1) : fileModel.Extension;
+                ExtensionMetadata preferredExtension = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.Preferred?.OrdinalContains(fileType) == true);
+
+                if (preferredExtension != null && previewControl.ExtensionCache.ContainsKey(preferredExtension.AssemblyName))
+                    previewControl.ActiveExtension = previewControl.ExtensionCache[preferredExtension.AssemblyName];
+                else
+                    previewControl.ActiveExtension = previewControl.ExtensionCache.Values.FirstOrDefault(x => x.CanPreviewFile(fileModel.FullPath));
 
                 if (previewControl.ActiveExtension is UIElement extension)
                 {
                     try
                     {
                         previewControl.Loading = true;
-                        await previewControl.ActiveExtension.PreviewFile(fileModel.FullPath);                            
+                        await previewControl.ActiveExtension.PreviewFile(fileModel.FullPath);
                     }
                     finally
                     {
@@ -180,10 +123,30 @@ namespace FileExplorer.Controls
             }
         }
 
-        private class DummyExtensionLoader
+        private static void UpdateExtensionCache(PreviewControl previewControl)
         {
-            [ImportMany]
-            public List<IPreviewExtension> Extensions { get; set; }
+            foreach (var extension in previewControl.ExtensionManager.Extensions)
+            {
+                ExtensionMetadata extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => x.AssemblyName == extension.Metadata.AssemblyName);
+
+                if (extensionMetadata?.Disabled == true && previewControl.ExtensionCache.ContainsKey(extensionMetadata.AssemblyName))
+                {
+                    IPreviewExtension previewExtension = previewControl.ExtensionCache[extensionMetadata.AssemblyName];
+                    if (previewExtension is UIElement element)
+                        previewControl.Children.Remove(element);
+
+                    previewControl.ExtensionCache.Remove(extensionMetadata.AssemblyName);
+                }
+
+                if (extensionMetadata?.Disabled == false && !previewControl.ExtensionCache.ContainsKey(extensionMetadata.AssemblyName))
+                {
+                    IPreviewExtension previewExtension = extension.CreateExport().Value;
+                    if (previewExtension is UIElement element)
+                        previewControl.Children.Add(element);
+
+                    previewControl.ExtensionCache.Add(extension.Metadata.AssemblyName, previewExtension);
+                }
+            }
         }
     }
 }

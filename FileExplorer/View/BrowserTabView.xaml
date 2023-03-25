@@ -161,6 +161,8 @@
                         <dxr:RibbonPageGroup>
                             <dxb:BarButtonItem Glyph="/Assets/Images/Options16.png" LargeGlyph="/Assets/Images/Options32.png"
                                                Content="{Binding Options, Source={StaticResource ResourceProvider}}" Command="{Binding ShowOptionsCommand}" />
+                            <dxb:BarButtonItem Glyph="/Assets/Images/Extensions16.png" LargeGlyph="/Assets/Images/Extensions32.png"
+                                               Content="{Binding Extensions, Source={StaticResource ResourceProvider}}" Command="{Binding ShowExtensionsCommand}" />
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                     <dxr:RibbonPage Caption="{Binding View, Source={StaticResource ResourceProvider}}">
@@ -455,13 +457,13 @@
                             </dxe:ProgressBarEdit>
                             <Image RenderOptions.BitmapScalingMode="HighQuality" Stretch="None" HorizontalAlignment="Left" Source="{Binding ExtraLargeIcon}" />
                             <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
-                                <TextBlock FontWeight="Bold" Text="{Binding DateCreated, StringFormat={}{0:dd.MM.yyyy HH:mm}}" />
+                                <TextBlock FontWeight="Bold" Text="{Binding DateCreated, StringFormat=G}" />
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="{Binding DateModified, Source={StaticResource ResourceProvider}}">
-                                <TextBlock FontWeight="Bold" Text="{Binding DateModified, StringFormat={}{0:dd.MM.yyyy HH:mm}}" />
+                                <TextBlock FontWeight="Bold" Text="{Binding DateModified, StringFormat=G}" />
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="{Binding DateAccessed, Source={StaticResource ResourceProvider}}">
-                                <TextBlock FontWeight="Bold" Text="{Binding DateAccessed, StringFormat={}{0:dd.MM.yyyy HH:mm}}" />
+                                <TextBlock FontWeight="Bold" Text="{Binding DateAccessed, StringFormat=G}" />
                             </dxlc:LayoutItem>
                         </dxlc:LayoutGroup>
                     </dxlc:LayoutGroup>

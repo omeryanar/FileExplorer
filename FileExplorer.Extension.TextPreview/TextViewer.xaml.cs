@@ -10,6 +10,9 @@ using ICSharpCode.AvalonEdit.Highlighting;
 namespace FileExplorer.Extension.TextPreview
 {
     [Export(typeof(IPreviewExtension))]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.AssemblyName), "FileExplorer.Extension.TextPreview")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Text Viewer")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class TextViewer : UserControl, IPreviewExtension
     {
         public TextDocument Document

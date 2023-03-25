@@ -11,6 +11,9 @@ using DevExpress.Xpf.DocumentViewer;
 namespace FileExplorer.Extension.PdfPreview
 {
     [Export(typeof(IPreviewExtension))]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.AssemblyName), "FileExplorer.Extension.PdfPreview")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "PDF Viewer")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class PdfViewer : UserControl, IPreviewExtension
     {
         public Stream Document

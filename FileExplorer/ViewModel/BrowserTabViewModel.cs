@@ -130,6 +130,14 @@ namespace FileExplorer.ViewModel
                 Settings.Default.Reload();
         }
 
+        public void ShowExtensions()
+        {
+            ExtensionViewModel viewModel = ViewModelSource.Create<ExtensionViewModel>();
+            viewModel.Extensions = App.Repository.Extensions;
+
+            DialogService.ShowDialog(MessageButton.OK, Properties.Resources.Extensions, "ExtensionsView", viewModel);
+        }
+
         public bool CanOpenItem(FileModel fileModel)
         {
             return fileModel != null;
