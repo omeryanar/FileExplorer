@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net4.8</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Wpf.Core" Version="22.2.*-*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Wpf.Spreadsheet" Version="22.2.*-*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Windows.Forms" />
+      <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>

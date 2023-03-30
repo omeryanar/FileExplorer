@@ -5,16 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using DevExpress.Mvvm.UI;
-using DevExpress.Xpf.DocumentViewer;
 
-namespace FileExplorer.Extension.PdfPreview
+namespace FileExplorer.Extension.RichTextPreview
 {
     [Export(typeof(IPreviewExtension))]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.AssemblyName), "FileExplorer.Extension.PdfPreview")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "PDF Viewer")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.AssemblyName), "FileExplorer.Extension.RichTextPreview")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Rich Text Viewer")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
-    public partial class PdfViewer : UserControl, IPreviewExtension
+    public partial class RichTextViewer : UserControl, IPreviewExtension
     {
         public Stream Document
         {
@@ -22,17 +20,17 @@ namespace FileExplorer.Extension.PdfPreview
             set { SetValue(DocumentProperty, value); }
         }
         public static readonly DependencyProperty DocumentProperty =
-            DependencyProperty.Register(nameof(Document), typeof(Stream), typeof(PdfViewer));
+            DependencyProperty.Register(nameof(Document), typeof(Stream), typeof(RichTextViewer));
 
-        public double ZoomFactor
+        public float ZoomFactor
         {
-            get { return (double)GetValue(ZoomFactorProperty); }
+            get { return (float)GetValue(ZoomFactorProperty); }
             set { SetValue(ZoomFactorProperty, value); }
         }
         public static readonly DependencyProperty ZoomFactorProperty =
-            DependencyProperty.Register(nameof(ZoomFactor), typeof(double), typeof(PdfViewer), new PropertyMetadata(1.0));
+            DependencyProperty.Register(nameof(ZoomFactor), typeof(float), typeof(RichTextViewer), new PropertyMetadata(1f));
 
-        public PdfViewer()
+        public RichTextViewer()
         {
             InitializeComponent();
         }
@@ -41,14 +39,14 @@ namespace FileExplorer.Extension.PdfPreview
         {
             string extension = Path.GetExtension(filePath);
 
-            return extension.Equals(".pdf", StringComparison.OrdinalIgnoreCase);
+            return supportedExtensions.Any(x => extension.Equals(x, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task PreviewFile(string filePath)
         {
             try
             {
-                ZoomFactor = 1;
+                ZoomFactor = 100f;
 
                 using (FileStream fileStream = File.Open(filePath, FileMode.Open))
                 {
@@ -73,14 +71,6 @@ namespace FileExplorer.Extension.PdfPreview
             return Task.CompletedTask;
         }
 
-        private void OnPdfViewerLoaded(object sender, RoutedEventArgs e)
-        {
-            DXScrollViewer viewer = LayoutTreeHelper.GetVisualChildren(this).OfType<DXScrollViewer>().FirstOrDefault();
-            if (viewer != null)
-            {
-                viewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-                viewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            }
-        }
+        private string[] supportedExtensions = new string[] { ".rtf", ".doc", ".docx", ".docm", ".dot", ".dotm", ".dotx", ".odt", ".epub", ".htm", ".html", ".mht" };
     }
 }

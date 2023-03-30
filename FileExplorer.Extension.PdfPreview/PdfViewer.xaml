@@ -24,21 +24,23 @@
             <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomIn.svg}" Command="{Binding ZoomInCommand, ElementName=pdfViewer}" />
             <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomOut.svg}" Command="{Binding ZoomOutCommand, ElementName=pdfViewer}" />
         </dxb:ToolBarControl>
-        <dxpdf:PdfViewerControl x:Name="pdfViewer" CommandBarStyle="None" ShowStartScreen="False" ZoomMode="PageLevel"
-                                ZoomFactor="{Binding ZoomFactor, Mode=TwoWay}" DocumentSource="{Binding Document}" Loaded="OnPdfViewerLoaded">
-            <dxpdf:PdfViewerControl.CommentViewerSettings>
-                <dxpdf:PdfCommentViewerSettings HideCommentViewer="True" />
-            </dxpdf:PdfViewerControl.CommentViewerSettings>
-            <dxpdf:PdfViewerControl.OutlinesViewerSettings>
-                <dxpdf:PdfOutlinesViewerSettings HideOutlinesViewer="True" />
-            </dxpdf:PdfViewerControl.OutlinesViewerSettings>
-            <dxpdf:PdfViewerControl.ThumbnailsViewerSettings>
-                <dxpdf:PdfThumbnailsViewerSettings HideThumbnailsViewer="True" />
-            </dxpdf:PdfViewerControl.ThumbnailsViewerSettings>
-            <dxpdf:PdfViewerControl.AttachmentsViewerSettings>
-                <dxpdf:PdfAttachmentsViewerSettings HideAttachmentsViewer="True" />
-            </dxpdf:PdfViewerControl.AttachmentsViewerSettings>
-        </dxpdf:PdfViewerControl>
+        <dx:LoadingDecorator>
+            <dxpdf:PdfViewerControl x:Name="pdfViewer" CommandBarStyle="None" ShowStartScreen="False" ZoomMode="PageLevel"
+                                    ZoomFactor="{Binding ZoomFactor, Mode=TwoWay}" DocumentSource="{Binding Document}" Loaded="OnPdfViewerLoaded">
+                <dxpdf:PdfViewerControl.CommentViewerSettings>
+                    <dxpdf:PdfCommentViewerSettings HideCommentViewer="True" />
+                </dxpdf:PdfViewerControl.CommentViewerSettings>
+                <dxpdf:PdfViewerControl.OutlinesViewerSettings>
+                    <dxpdf:PdfOutlinesViewerSettings HideOutlinesViewer="True" />
+                </dxpdf:PdfViewerControl.OutlinesViewerSettings>
+                <dxpdf:PdfViewerControl.ThumbnailsViewerSettings>
+                    <dxpdf:PdfThumbnailsViewerSettings HideThumbnailsViewer="True" />
+                </dxpdf:PdfViewerControl.ThumbnailsViewerSettings>
+                <dxpdf:PdfViewerControl.AttachmentsViewerSettings>
+                    <dxpdf:PdfAttachmentsViewerSettings HideAttachmentsViewer="True" />
+                </dxpdf:PdfViewerControl.AttachmentsViewerSettings>
+            </dxpdf:PdfViewerControl>
+        </dx:LoadingDecorator>
     </DockPanel>
 
 </UserControl>

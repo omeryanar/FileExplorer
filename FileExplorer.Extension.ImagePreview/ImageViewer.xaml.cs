@@ -53,7 +53,7 @@ namespace FileExplorer.Extension.ImagePreview
             set { SetValue(ScaleFactorProperty, value); }
         }
         public static readonly DependencyProperty ScaleFactorProperty =
-            DependencyProperty.Register(nameof(ScaleFactor), typeof(double), typeof(ImageViewer), new PropertyMetadata(1.0));
+            DependencyProperty.Register(nameof(ScaleFactor), typeof(double), typeof(ImageViewer), new PropertyMetadata(100.0));
 
         public ImageViewer()
         {
@@ -70,11 +70,11 @@ namespace FileExplorer.Extension.ImagePreview
 
         public async Task PreviewFile(string filePath)
         {
-            ScaleFactor= 1;
-            RotationAngle = 0;
-
             try
             {
+                ScaleFactor = 100;
+                RotationAngle = 0;
+
                 currentFilePath = filePath;
                 currentFileExtension = Path.GetExtension(currentFilePath);
 

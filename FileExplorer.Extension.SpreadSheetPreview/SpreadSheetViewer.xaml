@@ -1,22 +1,21 @@
-﻿<UserControl x:Class="FileExplorer.Extension.ImagePreview.ImageViewer"
+﻿<UserControl x:Class="FileExplorer.Extension.SpreadSheetPreview.SpreadSheetViewer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxsps="http://schemas.devexpress.com/winfx/2008/xaml/spreadsheet"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              x:Name="CodeBehind" DataContext="{Binding ElementName=CodeBehind}">
+
     <DockPanel>
         <dxb:ToolBarControl DockPanel.Dock="Bottom" Padding="10" Background="Transparent" HorizontalAlignment="Center" AllowQuickCustomization="False">
-            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateLeft.svg}" Command="{DXCommand 'RotateLeft()'}" />
-            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateRight.svg}" Command="{DXCommand 'RotateRight()'}" />
-            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Edit.svg}" Command="{Binding EditCommand}" />
             <dxb:BarEditItem>
                 <dxb:BarEditItem.EditTemplate>
                     <DataTemplate>
                         <dxe:TrackBarEdit Width="180" SmallStep="10" LargeStep="100">
                             <dxmvvm:Interaction.Behaviors>
-                                <dxe:OfficeZoomTrackBarBehavior Value="{Binding ScaleFactor, Mode=TwoWay, ElementName=CodeBehind}" Minimum="10" Maximum="500" />
+                                <dxe:OfficeZoomTrackBarBehavior Value="{Binding ActiveViewZoom , Mode=TwoWay, ElementName=SpreadSheetEditor}" Minimum="10" Maximum="500" />
                             </dxmvvm:Interaction.Behaviors>
                             <dxe:TrackBarEdit.StyleSettings>
                                 <dxe:TrackBarZoomStyleSettings />
@@ -25,7 +24,7 @@
                     </DataTemplate>
                 </dxb:BarEditItem.EditTemplate>
             </dxb:BarEditItem>
-            <dxb:BarStaticItem Margin="0,0,0,7" Content="{Binding ScaleFactor, Converter={dxmvvm:FormatStringConverter FormatString={}{0:00}%}}">
+            <dxb:BarStaticItem Margin="0,0,0,7" Content="{Binding ActiveViewZoom, ElementName=SpreadSheetEditor, Converter={dxmvvm:FormatStringConverter FormatString={}{0:00}%}}">
                 <dxb:BarStaticItem.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontSize="14" Text="{Binding}" />
@@ -33,15 +32,9 @@
                 </dxb:BarStaticItem.ContentTemplate>
             </dxb:BarStaticItem>
         </dxb:ToolBarControl>
-        <Grid ClipToBounds="True">
-            <Image Source="{Binding ImageSource}" StretchDirection="DownOnly" RenderTransformOrigin="0.5, 0.5">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="{Binding RotationAngle}" />
-                        <ScaleTransform ScaleX="{DXBinding 'ScaleFactor / 100'}" ScaleY="{DXBinding 'ScaleFactor / 100'}" />
-                    </TransformGroup>
-                </Image.RenderTransform>
-            </Image>
-        </Grid>
-    </DockPanel>
+        <dx:LoadingDecorator>
+            <dxsps:SpreadsheetControl x:Name="SpreadSheetEditor" ReadOnly="True" DocumentSource="{Binding Document}" />
+        </dx:LoadingDecorator>        
+    </DockPanel>    
+
 </UserControl>
