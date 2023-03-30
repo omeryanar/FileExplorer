@@ -40,14 +40,14 @@ namespace FileExplorer.View
 
             SizeChanged += (s, e) =>
             {
-                Settings.Default.WindowWidth = Width;
-                Settings.Default.WindowHeight = Height;
+                Settings.Default.WindowWidth = Width > 0 ? Width : MinWidth;
+                Settings.Default.WindowHeight = Height > 0 ? Height : MinHeight;
             };
 
             LocationChanged += (s, e) =>
             {
-                Settings.Default.WindowTop = Top;
-                Settings.Default.WindowLeft = Left;
+                Settings.Default.WindowTop = Top > 0 ? Top : 0;
+                Settings.Default.WindowLeft = Left > 0 ? Left : 0;
             };
         }
 
