@@ -59,6 +59,22 @@ You can create calculated columns by using Excel-style formulas.
 
 ![Custom Columns](https://github.com/omeryanar/Resources/blob/master/FileExplorer/CustomColumns.png?raw=true)
 
+### Preview Pane
+
+The Preview Pane at the rightmost of the application supports preview for the following file types:
+
+* Image Files (.png, .gif, .ico, .bmp, .jpg, .jpeg, .tif, .tiff, .svg)
+* Word Files (.rtf, .doc, .docx, .docm, .dot, .dotm, .dotx, .odt, .epub, .htm, .html, .mht)
+* Excel Files (.xls, .xlt, .xlsx, .xltx, .xlsb, .xlsm, .xltm, .csv)
+* Text Files (.txt, .xml, .cs, .sql ...)
+* PDF Files (.pdf)
+
+Note that some extensions (such as Word and Excel) may take a long time to load. You can disable them in Extension Manager.
+You can also set priority for extensions that can preview the same file types.
+For example, both Text and RichText extesions can preview HTML files. If you set one of them as preferred, HTML files will be previewed using this extension.
+
+![Preview Pane](https://github.com/omeryanar/Resources/blob/master/FileExplorer/ExtensionManager.png?raw=true)
+
 ### Filtering
 
 You can filter file and folders by using Excel-style drop-down filter.
