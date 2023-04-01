@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using DevExpress.Xpf.Editors;
 using FileExplorer.View;
 
@@ -21,6 +23,18 @@ namespace FileExplorer.Controls
             view.ShowDialog();
 
             RefreshData();
+        }
+
+        private void OnValidate(object sender, ValidationEventArgs e)
+        {
+            if (e.Value is String statement && !String.IsNullOrWhiteSpace(statement))
+            {
+                if (App.Repository.Expressions.Any(x => x.Statement == statement) == false)
+                {
+                    App.Repository.Expressions.Add(new Persistence.Expression { Statement = statement });
+                    RefreshData();
+                }
+            }
         }
     }
 }

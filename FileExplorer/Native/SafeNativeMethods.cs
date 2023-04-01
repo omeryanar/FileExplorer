@@ -44,23 +44,25 @@ namespace FileExplorer.Native
 
             if (path.StartsWith(".") || path.StartsWith(@"\\"))
             {
-                result = SHGetFileInfo(path, FileAttributes.Normal, ref shFileInfo, Marshal.SizeOf(shFileInfo), SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_USEFILEATTRIBUTES);
+                result = SHGetFileInfo(path, FileAttributes.Normal, ref shFileInfo, FileInfoSize, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_USEFILEATTRIBUTES);
             }
             else
             {
                 PIDL pidl = ILCreateFromPath(path);
-                result = SHGetFileInfo(pidl, FileAttributes.Normal, ref shFileInfo, Marshal.SizeOf(shFileInfo), SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_PIDL);
+                result = SHGetFileInfo(pidl, FileAttributes.Normal, ref shFileInfo, FileInfoSize, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_PIDL);
             }
 
             if (result == IntPtr.Zero)
                 return null;
 
-            SHGetImageList(size, ImageListId, out object image);
+            if (SHGetImageList(size, ImageListId, out object image) != HRESULT.S_OK)
+                return null;
+
             IImageList iImageList = image as IImageList;
             if (iImageList == null)
                 return null;
 
-            SafeHICON hIcon = iImageList.GetIcon(shFileInfo.iIcon, IMAGELISTDRAWFLAGS.ILD_IMAGE);
+            SafeHICON hIcon = iImageList.GetIcon(shFileInfo.iIcon, IMAGELISTDRAWFLAGS.ILD_IMAGE);            
 
             ImageSource imageSource = hIcon.ToBitmapSource();
             imageSource.Freeze();
@@ -102,6 +104,7 @@ namespace FileExplorer.Native
 
         private static readonly Guid ImageListId = typeof(IImageList).GUID;
 
+        private static readonly int FileInfoSize = Marshal.SizeOf(typeof(SHFILEINFO));
     }
 
     public static class KnownFolders

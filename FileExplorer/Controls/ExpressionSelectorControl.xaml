@@ -9,7 +9,7 @@
 
     <dxe:ComboBoxEdit.Template>
         <ControlTemplate>
-            <controls:ExpressionEditorControl EditValue="{Binding EditValue, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}">
+            <controls:ExpressionEditorControl Validate="OnValidate" EditValue="{Binding EditValue, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}">
                 <controls:ExpressionEditorControl.Buttons>
                     <dxe:ButtonInfo GlyphKind="Regular" Command="{DXCommand '@a($dxe:ComboBoxEdit).ShowManageExpressionView()'}" />
                     <dxe:ButtonInfo GlyphKind="DropDown" Command="{Binding OpenPopupCommand, RelativeSource={RelativeSource AncestorType=dxe:ComboBoxEdit}}" />

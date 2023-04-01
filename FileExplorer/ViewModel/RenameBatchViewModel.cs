@@ -49,7 +49,7 @@ namespace FileExplorer.ViewModel
                     Icon = IconType.Exclamation,
                     Title = Properties.Resources.InvalidFileName,
                     Content = Properties.Resources.InvalidFileNameMessage,
-                    Details = invalidFileNames.Select(x => x.Tag.ToString()).Join(Environment.NewLine)
+                    Details = invalidFileNames.Select(x => $"'{x}' => '{x.Tag}'").Join(Environment.NewLine)
                 };
                 DialogService.ShowDialog(MessageButton.OK, viewModel.Title, "MessageView", viewModel);
 
@@ -65,7 +65,7 @@ namespace FileExplorer.ViewModel
                     Icon = IconType.Exclamation,
                     Title = Properties.Resources.DuplicateFileName,
                     Content = Properties.Resources.DuplicateFileNameMessage,
-                    Details = duplicateFileNames.Select(x => x.Tag.ToString()).Join(Environment.NewLine)
+                    Details = duplicateFileNames.Select(x => $"'{x}' => '{x.Tag}'").Join(Environment.NewLine)
                 };
                 DialogService.ShowDialog(MessageButton.OK, viewModel.Title, "MessageView", viewModel);
 

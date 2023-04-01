@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -43,8 +42,6 @@ namespace FileExplorer.Controls
 
         private Dictionary<string, IPreviewExtension> ExtensionCache = new Dictionary<string, IPreviewExtension>();
 
-        private ExtensionManager ExtensionManager;
-
         public PreviewControl()
         {
             InitializeComponent();
@@ -73,31 +70,51 @@ namespace FileExplorer.Controls
                     }
                 }
             });
-
-            ExtensionManager = ExtensionManager.Instance;
         }
 
-        private async Task HideAllExtensions()
+        private void UpdateExtensionCache()
         {
-            foreach (UIElement element in Children)
+            foreach (var extension in ExtensionManager.Instance.Extensions)
             {
-                if (element is IPreviewExtension extension)
+                ExtensionMetadata extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => x.AssemblyName == extension.Metadata.AssemblyName);
+
+                if (extensionMetadata?.Disabled == true && ExtensionCache.ContainsKey(extensionMetadata.AssemblyName))
                 {
-                    await extension.UnloadFile();
-                    element.Visibility = Visibility.Collapsed;
+                    IPreviewExtension previewExtension = ExtensionCache[extensionMetadata.AssemblyName];
+                    if (previewExtension is UIElement element)
+                        Children.Remove(element);
+
+                    ExtensionCache.Remove(extensionMetadata.AssemblyName);
+                }
+
+                if (extensionMetadata?.Disabled == false && !ExtensionCache.ContainsKey(extensionMetadata.AssemblyName))
+                {
+                    IPreviewExtension previewExtension = extension.CreateExport().Value;
+                    if (previewExtension is UIElement element)
+                    {
+                        element.Visibility = Visibility.Collapsed;
+                        Children.Add(element);
+                    }
+
+                    ExtensionCache.Add(extension.Metadata.AssemblyName, previewExtension);
                 }
             }
         }
 
         private static async void OnFileChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PreviewControl previewControl && e.NewValue is FileModel fileModel)
+            if (d is PreviewControl previewControl && previewControl.IsVisible && e.NewValue is FileModel fileModel)
             {
-                UpdateExtensionCache(previewControl);
-                await previewControl.HideAllExtensions();
-                
+                if (previewControl.ActiveExtension is UIElement element)
+                {
+                    element.Visibility = Visibility.Collapsed;
+                    await previewControl.ActiveExtension.UnloadFile();
+                }
+
                 if (fileModel.IsDirectory)
                     return;
+
+                previewControl.UpdateExtensionCache();
 
                 string fileType = fileModel.Extension.StartsWith(".") ? fileModel.Extension.Substring(1) : fileModel.Extension;
                 ExtensionMetadata preferredExtension = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.Preferred?.OrdinalContains(fileType) == true);
@@ -119,32 +136,6 @@ namespace FileExplorer.Controls
                         extension.Visibility = Visibility.Visible;
                         previewControl.Loading = false;
                     }
-                }
-            }
-        }
-
-        private static void UpdateExtensionCache(PreviewControl previewControl)
-        {
-            foreach (var extension in previewControl.ExtensionManager.Extensions)
-            {
-                ExtensionMetadata extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => x.AssemblyName == extension.Metadata.AssemblyName);
-
-                if (extensionMetadata?.Disabled == true && previewControl.ExtensionCache.ContainsKey(extensionMetadata.AssemblyName))
-                {
-                    IPreviewExtension previewExtension = previewControl.ExtensionCache[extensionMetadata.AssemblyName];
-                    if (previewExtension is UIElement element)
-                        previewControl.Children.Remove(element);
-
-                    previewControl.ExtensionCache.Remove(extensionMetadata.AssemblyName);
-                }
-
-                if (extensionMetadata?.Disabled == false && !previewControl.ExtensionCache.ContainsKey(extensionMetadata.AssemblyName))
-                {
-                    IPreviewExtension previewExtension = extension.CreateExport().Value;
-                    if (previewExtension is UIElement element)
-                        previewControl.Children.Add(element);
-
-                    previewControl.ExtensionCache.Add(extension.Metadata.AssemblyName, previewExtension);
                 }
             }
         }
