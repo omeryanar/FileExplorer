@@ -8,6 +8,8 @@ namespace FileExplorer.Persistence
 
         public string DisplayName { get; set; }
 
+        public string SupportedFileTypes { get; set; }
+
         public string Version { get; set; }
 
         public string Preferred { get; set; }
@@ -15,13 +17,13 @@ namespace FileExplorer.Persistence
         public string Error { get; set; }
 
         public bool Disabled { get; set; }
-        
+
         public ExtensionMetadata() { }
 
         public ExtensionMetadata(IPreviewExtensionMetadata extensionMetadata) 
         {
-            AssemblyName = extensionMetadata.AssemblyName;
             DisplayName = extensionMetadata.DisplayName;
+            SupportedFileTypes = extensionMetadata.SupportedFileTypes;
             Version = extensionMetadata.Version;
         }
 

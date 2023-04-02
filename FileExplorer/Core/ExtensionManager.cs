@@ -15,13 +15,14 @@ namespace FileExplorer.Core
     {
         #region Singleton
 
-        public static ExtensionManager Instance => LazyInitializer.Value;        
-        
-        private static readonly Lazy<ExtensionManager> LazyInitializer = new Lazy<ExtensionManager>(() => new ExtensionManager());
+        public static ExtensionManager Instance {get; private set;}
 
-        private string[] ExtensionAssemblies;
+        static ExtensionManager()
+        {
+            Instance = new ExtensionManager();
+        }
 
-        private ExtensionManager()
+        private ExtensionManager() 
         {
             ExtensionAssemblies = Directory.GetFiles(ExtensionDirectory, "*.dll", SearchOption.AllDirectories);
 
@@ -29,7 +30,7 @@ namespace FileExplorer.Core
             {
                 string fileName = new AssemblyName(e.Name).Name + ".dll";
 
-                string file = ExtensionAssemblies.FirstOrDefault(x => x.Equals(fileName, StringComparison.OrdinalIgnoreCase));
+                string file = ExtensionAssemblies.FirstOrDefault(x => x.OrdinalEquals(fileName));
                 if (file != null)
                     return Assembly.LoadFile(file);
 
@@ -38,6 +39,8 @@ namespace FileExplorer.Core
 
             LoadExtensions();
         }
+
+        private static string[] ExtensionAssemblies;
 
         #endregion
 
@@ -67,12 +70,14 @@ namespace FileExplorer.Core
                         if (extensionMetadata == null)
                         {
                             extensionMetadata = new ExtensionMetadata(dummyExtensionLoader.Extension.Metadata);
+                            extensionMetadata.AssemblyName = assemblyName;
+
                             App.Repository.Extensions.Add(extensionMetadata);
                         }
                         else
                         {
-                            extensionMetadata.DisplayName = dummyExtensionLoader.Extension.Metadata.DisplayName;
                             extensionMetadata.Version = dummyExtensionLoader.Extension.Metadata.Version;
+                            extensionMetadata.SupportedFileTypes = dummyExtensionLoader.Extension.Metadata.SupportedFileTypes;
                             extensionMetadata.Error = String.Empty;
 
                             App.Repository.Extensions.Update(extensionMetadata);
@@ -130,10 +135,10 @@ namespace FileExplorer.Core
 
                 foreach (ExtensionMetadata extensionMetadata in App.Repository.Extensions.Where(x => !x.Disabled))
                 {
-                    if (!Extensions.Any(x => x.Metadata.AssemblyName == extensionMetadata.AssemblyName))
+                    if (!Extensions.Any(x => x.Metadata.DisplayName == extensionMetadata.DisplayName))
                     {
                         extensionMetadata.Disabled = true;
-                        extensionMetadata.Error = "Assembly Not Found";
+                        extensionMetadata.Error = $"Assembly Not Found: {extensionMetadata.AssemblyName}";
 
                         App.Repository.Extensions.Update(extensionMetadata);    
                     }

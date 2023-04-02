@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,8 +10,8 @@ using DevExpress.Xpf.Spreadsheet;
 namespace FileExplorer.Extension.SpreadSheetPreview
 {
     [Export(typeof(IPreviewExtension))]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.AssemblyName), "FileExplorer.Extension.SpreadSheetPreview")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Spread Sheet Viewer")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "csv,xls,xlt,xlsx,xltx,xlsb,xlsm,xltm")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class SpreadSheetViewer : UserControl, IPreviewExtension
     {
@@ -27,13 +26,6 @@ namespace FileExplorer.Extension.SpreadSheetPreview
         public SpreadSheetViewer()
         {
             InitializeComponent();
-        }
-
-        public bool CanPreviewFile(string filePath)
-        {
-            string extension = Path.GetExtension(filePath);
-
-            return supportedExtensions.Any(x => extension.Equals(x, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task PreviewFile(string filePath)

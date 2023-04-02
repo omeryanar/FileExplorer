@@ -16,8 +16,8 @@ using DevExpress.Xpf.Core.Native;
 namespace FileExplorer.Extension.ImagePreview
 {
     [Export(typeof(IPreviewExtension))]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.AssemblyName), "FileExplorer.Extension.ImagePreview")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Image Viewer")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "bmp,jpg,jpeg,ico,gif,png,svg,tif,tiff")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class ImageViewer : UserControl, IPreviewExtension
     {
@@ -59,13 +59,6 @@ namespace FileExplorer.Extension.ImagePreview
         {
             InitializeComponent();
             EditCommand = new DelegateCommand(EditImage, CanEditImage);
-        }
-
-        public bool CanPreviewFile(string filePath)
-        {
-            string extension = Path.GetExtension(filePath);
-
-            return supportedExtensions.Any(x => extension.Equals(x, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task PreviewFile(string filePath)
@@ -159,8 +152,6 @@ namespace FileExplorer.Extension.ImagePreview
 
         private string currentFilePath;
 
-        private string currentFileExtension;        
-
-        private string[] supportedExtensions = new string[] { ".png", ".gif", ".ico", ".bmp", ".jpg", ".jpeg", ".tif", ".tiff", ".svg" };
+        private string currentFileExtension;
     }
 }

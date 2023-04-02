@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,8 +8,8 @@ using System.Windows.Controls;
 namespace FileExplorer.Extension.RichTextPreview
 {
     [Export(typeof(IPreviewExtension))]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.AssemblyName), "FileExplorer.Extension.RichTextPreview")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Rich Text Viewer")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "doc,docx,docm,dot,dotm,dotx,epub,htm,html,mht,odt,rtf")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class RichTextViewer : UserControl, IPreviewExtension
     {
@@ -33,13 +32,6 @@ namespace FileExplorer.Extension.RichTextPreview
         public RichTextViewer()
         {
             InitializeComponent();
-        }
-
-        public bool CanPreviewFile(string filePath)
-        {
-            string extension = Path.GetExtension(filePath);
-
-            return supportedExtensions.Any(x => extension.Equals(x, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task PreviewFile(string filePath)
@@ -70,7 +62,5 @@ namespace FileExplorer.Extension.RichTextPreview
 
             return Task.CompletedTask;
         }
-
-        private string[] supportedExtensions = new string[] { ".rtf", ".doc", ".docx", ".docm", ".dot", ".dotm", ".dotx", ".odt", ".epub", ".htm", ".html", ".mht" };
     }
 }

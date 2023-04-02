@@ -12,7 +12,7 @@ using FileExplorer.Persistence;
 
 namespace FileExplorer.Controls
 {
-    public partial class PreviewControl : Grid
+    public partial class PreviewControl : ContentControl
     {
         public FileModel File
         {
@@ -39,8 +39,6 @@ namespace FileExplorer.Controls
         private static readonly DependencyPropertyKey LoadingPropertyKey = DependencyProperty.RegisterReadOnly
             (nameof(Loading), typeof(bool), typeof(PreviewControl), new PropertyMetadata(null));
         public static readonly DependencyProperty LoadingProperty = LoadingPropertyKey.DependencyProperty;
-
-        private Dictionary<string, IPreviewExtension> ExtensionCache = new Dictionary<string, IPreviewExtension>();
 
         public PreviewControl()
         {
@@ -72,31 +70,36 @@ namespace FileExplorer.Controls
             });
         }
 
-        private void UpdateExtensionCache()
+        private async Task ActivateExtension(FileModel fileModel)
         {
-            foreach (var extension in ExtensionManager.Instance.Extensions)
+            string fileType = fileModel.Extension.StartsWith(".") ? fileModel.Extension.Substring(1) : fileModel.Extension;
+            
+            ExtensionMetadata extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.Preferred?.Split("|").Any(x => x.OrdinalEquals(fileType)) == true);
+            if (extensionMetadata == null)
+                extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.SupportedFileTypes?.Split(",").Any(x => x.OrdinalEquals(fileType)) == true);
+
+            if (extensionMetadata == null)
+                return;
+
+            if (!ExtensionCache.ContainsKey(extensionMetadata.DisplayName))
             {
-                ExtensionMetadata extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => x.AssemblyName == extension.Metadata.AssemblyName);
+                var exportFactory = ExtensionManager.Instance.Extensions.FirstOrDefault(x => x.Metadata.DisplayName == extensionMetadata.DisplayName);
+                IPreviewExtension extension = exportFactory.CreateExport().Value;
 
-                if (extensionMetadata?.Disabled == true && ExtensionCache.ContainsKey(extensionMetadata.AssemblyName))
+                ExtensionCache.Add(extensionMetadata.DisplayName, extension);
+            }
+
+            ActiveExtension = ExtensionCache[extensionMetadata.DisplayName];
+            if (ActiveExtension != null)
+            {
+                try
                 {
-                    IPreviewExtension previewExtension = ExtensionCache[extensionMetadata.AssemblyName];
-                    if (previewExtension is UIElement element)
-                        Children.Remove(element);
-
-                    ExtensionCache.Remove(extensionMetadata.AssemblyName);
+                    Loading = true;
+                    await ActiveExtension.PreviewFile(fileModel.FullPath);
                 }
-
-                if (extensionMetadata?.Disabled == false && !ExtensionCache.ContainsKey(extensionMetadata.AssemblyName))
+                finally
                 {
-                    IPreviewExtension previewExtension = extension.CreateExport().Value;
-                    if (previewExtension is UIElement element)
-                    {
-                        element.Visibility = Visibility.Collapsed;
-                        Children.Add(element);
-                    }
-
-                    ExtensionCache.Add(extension.Metadata.AssemblyName, previewExtension);
+                    Loading = false;
                 }
             }
         }
@@ -105,39 +108,16 @@ namespace FileExplorer.Controls
         {
             if (d is PreviewControl previewControl && previewControl.IsVisible && e.NewValue is FileModel fileModel)
             {
-                if (previewControl.ActiveExtension is UIElement element)
-                {
-                    element.Visibility = Visibility.Collapsed;
+                if (previewControl.ActiveExtension != null)
                     await previewControl.ActiveExtension.UnloadFile();
-                }
 
-                if (fileModel.IsDirectory)
-                    return;
+                previewControl.ActiveExtension = null;
 
-                previewControl.UpdateExtensionCache();
-
-                string fileType = fileModel.Extension.StartsWith(".") ? fileModel.Extension.Substring(1) : fileModel.Extension;
-                ExtensionMetadata preferredExtension = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.Preferred?.OrdinalContains(fileType) == true);
-
-                if (preferredExtension != null && previewControl.ExtensionCache.ContainsKey(preferredExtension.AssemblyName))
-                    previewControl.ActiveExtension = previewControl.ExtensionCache[preferredExtension.AssemblyName];
-                else
-                    previewControl.ActiveExtension = previewControl.ExtensionCache.Values.FirstOrDefault(x => x.CanPreviewFile(fileModel.FullPath));
-
-                if (previewControl.ActiveExtension is UIElement extension)
-                {
-                    try
-                    {
-                        previewControl.Loading = true;
-                        await previewControl.ActiveExtension.PreviewFile(fileModel.FullPath);
-                    }
-                    finally
-                    {
-                        extension.Visibility = Visibility.Visible;
-                        previewControl.Loading = false;
-                    }
-                }
+                if (!fileModel.IsDirectory)
+                    await previewControl.ActivateExtension(fileModel);
             }
         }
+
+        private Dictionary<string, IPreviewExtension> ExtensionCache = new Dictionary<string, IPreviewExtension>();
     }
 }
