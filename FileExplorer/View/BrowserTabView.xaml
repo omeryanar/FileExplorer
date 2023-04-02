@@ -180,9 +180,9 @@
                                               Glyph="/Assets/Images/DetailsPane16.png" />
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Caption="{Binding Layout, Source={StaticResource ResourceProvider}}">
-                            <dxr:RibbonGalleryBarItem DropDownGalleryEnabled="False" Content="{Binding Themes, Source={StaticResource ResourceProvider}}">
+                            <dxr:RibbonGalleryBarItem DropDownGalleryEnabled="False" Content="{Binding Layout, Source={StaticResource ResourceProvider}}">
                                 <dxr:RibbonGalleryBarItem.Gallery>
-                                    <dxb:Gallery ColCount="3">
+                                    <dxb:Gallery ColCount="3" AllowFilter="False" IsGroupCaptionVisible="False">
                                         <dxb:GalleryItemGroup>
                                             <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.ExtraLargeIcons'}" IsChecked="{DXBinding 'Layout==$common:Layout.ExtraLargeIcons'}"
                                                              Caption="{Binding ExtraLargeIcons, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Layout/ExtraLargeIcons.png" />
@@ -293,7 +293,7 @@
                         <dxr:RibbonPageGroup Caption="{Binding StandardThemes, Source={StaticResource ResourceProvider}}">
                             <dxr:RibbonGalleryBarItem Content="{Binding CurrentItem.DisplayName}" Glyph="{Binding CurrentItem.Theme.SvgGlyph}">
                                 <dxmvvm:Interaction.Behaviors>
-                                    <dxr:RibbonGalleryItemThemeSelectorBehavior  ThemesCollection="{Binding DataContext.ThemeCollection, RelativeSource={RelativeSource AncestorType=dxr:RibbonControl}}" />
+                                    <dxr:RibbonGalleryItemThemeSelectorBehavior ThemesCollection="{Binding DataContext.ThemeCollection, RelativeSource={RelativeSource AncestorType=dxr:RibbonControl}}" />
                                 </dxmvvm:Interaction.Behaviors>
                                 <dxr:RibbonGalleryBarItem.Gallery>
                                     <dxb:Gallery ColCount="4" SizeMode="Both" />
