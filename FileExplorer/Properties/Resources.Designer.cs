@@ -655,6 +655,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file format is incorrect or the file is corrupt.
+        /// </summary>
+        public static string FileFormatError {
+            get {
+                return ResourceManager.GetString("FileFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string Filter {

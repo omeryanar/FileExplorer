@@ -670,4 +670,7 @@
   <data name="ErrorDetails" xml:space="preserve">
     <value>Error Details</value>
   </data>
+  <data name="FileFormatError" xml:space="preserve">
+    <value>The file format is incorrect or the file is corrupt</value>
+  </data>
 </root>

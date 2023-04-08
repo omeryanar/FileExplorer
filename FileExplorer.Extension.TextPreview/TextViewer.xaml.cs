@@ -38,20 +38,13 @@ namespace FileExplorer.Extension.TextPreview
 
         public async Task PreviewFile(string filePath)
         {
-            try
-            {
-                string extension = Path.GetExtension(filePath);
-                SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(extension);
+            string extension = Path.GetExtension(filePath);
+            SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(extension);
 
-                using (StreamReader reader = File.OpenText(filePath))
-                {
-                    string text = await reader.ReadToEndAsync();
-                    Document = new TextDocument(text);
-                }
-            }
-            catch (Exception)
+            using (StreamReader reader = File.OpenText(filePath))
             {
-                await UnloadFile();
+                string text = await reader.ReadToEndAsync();
+                Document = new TextDocument(text);
             }
         }
 

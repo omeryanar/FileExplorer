@@ -63,48 +63,41 @@ namespace FileExplorer.Extension.ImagePreview
 
         public async Task PreviewFile(string filePath)
         {
-            try
+            ScaleFactor = 100;
+            RotationAngle = 0;
+
+            currentFilePath = filePath;
+            currentFileExtension = Path.GetExtension(currentFilePath);
+
+            using (FileStream fileStream = File.Open(filePath, FileMode.Open))
             {
-                ScaleFactor = 100;
-                RotationAngle = 0;
+                imageStream?.Close();
+                imageStream = new MemoryStream();
+                await fileStream.CopyToAsync(imageStream);
+                imageStream.Seek(0, SeekOrigin.Begin);
 
-                currentFilePath = filePath;
-                currentFileExtension = Path.GetExtension(currentFilePath);
-
-                using (FileStream fileStream = File.Open(filePath, FileMode.Open))
+                if (filePath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
                 {
-                    imageStream?.Close();
-                    imageStream = new MemoryStream();
-                    await fileStream.CopyToAsync(imageStream);
-                    imageStream.Seek(0, SeekOrigin.Begin);
+                    double scale = 1.0;
+                    SvgImage image = SvgImageHelper.CreateImage(imageStream);
+                    if (image.Width > 0)
+                        scale = Math.Floor(400 / image.Width);
 
-                    if (filePath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
-                    {
-                        double scale = 1.0;
-                        SvgImage image = SvgImageHelper.CreateImage(imageStream);
-                        if (image.Width > 0)
-                            scale = Math.Floor(400 / image.Width);
-
-                        ImageSource = WpfSvgRenderer.CreateImageSource(image, scale, null, null, true);
-                    }
-                    else
-                    {
-                        BitmapImage bitmapImage = new BitmapImage();
-                        bitmapImage.DecodePixelWidth = 960;
-                        bitmapImage.BeginInit();
-                        bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmapImage.StreamSource = imageStream;
-                        bitmapImage.EndInit();
-                        bitmapImage.Freeze();
-
-                        ImageSource = bitmapImage;
-                    }
+                    ImageSource = WpfSvgRenderer.CreateImageSource(image, scale, null, null, true);
                 }
-            }
-            catch (Exception)
-            {
-                await UnloadFile();
+                else
+                {
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.DecodePixelWidth = 960;
+                    bitmapImage.BeginInit();
+                    bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.StreamSource = imageStream;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+
+                    ImageSource = bitmapImage;
+                }
             }
         }
 

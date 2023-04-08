@@ -23,5 +23,9 @@
     <Reference Include="System.Windows.Forms" />
       <Reference Include="System.Web" />
   </ItemGroup>
+    
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\PreviewExtensions\$(ProjectName)\&quot;" />
+  </Target>
 
 </Project>

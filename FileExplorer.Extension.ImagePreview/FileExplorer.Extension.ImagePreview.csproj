@@ -40,4 +40,8 @@
     <Resource Include="Assets\RotateRight.svg" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\PreviewExtensions\$(ProjectName)\&quot;" />
+  </Target>
+
 </Project>

@@ -25,8 +25,8 @@
             <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomOut.svg}" Command="{Binding ZoomOutCommand, ElementName=pdfViewer}" />
         </dxb:ToolBarControl>
         <dx:LoadingDecorator>
-            <dxpdf:PdfViewerControl x:Name="pdfViewer" CommandBarStyle="None" ShowStartScreen="False" ZoomMode="PageLevel"
-                                    ZoomFactor="{Binding ZoomFactor, Mode=TwoWay}" DocumentSource="{Binding Document}" Loaded="OnPdfViewerLoaded">
+            <dxpdf:PdfViewerControl x:Name="pdfViewer" CommandBarStyle="None" ShowStartScreen="False" ZoomMode="PageLevel" AsyncDocumentLoad="False"
+                                    DocumentSource="{Binding Document, Mode=TwoWay}" ZoomFactor="{Binding ZoomFactor, Mode=TwoWay}" Loaded="OnPdfViewerLoaded">
                 <dxpdf:PdfViewerControl.CommentViewerSettings>
                     <dxpdf:PdfCommentViewerSettings HideCommentViewer="True" />
                 </dxpdf:PdfViewerControl.CommentViewerSettings>

@@ -14,7 +14,7 @@
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
     <PackageReference Include="DevExpress.Wpf.Core" Version="22.2.*-*">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
@@ -27,5 +27,9 @@
   <ItemGroup>
     <Resource Include="Assets\ShowNumbers.svg" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\PreviewExtensions\$(ProjectName)\&quot;" />
+  </Target>
 
 </Project>

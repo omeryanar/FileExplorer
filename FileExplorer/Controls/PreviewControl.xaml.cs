@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,8 +38,17 @@ namespace FileExplorer.Controls
             protected set { SetValue(LoadingPropertyKey, value); }
         }
         private static readonly DependencyPropertyKey LoadingPropertyKey = DependencyProperty.RegisterReadOnly
-            (nameof(Loading), typeof(bool), typeof(PreviewControl), new PropertyMetadata(null));
+            (nameof(Loading), typeof(bool), typeof(PreviewControl), new PropertyMetadata(false));
         public static readonly DependencyProperty LoadingProperty = LoadingPropertyKey.DependencyProperty;
+
+        public string Message
+        {
+            get { return (string)GetValue(MessageProperty); }
+            protected set { SetValue(MessagePropertyKey, value); }
+        }
+        private static readonly DependencyPropertyKey MessagePropertyKey = DependencyProperty.RegisterReadOnly
+            (nameof(Message), typeof(string), typeof(PreviewControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty MessageProperty = MessagePropertyKey.DependencyProperty;
 
         public PreviewControl()
         {
@@ -79,9 +89,13 @@ namespace FileExplorer.Controls
                 extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.SupportedFileTypes?.Split(",").Any(x => x.OrdinalEquals(fileType)) == true);
 
             if (extensionMetadata == null)
+            {
+                Message = Properties.Resources.NoPreviewAvailable;
                 return;
+            }
 
-            if (!ExtensionCache.ContainsKey(extensionMetadata.DisplayName))
+            bool firstLoad = !ExtensionCache.ContainsKey(extensionMetadata.DisplayName);
+            if (firstLoad)
             {
                 var exportFactory = ExtensionManager.Instance.Extensions.FirstOrDefault(x => x.Metadata.DisplayName == extensionMetadata.DisplayName);
                 IPreviewExtension extension = exportFactory.CreateExport().Value;
@@ -95,7 +109,19 @@ namespace FileExplorer.Controls
                 try
                 {
                     Loading = true;
+
+                    if (firstLoad)
+                        await Task.Delay(500);
+
                     await ActiveExtension.PreviewFile(fileModel.FullPath);
+                }
+                catch(Exception e)
+                {
+                    Message = Properties.Resources.FileFormatError;
+                    Journal.WriteLog(e);
+                    
+                    await ActiveExtension.UnloadFile();
+                    ActiveExtension = null;
                 }
                 finally
                 {
@@ -113,7 +139,9 @@ namespace FileExplorer.Controls
 
                 previewControl.ActiveExtension = null;
 
-                if (!fileModel.IsDirectory)
+                if (fileModel.IsDirectory)
+                    previewControl.Message = String.Empty;
+                else
                     await previewControl.ActivateExtension(fileModel);
             }
         }

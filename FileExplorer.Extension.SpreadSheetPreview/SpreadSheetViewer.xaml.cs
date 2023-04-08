@@ -2,10 +2,8 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using DevExpress.Spreadsheet;
-using DevExpress.Xpf.Spreadsheet;
 
 namespace FileExplorer.Extension.SpreadSheetPreview
 {
@@ -15,13 +13,7 @@ namespace FileExplorer.Extension.SpreadSheetPreview
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class SpreadSheetViewer : UserControl, IPreviewExtension
     {
-        public SpreadsheetDocumentSource Document
-        {
-            get { return (SpreadsheetDocumentSource)GetValue(DocumentProperty); }
-            set { SetValue(DocumentProperty, value); }
-        }
-        public static readonly DependencyProperty DocumentProperty =
-            DependencyProperty.Register(nameof(Document), typeof(SpreadsheetDocumentSource), typeof(SpreadSheetViewer));
+        public Stream DocumentSource { get; private set; }
 
         public SpreadSheetViewer()
         {
@@ -30,34 +22,25 @@ namespace FileExplorer.Extension.SpreadSheetPreview
 
         public async Task PreviewFile(string filePath)
         {
-            try
+            using (FileStream fileStream = File.Open(filePath, FileMode.Open))
             {
-                using (FileStream fileStream = File.Open(filePath, FileMode.Open))
-                {
-                    MemoryStream memoryStream = new MemoryStream();
-                    await fileStream.CopyToAsync(memoryStream);
-                    memoryStream.Seek(0, SeekOrigin.Begin);
+                DocumentSource = new MemoryStream();
+                await fileStream.CopyToAsync(DocumentSource);
+                DocumentSource.Seek(0, SeekOrigin.Begin);
 
-                    if (filePath.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
-                        Document = new SpreadsheetDocumentSource(memoryStream, DocumentFormat.Csv);
-                    else
-                        Document = new SpreadsheetDocumentSource(memoryStream, DocumentFormat.Undefined);
-                }
-            }
-            catch (Exception)
-            {
-                await UnloadFile();
+                if (filePath.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+                    SpreadSheetEditor.LoadDocument(DocumentSource, DocumentFormat.Csv);
+                else
+                    SpreadSheetEditor.LoadDocument(DocumentSource, DocumentFormat.Undefined);
             }
         }
 
         public Task UnloadFile()
         {
-            Document?.Stream?.Dispose();
-            Document = null;
+            SpreadSheetEditor.CreateNewDocument();
+            DocumentSource?.Dispose();
 
             return Task.CompletedTask;
         }
-
-        private string[] supportedExtensions = new string[] { ".xls", ".xlt", ".xlsx", ".xltx", ".xlsb", ".xlsm", ".xltm", ".csv" };
     }
 }

@@ -315,6 +315,9 @@
   <data name="File" xml:space="preserve">
     <value>Dosya</value>
   </data>
+  <data name="FileFormatError" xml:space="preserve">
+    <value>Dosya biçimi yanlış veya dosya bozulmuş</value>
+  </data>
   <data name="Filter" xml:space="preserve">
     <value>Filtrele</value>
   </data>

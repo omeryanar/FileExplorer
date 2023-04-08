@@ -33,7 +33,7 @@
             </dxb:BarStaticItem>
         </dxb:ToolBarControl>
         <dx:LoadingDecorator>
-            <dxsps:SpreadsheetControl x:Name="SpreadSheetEditor" ReadOnly="True" DocumentSource="{Binding Document}" />
+            <dxsps:SpreadsheetControl x:Name="SpreadSheetEditor" ReadOnly="True" />
         </dx:LoadingDecorator>        
     </DockPanel>    
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,29 +38,26 @@ namespace FileExplorer.Extension.PdfPreview
 
         public async Task PreviewFile(string filePath)
         {
-            try
-            {
-                ZoomFactor = 1;
+            ZoomFactor = 1;
 
-                using (FileStream fileStream = File.Open(filePath, FileMode.Open))
-                {
-                    MemoryStream memoryStream = new MemoryStream();
-                    await fileStream.CopyToAsync(memoryStream);
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-
-                    Document = memoryStream;
-                }
-            }
-            catch (Exception)
+            using (FileStream fileStream = File.Open(filePath, FileMode.Open))
             {
-                await UnloadFile();
+                MemoryStream memoryStream = new MemoryStream();
+                await fileStream.CopyToAsync(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                Document = memoryStream;
             }
         }
 
         public Task UnloadFile()
         {
-            Document?.Dispose();
-            Document = null;
+            if (Document != null)
+            {
+                Stream stream = Document;
+                Document = null;
+                stream.Dispose();
+            }
 
             return Task.CompletedTask;
         }
