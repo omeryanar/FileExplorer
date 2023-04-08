@@ -1637,6 +1637,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unified Sorting.
+        /// </summary>
+        public static string UnifiedSorting {
+            get {
+                return ResourceManager.GetString("UnifiedSorting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unpin From Quick Access.
         /// </summary>
         public static string UnpinFromQuickAccess {
@@ -1687,6 +1696,15 @@ namespace FileExplorer.Properties {
         public static string View {
             get {
                 return ResourceManager.GetString("View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Virtualization.
+        /// </summary>
+        public static string Virtualization {
+            get {
+                return ResourceManager.GetString("Virtualization", resourceCulture);
             }
         }
         

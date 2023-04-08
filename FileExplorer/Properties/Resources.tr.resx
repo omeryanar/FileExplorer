@@ -643,6 +643,9 @@
   <data name="UncompressedSize" xml:space="preserve">
     <value>Sıkıştırılmamış Boyut</value>
   </data>
+  <data name="UnifiedSorting" xml:space="preserve">
+    <value>Birleşik Sıralama</value>
+  </data>
   <data name="UnpinFromQuickAccess" xml:space="preserve">
     <value>Hızlı Erişimden Kaldır</value>
   </data>
@@ -660,6 +663,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Görünüm</value>
+  </data>
+  <data name="Virtualization" xml:space="preserve">
+    <value>Sanallaştırma</value>
   </data>
   <data name="WrongPassword" xml:space="preserve">
     <value>Yanlış Şifre</value>

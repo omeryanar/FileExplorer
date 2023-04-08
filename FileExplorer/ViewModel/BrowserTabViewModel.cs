@@ -186,7 +186,7 @@ namespace FileExplorer.ViewModel
             Settings.Default.ShowDetailsPane = Settings.ShowDetailsPane;
             Settings.Default.ShowPreviewPane = Settings.ShowPreviewPane;
 
-            Settings.Default.ShowFileExtensions = Settings.ShowFileExtensions;            
+            Settings.Default.ShowFileExtensions = Settings.ShowFileExtensions;
             Settings.Default.ShowHiddenItems = Settings.ShowHiddenItems;
             Settings.Default.ShowSystemItems = Settings.ShowSystemItems;
 
@@ -196,9 +196,6 @@ namespace FileExplorer.ViewModel
 
             Settings.Default.LeftPaneWidth = Settings.LeftPaneWidth;
             Settings.Default.RightPaneWidth = Settings.RightPaneWidth;
-
-            Settings.Default.StaticTaskbarIcon = Settings.StaticTaskbarIcon;
-            Settings.Default.StaticTaskbarTitle = Settings.StaticTaskbarTitle;
 
             Settings.Default.Save();
         }

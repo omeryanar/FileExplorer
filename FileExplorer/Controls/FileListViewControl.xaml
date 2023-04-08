@@ -202,7 +202,7 @@
                     </ControlTemplate>
                 </ResourceDictionary>
                 <ResourceDictionary>
-                    <dxg:TableView x:Key="ListView" AllowEditing="False" AllowMergedGrouping="True" AllowCascadeUpdate="True" AllowConditionalFormattingMenu="True"
+                    <dxg:TableView x:Key="ListView" AllowEditing="False" AllowMergedGrouping="True" AllowConditionalFormattingMenu="True"
                                    AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
                                    ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
                                    ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
@@ -210,6 +210,7 @@
                                    ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
                                    CheckBoxSelectorColumnWidth="25" ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
                                    RetainSelectionOnClickOutsideCheckBoxSelector="False"
+                                   AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
                                    SearchString="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}">
                         <dxmvvm:Interaction.Behaviors>
                             <common:CustomColumnBehavior />
@@ -248,13 +249,14 @@
                             <common:DragDropFilesBehavior CurrentFolderPath="{Binding CurrentFolder.FullPath}" />
                         </dxmvvm:Interaction.Behaviors>
                     </dxg:CardView>                    
-                    <dxg:TreeListView x:Key="TreeView" AllowEditing="False" AllowCascadeUpdate="True" AllowConditionalFormattingMenu="True"
+                    <dxg:TreeListView x:Key="TreeView" AllowEditing="False" AllowConditionalFormattingMenu="True"
                                       AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"                                    
                                       ShowFocusedRectangle="False" ShowFixedTotalSummary="True"
                                       ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
                                       ShowSearchPanelMode="Never" SearchColumns="Name;Extension" ShowSearchPanelResultInfo="True" ShowSearchPanelMRUButton="True"
                                       ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
-                                      ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"                                      
+                                      ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
+                                      AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
                                       SearchString="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}"
                                       TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Content" AllowChildNodeSourceUpdates="True"
                                       HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False" PrintExpandButtons="False">

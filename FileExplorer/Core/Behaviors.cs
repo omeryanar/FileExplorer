@@ -166,22 +166,22 @@ namespace FileExplorer.Core
             if (value1 == null || value2 == null)
                 return;
 
-            if (e.Column.FieldName == "Name")
+            if (e.Column.FieldName == nameof(FileModel.Name))
             {
                 if (value1.IsDrive == true && value2.IsDrive == true)
                 {
                     e.Result = value1.FullPath.CompareTo(value2.FullPath);
                     e.Handled = true;
                 }
-                else if (value1.IsDirectory == value2.IsDirectory)
+                else if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
                 {
                     e.Result = SafeNativeMethods.NaturalCompare(value1.FullName, value2.FullName);
                     e.Handled = true;
                 }
             }
-            else if (e.Column.FieldName == "ParentName")
+            else if (e.Column.FieldName == nameof(FileModel.ParentName))
             {
-                if (value1.IsDirectory == value2.IsDirectory)
+                if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
                 {
                     e.Result = SafeNativeMethods.NaturalCompare(value1.ParentName, value2.ParentName);
                     e.Handled = true;
@@ -201,6 +201,9 @@ namespace FileExplorer.Core
 
                 e.Handled = true;                
             }
+
+            if (Settings.Default.UnifiedSorting)
+                return;
 
             if (value1.IsDirectory == true && value2.IsDirectory == false)
             {
@@ -370,27 +373,30 @@ namespace FileExplorer.Core
             if (value1 == null || value2 == null)
                 return;
 
-            if (e.Column.FieldName == "Name")
+            if (e.Column.FieldName == nameof(FileModel.Name))
             {
                 if (value1.IsDrive == true && value2.IsDrive == true)
                 {
                     e.Result = value1.FullPath.CompareTo(value2.FullPath);
                     e.Handled = true;
                 }
-                else if (value1.IsDirectory == value2.IsDirectory)
+                else if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
                 {
                     e.Result = SafeNativeMethods.NaturalCompare(value1.FullName, value2.FullName);
                     e.Handled = true;
                 }
             }
-            else if (e.Column.FieldName == "ParentName")
+            else if (e.Column.FieldName == nameof(FileModel.ParentName))
             {
-                if (value1.IsDirectory == value2.IsDirectory)
+                if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
                 {
                     e.Result = SafeNativeMethods.NaturalCompare(value1.ParentName, value2.ParentName);
                     e.Handled = true;
                 }
             }
+
+            if (Settings.Default.UnifiedSorting)
+                return;
 
             if (value1.IsDirectory == true && value2.IsDirectory == false)
             {

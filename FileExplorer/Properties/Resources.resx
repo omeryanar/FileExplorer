@@ -673,4 +673,10 @@
   <data name="FileFormatError" xml:space="preserve">
     <value>The file format is incorrect or the file is corrupt</value>
   </data>
+  <data name="UnifiedSorting" xml:space="preserve">
+    <value>Unified Sorting</value>
+  </data>
+  <data name="Virtualization" xml:space="preserve">
+    <value>Virtualization</value>
+  </data>
 </root>
