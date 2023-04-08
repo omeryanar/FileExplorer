@@ -42,7 +42,7 @@ namespace FileExplorer.Native
         public DirectoryWatcher(string path, Action<FileEvent> onEvent, Action<ErrorEventArgs> onError)
         {
             fileSystemWatcher = new FileSystemWatcher(path);
-            fileSystemWatcher.InternalBufferSize = 65536;
+            fileSystemWatcher.InternalBufferSize = 1048576;
             fileSystemWatcher.IncludeSubdirectories = true;
             fileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite;
 
