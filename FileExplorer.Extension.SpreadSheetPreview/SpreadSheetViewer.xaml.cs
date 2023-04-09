@@ -9,7 +9,7 @@ namespace FileExplorer.Extension.SpreadSheetPreview
 {
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Spread Sheet Viewer")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "csv,xls,xlt,xlsx,xltx,xlsb,xlsm,xltm")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "csv|xls|xlt|xlsx|xltx|xlsb|xlsm|xltm")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class SpreadSheetViewer : UserControl, IPreviewExtension
     {

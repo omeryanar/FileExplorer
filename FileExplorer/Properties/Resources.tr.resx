@@ -622,6 +622,9 @@
   <data name="StaticTaskbarTitle" xml:space="preserve">
     <value>Statik Görev Çubuğu Başlığı</value>
   </data>
+  <data name="SupportedFileTypes" xml:space="preserve">
+    <value>Desteklenen Dosya Türleri</value>
+  </data>
   <data name="Themes" xml:space="preserve">
     <value>Temalar</value>
   </data>

@@ -8,7 +8,7 @@ namespace FileExplorer.Extension.RichTextPreview
 {
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Rich Text Viewer")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "doc,docx,docm,dot,dotm,dotx,epub,htm,html,mht,odt,rtf")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "doc|docx|docm|dot|dotm|dotx|epub|htm|html|mht|odt|rtf")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class RichTextViewer : UserControl, IPreviewExtension
     {

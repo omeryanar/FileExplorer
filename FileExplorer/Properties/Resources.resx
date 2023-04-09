@@ -679,4 +679,7 @@
   <data name="Virtualization" xml:space="preserve">
     <value>Virtualization</value>
   </data>
+  <data name="SupportedFileTypes" xml:space="preserve">
+    <value>Supported File Types</value>
+  </data>
 </root>

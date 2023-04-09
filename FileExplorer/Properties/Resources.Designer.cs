@@ -1574,6 +1574,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Supported File Types.
+        /// </summary>
+        public static string SupportedFileTypes {
+            get {
+                return ResourceManager.GetString("SupportedFileTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Themes.
         /// </summary>
         public static string Themes {

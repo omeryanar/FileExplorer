@@ -24,7 +24,6 @@ namespace FileExplorer.Controls
         public static readonly DependencyProperty CurrentItemProperty =
             DependencyProperty.Register(nameof(CurrentItem), typeof(object), typeof(BreadCrumbControl), new PropertyMetadata(null, OnCurrentItemChanged));
 
-
         public bool ShowHiddenItems
         {
             get { return (bool)GetValue(ShowHiddenItemsProperty); }

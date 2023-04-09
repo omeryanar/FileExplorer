@@ -86,7 +86,7 @@ namespace FileExplorer.Controls
             
             ExtensionMetadata extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.Preferred?.Split("|").Any(x => x.OrdinalEquals(fileType)) == true);
             if (extensionMetadata == null)
-                extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.SupportedFileTypes?.Split(",").Any(x => x.OrdinalEquals(fileType)) == true);
+                extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => !x.Disabled && x.SupportedFileTypes?.Split("|").Any(x => x.OrdinalEquals(fileType)) == true);
 
             if (extensionMetadata == null)
             {
@@ -97,7 +97,7 @@ namespace FileExplorer.Controls
             bool firstLoad = !ExtensionCache.ContainsKey(extensionMetadata.DisplayName);
             if (firstLoad)
             {
-                var exportFactory = ExtensionManager.Instance.Extensions.FirstOrDefault(x => x.Metadata.DisplayName == extensionMetadata.DisplayName);
+                var exportFactory = App.ExtensionManager.Extensions.FirstOrDefault(x => x.Metadata.DisplayName == extensionMetadata.DisplayName);
                 IPreviewExtension extension = exportFactory.CreateExport().Value;
 
                 ExtensionCache.Add(extensionMetadata.DisplayName, extension);

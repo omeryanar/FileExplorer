@@ -11,26 +11,18 @@ using FileExplorer.Persistence;
 
 namespace FileExplorer.Core
 {
-    public sealed class ExtensionManager
+    public class ExtensionManager
     {
-        #region Singleton
-
-        public static ExtensionManager Instance {get; private set;}
-
-        static ExtensionManager()
+        public ExtensionManager(string assemblyPath) 
         {
-            Instance = new ExtensionManager();
-        }
-
-        private ExtensionManager() 
-        {
-            ExtensionAssemblies = Directory.GetFiles(ExtensionDirectory, "*.dll", SearchOption.AllDirectories);
+            ExtensionDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assemblyPath);
+            string[] extensionAssemblies = Directory.GetFiles(ExtensionDirectory, "*.dll", SearchOption.AllDirectories);
 
             AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>
             {
                 string fileName = new AssemblyName(e.Name).Name + ".dll";
 
-                string file = ExtensionAssemblies.FirstOrDefault(x => x.OrdinalEquals(fileName));
+                string file = extensionAssemblies.FirstOrDefault(x => x.OrdinalEquals(fileName));
                 if (file != null)
                     return Assembly.LoadFile(file);
 
@@ -40,14 +32,10 @@ namespace FileExplorer.Core
             LoadExtensions();
         }
 
-        private static string[] ExtensionAssemblies;
-
-        #endregion
-
         [ImportMany]
         public IEnumerable<ExportFactory<IPreviewExtension, IPreviewExtensionMetadata>> Extensions { get; private set; }
 
-        public static readonly string ExtensionDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PreviewExtensions");
+        public string ExtensionDirectory { get; private set; }   
 
         private void LoadExtensions()
         {

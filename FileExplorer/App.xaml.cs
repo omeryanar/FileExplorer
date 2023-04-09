@@ -26,6 +26,8 @@ namespace FileExplorer
     {
         public static Repository Repository { get; private set; }
 
+        public static ExtensionManager ExtensionManager { get; private set; }
+
         public static UserControl TaskbarIconContainer { get; private set; }
 
         public App()
@@ -161,6 +163,7 @@ namespace FileExplorer
             CriteriaOperator.RegisterCustomFunction(new StringFormatFunction());
 
             Repository = new Repository("Data.db");
+            ExtensionManager = new ExtensionManager("PreviewExtensions");
             TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;            
 
             FileSystemWatcherHelper.Start();

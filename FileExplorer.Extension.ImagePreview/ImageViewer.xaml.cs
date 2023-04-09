@@ -17,7 +17,7 @@ namespace FileExplorer.Extension.ImagePreview
 {
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Image Viewer")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "bmp,jpg,jpeg,ico,gif,png,svg,tif,tiff")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "bmp|jpg|jpeg|ico|gif|png|svg|tif|tiff")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class ImageViewer : UserControl, IPreviewExtension
     {

@@ -20,6 +20,21 @@
                 <dxg:TableView AutoWidth="True" AllowColumnFiltering="False" AllowColumnMoving="False" AllowSorting="False"
                                IsColumnMenuEnabled="False" ShowGroupPanel="False" VerticalScrollbarVisibility="Auto" NavigationStyle="Row" NewItemRowPosition="None"
                                EditFormShowMode="Inline" EditFormPostConfirmation="YesNoCancel" EditFormPostMode="Immediate" ValidateRow="{DXEvent 'Extensions.Update(@args.Row)'}">
+                    <dxg:TableView.RowStyle>
+                        <Style TargetType="dxg:RowControl">
+                            <Setter Property="ToolTipService.ShowDuration" Value="20000" />
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <StackPanel MaxWidth="200">
+                                            <TextBlock FontWeight="Bold" Text="{Binding SupportedFileTypes, Source={StaticResource ResourceProvider}}" />
+                                            <TextBlock Margin="0,4" TextWrapping="WrapWithOverflow" Text="{DXBinding 'Row.SupportedFileTypes.Replace(`|`, `, `)'}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </dxg:TableView.RowStyle>
                     <dxg:TableView.EditFormTemplate>
                         <DataTemplate>                            
                             <dxlc:LayoutControl>
@@ -65,7 +80,8 @@
                     </dxg:GridColumn.CellDisplayTemplate>
                     <dxg:GridColumn.EditFormTemplate>
                         <DataTemplate>
-                            <controls:ExtensionTokenEditControl x:Name="PART_Editor" />
+                            <controls:ExtensionTokenEditControl x:Name="PART_Editor" AllowDefaultButton="True"
+                                                                ItemsSource="{Binding RowData.Source.Row.SupportedFileTypes, Converter={common:StringToEnumerableObjectConverter}}" />
                         </DataTemplate>
                     </dxg:GridColumn.EditFormTemplate>
                 </dxg:GridColumn>
