@@ -8,7 +8,7 @@
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:settings="clr-namespace:FileExplorer.Properties"
              xmlns:common="clr-namespace:FileExplorer.Core"
-             MinWidth="400" MinHeight="250">
+             MinWidth="500" MinHeight="250">
 
     <dxlc:LayoutControl>
         <dxlc:LayoutControl.Resources>
@@ -60,6 +60,7 @@
                     <dxe:ListBoxEdit ValueMember="Key" DisplayMember="Value" EditValue="{Binding Language, Source={x:Static settings:Settings.Default}}">
                         <dxe:ListBoxEdit.ItemsSource>
                             <collections:ArrayList>
+                                <collections:DictionaryEntry Key="de" Value="Deutsch"/>
                                 <collections:DictionaryEntry Key="en" Value="English"/>
                                 <collections:DictionaryEntry Key="tr" Value="Türkçe"/>
                             </collections:ArrayList>

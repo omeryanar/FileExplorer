@@ -136,7 +136,7 @@
     <value>Zurück zum Standard</value>
   </data>
   <data name="Backward" xml:space="preserve">
-    <value>Zurück zu &apos;{0}&apos;</value>
+    <value>Zurück zu '{0}'</value>
   </data>
   <data name="BestFitAllColumns" xml:space="preserve">
     <value>Beste Anpassung aller Spalten</value>
@@ -151,19 +151,19 @@
     <value>Kopieren bestätigen</value>
   </data>
   <data name="ConfirmCopyMessage" xml:space="preserve">
-    <value>Möchten Sie &apos;{0}&apos; nach &apos;{1}&apos; kopieren?</value>
+    <value>Möchten Sie '{0}' nach '{1}' kopieren?</value>
   </data>
   <data name="ConfirmMove" xml:space="preserve">
     <value>Verschieben bestätigen</value>
   </data>
   <data name="ConfirmMoveMessage" xml:space="preserve">
-    <value>Möchten Sie &apos;{0}&apos; nach &apos;{1}&apos; verschieben?</value>
+    <value>Möchten Sie '{0}' nach '{1}' verschieben?</value>
   </data>
   <data name="ConfirmMultipleCopy" xml:space="preserve">
-    <value>Möchten Sie die ausgewählten Objekte nach &apos;{0}&apos; kopieren?</value>
+    <value>Möchten Sie die ausgewählten Objekte nach '{0}' kopieren?</value>
   </data>
   <data name="ConfirmMultipleMove" xml:space="preserve">
-    <value>Möchten Sie die ausgewählten Objekte nach &apos;{0}&apos; verschieben?</value>
+    <value>Möchten Sie die ausgewählten Objekte nach '{0}' verschieben?</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopieren</value>
@@ -220,7 +220,7 @@
     <value>Extra Große Symbole</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Vorwärts zu &apos;{0}&apos;</value>
+    <value>Vorwärts zu '{0}'</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
     <value>Gruppieren nach</value>
@@ -233,7 +233,7 @@
   </data>
   <data name="InvalidFileNameMessage" xml:space="preserve">
     <value>Der Dateiname darf nicht leer sein oder eines der folgenden Zeichen enthalten:
-\ / : * ? &quot;&quot; &lt; &gt; |</value>
+\ / : * ? "" &lt; &gt; |</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Auswahl umkehren</value>
@@ -401,7 +401,7 @@
     <value>Von Schnellzugriff lösen</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Hin zu &apos;{0}&apos;</value>
+    <value>Hin zu '{0}'</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>Ansicht</value>
@@ -669,5 +669,17 @@
   </data>
   <data name="ErrorDetails" xml:space="preserve">
     <value>Fehlerdetails</value>
+  </data>
+  <data name="FileFormatError" xml:space="preserve">
+    <value>Das Dateiformat ist falsch oder die Datei ist beschädigt</value>
+  </data>
+  <data name="SupportedFileTypes" xml:space="preserve">
+    <value>Unterstützte Dateitypen</value>
+  </data>
+  <data name="UnifiedSorting" xml:space="preserve">
+    <value>Einheitliche Sortierung</value>
+  </data>
+  <data name="Virtualization" xml:space="preserve">
+    <value>Virtualisierung</value>
   </data>
 </root>
