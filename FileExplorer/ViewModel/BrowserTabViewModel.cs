@@ -461,43 +461,49 @@ namespace FileExplorer.ViewModel
 
         #region New
 
-        public bool CanCreateNewFolder()
+        public bool CanCreateNewFolder(FileModel fileModel)
         {
             return IsChildFolder;
         }
 
-        public void CreateNewFolder()
+        public void CreateNewFolder(FileModel fileModel)
         {
+            string targetPath = fileModel?.IsDirectory == true ? fileModel.FullPath : CurrentFolder.FullPath;
+            string targetName = fileModel?.IsDirectory == true ? fileModel.FullName : CurrentFolder.FullName;
+
             RenameViewModel viewModel = ViewModelSource.Create<RenameViewModel>();
             viewModel.Name = Properties.Resources.NewFolder;
 
-            viewModel.Parent = CurrentFolder.Name;
+            viewModel.Parent = targetName;
             if (String.IsNullOrEmpty(viewModel.Parent))
-                viewModel.Parent = CurrentFolder.FullPath.Replace(":", "");
+                viewModel.Parent = targetPath.Replace(":", "");
 
             MessageResult result = DialogService.ShowDialog(MessageButton.OKCancel, Properties.Resources.NewFolder, "RenameView", viewModel);
             if (result == MessageResult.OK)
-                Utilities.CreateFolder(CurrentFolder.FullPath, viewModel.Name);
+                Utilities.CreateFolder(targetPath, viewModel.Name);
         }
 
-        public bool CanCreateNewFile()
+        public bool CanCreateNewFile(FileModel fileModel)
         {
             return IsChildFolder;
         }
 
-        public void CreateNewFile()
+        public void CreateNewFile(FileModel fileModel)
         {
+            string targetPath = fileModel?.IsDirectory == true ? fileModel.FullPath : CurrentFolder.FullPath;
+            string targetName = fileModel?.IsDirectory == true ? fileModel.FullName : CurrentFolder.FullName;
+
             RenameViewModel viewModel = ViewModelSource.Create<RenameViewModel>();
             viewModel.Name = Properties.Resources.NewFile;
             viewModel.Extension = ".txt";
 
-            viewModel.Parent = CurrentFolder.Name;
+            viewModel.Parent = targetName;
             if (String.IsNullOrEmpty(viewModel.Parent))
-                viewModel.Parent = CurrentFolder.FullPath.Replace(":", "");
+                viewModel.Parent = targetPath.Replace(":", "");
 
             MessageResult result = DialogService.ShowDialog(MessageButton.OKCancel, Properties.Resources.NewFile, "RenameView", viewModel);
             if (result == MessageResult.OK)
-                Utilities.CreateFile(CurrentFolder.FullPath, viewModel.Name + viewModel.Extension, true);
+                Utilities.CreateFile(targetPath, viewModel.Name + viewModel.Extension, true);
         }
 
         public bool CanSendAsEmail(IList<object> items)

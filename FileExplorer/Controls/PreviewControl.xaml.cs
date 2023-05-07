@@ -59,20 +59,17 @@ namespace FileExplorer.Controls
                 if (File == null || ActiveExtension == null)
                     return;
 
-                if (message.Path.OrdinalEquals(File.FullPath))
+                if (message.Path.OrdinalEquals(File.FullPath) || message.NewPath?.OrdinalEquals(File.FullPath) == true)
                 {
+                    await ActiveExtension.UnloadFile();
+
                     switch (message.NotificationType)
                     {
-                        case NotificationType.Remove:
-                            await ActiveExtension.UnloadFile();
-                            break;
-
                         case NotificationType.Update:
                             await ActiveExtension.PreviewFile(message.Path);
                             break;
 
                         case NotificationType.Rename:
-                            await ActiveExtension.UnloadFile();
                             await ActiveExtension.PreviewFile(message.NewPath);
                             break;
                     }

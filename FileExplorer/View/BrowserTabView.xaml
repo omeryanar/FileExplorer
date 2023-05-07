@@ -113,10 +113,10 @@
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Caption="{Binding New, Source={StaticResource ResourceProvider}}">
                             <dxb:BarButtonItem x:Name="NewFolder" Content="{Binding NewFolder, Source={StaticResource ResourceProvider}}"
-                                               Command="{Binding CreateNewFolderCommand}" KeyGesture="Ctrl+Shift+N"
+                                               Command="{Binding CreateNewFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" KeyGesture="Ctrl+Shift+N"
                                                Glyph="/Assets/Images/NewFolder16.png" LargeGlyph="/Assets/Images/NewFolder32.png" />
                             <dxb:BarButtonItem x:Name="NewFile" Content="{Binding NewFile, Source={StaticResource ResourceProvider}}"
-                                               Command="{Binding CreateNewFileCommand}"
+                                               Command="{Binding CreateNewFileCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}"
                                                Glyph="/Assets/Images/NewTextDocument16.png" LargeGlyph="/Assets/Images/NewTextDocument32.png" />
                             <dxb:BarButtonItem x:Name="Mail" Content="{Binding Mail, Source={StaticResource ResourceProvider}}"
                                                Command="{Binding SendAsEmailCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
@@ -476,7 +476,7 @@
                     <dxmvvm:KeyToCommand KeyGesture="Ctrl+C" Event="PreviewKeyDown" MarkRoutedEventsAsHandled="True"
                                          Command="{Binding CopyToClipboardCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" />
                     <dxmvvm:KeyToCommand KeyGesture="Ctrl+V" Event="PreviewKeyDown" MarkRoutedEventsAsHandled="True"
-                                         Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" />
+                                         Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" />
                 </dxmvvm:Interaction.Behaviors>
             </controls:FileListViewControl>
         </dxlc:DockLayoutControl>

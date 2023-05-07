@@ -98,9 +98,9 @@
                                    Command="{Binding RenameItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarItemSeparator />
                 <dxb:BarButtonItem Content="{Binding NewFolder, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/NewFolder16.png"
-                                   Command="{Binding CreateNewFolderCommand}" />
+                                   Command="{Binding CreateNewFolderCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding NewFile, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/NewTextDocument16.png"
-                                   Command="{Binding CreateNewFileCommand}" />
+                                   Command="{Binding CreateNewFileCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding Zip, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Zip16.png"
                                    Command="{Binding ZipItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarItemSeparator />

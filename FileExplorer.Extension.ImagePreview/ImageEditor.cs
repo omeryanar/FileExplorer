@@ -10,13 +10,16 @@ namespace FileExplorer.Extension.ImagePreview
 
         public static void ShowImageEditor(string path)
         {
-            Image image = Image.FromFile(path);
-            ImageFormat format = GetImageFormat(image);
             PictureEdit pictureEdit = new PictureEdit();
 
-            pictureEdit.Image = image;
-            if (pictureEdit.ShowImageEditorDialog() == System.Windows.Forms.DialogResult.OK)
-                pictureEdit.Image.Save(path, format);
+            using (Bitmap bitmap = new Bitmap(path))
+            {
+                ImageFormat format = GetImageFormat(bitmap);
+                pictureEdit.Image = bitmap;
+
+                if (pictureEdit.ShowImageEditorDialog() == System.Windows.Forms.DialogResult.OK)
+                    pictureEdit.Image.Save(path, format);
+            }
         }
 
         private static ImageFormat GetImageFormat(Image image)
