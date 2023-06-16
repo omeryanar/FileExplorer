@@ -107,4 +107,12 @@ namespace FileExplorer.Core
         Update,
         Rename
     }
+
+    public enum UpdateStatus
+    {
+        UpToDate,
+        ReadyToDownload,
+        DownloadInProgress,
+        ReadyToInstall
+    }
 }

@@ -24,6 +24,8 @@ namespace FileExplorer
 {
     public partial class App : Application
     {
+        public static AssemblyName AssemblyName { get; private set; }
+
         public static Repository Repository { get; private set; }
 
         public static ExtensionManager ExtensionManager { get; private set; }
@@ -162,6 +164,9 @@ namespace FileExplorer
             CriteriaOperator.RegisterCustomFunction(new RegexReplaceFunction());
             CriteriaOperator.RegisterCustomFunction(new StringFormatFunction());
 
+            Assembly entryAssembly = Assembly.GetEntryAssembly();
+            AssemblyName = entryAssembly.GetName();
+
             Repository = new Repository("Data.db");
             ExtensionManager = new ExtensionManager("PreviewExtensions");
             TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;            
@@ -193,9 +198,9 @@ namespace FileExplorer
             RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (Settings.Default.AddToStartup)
-                registryKey.SetValue("FileExplorer", Utilities.AppPath + " --background");
+                registryKey.SetValue(Utilities.AppName, Utilities.AppPath + " --background");
             else
-                registryKey.DeleteValue("FileExplorer", false);
+                registryKey.DeleteValue(Utilities.AppName, false);
 
             FileSystemWatcherHelper.Stop();
         }

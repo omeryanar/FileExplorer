@@ -6,11 +6,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FileExplorer")]
+[assembly: AssemblyTitle("File Explorer")]
 [assembly: AssemblyDescription("Windows File Manager Application")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FileExplorer")]
+[assembly: AssemblyProduct("File Explorer")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -43,6 +43,6 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("2.4.0.0")]
+[assembly: AssemblyFileVersion("2.4.0.0")]
 [assembly: Guid("ad6840b6-5287-48a3-8d97-3bf8d4308161")]

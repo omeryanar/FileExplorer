@@ -142,6 +142,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ask Before Downloading Updates.
+        /// </summary>
+        public static string AskBeforeDownloadingUpdates {
+            get {
+                return ResourceManager.GetString("AskBeforeDownloadingUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back To Default.
         /// </summary>
         public static string BackToDefault {
@@ -174,6 +183,15 @@ namespace FileExplorer.Properties {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for Updates at Startup.
+        /// </summary>
+        public static string CheckForUpdates {
+            get {
+                return ResourceManager.GetString("CheckForUpdates", resourceCulture);
             }
         }
         
@@ -480,6 +498,33 @@ namespace FileExplorer.Properties {
         public static string Disabled {
             get {
                 return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading a new version of the application.
+        /// </summary>
+        public static string DownloadInProgress {
+            get {
+                return ResourceManager.GetString("DownloadInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Updates.
+        /// </summary>
+        public static string DownloadUpdates {
+            get {
+                return ResourceManager.GetString("DownloadUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Updates Automatically.
+        /// </summary>
+        public static string DownloadUpdatesAutomatically {
+            get {
+                return ResourceManager.GetString("DownloadUpdatesAutomatically", resourceCulture);
             }
         }
         
@@ -1061,6 +1106,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No updates are currently available.
+        /// </summary>
+        public static string NoUpdateAvailable {
+            get {
+                return ResourceManager.GetString("NoUpdateAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string OK {
@@ -1327,6 +1381,33 @@ namespace FileExplorer.Properties {
         public static string Rename {
             get {
                 return ResourceManager.GetString("Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart.
+        /// </summary>
+        public static string Restart {
+            get {
+                return ResourceManager.GetString("Restart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new version of the application has been downloaded and a restart is required to complete the installation. Do you want to restart now?.
+        /// </summary>
+        public static string RestartConfirmation {
+            get {
+                return ResourceManager.GetString("RestartConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new version of the application has been downloaded and a restart is required to complete the installation.
+        /// </summary>
+        public static string RestartRequired {
+            get {
+                return ResourceManager.GetString("RestartRequired", resourceCulture);
             }
         }
         
@@ -1678,6 +1759,33 @@ namespace FileExplorer.Properties {
         public static string Up {
             get {
                 return ResourceManager.GetString("Up", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new version of the application is available.
+        /// </summary>
+        public static string UpdateAvailable {
+            get {
+                return ResourceManager.GetString("UpdateAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new version of the application is available. Do you want to download and install?.
+        /// </summary>
+        public static string UpdateConfirmation {
+            get {
+                return ResourceManager.GetString("UpdateConfirmation", resourceCulture);
             }
         }
         

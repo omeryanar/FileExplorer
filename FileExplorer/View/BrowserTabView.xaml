@@ -33,6 +33,7 @@
 
     <dxmvvm:Interaction.Behaviors>        
         <dx:DialogService DialogWindowStartupLocation="CenterOwner" DialogStyle="{StaticResource DialogWindowStyle}" />
+        <dxmvvm:EventToCommand Event="Loaded" Command="{Binding CheckForUpdatesCommand}" />
     </dxmvvm:Interaction.Behaviors>
 
     <dx:LoadingDecorator>
@@ -45,8 +46,52 @@
             </dxlc:DockLayoutControl.ItemSizerStyle>
             <dxr:RibbonControl dxlc:DockLayoutControl.Dock="Top" RibbonTitleBarVisibility="Collapsed" RibbonStyle="Office2019" ToolbarShowMode="Hide"
                                ShowApplicationButton="False" AllowCustomization="False" IsSimplified="{Binding Settings.SimplifiedRibbon, Mode=TwoWay}">
+                <dxr:RibbonControl.PageHeaderItems>
+                    <dxb:BarStaticItem>
+                        <dxb:BarStaticItem.ContentTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="14" FontWeight="Light" Style="{StaticResource IconText}" Text="{Binding}" />
+                            </DataTemplate>
+                        </dxb:BarStaticItem.ContentTemplate>
+                        <dxb:BarStaticItem.Style>
+                            <Style TargetType="dxb:BarStaticItem">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UpdateStatus}" Value="ReadyToDownload">
+                                        <Setter Property="Content" Value="&#xF05A;" />
+                                        <Setter Property="ToolTip" Value="{Binding UpdateAvailable, Source={StaticResource ResourceProvider}}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding UpdateStatus}" Value="DownloadInProgress">
+                                        <Setter Property="Content" Value="&#xF019;" />
+                                        <Setter Property="ToolTip" Value="{Binding DownloadInProgress, Source={StaticResource ResourceProvider}}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding UpdateStatus}" Value="ReadyToInstall">
+                                        <Setter Property="Content" Value="&#xF011;" />
+                                        <Setter Property="ToolTip" Value="{Binding RestartRequired, Source={StaticResource ResourceProvider}}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </dxb:BarStaticItem.Style>
+                    </dxb:BarStaticItem>
+                    <dxb:BarButtonItem RibbonStyle="SmallWithoutText" Content="{Binding Update, Source={StaticResource ResourceProvider}}" IsVisible="{DXBinding 'UpdateStatus==$common:UpdateStatus.ReadyToDownload'}"
+                                       Command="{Binding DownloadUpdateCommand}" />
+                    <dxb:BarButtonItem RibbonStyle="SmallWithoutText" Content="{Binding Restart, Source={StaticResource ResourceProvider}}" IsVisible="{DXBinding 'UpdateStatus==$common:UpdateStatus.ReadyToInstall'}"
+                                       Command="{Binding InstallUpdateCommand}" />
+                    <dxb:BarEditItem EditWidth="150" EditValue="{Binding DownloadPercentage}" IsVisible="{DXBinding 'UpdateStatus==$common:UpdateStatus.DownloadInProgress'}">
+                        <dxb:BarEditItem.EditSettings>
+                            <dxe:ProgressBarEditSettings IsPercent="True" Minimum="0" Maximum="1" ContentDisplayMode="Value" DisplayFormat="Downloading: {0:P0}" />
+                        </dxb:BarEditItem.EditSettings>
+                    </dxb:BarEditItem>
+                    <dxb:BarButtonItem Glyph="{dx:DXImage 'SvgImages/Icon Builder/Actions_Refresh.svg'}" IsVisible="{DXBinding 'UpdateStatus==$common:UpdateStatus.UpToDate'}"
+                                       ToolTip="{Binding Update, Source={StaticResource ResourceProvider}}" Command="{Binding CheckForUpdatesCommand}" CommandParameter="true">
+                        <dx:WpfSvgPalette.Palette>
+                            <dx:WpfSvgPalette>
+                                <SolidColorBrush x:Key="Green" Color="DodgerBlue"/>
+                            </dx:WpfSvgPalette>
+                        </dx:WpfSvgPalette.Palette>
+                    </dxb:BarButtonItem>
+                </dxr:RibbonControl.PageHeaderItems>
                 <dxr:RibbonDefaultPageCategory>
-                    <dxr:RibbonPage Caption="{Binding Home, Source={StaticResource ResourceProvider}}">                        
+                    <dxr:RibbonPage Caption="{Binding Home, Source={StaticResource ResourceProvider}}">
                         <dxr:RibbonPageGroup Caption="{Binding Clipboard, Source={StaticResource ResourceProvider}}">
                             <dxb:BarButtonItem x:Name="PinToQuickAccess" Content="{Binding PinToQuickAccess, Source={StaticResource ResourceProvider}}"
                                                Command="{Binding PinToQuickAccessCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}"
@@ -109,7 +154,7 @@
                             </dxb:BarSplitButtonItem>
                             <dxb:BarButtonItem x:Name="Rename" Content="{Binding Rename, Source={StaticResource ResourceProvider}}" KeyGesture="F2"
                                                Command="{Binding RenameItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
-                                               Glyph="/Assets/Images/Rename16.png" LargeGlyph="/Assets/Images/Rename32.png" />                            
+                                               Glyph="/Assets/Images/Rename16.png" LargeGlyph="/Assets/Images/Rename32.png" />
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Caption="{Binding New, Source={StaticResource ResourceProvider}}">
                             <dxb:BarButtonItem x:Name="NewFolder" Content="{Binding NewFolder, Source={StaticResource ResourceProvider}}"
@@ -225,7 +270,7 @@
                                 <dxb:BarItemSeparator />
                                 <dxb:BarButtonItem Content="{Binding LoadDefaultLayout, Source={StaticResource ResourceProvider}}"
                                                    Command="{DXCommand '@ElementName(FileList).LoadDefaultLayout()'}" />
-                            </dxb:BarSubItem>                            
+                            </dxb:BarSubItem>
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Caption="{Binding ShowHide, Source={StaticResource ResourceProvider}}">
                             <dxb:BarEditItem EditHorizontalAlignment="Left" EditValue="{Binding Settings.ShowFileExtensions}">
@@ -318,7 +363,7 @@
                     </dxr:RibbonPage>
                 </dxr:RibbonDefaultPageCategory>
                 <dxr:RibbonPageCategory Caption="{Binding SearchTools, Source={StaticResource ResourceProvider}}" 
-                                        IsVisible="{Binding Text, UpdateSourceTrigger=PropertyChanged, ElementName=SearchEdit, Converter={dxmvvm:StringToBooleanConverter}}">                    
+                                        IsVisible="{Binding Text, UpdateSourceTrigger=PropertyChanged, ElementName=SearchEdit, Converter={dxmvvm:StringToBooleanConverter}}">
                     <dxr:RibbonPage Caption="{Binding SearchFilter, Source={StaticResource ResourceProvider}}"
                                     dxfui:FilterElement.Context="{Binding FilteringContext, ElementName=FileList}">
                         <dxr:RibbonPageGroup Caption="{Binding Location, Source={StaticResource ResourceProvider}}">
@@ -406,7 +451,7 @@
                 </StackPanel>
                 <controls:BreadCrumbControl CurrentItem="{Binding CurrentFolder, Mode=OneWay}" ShowHiddenItems="{Binding Settings.ShowHiddenItems}" ShowSystemItems="{Binding Settings.ShowSystemItems}"
                                             ItemClickCommand="{Binding OpenItemCommand}" ItemMiddleClickCommand="{Binding OpenInNewTabCommand}" NavigatePathCommand="{Binding NavigatePathCommand}" />
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Margin="3,0" Orientation="Horizontal" HorizontalAlignment="Right">
                     <dxe:ButtonEdit x:Name="SearchEdit" AllowDefaultButton="False" MinWidth="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
                                     NullText="{Binding CurrentFolder.Name, Converter={common:StringFormatConverter}, ConverterParameter=SearchTitle}">
                         <dxmvvm:Interaction.Triggers>
@@ -421,7 +466,7 @@
                     </dxe:ButtonEdit>
                 </StackPanel>
             </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Margin="3" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.LeftPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+            <dxlc:LayoutGroup Margin="7,0,3,0" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.LeftPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                               Visibility="{Binding Settings.ShowNavigationPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
                 <controls:FileTreeViewControl />
             </dxlc:LayoutGroup>
@@ -478,7 +523,7 @@
                     <dxmvvm:KeyToCommand KeyGesture="Ctrl+V" Event="PreviewKeyDown" MarkRoutedEventsAsHandled="True"
                                          Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" />
                 </dxmvvm:Interaction.Behaviors>
-            </controls:FileListViewControl>
+            </controls:FileListViewControl>            
         </dxlc:DockLayoutControl>
     </dx:LoadingDecorator>
     

@@ -254,8 +254,6 @@ namespace FileExplorer.ViewModel
 
         private bool BackwardItemPushLock = false;
 
-        private readonly string[] ImageEditExtensions = new string[] { ".png", ".gif", ".bmp", ".jpg", ".jpeg", ".tif", ".tiff" };
-
         #region List&Search
 
         public virtual bool IsLoading { get; set; }
@@ -838,6 +836,98 @@ namespace FileExplorer.ViewModel
                 Utilities.RenameFiles(files, newNames);
             }
         }
+
+        #endregion
+
+        #region Update
+
+        public virtual UpdateStatus UpdateStatus { get; set; }
+
+        public virtual double DownloadPercentage { get; set; }
+
+        public bool CanCheckForUpdates(bool forceCheck)
+        {
+            return forceCheck || Settings.Default.CheckForUpdates;
+        }
+
+        public async Task CheckForUpdates(bool forceCheck)
+        {
+            bool updateAvailable = await UpdateHelper.CheckForUpdates(forceCheck);
+            if (updateAvailable)
+            {
+                UpdateStatus = UpdateStatus.ReadyToDownload;
+
+                if (Settings.Default.DownloadUpdatesAutomatically)
+                    await PerformUpdate();
+                else
+                    await DownloadUpdate();
+            }
+            else if (forceCheck)
+            {
+                MessageViewModel viewModel = ViewModelSource.Create<MessageViewModel>();
+                viewModel.Icon = IconType.Information;
+                viewModel.Title = Properties.Resources.Update;
+                viewModel.Content = Properties.Resources.NoUpdateAvailable;
+
+                DialogService.ShowDialog(MessageButton.OK, Properties.Resources.Update, "MessageView", viewModel);
+            }
+        }
+
+        public bool CanDownloadUpdate()
+        {
+            return UpdateStatus == UpdateStatus.ReadyToDownload;
+        }
+
+        public async Task DownloadUpdate()
+        {
+            MessageViewModel viewModel = ViewModelSource.Create<MessageViewModel>();
+            viewModel.Icon = IconType.Question;
+            viewModel.Title = Properties.Resources.Update;
+            viewModel.Content = Properties.Resources.UpdateConfirmation;
+
+            MessageResult result = DialogService.ShowDialog(MessageButton.YesNo, Properties.Resources.Update, "MessageView", viewModel);
+            if (result == MessageResult.Yes)
+                await PerformUpdate();
+        }
+
+        public bool CanInstallUpdate()
+        {
+            return UpdateStatus == UpdateStatus.ReadyToInstall && availableVersion != null;
+        }
+
+        public void InstallUpdate()
+        {
+            MessageViewModel viewModel = ViewModelSource.Create<MessageViewModel>();
+            viewModel.Icon = IconType.Question;
+            viewModel.Title = Properties.Resources.Restart;
+            viewModel.Content = Properties.Resources.RestartConfirmation;
+
+            MessageResult result = DialogService.ShowDialog(MessageButton.YesNo, Properties.Resources.Restart, "MessageView", viewModel);
+            if (result == MessageResult.Yes)
+                UpdateHelper.Restart(availableVersion);
+        }
+
+        private async Task PerformUpdate()
+        {
+            if (UpdateStatus != UpdateStatus.ReadyToDownload)
+                return;
+
+            try
+            {
+                UpdateStatus = UpdateStatus.DownloadInProgress;
+
+                Progress<double> downloadProgress = new Progress<double>();
+                downloadProgress.ProgressChanged += (s, e) => { DownloadPercentage = Math.Round(e, 2); };
+
+                availableVersion = await UpdateHelper.PerformUpdate(downloadProgress, false);
+            }
+            finally
+            {
+                UpdateStatus = UpdateStatus.ReadyToInstall;
+            }
+        }
+
+        private Version availableVersion;
 
         #endregion
     }

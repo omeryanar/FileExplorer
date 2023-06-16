@@ -14,6 +14,13 @@ namespace FileExplorer
         [STAThread]
         public static void Main(string[] args)
         {
+            if (Settings.Default.UpgradeRequired)
+            {
+                Settings.Default.Upgrade();
+                Settings.Default.UpgradeRequired = false;
+                Settings.Default.Save();
+            }
+
             SingleInstanceApp singleInstanceApp = new SingleInstanceApp();
             singleInstanceApp.Run(args);
         }

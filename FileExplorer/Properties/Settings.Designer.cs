@@ -12,7 +12,7 @@ namespace FileExplorer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.6.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -416,6 +416,53 @@ namespace FileExplorer.Properties {
             }
             set {
                 this["Virtualization"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UpgradeRequired {
+            get {
+                return ((bool)(this["UpgradeRequired"]));
+            }
+            set {
+                this["UpgradeRequired"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckForUpdates {
+            get {
+                return ((bool)(this["CheckForUpdates"]));
+            }
+            set {
+                this["CheckForUpdates"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DownloadUpdatesAutomatically {
+            get {
+                return ((bool)(this["DownloadUpdatesAutomatically"]));
+            }
+            set {
+                this["DownloadUpdatesAutomatically"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime LastUpdate {
+            get {
+                return ((global::System.DateTime)(this["LastUpdate"]));
+            }
+            set {
+                this["LastUpdate"] = value;
             }
         }
     }

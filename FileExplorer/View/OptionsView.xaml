@@ -71,6 +71,18 @@
                     <dxe:ToggleSwitch IsChecked="{Binding AddToStartup, Source={x:Static settings:Settings.Default}}" />
                 </dxlc:LayoutItem>                
             </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Update, Source={StaticResource ResourceProvider}}">
+                <dxlc:LayoutItem Label="{Binding CheckForUpdates, Source={StaticResource ResourceProvider}}">
+                    <dxe:ToggleSwitch x:Name="CheckForUpdatesSwitch" IsChecked="{Binding CheckForUpdates, Source={x:Static settings:Settings.Default}}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding DownloadUpdates, Source={StaticResource ResourceProvider}}"
+                                 IsEnabled="{Binding IsChecked, ElementName=CheckForUpdatesSwitch}">
+                    <dxe:ListBoxEdit SelectedIndex="{Binding DownloadUpdatesAutomatically, Source={x:Static settings:Settings.Default}}">
+                        <dxe:ListBoxEditItem Content="{Binding AskBeforeDownloadingUpdates, Source={StaticResource ResourceProvider}}" />
+                        <dxe:ListBoxEditItem Content="{Binding DownloadUpdatesAutomatically, Source={StaticResource ResourceProvider}}" />
+                    </dxe:ListBoxEdit>
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding View, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutItem Label="{Binding Layout, Source={StaticResource ResourceProvider}}">
                     <dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True"

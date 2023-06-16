@@ -682,4 +682,40 @@
   <data name="SupportedFileTypes" xml:space="preserve">
     <value>Supported File Types</value>
   </data>
+  <data name="AskBeforeDownloadingUpdates" xml:space="preserve">
+    <value>Ask Before Downloading Updates</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Check for Updates at Startup</value>
+  </data>
+  <data name="DownloadUpdatesAutomatically" xml:space="preserve">
+    <value>Download Updates Automatically</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>A new version of the application is available</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="RestartRequired" xml:space="preserve">
+    <value>A new version of the application has been downloaded and a restart is required to complete the installation</value>
+  </data>
+  <data name="DownloadInProgress" xml:space="preserve">
+    <value>Downloading a new version of the application</value>
+  </data>
+  <data name="RestartConfirmation" xml:space="preserve">
+    <value>A new version of the application has been downloaded and a restart is required to complete the installation. Do you want to restart now?</value>
+  </data>
+  <data name="UpdateConfirmation" xml:space="preserve">
+    <value>A new version of the application is available. Do you want to download and install?</value>
+  </data>
+  <data name="DownloadUpdates" xml:space="preserve">
+    <value>Download Updates</value>
+  </data>
+  <data name="NoUpdateAvailable" xml:space="preserve">
+    <value>No updates are currently available</value>
+  </data>
 </root>

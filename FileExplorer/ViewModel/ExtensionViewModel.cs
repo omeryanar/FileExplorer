@@ -10,8 +10,6 @@ namespace FileExplorer.ViewModel
 
         public virtual PersistentCollection<ExtensionMetadata> Extensions { get; set; }
 
-        public ICommand<string> TestCommand { get; set; }
-
         public void ShowErrorDetails(string error)
         {
             MessageViewModel viewModel = new MessageViewModel
