@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using Alphaleonis.Win32.Filesystem;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.CodeGenerators;
+using DevExpress.Utils.About;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
 using FileExplorer.Messages;
@@ -14,7 +16,7 @@ using FileExplorer.Resources;
 namespace FileExplorer.Model
 {
     [GenerateViewModel]
-    public partial class FileModel
+    public partial class FileModel : IEditableObject
     {
         [GenerateProperty]
         private long size;
@@ -174,6 +176,30 @@ namespace FileExplorer.Model
         public override string ToString()
         {
             return Name;
+        }
+
+        public void BeginEdit()
+        {
+
+        }
+
+        public void EndEdit()
+        {
+            string newName = Name.Trim() + Extension;
+            if (newName == FullName)
+                return;
+
+            bool successful = Utilities.RenameFile(FullPath, newName);            
+            if (!successful)
+                CancelEdit();
+        }
+
+        public void CancelEdit()
+        {
+            if (IsDirectory)
+                Name = FullName;
+            else
+                Name = Path.GetFileNameWithoutExtension(FullPath);
         }
 
         private void Initialize(DirectoryInfo info)

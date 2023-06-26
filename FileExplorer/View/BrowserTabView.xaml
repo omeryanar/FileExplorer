@@ -91,7 +91,8 @@
                     </dxb:BarButtonItem>
                 </dxr:RibbonControl.PageHeaderItems>
                 <dxr:RibbonDefaultPageCategory>
-                    <dxr:RibbonPage Caption="{Binding Home, Source={StaticResource ResourceProvider}}">
+                    <dxr:RibbonPage Caption="{Binding Home, Source={StaticResource ResourceProvider}}"
+                                    IsEnabled="{Binding View.IsEditing, ElementName=FileList, Converter={dxmvvm:BooleanNegationConverter}}">
                         <dxr:RibbonPageGroup Caption="{Binding Clipboard, Source={StaticResource ResourceProvider}}">
                             <dxb:BarButtonItem x:Name="PinToQuickAccess" Content="{Binding PinToQuickAccess, Source={StaticResource ResourceProvider}}"
                                                Command="{Binding PinToQuickAccessCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}"
@@ -414,7 +415,6 @@
                         <dxr:RibbonPageGroup Caption="{Binding Options, Source={StaticResource ResourceProvider}}">
                             <dxb:BarButtonItem x:Name="OpenContainingFolder" Content="{Binding OpenContainingFolder, Source={StaticResource ResourceProvider}}"
                                                Command="{Binding OpenInNewTabCommand}" CommandParameter="{Binding SelectedItem.Parent, ElementName=FileList}"
-                                               IsVisible="{Binding SelectedItem, ElementName=FileList, Converter={dxmvvm:ObjectToBooleanConverter}}"
                                                Glyph="/Assets/Images/OpenFolder16.png" LargeGlyph="/Assets/Images/OpenFolder32.png" />
                             <dxb:BarButtonItem Content="{Binding Close, Source={StaticResource ResourceProvider}}" Command="{DXCommand 'SearchText = ``'}"
                                                Glyph="/Assets/Images/Delete16.png" LargeGlyph="/Assets/Images/Delete32.png" />
@@ -481,11 +481,11 @@
                 <dxlc:LayoutGroup Orientation="Vertical">
                     <dxlc:LayoutGroup Orientation="Vertical" Header="{Binding PreviewPane, Source={StaticResource ResourceProvider}}"
                                       Visibility="{Binding Settings.ShowPreviewPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                        <controls:PreviewControl Margin="3,0" File="{Binding SelectedItem, ElementName=FileList}" />
+                        <controls:PreviewControl Margin="3,0" File="{Binding CurrentItem, ElementName=FileList}" />
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup VerticalAlignment="Top" Header="{Binding DetailsPane, Source={StaticResource ResourceProvider}}"
                                       Visibility="{Binding Settings.ShowDetailsPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                        <dxlc:LayoutGroup Orientation="Vertical" Padding="10" DataContext="{Binding SelectedItem, ElementName=FileList}">
+                        <dxlc:LayoutGroup Orientation="Vertical" Padding="10" DataContext="{Binding CurrentItem, ElementName=FileList}">
                             <TextBlock FontSize="16" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding FullName}" />
                             <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding FullPath}" ToolTip="{Binding FullPath}" />
                             <TextBlock Text="{Binding Description}" />

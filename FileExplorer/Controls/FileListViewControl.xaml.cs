@@ -1,18 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using DevExpress.Data.Helpers;
 using DevExpress.Mvvm;
-using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Grid;
-using DevExpress.Xpf.Grid.TreeList;
 using FileExplorer.Core;
 using FileExplorer.Persistence;
-using static Vanara.PInvoke.Shell32;
 
 namespace FileExplorer.Controls
 {

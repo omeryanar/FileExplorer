@@ -10,10 +10,10 @@
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="DevExpress.Wpf.Core" Version="22.2.*-*">
+    <PackageReference Include="DevExpress.Wpf.Core" Version="23.1.*-*">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="DevExpress.Wpf.Spreadsheet" Version="22.2.*-*">
+    <PackageReference Include="DevExpress.Wpf.Spreadsheet" Version="23.1.*-*">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>

@@ -120,6 +120,8 @@ namespace FileExplorer.Core
             {
                 if (target.ParentExists<CheckEdit>())
                 {
+                    AssociatedObject.DataControl.Focus();
+
                     object row = AssociatedObject.DataControl.GetRow(hitInfo.RowHandle);
                     UnselectDifferentParent(row);
 
@@ -481,6 +483,12 @@ namespace FileExplorer.Core
 
         private void AssociatedObject_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (AssociatedObject.View.IsEditing)
+            {
+                Reset();
+                return;
+            }
+
             DependencyObject target = e.OriginalSource as DependencyObject;
             GridViewHitInfoBase hitInfo = AssociatedObject.View.CalcHitInfo(target);
             
@@ -781,6 +789,8 @@ namespace FileExplorer.Core
 
                 if (target.ParentExists<CheckEdit>())
                 {
+                    AssociatedObject.DataControl.Focus();
+
                     if (AssociatedObject.DataControl.SelectedItems.Contains(row))
                         AssociatedObject.DataControl.SelectedItems.Remove(row);
                     else

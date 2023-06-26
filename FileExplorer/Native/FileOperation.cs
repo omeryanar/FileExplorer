@@ -61,13 +61,17 @@ namespace FileExplorer.Native
             fileOperation.NewItem(folderItem, attrs, name, string.Empty, null);
         }
 
-        public void PerformOperations()
+        public bool PerformOperations()
         {
             try
             {
                 fileOperation.PerformOperations();
+                return true;
             }
-            catch (COMException) { }
+            catch (COMException)
+            {
+                return false;
+            }
         }
 
         public void AllowUndo()

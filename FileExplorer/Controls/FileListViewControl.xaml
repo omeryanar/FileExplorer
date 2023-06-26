@@ -197,6 +197,9 @@
                     </Style>
                 </ResourceDictionary>
                 <ResourceDictionary>
+                    <DataTemplate x:Key="EditFormTemplate">
+                        <dxg:EditFormEditor FieldName="Name" />
+                    </DataTemplate>
                     <ControlTemplate x:Key="{dxgt:GridCardThemeKey ResourceKey=ContainerTemplate}" TargetType="{x:Type ContentControl}">
                         <ContentPresenter />
                     </ControlTemplate>
@@ -205,13 +208,17 @@
                     <dxg:TableView x:Key="ListView" AllowEditing="False" AllowMergedGrouping="True" AllowConditionalFormattingMenu="True"
                                    AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
                                    ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
-                                   ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                                   ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
                                    ShowSearchPanelMode="Never" SearchColumns="Name;Extension" ShowSearchPanelResultInfo="True" ShowSearchPanelMRUButton="True"
-                                   ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
-                                   CheckBoxSelectorColumnWidth="25" ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
-                                   RetainSelectionOnClickOutsideCheckBoxSelector="False"
+                                   NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
+                                   ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
                                    AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
-                                   SearchString="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}">
+                                   SearchString="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}"
+                                   ShowIndicator="{DXBinding 'Settings.ShowRowNumbers and Layout==$common:Layout.Details'}"
+                                   IndicatorWidth="{DXBinding '(@a($dxg:GridControl).VisibleRowCount.ToString().Length * 5) + 20'}"
+                                   EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="InlineHideRow"
+                                   EditFormPostConfirmation="None" EditFormPostMode="Immediate"
+                                   ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="True">
                         <dxmvvm:Interaction.Behaviors>
                             <common:CustomColumnBehavior />
                             <common:AllowDragDropBehavior />
@@ -234,6 +241,11 @@
                                 </dxg:DataBarFormatCondition.Format>
                             </dxg:DataBarFormatCondition>
                         </dxg:TableView.FormatConditions>
+                        <dxg:TableView.RowIndicatorContentTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{DXBinding 'RowHandle.Value + 1'}" />
+                            </DataTemplate>
+                        </dxg:TableView.RowIndicatorContentTemplate>
                     </dxg:TableView>
                     <dxg:CardView x:Key="CardView" AllowEditing="False" AllowMergedGrouping="True"
                                   AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
@@ -252,14 +264,17 @@
                     <dxg:TreeListView x:Key="TreeView" AllowEditing="False" AllowConditionalFormattingMenu="True"
                                       AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"                                    
                                       ShowFocusedRectangle="False" ShowFixedTotalSummary="True"
-                                      ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                                      ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
                                       ShowSearchPanelMode="Never" SearchColumns="Name;Extension" ShowSearchPanelResultInfo="True" ShowSearchPanelMRUButton="True"
                                       ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
                                       ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
                                       AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
                                       SearchString="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}"
                                       TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Content" AllowChildNodeSourceUpdates="True"
-                                      HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False" PrintExpandButtons="False">
+                                      HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False" PrintExpandButtons="False"
+                                      EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="InlineHideRow"
+                                      EditFormPostConfirmation="None" EditFormPostMode="Immediate"
+                                      ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="True">
                         <dxmvvm:Interaction.Behaviors>
                             <common:CustomColumnBehavior />
                             <common:DragDropFilesBehavior />
@@ -309,7 +324,7 @@
     <dxmvvm:Interaction.Behaviors>
         <common:FileModelSortBehavior />
         <common:FileModelGroupBehavior />
-        <common:RowClickBehavior SecondClickCommand="{Binding RenameCommand}" DoubleClickCommand="{Binding OpenItemCommand}"
+        <common:RowClickBehavior SecondClickCommand="{Binding View.Commands.EditFocusedRow, Mode=OneWay, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}" DoubleClickCommand="{Binding OpenItemCommand}"
                                  CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}" />
         <common:MouseEventToCommand MouseButton="Middle" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
                                     MarkRoutedEventsAsHandled="True" Command="{Binding OpenInNewTabCommand}">
@@ -324,20 +339,7 @@
     </dxmvvm:Interaction.Behaviors>
 
     <dxg:GridControl.Columns>
-        <dxg:GridColumn FieldName="RowNumber" Header="{Binding Row, Source={StaticResource ResourceProvider}}"
-                        ShowInColumnChooser="False" UnboundType="Integer" Fixed="Left" Width="Auto" 
-                        Visible="{DXBinding 'Settings.ShowRowNumbers and Layout==$common:Layout.Details'}"
-                        AllowSorting="False" AllowColumnFiltering="False" AllowGrouping="False" AllowConditionalFormattingMenu="False" AllowPrinting="False">
-            <dxg:GridColumn.HeaderTemplate>
-                <DataTemplate />
-            </dxg:GridColumn.HeaderTemplate>
-            <dxg:GridColumn.CellTemplate>
-                <DataTemplate>
-                    <TextBlock Margin="5,0" VerticalAlignment="Center" TextAlignment="Center" Text="{DXBinding 'RowData.RowHandle.Value + 1'}" />
-                </DataTemplate>
-            </dxg:GridColumn.CellTemplate>
-        </dxg:GridColumn>
-        <dxg:GridColumn FieldName="Name" Width="250" Header="{Binding Name, Source={StaticResource ResourceProvider}}" SortMode="Custom" SortOrder="Ascending">
+        <dxg:GridColumn FieldName="Name" Width="250" Header="{Binding Name, Source={StaticResource ResourceProvider}}" SortMode="Custom" SortOrder="Ascending" AllowEditing="True" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True">
             <dxg:GridColumn.CellTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" DataContext="{Binding RowData}">
@@ -351,9 +353,33 @@
                     </StackPanel>
                 </DataTemplate>
             </dxg:GridColumn.CellTemplate>
+            <dxg:GridColumn.EditFormTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" DataContext="{Binding RowData.Source}">
+                        <dxe:CheckEdit Margin="3,0,0,0" Style="{StaticResource CheckBoxSelectorStyle}" />
+                        <Image Width="16" Height="16" Margin="3,0" Source="{Binding Row.SmallIcon}" Style="{StaticResource FileIconImageStyle}" />
+                        <dxe:ButtonEdit Name="PART_Editor" AllowDefaultButton="False">
+                            <dxmvvm:Interaction.Behaviors>
+                                <dxmvvm:FocusBehavior />
+                                <dxmvvm:KeyToCommand KeyGesture="Enter" EventName="KeyDown" MarkRoutedEventsAsHandled="True" Command="{Binding View.Commands.CloseEditForm}" />
+                            </dxmvvm:Interaction.Behaviors>
+                            <dxe:ButtonInfo GlyphKind="Apply" ToolTip="{Binding OK, Source={StaticResource ResourceProvider}}" Command="{Binding View.Commands.CloseEditForm}" Margin="20,0,0,0" />
+                            <dxe:ButtonInfo GlyphKind="Cancel" ToolTip="{Binding Cancel, Source={StaticResource ResourceProvider}}" Command="{Binding View.Commands.HideEditForm}" />
+                            <dxe:ButtonInfo GlyphKind="Regular" ToolTip="{Binding Advanced, Source={StaticResource ResourceProvider}}">
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:CompositeCommandBehavior>
+                                        <dxmvvm:CommandItem Command="{Binding View.Commands.HideEditForm}" />
+                                        <dxmvvm:CommandItem Command="{Binding View.DataContext.RenameCommand}" CommandParameter="{Binding Row}" />
+                                    </dxmvvm:CompositeCommandBehavior>
+                                </dxmvvm:Interaction.Behaviors>
+                            </dxe:ButtonInfo>
+                        </dxe:ButtonEdit>
+                    </StackPanel>
+                </DataTemplate>
+            </dxg:GridColumn.EditFormTemplate>
         </dxg:GridColumn>
-        <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" SortMode="Custom" SortFieldName="Extension" />
-        <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
+        <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" SortMode="Custom" SortFieldName="Extension" AllowAutoFilter="False" />
+        <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False">
             <dxg:GridColumn.PredefinedFilters>
                 <dxfui:PredefinedFilterCollection>
                     <dxfui:PredefinedFilter Name="Image" Filter="?p IN ('.BMP','.PNG','.JPG','.JPEG','.GIF','.ICO','.SVG','.TIF','.TIFF','.PSD')" />
@@ -365,10 +391,10 @@
                 </dxfui:PredefinedFilterCollection>
             </dxg:GridColumn.PredefinedFilters>
         </dxg:GridColumn>
-        <dxg:GridColumn FieldName="ParentName" Header="{Binding ParentName, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" />
-        <dxg:GridColumn FieldName="ParentPath" Header="{Binding ParentPath, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" />
-        <dxg:GridColumn FieldName="FullPath" Header="{Binding Path, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" />
-        <dxg:GridColumn FieldName="Size" Header="{Binding Size, Source={StaticResource ResourceProvider}}" SortMode="Custom"
+        <dxg:GridColumn FieldName="ParentName" Header="{Binding ParentName, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" />
+        <dxg:GridColumn FieldName="ParentPath" Header="{Binding ParentPath, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" />
+        <dxg:GridColumn FieldName="FullPath" Header="{Binding Path, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" />
+        <dxg:GridColumn FieldName="Size" Header="{Binding Size, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowAutoFilter="False"
                         Binding="{Binding Size, Converter={common:IntToFileSizeConverter}}" CellTemplateSelector="{StaticResource FileSizeTemplateSelector}">
             <dxg:GridColumn.PredefinedFilters>
                 <dxfui:PredefinedFilterCollection>
@@ -382,17 +408,17 @@
                 </dxfui:PredefinedFilterCollection>
             </dxg:GridColumn.PredefinedFilters>
         </dxg:GridColumn>
-        <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" SortMode="Custom">
+        <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowAutoFilter="False">
             <dxg:GridColumn.EditSettings>
                 <dxe:TextEditSettings DisplayFormat="G"/>
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
-        <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" SortMode="Custom">
+        <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowAutoFilter="False">
             <dxg:GridColumn.EditSettings>
                 <dxe:TextEditSettings DisplayFormat="G"/>
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
-        <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
+        <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False">
             <dxg:GridColumn.EditSettings>
                 <dxe:TextEditSettings DisplayFormat="G"/>
             </dxg:GridColumn.EditSettings>

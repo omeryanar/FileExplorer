@@ -70,33 +70,36 @@ namespace FileExplorer.Core
             File.SetLastAccessTime(path, dateTime);
         }
 
-        public static void CreateFolder(String path, String name)
+        public static bool CreateFolder(String path, String name)
         {
             using (FileOperation fileOperation = new FileOperation())
             {
                 fileOperation.NewItem(path, name, FileAttributes.Directory);
-                fileOperation.PerformOperations();
+                return fileOperation.PerformOperations();
             }
         }
 
-        public static void CreateFile(String path, String name, bool openFile = false)
+        public static bool CreateFile(String path, String name, bool openFile = false)
         {
+            bool successful = false;
             using (FileOperation fileOperation = new FileOperation())
             {
                 fileOperation.NewItem(path, name, FileAttributes.Normal);
-                fileOperation.PerformOperations();
+                successful = fileOperation.PerformOperations();
             }
 
-            if (openFile)
+            if (successful && openFile)
                 OpenFile(Path.Combine(path, name));
+
+            return successful;
         }
 
-        public static void RenameFile(String path, String newName)
+        public static bool RenameFile(String path, String newName)
         {
             using (FileOperation fileOperation = new FileOperation())
             {
                 fileOperation.RenameItem(path, newName.Trim());
-                fileOperation.PerformOperations();
+                return fileOperation.PerformOperations();
             }
         }
 
