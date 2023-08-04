@@ -154,7 +154,7 @@
                                 </dxb:PopupMenu>
                             </dxb:BarSplitButtonItem>
                             <dxb:BarButtonItem x:Name="Rename" Content="{Binding Rename, Source={StaticResource ResourceProvider}}" KeyGesture="F2"
-                                               Command="{Binding RenameItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
+                                               Command="{Binding EditCommand, ElementName=FileList}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
                                                Glyph="/Assets/Images/Rename16.png" LargeGlyph="/Assets/Images/Rename32.png" />
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Caption="{Binding New, Source={StaticResource ResourceProvider}}">
@@ -473,7 +473,7 @@
             <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Right" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.RightPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
                 <dxlc:LayoutGroup.Visibility>
                     <MultiBinding Converter="{common:RightPaneVisibilityConverter}">
-                        <Binding Path="SelectedItem" ElementName="FileList" />
+                        <Binding Path="CurrentItem" ElementName="FileList" />
                         <Binding Path="Settings.ShowPreviewPane" />
                         <Binding Path="Settings.ShowDetailsPane" />
                     </MultiBinding>
@@ -516,12 +516,18 @@
             </dxlc:LayoutGroup>
             <controls:FileListViewControl x:Name="FileList" Margin="0,0,-1,-1" ItemsSource="{Binding DisplayItems}"
                                           FixedFilter="{Binding FilterCriteria, Mode=OneWay}" HighlightedText="{Binding HighlightedText}"
-                                          ItemsSourceChanged="{DXEvent '@ElementName(FileList).LoadFolderLayout(CurrentFolder.FullPath)'}">
+                                          ItemsSourceChanged="{DXEvent '@ElementName(FileList).LoadFolderLayout(CurrentFolder.FullPath)'}"
+                                          RowDoubleClickCommand="{Binding OpenItemCommand}" EditSelectedItemsCommand="{Binding RenameItemsCommand}">
+                <controls:FileListViewControl.EditSelectedItemCommand>
+                    <PriorityBinding>
+                        <Binding Path="View.TableViewCommands.EditFocusedRow" ElementName="FileList" />
+                        <Binding Path="View.TreeListCommands.EditFocusedRow" ElementName="FileList" />
+                        <Binding Path="RenameCommand" />
+                    </PriorityBinding>
+                </controls:FileListViewControl.EditSelectedItemCommand>
                 <dxmvvm:Interaction.Behaviors>
-                    <dxmvvm:KeyToCommand KeyGesture="Ctrl+C" Event="PreviewKeyDown" MarkRoutedEventsAsHandled="True"
-                                         Command="{Binding CopyToClipboardCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" />
-                    <dxmvvm:KeyToCommand KeyGesture="Ctrl+V" Event="PreviewKeyDown" MarkRoutedEventsAsHandled="True"
-                                         Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" />
+                    <dxmvvm:EventToCommand EventName="PastingFromClipboard" MarkRoutedEventsAsHandled="True"
+                                           Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" />
                 </dxmvvm:Interaction.Behaviors>
             </controls:FileListViewControl>            
         </dxlc:DockLayoutControl>

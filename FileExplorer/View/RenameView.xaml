@@ -19,21 +19,16 @@
 
     <dxlc:LayoutControl Orientation="Vertical">
         <dxlc:LayoutGroup x:Name="ValidationContainer" VerticalAlignment="Top" dxe:ValidationService.IsValidationContainer="True">
-            <dxe:TextEdit ShowErrorToolTip="False" EditValue="{Binding Name}" Validate="{DXEvent 'ValidateName(@args)'}">
+            <dxe:TextEdit ShowErrorToolTip="False" EditValue="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:FocusBehavior />
                 </dxmvvm:Interaction.Behaviors>
             </dxe:TextEdit>
-            <dxe:TextEdit SelectAllOnGotFocus="False" HorizontalAlignment="Right" EditValue="{Binding Extension}"
+            <dxe:TextEdit SelectAllOnGotFocus="False" ShowErrorToolTip="False" HorizontalAlignment="Right" EditValue="{Binding Extension, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                           Visibility="{Binding Text, RelativeSource={RelativeSource Self}, Converter={dxmvvm:StringToVisibilityConverter}}" />
         </dxlc:LayoutGroup>
-        <dxe:FlyoutControl PlacementTarget="{Binding ElementName=ValidationContainer}" 
-                           Content="{Binding InvalidFileNameMessage, Source={StaticResource ResourceProvider}}"
-                           IsOpen="{Binding Path=(dxe:ValidationService.HasValidationError), ElementName=ValidationContainer}">
-            <dxe:FlyoutControl.Settings>
-                <dxe:FlyoutSettings ShowIndicator="True" />
-            </dxe:FlyoutControl.Settings>
-        </dxe:FlyoutControl>
+        <TextBlock Foreground="#F26543" FontWeight="Medium" Text="{Binding InvalidFileNameMessage, Source={StaticResource ResourceProvider}}"
+                   Visibility="{Binding Path=(dxe:ValidationService.HasValidationError), ElementName=ValidationContainer, Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
         <dxlc:LayoutItem Label="{Binding Pattern, Source={StaticResource ResourceProvider}}" VerticalAlignment="Top"
                          Visibility="{Binding ShowPatternButtons, Converter={dxmvvm:BooleanToVisibilityConverter}}">
             <dxlc:LayoutGroup>

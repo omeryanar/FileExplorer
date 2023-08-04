@@ -232,8 +232,7 @@
     <value>Ungültiger Dateiname</value>
   </data>
   <data name="InvalidFileNameMessage" xml:space="preserve">
-    <value>Der Dateiname darf nicht leer sein oder eines der folgenden Zeichen enthalten:
-\ / : * ? "" &lt; &gt; |</value>
+    <value>Der Dateiname darf nicht leer sein oder eines der folgenden Zeichen enthalten: \ / : * ? "" &lt; &gt; |</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Auswahl umkehren</value>

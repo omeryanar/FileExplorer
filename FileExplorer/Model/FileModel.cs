@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Media;
 using Alphaleonis.Win32.Filesystem;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.CodeGenerators;
-using DevExpress.Utils.About;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
 using FileExplorer.Messages;
@@ -15,7 +15,7 @@ using FileExplorer.Resources;
 
 namespace FileExplorer.Model
 {
-    [GenerateViewModel]
+    [GenerateViewModel(ImplementIDataErrorInfo = true)]
     public partial class FileModel : IEditableObject
     {
         [GenerateProperty]
@@ -25,6 +25,8 @@ namespace FileExplorer.Model
         private long freeSpace;
 
         [GenerateProperty]
+        [Required(ErrorMessageResourceName = "InvalidFileNameMessage", ErrorMessageResourceType = typeof(Properties.Resources))]
+        [RegularExpression(@"^[^\/<>*?:""|\\]*$", ErrorMessageResourceName = "InvalidFileNameMessage", ErrorMessageResourceType = typeof(Properties.Resources))]
         private string name;
 
         [GenerateProperty]
@@ -370,6 +372,8 @@ namespace FileExplorer.Model
                             return;
 
                         FileModel fileModel = FromPath(parsingName);
+                        fileModel.Parent = parentFileModel;
+
                         if (fileModel.IsDirectory)
                             parentFileModel.Folders?.Add(fileModel);
                         else

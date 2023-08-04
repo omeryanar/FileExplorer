@@ -766,7 +766,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanRename(FileModel fileModel)
         {
-            return IsChildFolder && fileModel != null;
+            return fileModel?.Parent?.IsRoot == false;
         }
 
         public void Rename(FileModel fileModel)
@@ -784,8 +784,8 @@ namespace FileExplorer.ViewModel
             if (String.IsNullOrEmpty(viewModel.Parent))
                 viewModel.Parent = fileModel.ParentPath.RemoveInvalidFileNameCharacters();
 
-            MessageResult result = DialogService.ShowDialog(MessageButton.OKCancel, Properties.Resources.Rename, "RenameView", viewModel);
-            if (result == MessageResult.OK)
+            UICommand command = DialogService.ShowDialog(viewModel.UICommandList, Properties.Resources.Rename, "RenameView", viewModel);
+            if (command?.IsDefault == true)
             {
                 string newName = viewModel.Name.Trim() + viewModel.Extension;
                 if (newName != fileModel.FullName)
@@ -804,7 +804,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanRenameItems(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0;
+            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void RenameItems(IList<object> items)

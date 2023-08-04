@@ -13,7 +13,16 @@ namespace FileExplorer.Persistence
 
         public bool ApplyToSubFolders { get; set; }
 
-        public byte[] LayoutData { get; set; }
+        public byte[] LayoutData
+        {
+            get => layoutData;
+            set
+            {
+                layoutData = value;
+                layoutStream = new MemoryStream(layoutData);
+            }
+        }
+        private byte[] layoutData;
 
         [BsonIgnore]
         public MemoryStream LayoutStream

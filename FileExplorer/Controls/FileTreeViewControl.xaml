@@ -106,7 +106,7 @@
                 <dxb:BarItemSeparator />
                 <dxb:BarButtonItem Content="{Binding Open, Source={StaticResource ResourceProvider}}"
                                    Command="{Binding OpenItemCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}"
-                                   Glyph="{Binding SelectedItem.SmallIcon, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
+                                   Glyph="{Binding ClickedItem.SmallIcon, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding OpenInNewTab, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/OpenFolder16.png"
                                    Command="{Binding OpenInNewTabCommand}" CommandParameter="{Binding ClickedItem, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                 <dxb:BarButtonItem Content="{Binding OpenInNewWindow, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/OpenNewWindow16.png"

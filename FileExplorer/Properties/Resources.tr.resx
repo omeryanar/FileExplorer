@@ -144,6 +144,9 @@
   <data name="ApplicationErrorOccured" xml:space="preserve">
     <value>Bir uygulama hatası oluştu.</value>
   </data>
+  <data name="AskBeforeDownloadingUpdates" xml:space="preserve">
+    <value>Güncellemeleri İndirmeden Önce Sor</value>
+  </data>
   <data name="BackToDefault" xml:space="preserve">
     <value>Varsayılana Dön</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>İptal</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Başlangıçta Güncellemeleri Kontrol Et</value>
   </data>
   <data name="ClearSorting" xml:space="preserve">
     <value>Sıralamayı Temizle</value>
@@ -258,6 +264,15 @@
   <data name="Disabled" xml:space="preserve">
     <value>Devredışı</value>
   </data>
+  <data name="DownloadInProgress" xml:space="preserve">
+    <value>Uygulamanın yeni sürümü indiriliyor</value>
+  </data>
+  <data name="DownloadUpdates" xml:space="preserve">
+    <value>Güncellemeleri İndir</value>
+  </data>
+  <data name="DownloadUpdatesAutomatically" xml:space="preserve">
+    <value>Güncellemeleri Otomatik İndir</value>
+  </data>
   <data name="DragDrop" xml:space="preserve">
     <value>Sürükle &amp; Bırak</value>
   </data>
@@ -346,8 +361,7 @@
     <value>Geçersiz Dosya Adı</value>
   </data>
   <data name="InvalidFileNameMessage" xml:space="preserve">
-    <value>Dosya adı boş olamaz veya şu karakterlerden herhangi birini içeremez:
-\ / : * ? " &lt; &gt; |</value>
+    <value>Dosya adı boş olamaz veya şu karakterlerden herhangi birini içeremez: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Diğerlerini Seç</value>
@@ -451,6 +465,9 @@
   <data name="NoPreviewAvailable" xml:space="preserve">
     <value>Bu dosya türü için kayıtlı önizleme uzantısı bulunamadı</value>
   </data>
+  <data name="NoUpdateAvailable" xml:space="preserve">
+    <value>Şu anda indirilebilir güncelleme yok</value>
+  </data>
   <data name="OK" xml:space="preserve">
     <value>Tamam</value>
   </data>
@@ -540,6 +557,15 @@
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Yeniden Adlandır</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Yeniden Başlat</value>
+  </data>
+  <data name="RestartConfirmation" xml:space="preserve">
+    <value>Uygulamanın yeni bir sürümü indirildi ve kurulumun tamamlanması için yeniden başlatma gerekiyor. Şimdi yeniden başlatmak istiyor musunuz?</value>
+  </data>
+  <data name="RestartRequired" xml:space="preserve">
+    <value>Uygulamanın yeni bir sürümü indirildi ve kurulumun tamamlanması için yeniden başlatma gerekiyor</value>
   </data>
   <data name="Row" xml:space="preserve">
     <value>Satır</value>
@@ -657,6 +683,15 @@
   </data>
   <data name="Up" xml:space="preserve">
     <value>Yukarı '{0}'</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Güncelle</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Uygulamanın yeni bir sürümü mevcut</value>
+  </data>
+  <data name="UpdateConfirmation" xml:space="preserve">
+    <value>Uygulamanın yeni bir sürümü mevcut. İndirip kurmak ister misiniz?</value>
   </data>
   <data name="UpperCase" xml:space="preserve">
     <value>Tümü Büyük Harf</value>

@@ -7,10 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using DevExpress.Data;
 using DevExpress.Data.Filtering;
 using DevExpress.Mvvm;
+using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Mvvm.UI;
 using DevExpress.Mvvm.UI.Interactivity;
@@ -32,7 +32,7 @@ using FileExplorer.ViewModel;
 
 namespace FileExplorer.Core
 {
-    public class TextHighlightingBehavior : Behavior<TextEdit>
+    public class TextHighlightingBehavior : Behavior<BaseEdit>
     {
         public string HighlightedText
         {
@@ -44,7 +44,7 @@ namespace FileExplorer.Core
 
         protected void UpdateText()
         {
-            if (AssociatedObject.EditMode != EditMode.InplaceInactive)
+            if (AssociatedObject?.EditMode != EditMode.InplaceInactive)
                 return;
 
             BaseEditHelper.UpdateHighlightingText(AssociatedObject, new TextHighlightingProperties(HighlightedText, FilterCondition.Contains));
@@ -260,7 +260,7 @@ namespace FileExplorer.Core
 
         private void AssociatedObject_CustomColumnGroup(object sender, CustomColumnSortEventArgs e)
         {
-            if (e.Column.FieldName == "Size")
+            if (e.Column.FieldName == nameof(FileModel.Size))
             {
                 long value1 = Convert.ToInt64(e.Value1);
                 long value2 = Convert.ToInt64(e.Value2);
@@ -278,7 +278,7 @@ namespace FileExplorer.Core
                 e.Result = result;
                 e.Handled = true;
             }
-            else if (e.Column.FieldName == "Name")
+            else if (e.Column.FieldName == nameof(FileModel.Name))
             {
                 string value1 = e.Value1.ToString();
                 string value2 = e.Value2.ToString();
@@ -317,7 +317,7 @@ namespace FileExplorer.Core
 
         private void AssociatedObject_CustomGroupDisplayText(object sender, CustomGroupDisplayTextEventArgs e)
         {
-            if (e.Column.FieldName == "Size")
+            if (e.Column.FieldName == nameof(FileModel.Size))
             {
                 long size = Convert.ToInt64(e.Value);
                 if (size == 0)
@@ -331,7 +331,7 @@ namespace FileExplorer.Core
                 else
                     e.DisplayText = String.Format(IntervalFormat, "GB");
             }
-            else if (e.Column.FieldName == "Name")
+            else if (e.Column.FieldName == nameof(FileModel.Name))
             {  
                 if (Char.IsDigit(e.DisplayText[0]))
                     e.DisplayText = "0-9";
@@ -426,125 +426,6 @@ namespace FileExplorer.Core
             if (e.Column.SortOrder == ColumnSortOrder.None && e.Column.FieldType != typeof(string))
                 e.Column.SortOrder = ColumnSortOrder.Ascending;
         }
-    }
-
-    public class RowClickBehavior : Behavior<GridControl>
-    {
-        public ICommand SecondClickCommand
-        {
-            get => (ICommand)GetValue(SecondClickCommandProperty);
-            set => SetValue(SecondClickCommandProperty, value);
-        }
-        public static readonly DependencyProperty SecondClickCommandProperty = DependencyProperty.Register(nameof(SecondClickCommand), typeof(ICommand), typeof(RowClickBehavior));
-
-        public ICommand DoubleClickCommand
-        {
-            get => (ICommand)GetValue(DoubleClickCommandProperty);
-            set => SetValue(DoubleClickCommandProperty, value);
-        }
-        public static readonly DependencyProperty DoubleClickCommandProperty = DependencyProperty.Register(nameof(DoubleClickCommand), typeof(ICommand), typeof(RowClickBehavior));
-
-        public object CommandParameter
-        {
-            get => GetValue(CommandParameterProperty);
-            set => SetValue(CommandParameterProperty, value);
-        }
-        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(RowClickBehavior));
-
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            AssociatedObject.Loaded += AssociatedObject_Loaded;
-
-            AssociatedObject.SelectionChanged += (s, e) => 
-            {
-                if (AssociatedObject.SelectedItems.Count != 1)
-                    Reset();
-            };
-
-            AssociatedObject.LostFocus += (s, e) =>
-            {
-                if (e.Source == e.OriginalSource)
-                    Reset();
-            };
-
-            int doubleClickTime = System.Windows.Forms.SystemInformation.DoubleClickTime;
-            ClickTimer.Interval = TimeSpan.FromMilliseconds(doubleClickTime);
-            ClickTimer.Tick += (s, e) => { ExecuteCommand(SecondClickCommand); };
-        }
-
-        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
-        {
-            AssociatedObject.Loaded -= AssociatedObject_Loaded;
-
-            AssociatedObject.PreviewMouseLeftButtonDown += AssociatedObject_PreviewMouseLeftButtonDown;
-            AssociatedObject.PreviewMouseLeftButtonUp += AssociatedObject_PreviewMouseLeftButtonUp;
-        }
-
-        private void AssociatedObject_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (AssociatedObject.View.IsEditing)
-            {
-                Reset();
-                return;
-            }
-
-            DependencyObject target = e.OriginalSource as DependencyObject;
-            GridViewHitInfoBase hitInfo = AssociatedObject.View.CalcHitInfo(target);
-            
-            if (e.ClickCount == 2)
-            {
-                Reset();
-
-                if (hitInfo != null && hitInfo.RowHandle >= 0)
-                    ExecuteCommand(DoubleClickCommand);
-            }
-            else
-            {
-                inNodeExpandButton = false;
-                if (hitInfo is TreeListViewHitInfo treeHitInfo && treeHitInfo.InNodeExpandButton)
-                    inNodeExpandButton = true;
-
-                if (hitInfo != null && hitInfo.RowHandle >= 0)
-                {
-                    OldClickedItem = NewClickedItem;                    
-                    NewClickedItem = AssociatedObject.GetRow(hitInfo.RowHandle);
-                }
-                else
-                {
-                    OldClickedItem = NewClickedItem;
-                    NewClickedItem = null;
-                }
-            }
-        }
-
-        private void AssociatedObject_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (NewClickedItem != null && OldClickedItem != null && NewClickedItem == OldClickedItem && !inNodeExpandButton)
-                ClickTimer.Start();
-        }
-
-        private void Reset()
-        {
-            ClickTimer.Stop();
-
-            NewClickedItem = null;
-            OldClickedItem = null;
-        }
-
-        private void ExecuteCommand(ICommand command)
-        {
-            ClickTimer.Stop();
-            command?.Execute(CommandParameter);
-        }
-
-        private object NewClickedItem;
-
-        private object OldClickedItem;
-
-        private bool inNodeExpandButton;
-
-        private DispatcherTimer ClickTimer = new DispatcherTimer();
     }
 
     public class CustomMenuBehavior : Behavior<PopupMenu>
@@ -779,7 +660,7 @@ namespace FileExplorer.Core
 
             if (hitInfo != null && hitInfo.RowHandle >= 0)
             {
-                if ((hitInfo.Column == null || hitInfo.Column.FieldName == "Name") && (target is TextBlock || target is Image))
+                if ((hitInfo.Column == null || hitInfo.Column.FieldName == nameof(FileModel.Name)) && (target is TextBlock || target is Image))
                 {
                     AllowDragDrop();
                     return;
@@ -806,7 +687,6 @@ namespace FileExplorer.Core
             }
             else
             {
-                AssociatedObject.DataControl.CurrentItem = null;
                 ShowSelectionRectangle();
             }
         }

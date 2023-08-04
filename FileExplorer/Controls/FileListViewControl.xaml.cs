@@ -1,7 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Threading;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Grid;
@@ -17,7 +21,35 @@ namespace FileExplorer.Controls
             get { return (string)GetValue(HighlightedTextProperty); }
             set { SetValue(HighlightedTextProperty, value); }
         }
-        public static readonly DependencyProperty HighlightedTextProperty = DependencyProperty.Register(nameof(HighlightedText), typeof(string), typeof(FileListViewControl));
+        public static readonly DependencyProperty HighlightedTextProperty = DependencyProperty.Register(nameof(HighlightedText), typeof(string), typeof(FileListViewControl), new PropertyMetadata(null, OnHighlightedTextChanged));
+
+        public ICommand RowDoubleClickCommand
+        {
+            get => (ICommand)GetValue(RowDoubleClickCommandProperty);
+            set => SetValue(RowDoubleClickCommandProperty, value);
+        }
+        public static readonly DependencyProperty RowDoubleClickCommandProperty = DependencyProperty.Register(nameof(RowDoubleClickCommand), typeof(ICommand), typeof(FileListViewControl));
+
+        public ICommand EditSelectedItemCommand
+        {
+            get { return (ICommand)GetValue(EditSelectedItemCommandProperty); }
+            set { SetValue(EditSelectedItemCommandProperty, value); }
+        }
+        public static readonly DependencyProperty EditSelectedItemCommandProperty = DependencyProperty.Register(nameof(EditSelectedItemCommand), typeof(ICommand), typeof(FileListViewControl));
+
+        public ICommand EditSelectedItemsCommand
+        {
+            get { return (ICommand)GetValue(EditSelectedItemsCommandProperty); }
+            set { SetValue(EditSelectedItemsCommandProperty, value); }
+        }
+        public static readonly DependencyProperty EditSelectedItemsCommandProperty = DependencyProperty.Register(nameof(EditSelectedItemsCommand), typeof(ICommand), typeof(FileListViewControl));
+
+        public ICommand EditCommand
+        {
+            get { return (ICommand)GetValue(EditCommandProperty); }
+            private set { SetValue(EditCommandProperty, value); }
+        }
+        public static readonly DependencyProperty EditCommandProperty = DependencyProperty.Register("EditCommand", typeof(ICommand), typeof(FileListViewControl));
 
         public FileListViewControl()
         {
@@ -37,6 +69,23 @@ namespace FileExplorer.Controls
                 if (SelectedItem != null)
                     View.ScrollIntoView(SelectedItem);
             };
+
+            ClickTimer = new DispatcherTimer();
+            ClickTimer.Interval = TimeSpan.FromMilliseconds(SystemInformation.DoubleClickTime);
+            ClickTimer.Tick += (s, e) =>
+            {
+                StopClickTimer();
+                EditSelectedItemCommand?.Execute(SelectedItem);
+            };
+
+            EditCommand = new DelegateCommand(() =>
+            {
+                if (SelectedItems?.Count > 1)
+                    EditSelectedItemsCommand?.Execute(SelectedItems);
+                else
+                    EditSelectedItemCommand?.Execute(SelectedItem);
+            }, 
+            () => { return EditSelectedItemCommand?.CanExecute(SelectedItem) == true || EditSelectedItemsCommand?.CanExecute(SelectedItems) == true; });
         }
 
         public void InvertSelection()
@@ -96,14 +145,15 @@ namespace FileExplorer.Controls
             if (layout == null)
                 layout = new FolderLayout { Name = Path.GetFileName(folderPath), FolderPath = folderPath };
 
-            MemoryStream layoutStream = new MemoryStream();
-            SaveLayoutToStream(layoutStream);
+            using(MemoryStream layoutStream = new MemoryStream())
+            {
+                SaveLayoutToStream(layoutStream);
 
-            layout.ApplyToSubFolders = applyToSubFolders;
-            layout.LayoutData = layoutStream.ToArray();
+                layout.ApplyToSubFolders = applyToSubFolders;
+                layout.LayoutData = layoutStream.ToArray();
+            }
 
             App.Repository.FolderLayouts.Add(layout);
-
             ShowManageLayoutsDialog();
         }        
 
@@ -152,8 +202,75 @@ namespace FileExplorer.Controls
                 View.ScrollIntoView(SelectedItem);
         }
 
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            OldClickedItem = CurrentItem;
+            base.OnPreviewMouseLeftButtonDown(e);
+            NewClickedItem = CurrentItem;
+
+            if (View.IsEditing || Keyboard.Modifiers != ModifierKeys.None)
+            {
+                StopClickTimer();
+                return;
+            }
+
+            if (e.ClickCount == 2)
+            {
+                DependencyObject target = e.OriginalSource as DependencyObject;
+                GridViewHitInfoBase hitInfo = View.CalcHitInfo(target);
+                if (hitInfo != null && hitInfo.InRow)
+                {
+                    StopClickTimer();
+                    RowDoubleClickCommand?.Execute(CurrentItem);
+                }
+            }
+        }
+
+        protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseLeftButtonUp(e);
+
+            if (View.IsEditing || Keyboard.Modifiers != ModifierKeys.None)
+            {
+                StopClickTimer();
+                return;
+            }
+
+            if (NewClickedItem != null && NewClickedItem == OldClickedItem)
+            {
+                DependencyObject target = e.OriginalSource as DependencyObject;
+                GridViewHitInfoBase hitInfo = View.CalcHitInfo(target);
+
+                if (hitInfo is CardViewHitInfo cardViewHitInfo && cardViewHitInfo.InRow)
+                    ClickTimer.Start();
+
+                if (hitInfo != null && hitInfo.InRow && hitInfo.Column == Columns[0])
+                    ClickTimer.Start();
+            }
+        }        
+
+        private void StopClickTimer()
+        {
+            ClickTimer.Stop();
+
+            OldClickedItem = null;
+            NewClickedItem = null;
+        }
+
+        private static void OnHighlightedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is GridControl gridControl)
+                gridControl.View.SearchString = e.NewValue == null ? null : e.NewValue.ToString();
+        }
+
         private static MemoryStream DefaultLayoutStream;
 
         private string LastLoadedLayoutFolder;
+
+        private DispatcherTimer ClickTimer;
+
+        private object NewClickedItem;
+
+        private object OldClickedItem;
     }
 }

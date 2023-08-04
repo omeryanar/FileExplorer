@@ -790,8 +790,7 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File name can&apos;t be empty or contain any of the following characters:
-        ///\ / : * ? &quot;&quot; &lt; &gt; |.
+        ///   Looks up a localized string similar to File name can&apos;t be empty or contain any of the following characters: \ / : * ? &quot;&quot; &lt; &gt; |.
         /// </summary>
         public static string InvalidFileNameMessage {
             get {

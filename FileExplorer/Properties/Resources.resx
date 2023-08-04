@@ -232,8 +232,7 @@
     <value>Invalid File Name</value>
   </data>
   <data name="InvalidFileNameMessage" xml:space="preserve">
-    <value>File name can't be empty or contain any of the following characters:
-\ / : * ? "" &lt; &gt; |</value>
+    <value>File name can't be empty or contain any of the following characters: \ / : * ? "" &lt; &gt; |</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Invert Selection</value>
