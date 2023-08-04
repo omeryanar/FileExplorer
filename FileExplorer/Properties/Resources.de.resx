@@ -673,13 +673,49 @@
   <data name="FileFormatError" xml:space="preserve">
     <value>Das Dateiformat ist falsch oder die Datei ist beschädigt</value>
   </data>
-  <data name="SupportedFileTypes" xml:space="preserve">
-    <value>Unterstützte Dateitypen</value>
-  </data>
   <data name="UnifiedSorting" xml:space="preserve">
     <value>Einheitliche Sortierung</value>
   </data>
   <data name="Virtualization" xml:space="preserve">
     <value>Virtualisierung</value>
+  </data>
+  <data name="SupportedFileTypes" xml:space="preserve">
+    <value>Unterstützte Dateitypen</value>
+  </data>
+  <data name="AskBeforeDownloadingUpdates" xml:space="preserve">
+    <value>Vor dem Herunterladen von Updates fragen</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Beim Start auf Updates prüfen</value>
+  </data>
+  <data name="DownloadUpdatesAutomatically" xml:space="preserve">
+    <value>Updates automatisch herunterladen</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Eine neue Version ist verfügbar</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Neu starten</value>
+  </data>
+  <data name="RestartRequired" xml:space="preserve">
+    <value>Eine neue Version wurde heruntergeladen und ein Neustart ist erforderlich, um die Installation abzuschließen</value>
+  </data>
+  <data name="DownloadInProgress" xml:space="preserve">
+    <value>Eine neue Version wird heruntergeladen</value>
+  </data>
+  <data name="RestartConfirmation" xml:space="preserve">
+    <value>Eine neue Version wurde heruntergeladen und ein Neustart ist erforderlich, um die Installation abzuschließen. Möchten Sie jetzt neu starten?</value>
+  </data>
+  <data name="UpdateConfirmation" xml:space="preserve">
+    <value>Eine neue Version ist verfügbar. Herunterladen und installieren?</value>
+  </data>
+  <data name="DownloadUpdates" xml:space="preserve">
+    <value>Updates herunterladen</value>
+  </data>
+  <data name="NoUpdateAvailable" xml:space="preserve">
+    <value>Derzeit sind keine Updates verfügbar</value>
   </data>
 </root>
