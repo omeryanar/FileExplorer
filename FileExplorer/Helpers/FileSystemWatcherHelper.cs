@@ -77,14 +77,9 @@ namespace FileExplorer.Helpers
 
             if (fileEvent.ChangeType == ChangeType.Renamed)
             {
-                if (fileEvent.Path.OrdinalEquals(fileEvent.NewPath))
-                {
-                    SendNotificationMessage(NotificationType.Add, fileEvent.Path);
-                    return;
-                }
-
                 string oldParent = FileSystemHelper.GetParentFolderPath(fileEvent.Path);
                 string newParent = FileSystemHelper.GetParentFolderPath(fileEvent.NewPath);
+                
                 if (oldParent.OrdinalEquals(newParent))
                     SendNotificationMessage(NotificationType.Rename, fileEvent.Path, fileEvent.NewPath);
             }

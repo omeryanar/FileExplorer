@@ -158,7 +158,7 @@ namespace FileExplorer.Native
 
         private IEnumerable<FileEvent> NormalizeEvents(FileEvent[] events)
         {
-            var mapPathToEvents = new Dictionary<string, FileEvent>();
+            var mapPathToEvents = new Dictionary<string, FileEvent>(StringComparer.OrdinalIgnoreCase);
             var eventsWithoutDuplicates = new List<FileEvent>();
 
             // Normalize Duplicates
