@@ -30,18 +30,18 @@ namespace FileExplorer.Helpers
                     switch (fileModel.FullPath)
                     {
                         case FileSystemHelper.QuickAccessPath:
-                            path = KnownFolders.QuickAccess;
+                            path = RootFolers.QuickAccess;
                             break;
                         case FileSystemHelper.ComputerPath:
-                            path = KnownFolders.Computer;
+                            path = RootFolers.Computer;
                             break;
                         case FileSystemHelper.NetworkPath:
-                            path = KnownFolders.Network;
+                            path = RootFolers.Network;
                             break;
                     }
 
                     if (fileModel.ParentPath == FileSystemHelper.NetworkPath)
-                        path = KnownFolders.Computer;
+                        path = RootFolers.Computer;
                 }
                 else if (FileSystemHelper.IsNetworkShare(fileModel.FullPath))
                     path = @"\\a\b";

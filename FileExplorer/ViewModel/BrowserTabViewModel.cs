@@ -449,7 +449,7 @@ namespace FileExplorer.ViewModel
 
         protected void SaveQuickAccessFolders()
         {
-            string quickAccessFolders = String.Join(";", QuickAccess.Folders.Skip(FileSystemHelper.UserFolders.Length).Select(x => x.FullPath));
+            string quickAccessFolders = $";{String.Join(";", QuickAccess.Folders.Select(x => x.FullPath))}";
 
             Settings.Default.QuickAccessFolders = quickAccessFolders;
             Settings.Default.Save();
@@ -568,7 +568,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanUnpinFromQuickAccess(FileModel fileModel)
         {
-            return fileModel != null && !fileModel.IsRoot && !FileSystemHelper.UserFolders.Contains(fileModel.FullPath) && QuickAccess.Folders.Contains(fileModel);
+            return fileModel != null && !fileModel.IsRoot && QuickAccess.Folders.Contains(fileModel);
         }
 
         public void UnpinFromQuickAccess(FileModel fileModel)

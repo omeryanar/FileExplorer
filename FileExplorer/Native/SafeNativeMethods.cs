@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -107,41 +106,12 @@ namespace FileExplorer.Native
         private static readonly int FileInfoSize = Marshal.SizeOf(typeof(SHFILEINFO));
     }
 
-    public static class KnownFolders
+    public static class RootFolers
     {
         public const string QuickAccess = "shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}";
 
         public const string Computer = "shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
         public const string Network = "shell:::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}";
-
-        public static string GetPath(KnownFolder knownFolder)
-        {
-            Guid guid = FolderIdentifiers[knownFolder];
-            SHGetKnownFolderPath(guid, KnownFolderGetFlags, HTOKEN.NULL, out string path);
-            return path;
-        }
-
-        private static Dictionary<KnownFolder, Guid> FolderIdentifiers = new Dictionary<KnownFolder, Guid>
-        {
-            { KnownFolder.Desktop, new Guid("{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}") },
-            { KnownFolder.Documents, new Guid("{FDD39AD0-238F-46AF-ADB4-6C85480369C7}") },
-            { KnownFolder.Downloads, new Guid("{374DE290-123F-4565-9164-39C4925E467B}") },
-            { KnownFolder.Music, new Guid("{4BD8D571-6D19-48D3-BE97-422220080E43}") },
-            { KnownFolder.Pictures, new Guid("{33E28130-4E1E-4676-835A-98395C3BC3BB}") },
-            { KnownFolder.Videos, new Guid("{18989B1D-99B5-455B-841C-AB7C74E4DDFC}") }
-        };
-
-        private const KNOWN_FOLDER_FLAG KnownFolderGetFlags = KNOWN_FOLDER_FLAG.KF_FLAG_NO_ALIAS | KNOWN_FOLDER_FLAG.KF_FLAG_DONT_VERIFY;
-    }
-
-    public enum KnownFolder
-    {
-        Desktop,
-        Documents,
-        Downloads,
-        Music,
-        Pictures,
-        Videos
     }
 }

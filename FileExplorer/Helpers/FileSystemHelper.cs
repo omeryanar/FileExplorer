@@ -9,6 +9,7 @@ using FileExplorer.Core;
 using FileExplorer.Model;
 using FileExplorer.Native;
 using FileExplorer.Properties;
+using Syroot.Windows.IO;
 
 namespace FileExplorer.Helpers
 {
@@ -72,12 +73,12 @@ namespace FileExplorer.Helpers
                 {
                     userFolders = new string[]
                     {
-                        KnownFolders.GetPath(KnownFolder.Desktop),
-                        KnownFolders.GetPath(KnownFolder.Documents),
-                        KnownFolders.GetPath(KnownFolder.Downloads),
-                        KnownFolders.GetPath(KnownFolder.Music),
-                        KnownFolders.GetPath(KnownFolder.Pictures),
-                        KnownFolders.GetPath(KnownFolder.Videos)
+                        KnownFolders.Desktop.Path,
+                        KnownFolders.Documents.Path,
+                        KnownFolders.Downloads.Path,
+                        KnownFolders.Music.Path,
+                        KnownFolders.Pictures.Path,
+                        KnownFolders.Videos.Path
                     };
                 }
 
@@ -359,6 +360,21 @@ namespace FileExplorer.Helpers
         {
             List<FileModel> fileModelList = new List<FileModel>();
 
+            if (String.IsNullOrEmpty(Settings.Default.QuickAccessFolders))
+                AddUserFolders(fileModelList);
+            else if (Settings.Default.QuickAccessFolders.StartsWith(";"))
+                AddQuickAccessFolders(fileModelList);
+            else
+            {
+                AddUserFolders(fileModelList);
+                AddQuickAccessFolders(fileModelList);
+            }
+
+            return new FileModelCollection(fileModelList);
+        }
+
+        private static void AddUserFolders(List<FileModel> fileModelList)
+        {
             foreach (string folder in UserFolders)
             {
                 FileModel childFileModel = FileModel.FromDirectoryInfo(new DirectoryInfo(folder));
@@ -366,23 +382,21 @@ namespace FileExplorer.Helpers
 
                 fileModelList.Add(childFileModel);
             }
+        }
 
-            if (!String.IsNullOrEmpty(Settings.Default.QuickAccessFolders))
+        private static void AddQuickAccessFolders(List<FileModel> fileModelList)
+        {
+            foreach (string folder in Settings.Default.QuickAccessFolders.Split(";"))
             {
-                foreach (string folder in Settings.Default.QuickAccessFolders.Split(';'))
+                DirectoryInfo directory = new DirectoryInfo(folder);
+                if (directory.Exists)
                 {
-                    DirectoryInfo directory = new DirectoryInfo(folder);
-                    if (directory.Exists)
-                    {
-                        FileModel childFileModel = FileModel.FromDirectoryInfo(directory);
-                        childFileModel.Parent = QuickAccess;
+                    FileModel childFileModel = FileModel.FromDirectoryInfo(directory);
+                    childFileModel.Parent = QuickAccess;
 
-                        fileModelList.Add(childFileModel);
-                    }
+                    fileModelList.Add(childFileModel);
                 }
             }
-
-            return new FileModelCollection(fileModelList);
         }
     }
 }
