@@ -10,7 +10,6 @@ using System.Windows.Media.Imaging;
 using DevExpress.Data;
 using DevExpress.Data.Filtering;
 using DevExpress.Mvvm;
-using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Mvvm.UI;
 using DevExpress.Mvvm.UI.Interactivity;

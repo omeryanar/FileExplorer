@@ -10,6 +10,7 @@
                  xmlns:dxfui="http://schemas.devexpress.com/winfx/2008/xaml/core/filteringui"
                  xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                  xmlns:common="clr-namespace:FileExplorer.Core"
+                 xmlns:controls="clr-namespace:FileExplorer.Controls"
                  xmlns:settings="clr-namespace:FileExplorer.Properties"
                  SelectionMode="Row" AutoExpandAllGroups="True" AllowInitiallyFocusedRow="False" ShowLoadingPanel="{Binding IsLoading}" ClipboardCopyMode="None"
                  dx:DXSerializer.StoreLayoutMode="All" dxg:GridSerializationOptions.AddNewColumns="False" dxg:GridSerializationOptions.RemoveOldColumns="False">
@@ -32,7 +33,7 @@
                     <Setter Property="EditValue" Value="{Binding Row.FullName}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Row.IsSystem}" Value="True">
-                    <Setter Property="Foreground" Value="Red" />
+                    <Setter Property="Foreground" Value="#F26543" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -132,7 +133,7 @@
                 <Image Width="16" Height="16" Margin="3,0" Source="{Binding Row.SmallIcon, IsAsync=True}" Style="{StaticResource FileIconImageStyle}" />
                 <dxe:TextEdit TextTrimming="CharacterEllipsis" ToolTip="{Binding Row.FullName}" Style="{StaticResource FileNameEditStyle}">
                     <dxmvvm:Interaction.Behaviors>
-                        <common:TextHighlightingBehavior HighlightedText="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}" />
+                        <common:TextHighlightingBehavior HighlightedText="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=controls:FileListViewControl}}" />
                     </dxmvvm:Interaction.Behaviors>
                 </dxe:TextEdit>
             </StackPanel>
@@ -248,13 +249,16 @@
 
     <dxg:GridControl.Style>
         <Style TargetType="dxg:GridControl">
-            <Setter Property="View" Value="{StaticResource CardView}" />
+            <Setter Property="View" Value="{x:Null}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Layout}" Value="{x:Static common:Layout.Details}">
                     <Setter Property="View" Value="{StaticResource ListView}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Layout}" Value="{x:Static common:Layout.Content}">
                     <Setter Property="View" Value="{StaticResource TreeView}" />
+                </DataTrigger>
+                <DataTrigger Binding="{DXBinding 'Layout != $common:Layout.Details and Layout != $common:Layout.Content'}" Value="True">
+                    <Setter Property="View" Value="{StaticResource CardView}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -278,7 +282,7 @@
                 <DataTemplate>
                     <dxe:TextEdit TextTrimming="CharacterEllipsis" ToolTip="{Binding Row.FullName}" Style="{StaticResource FileNameEditStyle}">
                         <dxmvvm:Interaction.Behaviors>
-                            <common:TextHighlightingBehavior HighlightedText="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}" />
+                            <common:TextHighlightingBehavior HighlightedText="{Binding HighlightedText, RelativeSource={RelativeSource AncestorType=controls:FileListViewControl}}" />
                         </dxmvvm:Interaction.Behaviors>
                     </dxe:TextEdit>
                 </DataTemplate>
