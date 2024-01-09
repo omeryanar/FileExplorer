@@ -16,6 +16,7 @@
     <dx:DXTabControl Padding="0" TabContentCacheMode="CacheAllTabs">
         <dxmvvm:Interaction.Behaviors>
             <dx:TabbedWindowDocumentUIService ShowNewItemOnStartup="False" />
+            <dxmvvm:KeyToCommand KeyGesture="Ctrl+T" Command="{Binding CreateNewTabCommand}" />
         </dxmvvm:Interaction.Behaviors>
         <dx:DXTabControl.ItemHeaderTemplate>
             <DataTemplate>

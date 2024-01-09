@@ -10,12 +10,10 @@
                      ShowBorder="False" ItemsSource="{Binding RootFolders}" CurrentItem="{Binding CurrentFolder}" FixedFilter="{Binding FilterCriteria}">
 
     <dxmvvm:Interaction.Behaviors>
+        <common:MouseEventToCommand MouseButton="Left" Event="PreviewMouseDown" ModifierKeys="Ctrl" PassEventArgsToCommand="True"
+                                    MarkRoutedEventsAsHandled="True" Command="{Binding OpenInNewTabCommand}" EventArgsConverter="{dx:EventArgsToDataRowConverter}" />
         <common:MouseEventToCommand MouseButton="Middle" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
-                                    MarkRoutedEventsAsHandled="True" Command="{Binding OpenInNewTabCommand}">
-            <common:MouseEventToCommand.EventArgsConverter>
-                <dx:EventArgsToDataRowConverter />
-            </common:MouseEventToCommand.EventArgsConverter>
-        </common:MouseEventToCommand>
+                                    MarkRoutedEventsAsHandled="True" Command="{Binding OpenInNewTabCommand}" EventArgsConverter="{dx:EventArgsToDataRowConverter}" />
         <common:MouseEventToCommand MouseButton="XButton1" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
                                     MarkRoutedEventsAsHandled="True" ExecuteCommandWhenParameterNull="True" Command="{Binding MoveBackCommand}" />
         <common:MouseEventToCommand MouseButton="XButton2" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
