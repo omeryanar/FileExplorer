@@ -16,20 +16,12 @@
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="DevExpress.Wpf.Core" Version="23.1.*-*">
+    <PackageReference Include="DevExpress.Wpf.Core" Version="23.2.*-*">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DevExpress.Utils.v23.1">
-      <HintPath>C:\Program Files\DevExpress 23.1\Components\Bin\Framework\DevExpress.Utils.v23.1.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.XtraEditors.v23.1">
-      <HintPath>C:\Program Files\DevExpress 23.1\Components\Bin\Framework\DevExpress.XtraEditors.v23.1.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>

@@ -34,11 +34,13 @@
             </dxb:BarStaticItem>
         </dxb:ToolBarControl>
         <Grid ClipToBounds="True">
-            <Image Source="{Binding ImageSource}" StretchDirection="DownOnly" RenderTransformOrigin="0.5, 0.5">
+            <Image x:Name="image" Source="{Binding ImageSource}" StretchDirection="DownOnly" RenderTransformOrigin="0.5, 0.5"
+                   MouseDown="Image_MouseDown" MouseMove="Image_MouseMove" MouseUp="Image_MouseUp">
                 <Image.RenderTransform>
-                    <TransformGroup>
+                    <TransformGroup>                        
                         <RotateTransform Angle="{Binding RotationAngle}" />
                         <ScaleTransform ScaleX="{DXBinding 'ScaleFactor / 100'}" ScaleY="{DXBinding 'ScaleFactor / 100'}" />
+                        <TranslateTransform X="{Binding OffSetX}" Y="{Binding OffSetY}" />
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>

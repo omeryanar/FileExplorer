@@ -1,0 +1,20 @@
+﻿<dx:ThemedWindow x:Class="FileExplorer.Extension.ImagePreview.ImageEditor"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                 xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                 x:Name="CodeBehind" DataContext="{Binding ElementName=CodeBehind}" WindowStartupLocation="CenterScreen">
+
+    <dx:ThemedWindow.DialogButtons>
+        <dx:ThemedWindowDialogButton DialogResult="OK" Content="OK" IsEnabled="{Binding HasChanges, ElementName=imageEditBehavior}" />
+        <dx:ThemedWindowDialogButton DialogResult="Cancel" Content="Cancel" IsDefault="True" />
+    </dx:ThemedWindow.DialogButtons>
+
+    <dxe:ImageEdit x:Name="imageEdit" Source="{Binding ImageSource}" ShowMenuMode="Always">
+        <dxmvvm:Interaction.Behaviors>
+            <dxe:ImageEditToEditModeBehavior x:Name="imageEditBehavior" />
+        </dxmvvm:Interaction.Behaviors>
+    </dxe:ImageEdit>
+
+</dx:ThemedWindow>
