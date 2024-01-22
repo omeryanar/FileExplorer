@@ -359,33 +359,20 @@ namespace FileExplorer.Core
     {
         public static ICollectionView GetThemes()
         {
-            List<Theme> themeList = new List<Theme>
+            List<LightweightTheme> themeList = new List<LightweightTheme>
             {
-                Theme.Office2019White,
-                Theme.Office2019Black,
-                Theme.Office2019DarkGray,
-                Theme.Office2019Colorful,
-                Theme.VS2017Light,
-                Theme.VS2017Dark
-            };
-
-            ICollectionView themes = CollectionViewSource.GetDefaultView(themeList.Select(x => new ThemeViewModel(x)).ToList());
-            themes.GroupDescriptions.Add(new PropertyGroupDescription("Theme.Category"));
-
-            foreach (ThemeViewModel theme in themes)
-                theme.UseSvgGlyphs = true;
-
-            return themes;
-        }
-
-        public static ICollectionView GetTouchThemes()
-        {
-            List<Theme> themeList = new List<Theme>
-            {
-                Theme.Office2019WhiteTouch,
-                Theme.Office2019BlackTouch,
-                Theme.Office2019DarkGrayTouch,
-                Theme.Office2019ColorfulTouch
+                LightweightTheme.Win10Dark,
+                LightweightTheme.Win10Light,
+                LightweightTheme.Win10System,
+                LightweightTheme.Win11Dark,
+                LightweightTheme.Win11Light,
+                LightweightTheme.Win11System,
+                LightweightTheme.Office2019Black,
+                LightweightTheme.Office2019Colorful,
+                LightweightTheme.Office2019System,
+                LightweightTheme.VS2019Dark,
+                LightweightTheme.VS2019Light,
+                LightweightTheme.VS2019System
             };
 
             ICollectionView themes = CollectionViewSource.GetDefaultView(themeList.Select(x => new ThemeViewModel(x)).ToList());

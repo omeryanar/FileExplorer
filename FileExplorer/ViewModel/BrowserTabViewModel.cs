@@ -74,18 +74,6 @@ namespace FileExplorer.ViewModel
         }
         private ICollectionView themeCollection;
 
-        public ICollectionView TouchThemeCollection
-        {
-            get
-            {
-                if (touchThemeCollection == null)
-                    touchThemeCollection = ThemeHelper.GetTouchThemes();
-
-                return touchThemeCollection;
-            }
-        }
-        private ICollectionView touchThemeCollection;
-
         #endregion
 
         public BrowserTabViewModel()

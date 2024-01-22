@@ -3,7 +3,7 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                    xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
-                   xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
+                   xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"                   
                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                    xmlns:common="clr-namespace:FileExplorer.Core"
                    ShowTitle="False" ShowIcon="False"
@@ -41,21 +41,21 @@
                 <Setter Property="AllowDrop" Value="True" />
                 <EventSetter Event="DragOver" Handler="OnTabDragOver" />
                 <Style.Triggers>
-                    <DataTrigger Binding="{DXBinding '@s.($dx:ThemeManager.TreeWalker).ThemeName.Contains(`VS2017Dark`)'}" Value="True">
+                    <DataTrigger Binding="{DXBinding '@s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`VS2019Dark`)'}" Value="True">
                         <Setter Property="SelectedBackgroundTemplate">
                             <Setter.Value>
                                 <DataTemplate>
-                                    <dxi:TabBorder ViewInfo="{Binding}" BorderBackground="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Window.Background}}" BorderBrush="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Border}}"
+                                    <dxi:TabBorder ViewInfo="{Binding}" BorderBackground="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveBackground}}" BorderBrush="{DynamicResource {dxt:LWKey FlyoutControl.BorderBrush}}"
                                                    BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2" />
                                 </DataTemplate>
                             </Setter.Value>
                         </Setter>
                     </DataTrigger>
-                    <DataTrigger Binding="{DXBinding '@s.($dx:ThemeManager.TreeWalker).ThemeName.Contains(`Office2019Black`)'}" Value="True">
+                    <DataTrigger Binding="{DXBinding '@s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`Office2019Black`)'}" Value="True">
                         <Setter Property="SelectedBackgroundTemplate">
                             <Setter.Value>
                                 <DataTemplate>
-                                    <dxi:TabBorder ViewInfo="{Binding}" BorderBackground="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=ControlLight.Background}}" BorderBrush="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Border}}"
+                                    <dxi:TabBorder ViewInfo="{Binding}" BorderBackground="{DynamicResource {dxt:LWKey FlyoutControl.Background}}" BorderBrush="{DynamicResource {dxt:LWKey FlyoutControl.BorderBrush}}"
                                                    BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2" />
                                 </DataTemplate>
                             </Setter.Value>

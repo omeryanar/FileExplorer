@@ -6,9 +6,7 @@
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
-    xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
     xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
-    xmlns:dxet="http://schemas.devexpress.com/winfx/2008/xaml/editors/themekeys"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:viewmodels="clr-namespace:FileExplorer.ViewModel">
@@ -88,7 +86,7 @@
                             <Label x:Name="ButtonLabel" Content="{TemplateBinding Content}" />
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="ButtonLabel" Property="Foreground" Value="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Focused}}" />
+                                    <Setter TargetName="ButtonLabel" Property="Foreground" Value="{DynamicResource {dxt:LWKey TextEdit.SelectionBrush}}" />
                                 </Trigger>
                                 <Trigger Property ="IsPressed" Value ="True">
                                     <Setter Property="FontSize" Value="12" />
@@ -101,8 +99,7 @@
         </ResourceDictionary>
         <ResourceDictionary>
             <DataTemplate x:Key="DragDropHintTemplate">
-                <Border Padding="5" BorderThickness="{dxi:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=BorderThickness}}"
-                        BorderBrush="{dxi:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=BorderBrush}}" Background="{dxi:ThemeResource {dxet:FlyoutControlThemeKey ResourceKey=Background}}">
+                <Border Padding="5" BorderThickness="1" BorderBrush="{DynamicResource {dxt:LWKey TextEdit.SelectionBrush}}" Background="{DynamicResource {dxt:LWKey FlyoutControl.Background}}">
                     <StackPanel>
                         <dxe:ListBoxEdit ShowBorder="False" ItemsSource="{Binding Records}">
                             <dxe:ListBoxEdit.ItemTemplate>
@@ -129,7 +126,7 @@
             <UserControl x:Key="TaskbarIconContainer" DataContext="{dxmvvm:ViewModelSource Type=viewmodels:TaskbarViewModel}">
                 <tb:TaskbarIcon ToolTipText="File Explorer" IconSource="/Assets/Images/Explorer.ico" DoubleClickCommand="{Binding OpenDefaultCommand}">
                     <tb:TaskbarIcon.ContextMenu>
-                        <ContextMenu Padding="5" dx:ThemeManager.ThemeName="Office2019Black">
+                        <ContextMenu Padding="5">
                             <MenuItem Header="{Binding QuickAccess, Source={StaticResource ResourceProvider}}" Command="{Binding OpenQuickAccessCommand}">
                                 <MenuItem.Icon>
                                     <Image Source="/Assets/Images/QuickAccess16.png" />
@@ -149,7 +146,7 @@
         </ResourceDictionary>
         <ResourceDictionary>
             <ControlTemplate x:Key="CaptionBorderTemplate" TargetType="{x:Type dxr:RibbonCheckedBorderControl}">
-                <Grid x:Name="PART_Root" Background="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Window.Background}}">
+                <Grid x:Name="PART_Root">
                     <Border x:Name="IsDefault" Margin="14,0" Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,3" />
                     <ContentPresenter />
                 </Grid>
@@ -171,16 +168,16 @@
                         </Trigger.ExitActions>
                     </Trigger>
                     <Trigger Property="IsChecked" Value="True">
-                        <Setter TargetName="IsDefault" Property="BorderBrush" Value="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Focused}}" />
+                        <Setter TargetName="IsDefault" Property="BorderBrush" Value="{DynamicResource {dxt:LWKey TextEdit.SelectionBrush}}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
             <Style TargetType="{x:Type dxr:RibbonPageCaptionControl}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{DXBinding '@s.($dx:ThemeManager.TreeWalker).ThemeName.Contains(`VS2017Dark`)'}" Value="True">
+                    <DataTrigger Binding="{DXBinding '@s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`Win10`) || @s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`VS2019Dark`)'}" Value="True">
                         <Setter Property="BorderTemplate" Value="{StaticResource CaptionBorderTemplate}" />
                         <Setter Property="HighlightedBorderTemplate" Value="{StaticResource CaptionBorderTemplate}" />
-                        <Setter Property="BorderTemplateInMinimizedRibbon" Value="{StaticResource CaptionBorderTemplate}" />                        
+                        <Setter Property="BorderTemplateInMinimizedRibbon" Value="{StaticResource CaptionBorderTemplate}" />
                         <Setter Property="HighlightedBorderTemplateInMinimizedRibbon" Value="{StaticResource CaptionBorderTemplate}" />
                     </DataTrigger>
                 </Style.Triggers>
@@ -190,10 +187,10 @@
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
                             <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Value="True" />
-                            <Condition Binding="{DXBinding '@s.($dx:ThemeManager.TreeWalker).ThemeName.Contains(`VS2017Dark`)'}" Value="True" />
+                            <Condition Binding="{DXBinding '@s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`Win10`) || @s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`VS2019Dark`)'}" Value="True" />
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
-                            <Setter Property="Background" Value="{dxi:ThemeResource {dxt:PaletteBrushThemeKey ResourceKey=Focused}}" />
+                            <Setter Property="Background" Value="{DynamicResource {dxt:LWKey TextEdit.SelectionBrush}}" />
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
                 </Style.Triggers>

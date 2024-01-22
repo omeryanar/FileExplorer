@@ -351,16 +351,6 @@
                                 </dxmvvm:Interaction.Behaviors>
                             </dxr:RibbonGalleryBarItem>
                         </dxr:RibbonPageGroup>
-                        <dxr:RibbonPageGroup Caption="{Binding TouchThemes, Source={StaticResource ResourceProvider}}">
-                            <dxr:RibbonGalleryBarItem Content="{Binding CurrentItem.DisplayName}" Glyph="{Binding CurrentItem.Theme.SvgGlyph}">
-                                <dxmvvm:Interaction.Behaviors>
-                                    <dxr:RibbonGalleryItemThemeSelectorBehavior ThemesCollection="{Binding DataContext.TouchThemeCollection, RelativeSource={RelativeSource AncestorType=dxr:RibbonControl}}" />
-                                </dxmvvm:Interaction.Behaviors>
-                                <dxr:RibbonGalleryBarItem.Gallery>
-                                    <dxb:Gallery ColCount="4" SizeMode="Both" />
-                                </dxr:RibbonGalleryBarItem.Gallery>
-                            </dxr:RibbonGalleryBarItem>
-                        </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonDefaultPageCategory>
                 <dxr:RibbonPageCategory Caption="{Binding SearchTools, Source={StaticResource ResourceProvider}}" 

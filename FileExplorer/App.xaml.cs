@@ -35,9 +35,10 @@ namespace FileExplorer
         public App()
         {
             Theme.RegisterPredefinedPaletteThemes();
+            CompatibilitySettings.UseLightweightThemes = true;
 
             ApplicationThemeHelper.ApplicationThemeName = Settings.Default.ThemeName;
-            ThemeManager.ApplicationThemeChanged += (x, y) =>
+            LightweightThemeManager.CurrentThemeChanged += (x, y) =>
             {
                 if (Settings.Default.ThemeName != ApplicationThemeHelper.ApplicationThemeName)
                 {
