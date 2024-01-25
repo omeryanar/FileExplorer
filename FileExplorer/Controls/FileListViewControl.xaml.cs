@@ -177,6 +177,8 @@ namespace FileExplorer.Controls
                     LastLoadedLayoutFolder = layout.FolderPath;
                 }
             }
+            else if (LastLoadedLayoutFolder != null)
+                LoadDefaultLayout();
         }
 
         public void LoadDefaultLayout()
