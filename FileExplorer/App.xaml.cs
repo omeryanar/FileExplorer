@@ -67,7 +67,7 @@ namespace FileExplorer
                 if (options.Shutdown)
                     Current.Shutdown();
                 else if (options.Background)
-                    CreateWarmupView();
+                    await PreloadAsync();
                 else
                     await CreateMainview(options.Folders);
 
@@ -88,30 +88,10 @@ namespace FileExplorer
             mainView.Show();
         }
 
-        private static void CreateWarmupView()
+        private static async Task PreloadAsync()
         {
-            Window warmupView = new WarmupView()
-            {
-                WindowStyle = WindowStyle.None,
-                WindowState = WindowState.Normal,
-                ResizeMode = ResizeMode.NoResize,
-                ShowInTaskbar = false,
-                ShowActivated = false,
-                Height = 0,
-                Width = 0,
-            };
-            warmupView.Loaded += async (s, e) =>
-            {
-                await ThemeManager.PreloadThemeResourceAsync(Settings.Default.ThemeName);
-                warmupView.Close();
-            };
-
-            BrowserTabViewModel viewModel = ViewModelSource.Create<BrowserTabViewModel>();
-            viewModel.OpenItem(FileSystemHelper.QuickAccess);
-
-            warmupView.DataContext = viewModel;
-            warmupView.Show();
-            warmupView.Hide();
+            await ApplicationThemeHelper.PreloadAsync(PreloadCategories.Controls, PreloadCategories.Core, PreloadCategories.Docking,
+                PreloadCategories.ExpressionEditor, PreloadCategories.Grid, PreloadCategories.LayoutControl, PreloadCategories.Ribbon);
         }
 
         private static async Task CreateMainview(IEnumerable<string> folders = null)
@@ -170,7 +150,7 @@ namespace FileExplorer
 
             Repository = new Repository("Data.db");
             ExtensionManager = new ExtensionManager("PreviewExtensions");
-            TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;            
+            TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;
 
             FileSystemWatcherHelper.Start();
 
