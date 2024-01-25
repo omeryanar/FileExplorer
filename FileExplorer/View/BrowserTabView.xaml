@@ -148,7 +148,7 @@
                                     <dxb:BarButtonItem Content="{Binding Recycle, Source={StaticResource ResourceProvider}}" KeyGesture="Delete"
                                                        Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" 
                                                        Glyph="/Assets/Images/Recycle16.png" />
-                                    <dxb:BarButtonItem Content="{Binding PermanentlyDelete, Source={StaticResource ResourceProvider}}" KeyGesture="Shift+Delete" 
+                                    <dxb:BarButtonItem Content="{Binding PermanentlyDelete, Source={StaticResource ResourceProvider}}" KeyGesture="Shift+Delete"
                                                        Command="{Binding DeleteItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" 
                                                        Glyph="/Assets/Images/Delete16.png" />
                                 </dxb:PopupMenu>
@@ -458,7 +458,9 @@
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Margin="7,0,3,0" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.LeftPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                               Visibility="{Binding Settings.ShowNavigationPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                <controls:FileTreeViewControl />
+                <dxb:BarManager>
+                    <controls:FileTreeViewControl />
+                </dxb:BarManager>
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Right" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.RightPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
                 <dxlc:LayoutGroup.Visibility>

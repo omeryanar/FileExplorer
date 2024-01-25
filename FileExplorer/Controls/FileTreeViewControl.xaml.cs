@@ -28,6 +28,15 @@ namespace FileExplorer.Controls
         public FileTreeViewControl()
         {
             InitializeComponent();
+
+            CurrentItemChanged += (s, e) =>
+            {
+                if (CurrentItem != null)
+                {
+                    ClickedItem = CurrentItem;
+                    ClickedItems = new List<object> { ClickedItem };
+                }                
+            };
         }
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
