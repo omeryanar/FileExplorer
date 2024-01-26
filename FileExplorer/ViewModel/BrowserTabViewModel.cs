@@ -137,6 +137,8 @@ namespace FileExplorer.ViewModel
             {
                 if (fileModel.IsDirectory)
                     CurrentFolder = fileModel;
+                else if (!String.IsNullOrEmpty(fileModel.LinkPath))
+                    Utilities.OpenFile(Utilities.AppPath, $"\"{fileModel.LinkPath}\"");
                 else
                     Utilities.OpenFile(fileModel.FullPath);
             }
@@ -149,7 +151,7 @@ namespace FileExplorer.ViewModel
 
         public void OpenInNewTab(FileModel fileModel)
         {
-            if (CanOpenInNewWindow(fileModel))
+            if (CanOpenInNewTab(fileModel))
             {
                 MainViewModel viewModel = ParentViewModel as MainViewModel;
                 viewModel?.CreateNewTab(fileModel);

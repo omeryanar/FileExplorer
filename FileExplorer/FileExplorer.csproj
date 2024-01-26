@@ -131,6 +131,9 @@
     <Reference Include="Onova, Version=2.6.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Onova.2.6.10\lib\net462\Onova.dll</HintPath>
     </Reference>
+    <Reference Include="Shellify, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shellify.0.4.0\lib\netstandard2.0\Shellify.dll</HintPath>
+    </Reference>
     <Reference Include="Syroot.KnownFolders, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Syroot.Windows.IO.KnownFolders.1.3.0\lib\netstandard2.0\Syroot.KnownFolders.dll</HintPath>
     </Reference>

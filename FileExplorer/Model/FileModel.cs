@@ -12,6 +12,7 @@ using FileExplorer.Helpers;
 using FileExplorer.Messages;
 using FileExplorer.Properties;
 using FileExplorer.Resources;
+using Shellify;
 
 namespace FileExplorer.Model
 {
@@ -46,6 +47,9 @@ namespace FileExplorer.Model
 
         [GenerateProperty]
         private string description;
+
+        [GenerateProperty]
+        private string linkPath;
 
         [GenerateProperty]
         private DateTime dateCreated;
@@ -247,6 +251,17 @@ namespace FileExplorer.Model
             {
                 IsHidden = info.EntryInfo.IsHidden;
                 IsSystem = info.EntryInfo.IsSystem;
+            }
+
+            if (info.Extension.OrdinalEndsWith(".lnk"))
+            {
+                try
+                {
+                    ShellLinkFile shellLinkFile = ShellLinkFile.Load(info.FullName);
+                    if (shellLinkFile != null && shellLinkFile.Header.FileAttributes.HasFlag(System.IO.FileAttributes.Directory))
+                        LinkPath = shellLinkFile.LinkInfo.LocalBasePath;
+                }
+                catch { }
             }
 
             try

@@ -44,6 +44,22 @@ namespace FileExplorer.Core
             }
         }
 
+        public static void OpenFile(String file, String arguments, bool useShellExecute = false)
+        {
+            try
+            {
+                ProcessStartInfo processStartInfo = new ProcessStartInfo(file);
+                processStartInfo.Arguments = arguments;
+                processStartInfo.UseShellExecute = useShellExecute;
+
+                Process.Start(processStartInfo);
+            }
+            catch (Exception ex)
+            {
+                ShowMessage(ex);
+            }
+        }
+
         public static void ShowMessage(Exception ex)
         {
             ThemedMessageBox.Show(Properties.Resources.ApplicationError, String.Format("{0}: {1}", ex.GetType(), ex.Message), 
