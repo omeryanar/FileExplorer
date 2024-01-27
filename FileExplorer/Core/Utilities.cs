@@ -405,7 +405,7 @@ namespace FileExplorer.Core
     {
         public static async Task<bool> CheckForUpdates(bool forceCheck = false)
         {
-            if (forceCheck || DateTime.Now.Subtract(Settings.Default.LastUpdate).TotalHours < 12)
+            if (!forceCheck && DateTime.Now.Subtract(Settings.Default.LastUpdate).TotalHours < 12)
                 return false;
 
             Settings.Default.LastUpdate = DateTime.Now;
