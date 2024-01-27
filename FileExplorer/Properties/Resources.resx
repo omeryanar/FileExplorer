@@ -717,4 +717,7 @@
   <data name="NoUpdateAvailable" xml:space="preserve">
     <value>No updates are currently available</value>
   </data>
+  <data name="DateTimeFormat" xml:space="preserve">
+    <value>Date and Time Format</value>
+  </data>
 </root>

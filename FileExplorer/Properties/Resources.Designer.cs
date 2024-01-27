@@ -466,6 +466,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date and Time Format.
+        /// </summary>
+        public static string DateTimeFormat {
+            get {
+                return ResourceManager.GetString("DateTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {

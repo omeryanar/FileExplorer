@@ -113,5 +113,8 @@
     <Setting Name="LastUpdate" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="DateTimeFormatString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">G</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

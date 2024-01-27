@@ -345,17 +345,17 @@
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowAutoFilter="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="G"/>
+                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowAutoFilter="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="G"/>
+                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="G"/>
+                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
     </dxg:GridControl.Columns>

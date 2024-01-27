@@ -8,7 +8,8 @@
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:settings="clr-namespace:FileExplorer.Properties"
              xmlns:common="clr-namespace:FileExplorer.Core"
-             MinWidth="500" MinHeight="250">
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             MinWidth="500" MinHeight="260">
 
     <dxlc:LayoutControl>
         <dxlc:LayoutControl.Resources>
@@ -91,6 +92,25 @@
                             <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:Layout}"/>
                         </dxmvvm:Interaction.Behaviors>
                     </dxe:ComboBoxEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding DateTimeFormat, Source={StaticResource ResourceProvider}}">
+                    <dxlc:LayoutGroup Orientation="Horizontal">
+                        <dxe:ComboBoxEdit x:Name="dateTimeFormatSelector" IsCaseSensitiveSearch="True" EditValue="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}">
+                            <dxe:ComboBoxEditItem Content="dd.MM.yyyy HH:mm" />
+                            <dxe:ComboBoxEditItem Content="dd.MM.yyyy HH:mm:ss" />
+                            <dxe:ComboBoxEditItem Content="MM/dd/yyyy HH:mm" />
+                            <dxe:ComboBoxEditItem Content="MM/dd/yyyy HH:mm:ss" />
+                            <dxe:ComboBoxEditItem Content="G" />
+                            <dxe:ComboBoxEditItem Content="g" />
+                            <dxe:ComboBoxEditItem Content="U" />
+                            <dxe:ComboBoxEditItem Content="u" />
+                            <dxe:ComboBoxEditItem Content="D" />
+                            <dxe:ComboBoxEditItem Content="d" />
+                            <dxe:ComboBoxEditItem Content="F" />
+                            <dxe:ComboBoxEditItem Content="f" />
+                        </dxe:ComboBoxEdit>
+                        <dxe:TextEdit IsReadOnly="True" ShowBorder="False" EditValue="1/31/2020 13:45:30" EditValueType="{x:Type sys:DateTime}" DisplayFormatString="{Binding EditValue, ElementName=dateTimeFormatSelector}" />
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding Virtualization, Source={StaticResource ResourceProvider}}">
                     <dxe:ToggleSwitch IsChecked="{Binding Virtualization, Source={x:Static settings:Settings.Default}}" />

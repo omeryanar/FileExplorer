@@ -5,6 +5,7 @@
                  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                  xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
                  xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                 xmlns:settings="clr-namespace:FileExplorer.Properties"
                  xmlns:common="clr-namespace:FileExplorer.Core">
     
     <dxmvvm:Interaction.Behaviors>
@@ -49,17 +50,17 @@
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="G"/>
+                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="G"/>
+                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
             <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="G"/>
+                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
     </dxg:GridControl.Columns>

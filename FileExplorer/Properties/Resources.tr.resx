@@ -252,6 +252,9 @@
   <data name="DateModified" xml:space="preserve">
     <value>Değiştirilme Tarihi</value>
   </data>
+  <data name="DateTimeFormat" xml:space="preserve">
+    <value>Tarih ve Saat Formatı</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Sil</value>
   </data>
