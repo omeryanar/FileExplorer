@@ -365,7 +365,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanMoveUp()
         {
-            return IsChildFolder;
+            return CurrentFolder?.IsRoot == false;
         }
 
         public void MoveUp()
@@ -419,11 +419,6 @@ namespace FileExplorer.ViewModel
 
         #region Methods
 
-        protected bool IsChildFolder
-        {
-            get { return CurrentFolder?.IsRoot == false; }
-        }
-
         protected void UpdateFilterCriteria()
         {
             string filterString = "1 = 1";
@@ -451,7 +446,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanCreateNewFolder(FileModel fileModel)
         {
-            return IsChildFolder;
+            return fileModel?.IsRoot == false && !FileSystemHelper.IsNetworkHost(fileModel.FullPath);
         }
 
         public void CreateNewFolder(FileModel fileModel)
@@ -473,7 +468,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanCreateNewFile(FileModel fileModel)
         {
-            return IsChildFolder;
+            return fileModel?.IsRoot == false && !FileSystemHelper.IsNetworkHost(fileModel.FullPath);
         }
 
         public void CreateNewFile(FileModel fileModel)
@@ -496,7 +491,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanSendAsEmail(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0 && items.OfType<FileModel>().All(x => !x.IsDirectory);
+            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => !x.IsDirectory);
         }
 
         public void SendAsEmail(IList<object> items)
@@ -509,7 +504,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanZipItems(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0 && items.OfType<FileModel>().Any(x => !x.Extension.OrdinalEquals(".zip"));
+            return items != null && items.Count > 0 && items.OfType<FileModel>().Any(x => !x.IsRoot && !x.Extension.OrdinalEquals(".zip"));
         }
 
         public void ZipItems(IList<object> items)
@@ -584,7 +579,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanCopyToClipboard(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0;
+            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => !x.IsRoot);
         }
 
         public void CopyToClipboard(IList<object> items)
@@ -597,7 +592,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanCutToClipboard(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0;
+            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void CutToClipboard(IList<object> items)
@@ -608,9 +603,9 @@ namespace FileExplorer.ViewModel
             Utilities.CopyFilesToClipboard(files, true);
         }
 
-        public bool CanPasteFromClipboard(FileModel fileMode)
+        public bool CanPasteFromClipboard(FileModel fileModel)
         {
-            return IsChildFolder && Utilities.FileExistsInClipboard();
+            return fileModel?.IsRoot == false && Utilities.FileExistsInClipboard();
         }
 
         public void PasteFromClipboard(FileModel fileModel)
@@ -650,7 +645,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanCopyToItems(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0;
+            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => !x.IsRoot);
         }
 
         public void CopyToItems(IList<object> items, string path)
@@ -683,7 +678,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanMoveToItems(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0;
+            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void MoveToItems(IList<object> items, string path)
@@ -736,7 +731,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanRecycleItems(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0;
+            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void RecycleItems(IList<object> items)
@@ -746,7 +741,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanDeleteItems(IList<object> items)
         {
-            return IsChildFolder && items != null && items.Count > 0;
+            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void DeleteItems(IList<object> items)

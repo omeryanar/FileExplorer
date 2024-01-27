@@ -134,8 +134,8 @@
                                     <DataTemplate>
                                         <ContentControl>
                                             <dxb:BarButtonItem Content="{Binding Name}" Glyph="{Binding SmallIcon}" ToolTip="{Binding FullPath}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
-                                                               Command="{DXCommand Execute='@ElementName(FileList).DataContext.MoveToItems(@ElementName(FileList).SelectedItems, FullPath)', 
-                                                                                CanExecute='@ElementName(FileList).DataContext.CanMoveToItems(@ElementName(FileList).SelectedItems)'}" />
+                                                               Command="{DXCommand Execute='@ElementName(FileList).DataContext.CopyToItems(@ElementName(FileList).SelectedItems, FullPath)', 
+                                                                                CanExecute='@ElementName(FileList).DataContext.CanCopyToItems(@ElementName(FileList).SelectedItems)'}" />
                                         </ContentControl>
                                     </DataTemplate>
                                 </dxb:BarSubItem.ItemTemplate>
@@ -146,7 +146,8 @@
                                                     Glyph="/Assets/Images/Delete16.png" LargeGlyph="/Assets/Images/Delete32.png">
                                 <dxb:PopupMenu>
                                     <dxb:BarButtonItem Content="{Binding Recycle, Source={StaticResource ResourceProvider}}" KeyGesture="Delete"
-                                                       Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" 
+                                                       Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
+                                                       IsEnabled="{DXBinding 'CurrentFolder.FullPath.StartsWith(`\\\\`) == false'}"
                                                        Glyph="/Assets/Images/Recycle16.png" />
                                     <dxb:BarButtonItem Content="{Binding PermanentlyDelete, Source={StaticResource ResourceProvider}}" KeyGesture="Shift+Delete"
                                                        Command="{Binding DeleteItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}" 

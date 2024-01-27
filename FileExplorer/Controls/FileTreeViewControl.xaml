@@ -86,7 +86,7 @@
                 <dxb:BarSplitButtonItem Content="{Binding Delete, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Delete16.png"
                                         Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}">
                     <dxb:PopupMenu>
-                        <dxb:BarButtonItem Content="{Binding Recycle, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Recycle16.png"
+                        <dxb:BarButtonItem Content="{Binding Recycle, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Recycle16.png" IsEnabled="{DXBinding 'CurrentFolder.FullPath.StartsWith(`\\\\`) == false'}"
                                            Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
                         <dxb:BarButtonItem Content="{Binding PermanentlyDelete, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Delete16.png"
                                            Command="{Binding DeleteItemsCommand}" CommandParameter="{Binding ClickedItems, RelativeSource={RelativeSource AncestorType=dxg:TreeListControl}}" />
