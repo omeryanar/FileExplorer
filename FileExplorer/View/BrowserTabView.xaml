@@ -509,6 +509,7 @@
             </dxlc:LayoutGroup>
             <controls:FileListViewControl x:Name="FileList" Margin="0,0,-1,-1" ItemsSource="{Binding DisplayItems}"
                                           FixedFilter="{Binding FilterCriteria, Mode=OneWay}" HighlightedText="{Binding HighlightedText}"
+                                          Loaded="{DXEvent '@ElementName(FileList).LoadFolderLayout(CurrentFolder.FullPath)'}"
                                           ItemsSourceChanged="{DXEvent '@ElementName(FileList).LoadFolderLayout(CurrentFolder.FullPath)'}"
                                           RowDoubleClickCommand="{Binding OpenItemCommand}" EditSelectedItemsCommand="{Binding RenameItemsCommand}">
                 <controls:FileListViewControl.EditSelectedItemCommand>
