@@ -124,10 +124,8 @@ You can print folder contents with all the customizations you make or export the
 
 ![Printing](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Printing.png?raw=true)
 
-### Standard&Touch Themes
+### Themes
 
-File Explorer comes with 6 standard and 4 touch themes, including Visual Studio Light & Dark Themes.
-
-![Themes](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Themes.png?raw=true)
+File Explorer comes with 12 themes (light & dark) , including Windows 10, Windows 11, Visual Studio and Office 2019.
 
 ![VS Dark Theme](https://github.com/omeryanar/Resources/blob/master/FileExplorer/VSDarkTheme.png?raw=true)
