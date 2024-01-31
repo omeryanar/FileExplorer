@@ -435,16 +435,26 @@ namespace FileExplorer.Core
             }
         }
 
-        public static void Restart(Version version)
+        public static void LaunchUpdater(Version version, bool restart = false)
         {
             using (IUpdateManager updateManager = new UpdateManager(packageResolver, packageExtractor))
             {
                 if (updateManager.IsUpdatePrepared(version))
-                    updateManager.LaunchUpdater(version, true);
+                    updateManager.LaunchUpdater(version, restart);
+
+                UpdaterLaunched = true;
             }
+        }
+
+        public static void Restart(Version version)
+        {
+            if (UpdaterLaunched == false)
+                LaunchUpdater(version, true);
 
             App.Current.Shutdown();
         }
+
+        private static bool UpdaterLaunched = false;
 
         private static readonly IPackageExtractor packageExtractor = new ZipPackageExtractor();
 

@@ -446,6 +446,9 @@ namespace FileExplorer.ViewModel
 
         public bool CanCreateNewFolder(FileModel fileModel)
         {
+            if (fileModel == null)
+                fileModel = CurrentFolder;
+
             return fileModel?.IsRoot == false && !FileSystemHelper.IsNetworkHost(fileModel.FullPath);
         }
 
@@ -468,6 +471,9 @@ namespace FileExplorer.ViewModel
 
         public bool CanCreateNewFile(FileModel fileModel)
         {
+            if (fileModel == null)
+                fileModel = CurrentFolder;
+
             return fileModel?.IsRoot == false && !FileSystemHelper.IsNetworkHost(fileModel.FullPath);
         }
 
@@ -605,6 +611,9 @@ namespace FileExplorer.ViewModel
 
         public bool CanPasteFromClipboard(FileModel fileModel)
         {
+            if (fileModel == null)
+                fileModel = CurrentFolder;
+
             return fileModel?.IsRoot == false && Utilities.FileExistsInClipboard();
         }
 
@@ -905,6 +914,8 @@ namespace FileExplorer.ViewModel
                 downloadProgress.ProgressChanged += (s, e) => { DownloadPercentage = Math.Round(e, 2); };
 
                 availableVersion = await UpdateHelper.PerformUpdate(downloadProgress, false);
+                if (availableVersion != null)
+                    UpdateHelper.LaunchUpdater(availableVersion);
             }
             finally
             {
