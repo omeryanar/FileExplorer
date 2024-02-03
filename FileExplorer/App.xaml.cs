@@ -28,7 +28,9 @@ namespace FileExplorer
 
         public static Repository Repository { get; private set; }
 
-        public static ExtensionManager ExtensionManager { get; private set; }
+        public static PackageManager PackageManager { get; private set; }
+
+        public static ExtensionManager ExtensionManager { get; private set; }        
 
         public static UserControl TaskbarIconContainer { get; private set; }
 
@@ -50,6 +52,12 @@ namespace FileExplorer
             Current.Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
             Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        public static void UpdateAndRestart()
+        {
+            PackageManager.RestartRequired = true;
+            Current.Shutdown();
         }
 
         public static bool BringToFront(Window window)
@@ -149,6 +157,7 @@ namespace FileExplorer
             AssemblyName = entryAssembly.GetName();
 
             Repository = new Repository("Data.db");
+            PackageManager = new PackageManager();
             ExtensionManager = new ExtensionManager("PreviewExtensions");
             TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;
 
@@ -162,6 +171,9 @@ namespace FileExplorer
 
         protected override void OnExit(ExitEventArgs e)
         {
+            if (PackageManager.UpdateStatus == UpdateStatus.ReadyToInstall)
+                PackageManager.LaunchUpdater();
+
             Journal.Shutdown();
             base.OnExit(e);
         }

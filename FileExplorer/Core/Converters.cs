@@ -193,6 +193,29 @@ namespace FileExplorer.Core
         }
     }
 
+    public class EnumToBooleanConverter : MarkupExtension, IValueConverter
+    {
+        public Enum TrueValue { get; set; }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Enum enumValue && Enum.Equals(enumValue, TrueValue))
+                return true;
+
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
     public class RowHandleToRowNumberConverter : MarkupExtension, IValueConverter
     {
         public override object ProvideValue(IServiceProvider serviceProvider)

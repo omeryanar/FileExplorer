@@ -277,6 +277,7 @@
     <Compile Include="Core\ExtensionManager.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Services.cs" />
+    <Compile Include="Core\PackageManager.cs" />
     <Compile Include="Editors\FileDialogButton.cs" />
     <Compile Include="Editors\KeyGestureEdit.cs" />
     <Compile Include="Editors\OpenFileDialogButton.cs" />

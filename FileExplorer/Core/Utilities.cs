@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -14,11 +13,7 @@ using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
 using FileExplorer.Native;
-using FileExplorer.Properties;
 using NLog;
-using Onova;
-using Onova.Models;
-using Onova.Services;
 
 namespace FileExplorer.Core
 {
@@ -399,66 +394,6 @@ namespace FileExplorer.Core
 
             return themes;
         }
-    }
-
-    public class UpdateHelper
-    {
-        public static async Task<bool> CheckForUpdates(bool forceCheck = false)
-        {
-            if (!forceCheck && DateTime.Now.Subtract(Settings.Default.LastUpdate).TotalHours < 12)
-                return false;
-
-            Settings.Default.LastUpdate = DateTime.Now;
-            Settings.Default.Save();
-
-            using (IUpdateManager updateManager = new UpdateManager(packageResolver, packageExtractor))
-            {
-                CheckForUpdatesResult result = await updateManager.CheckForUpdatesAsync();
-                return result.CanUpdate;
-            }
-        }
-
-        public static async Task<Version> PerformUpdate(IProgress<double> progress, bool restart = true, CancellationToken cancellationToken = default)
-        {
-            using (IUpdateManager updateManager = new UpdateManager(packageResolver, packageExtractor))
-            {
-                CheckForUpdatesResult result = await updateManager.CheckForUpdatesAsync();
-                if (result.CanUpdate)
-                {
-                    await updateManager.PrepareUpdateAsync(result.LastVersion, progress, cancellationToken);
-
-                    if (result.LastVersion != null && updateManager.IsUpdatePrepared(result.LastVersion))
-                        return result.LastVersion;
-                }
-
-                return null;
-            }
-        }
-
-        public static void LaunchUpdater(Version version, bool restart = false)
-        {
-            using (IUpdateManager updateManager = new UpdateManager(packageResolver, packageExtractor))
-            {
-                if (updateManager.IsUpdatePrepared(version))
-                    updateManager.LaunchUpdater(version, restart);
-
-                UpdaterLaunched = true;
-            }
-        }
-
-        public static void Restart(Version version)
-        {
-            if (UpdaterLaunched == false)
-                LaunchUpdater(version, true);
-
-            App.Current.Shutdown();
-        }
-
-        private static bool UpdaterLaunched = false;
-
-        private static readonly IPackageExtractor packageExtractor = new ZipPackageExtractor();
-
-        private static readonly IPackageResolver packageResolver = new GithubPackageResolver("omeryanar", "FileExplorer", "*.zip");
     }
 
     public class Journal

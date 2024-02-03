@@ -113,6 +113,8 @@ namespace FileExplorer.Core
         UpToDate,
         ReadyToDownload,
         DownloadInProgress,
-        ReadyToInstall
+        ReadyToInstall,
+        Cancelled,
+        Failed
     }
 }

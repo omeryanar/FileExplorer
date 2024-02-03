@@ -56,15 +56,15 @@
                         <dxb:BarStaticItem.Style>
                             <Style TargetType="dxb:BarStaticItem">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding UpdateStatus}" Value="ReadyToDownload">
+                                    <DataTrigger Binding="{Binding UpdateStatus, Source={x:Static main:App.PackageManager}}" Value="ReadyToDownload">
                                         <Setter Property="Content" Value="&#xF05A;" />
                                         <Setter Property="ToolTip" Value="{Binding UpdateAvailable, Source={StaticResource ResourceProvider}}" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding UpdateStatus}" Value="DownloadInProgress">
+                                    <DataTrigger Binding="{Binding UpdateStatus, Source={x:Static main:App.PackageManager}}" Value="DownloadInProgress">
                                         <Setter Property="Content" Value="&#xF019;" />
                                         <Setter Property="ToolTip" Value="{Binding DownloadInProgress, Source={StaticResource ResourceProvider}}" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding UpdateStatus}" Value="ReadyToInstall">
+                                    <DataTrigger Binding="{Binding UpdateStatus, Source={x:Static main:App.PackageManager}}" Value="ReadyToInstall">
                                         <Setter Property="Content" Value="&#xF011;" />
                                         <Setter Property="ToolTip" Value="{Binding RestartRequired, Source={StaticResource ResourceProvider}}" />
                                     </DataTrigger>
@@ -72,20 +72,22 @@
                             </Style>
                         </dxb:BarStaticItem.Style>
                     </dxb:BarStaticItem>
-                    <dxb:BarButtonItem RibbonStyle="SmallWithoutText" Content="{Binding Update, Source={StaticResource ResourceProvider}}" IsVisible="{DXBinding 'UpdateStatus==$common:UpdateStatus.ReadyToDownload'}"
-                                       Command="{Binding DownloadUpdateCommand}" />
-                    <dxb:BarButtonItem RibbonStyle="SmallWithoutText" Content="{Binding Restart, Source={StaticResource ResourceProvider}}" IsVisible="{DXBinding 'UpdateStatus==$common:UpdateStatus.ReadyToInstall'}"
-                                       Command="{Binding InstallUpdateCommand}" />
-                    <dxb:BarEditItem EditWidth="150" EditValue="{Binding DownloadPercentage}" IsVisible="{DXBinding 'UpdateStatus==$common:UpdateStatus.DownloadInProgress'}">
+                    <dxb:BarButtonItem RibbonStyle="SmallWithoutText" Content="{Binding Update, Source={StaticResource ResourceProvider}}" Command="{Binding DownloadUpdateCommand}"
+                                       IsVisible="{Binding UpdateStatus, Source={x:Static main:App.PackageManager}, Converter={common:EnumToBooleanConverter TrueValue={x:Static common:UpdateStatus.ReadyToDownload}}}" />
+                    <dxb:BarButtonItem RibbonStyle="SmallWithoutText" Content="{Binding Restart, Source={StaticResource ResourceProvider}}" Command="{Binding InstallUpdateCommand}"
+                                       IsVisible="{Binding UpdateStatus, Source={x:Static main:App.PackageManager}, Converter={common:EnumToBooleanConverter TrueValue={x:Static common:UpdateStatus.ReadyToInstall}}}" />
+                    <dxb:BarEditItem EditWidth="150" EditValue="{Binding DownloadPercentage, Mode=OneWay, Source={x:Static main:App.PackageManager}}"
+                                     IsVisible="{Binding UpdateStatus, Source={x:Static main:App.PackageManager}, Converter={common:EnumToBooleanConverter TrueValue={x:Static common:UpdateStatus.DownloadInProgress}}}">
                         <dxb:BarEditItem.EditSettings>
                             <dxe:ProgressBarEditSettings IsPercent="True" Minimum="0" Maximum="1" ContentDisplayMode="Value" DisplayFormat="Downloading: {0:P0}" />
                         </dxb:BarEditItem.EditSettings>
                     </dxb:BarEditItem>
-                    <dxb:BarButtonItem Glyph="{dx:DXImage 'SvgImages/Icon Builder/Actions_Refresh.svg'}" IsVisible="{DXBinding 'UpdateStatus==$common:UpdateStatus.UpToDate'}"
-                                       ToolTip="{Binding Update, Source={StaticResource ResourceProvider}}" Command="{Binding CheckForUpdatesCommand}" CommandParameter="true">
+                    <dxb:BarButtonItem Glyph="{dx:DXImage 'SvgImages/Icon Builder/Actions_Refresh.svg'}" ToolTip="{Binding Update, Source={StaticResource ResourceProvider}}"
+                                       IsVisible="{Binding UpdateStatus, Source={x:Static main:App.PackageManager}, Converter={common:EnumToBooleanConverter TrueValue={x:Static common:UpdateStatus.UpToDate}}}"
+                                       Command="{Binding CheckForUpdatesCommand}" CommandParameter="true">
                         <dx:WpfSvgPalette.Palette>
                             <dx:WpfSvgPalette>
-                                <SolidColorBrush x:Key="Green" Color="DodgerBlue"/>
+                                <SolidColorBrush x:Key="Green" Color="DodgerBlue" />
                             </dx:WpfSvgPalette>
                         </dx:WpfSvgPalette.Palette>
                     </dxb:BarButtonItem>

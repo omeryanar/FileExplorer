@@ -835,10 +835,6 @@ namespace FileExplorer.ViewModel
 
         #region Update
 
-        public virtual UpdateStatus UpdateStatus { get; set; }
-
-        public virtual double DownloadPercentage { get; set; }
-
         public bool CanCheckForUpdates(bool forceCheck)
         {
             return forceCheck || Settings.Default.CheckForUpdates;
@@ -846,13 +842,11 @@ namespace FileExplorer.ViewModel
 
         public async Task CheckForUpdates(bool forceCheck)
         {
-            bool updateAvailable = await UpdateHelper.CheckForUpdates(forceCheck);
+            bool updateAvailable = await App.PackageManager.CheckForUpdates(forceCheck);
             if (updateAvailable)
             {
-                UpdateStatus = UpdateStatus.ReadyToDownload;
-
                 if (Settings.Default.DownloadUpdatesAutomatically)
-                    await PerformUpdate();
+                    await App.PackageManager.PerformUpdate();
                 else
                     await DownloadUpdate();
             }
@@ -869,7 +863,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanDownloadUpdate()
         {
-            return UpdateStatus == UpdateStatus.ReadyToDownload;
+            return App.PackageManager.UpdateStatus == UpdateStatus.ReadyToDownload;
         }
 
         public async Task DownloadUpdate()
@@ -881,12 +875,12 @@ namespace FileExplorer.ViewModel
 
             MessageResult result = DialogService.ShowDialog(MessageButton.YesNo, Properties.Resources.Update, "MessageView", viewModel);
             if (result == MessageResult.Yes)
-                await PerformUpdate();
+                await App.PackageManager.PerformUpdate();
         }
 
         public bool CanInstallUpdate()
         {
-            return UpdateStatus == UpdateStatus.ReadyToInstall && availableVersion != null;
+            return App.PackageManager.UpdateStatus == UpdateStatus.ReadyToInstall;
         }
 
         public void InstallUpdate()
@@ -898,32 +892,8 @@ namespace FileExplorer.ViewModel
 
             MessageResult result = DialogService.ShowDialog(MessageButton.YesNo, Properties.Resources.Restart, "MessageView", viewModel);
             if (result == MessageResult.Yes)
-                UpdateHelper.Restart(availableVersion);
+                App.UpdateAndRestart();
         }
-
-        private async Task PerformUpdate()
-        {
-            if (UpdateStatus != UpdateStatus.ReadyToDownload)
-                return;
-
-            try
-            {
-                UpdateStatus = UpdateStatus.DownloadInProgress;
-
-                Progress<double> downloadProgress = new Progress<double>();
-                downloadProgress.ProgressChanged += (s, e) => { DownloadPercentage = Math.Round(e, 2); };
-
-                availableVersion = await UpdateHelper.PerformUpdate(downloadProgress, false);
-                if (availableVersion != null)
-                    UpdateHelper.LaunchUpdater(availableVersion);
-            }
-            finally
-            {
-                UpdateStatus = UpdateStatus.ReadyToInstall;
-            }
-        }
-
-        private Version availableVersion;
 
         #endregion
     }
