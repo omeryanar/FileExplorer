@@ -159,8 +159,13 @@ namespace FileExplorer.Controls
 
         public void LoadFolderLayout(string folderPath)
         {
-            if (!Path.IsPathRooted(folderPath))
+            if (!Path.IsPathRooted(folderPath) || !String.IsNullOrEmpty(HighlightedText))
+            {
+                if (LastLoadedLayoutFolder != null)
+                    LoadDefaultLayout();
+
                 return;
+            }
 
             FolderLayout layout = App.Repository.FolderLayouts.FirstOrDefault(x => x.FolderPath.OrdinalEquals(folderPath));
             if (layout == null)
