@@ -1447,6 +1447,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save Session on Close.
+        /// </summary>
+        public static string SaveSession {
+            get {
+                return ResourceManager.GetString("SaveSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search &amp; Filter.
         /// </summary>
         public static string SearchFilter {

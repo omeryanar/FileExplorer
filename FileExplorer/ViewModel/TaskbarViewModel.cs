@@ -21,7 +21,7 @@ namespace FileExplorer.ViewModel
 
         public void Exit()
         {
-            App.Current.Shutdown();
+            App.SaveSessionAndShutdown();
         }
     }
 }

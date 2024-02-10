@@ -116,5 +116,11 @@
     <Setting Name="DateTimeFormatString" Type="System.String" Scope="User">
       <Value Profile="(Default)">G</Value>
     </Setting>
+    <Setting Name="SaveLastSession" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LastSession" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

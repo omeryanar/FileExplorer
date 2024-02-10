@@ -317,7 +317,7 @@
                                     <DataTemplate>
                                         <ContentControl>
                                             <dxb:BarCheckItem Content="{Binding Header}" IsVisible="{Binding ShowInColumnChooser, Mode=OneWay}" IsChecked="{Binding IsGrouped, Mode=OneWay}" 
-                                                              Command="{DXCommand '@ElementName(FileList).ToggleGrouping(FieldName)'}" />
+                                                              Command="{DXCommand 'View.DataControl.ToggleGrouping(FieldName)'}" />
                                         </ContentControl>
                                     </DataTemplate>
                                 </dxb:BarSubItem.ItemTemplate>

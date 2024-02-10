@@ -1,4 +1,7 @@
-﻿using DevExpress.Mvvm;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
@@ -65,6 +68,34 @@ namespace FileExplorer.ViewModel
             IDocument document = DocumentManagerService.CreateDocument("BrowserTabView", viewModel);
             document.DestroyOnClose = true;
             document.Show();
+        }
+
+        public async Task CreateFolderTabs(IEnumerable<string> folders = null)
+        {
+            List<string> validFolders = folders?.Where(x => FileSystemHelper.DirectoryExists(x)).ToList();
+            if (validFolders?.Count > 0)
+            {
+                foreach (string folder in validFolders)
+                {
+                    FileModel selectedFolder = FileModel.FromPath(folder);
+
+                    FileModel fileModel = selectedFolder;
+                    while (fileModel != null)
+                    {
+                        if (!fileModel.IsRoot && fileModel.Parent == null)
+                            fileModel.Parent = FileModel.FromPath(fileModel.ParentPath);
+
+                        fileModel = fileModel.Parent;
+
+                        if (fileModel != null && fileModel.Folders == null)
+                            fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
+                    }
+
+                    CreateNewTab(selectedFolder);
+                }
+            }
+            else
+                CreateNewTab();
         }
     }
 }

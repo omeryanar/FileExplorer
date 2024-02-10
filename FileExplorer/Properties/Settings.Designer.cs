@@ -477,5 +477,29 @@ namespace FileExplorer.Properties {
                 this["DateTimeFormatString"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveLastSession {
+            get {
+                return ((bool)(this["SaveLastSession"]));
+            }
+            set {
+                this["SaveLastSession"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastSession {
+            get {
+                return ((string)(this["LastSession"]));
+            }
+            set {
+                this["LastSession"] = value;
+            }
+        }
     }
 }

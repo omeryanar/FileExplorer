@@ -720,4 +720,7 @@
   <data name="DateTimeFormat" xml:space="preserve">
     <value>Datums- und Uhrzeitformat</value>
   </data>
+  <data name="SaveSession" xml:space="preserve">
+    <value>Sitzung beim Schließen speichern</value>
+  </data>
 </root>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using CommandLine;
 using DevExpress.Data.Filtering;
+using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Core;
 using FileExplorer.Core;
@@ -57,7 +59,7 @@ namespace FileExplorer
         public static void UpdateAndRestart()
         {
             PackageManager.RestartRequired = true;
-            Current.Shutdown();
+            SaveSessionAndShutdown();
         }
 
         public static bool BringToFront(Window window)
@@ -68,20 +70,22 @@ namespace FileExplorer
             return window.Activate();
         }
 
-        public static void ParseArgumentsAndRun(IEnumerable<string> args)
+        public static void ParseArgumentsAndRun(IEnumerable<string> args, bool firstRun = false)
         {
             Parser.Default.ParseArguments<Options>(args).WithParsed(async (options) =>
             {
                 if (options.Shutdown)
-                    Current.Shutdown();
+                    SaveSessionAndShutdown();
                 else if (options.Background)
                     await PreloadAsync();
+                else if (firstRun && options.Folders.Count() == 0)
+                    await RestoreLastSession();
                 else
-                    await CreateMainview(options.Folders);
+                    await CreateFolderTabs(options.Folders);
 
             }).WithNotParsed(async (errors) =>
             {
-                await CreateMainview();
+                await CreateFolderTabs();
             });
         }
 
@@ -102,43 +106,21 @@ namespace FileExplorer
                 PreloadCategories.ExpressionEditor, PreloadCategories.Grid, PreloadCategories.LayoutControl, PreloadCategories.Ribbon);
         }
 
-        private static async Task CreateMainview(IEnumerable<string> folders = null)
+        private static async Task CreateFolderTabs(IEnumerable<string> folders = null, MainView mainView = null, bool bringToFront = true)
         {
-            MainView mainView = Current.Windows.OfType<MainView>().FirstOrDefault();
+            mainView = mainView ?? Current.Windows.OfType<MainView>().FirstOrDefault();
             if (mainView == null)
             {
                 mainView = new MainView();
                 mainView.DataContext = ViewModelSource.Create<MainViewModel>();
             }
+            mainView.Show();
 
             MainViewModel mainViewModel = mainView.DataContext as MainViewModel;
-            List<string> validFolders = folders?.Where(x => FileSystemHelper.DirectoryExists(x)).ToList();
-            if (validFolders?.Count > 0)
-            {
-                foreach (string folder in validFolders)
-                {
-                    FileModel selectedFolder = FileModel.FromPath(folder);
+            await mainViewModel.CreateFolderTabs(folders);
 
-                    FileModel fileModel = selectedFolder;
-                    while (fileModel != null)
-                    {
-                        if (!fileModel.IsRoot && fileModel.Parent == null)
-                            fileModel.Parent = FileModel.FromPath(fileModel.ParentPath);
-
-                        fileModel = fileModel.Parent;
-
-                        if (fileModel != null && fileModel.Folders == null)
-                            fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
-                    }
-
-                    mainViewModel.CreateNewTab(selectedFolder);
-                }
-            }
-            else
-                mainViewModel.CreateNewTab();
-
-            mainView.Show();
-            App.BringToFront(mainView);
+            if (bringToFront)
+                App.BringToFront(mainView);
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -162,9 +144,9 @@ namespace FileExplorer
             TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;
 
             FileSystemWatcherHelper.Start();
-
+            
             InitializeJumpList();
-            ParseArgumentsAndRun(e.Args);
+            ParseArgumentsAndRun(e.Args, true);
 
             base.OnStartup(e);
         }
@@ -180,9 +162,64 @@ namespace FileExplorer
 
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
         {
-            Shutdown();
+            SaveSessionAndShutdown();
             base.OnSessionEnding(e);
         }
+
+        #region Session
+
+        public static void SaveSessionAndShutdown()
+        {
+            if (Settings.Default.SaveLastSession)
+            {
+                List<IDocument> documents = new List<IDocument>();
+                StringBuilder openedFolderPaths = new StringBuilder();
+
+                foreach (MainView view in Current.Windows?.OfType<MainView>())
+                {
+                    if (view.DataContext is MainViewModel mainViewModel && mainViewModel.DocumentManagerService is TabbedWindowDocumentUIService documentManagerService)
+                    {
+                        foreach (IDocumentGroup documentGroup in documentManagerService.Groups)
+                        {
+                            foreach (IDocument document in documentGroup.Documents)
+                            {
+                                if (!documents.Contains(document) && document.Content is BrowserTabViewModel tabViewModel)
+                                {
+                                    documents.Add(document);
+
+                                    if (FileSystemHelper.DirectoryExists(tabViewModel.CurrentFolder.FullPath))
+                                        openedFolderPaths.Append(tabViewModel.CurrentFolder.FullPath).Append(';');
+                                }
+                            }
+                            openedFolderPaths.Append('|');
+                        }
+                    }
+                }
+
+                Settings.Default.LastSession = openedFolderPaths.ToString();
+                Settings.Default.Save();
+            }
+
+            Current.Shutdown();
+        }
+
+        private static async Task RestoreLastSession()
+        {
+            if (Settings.Default.SaveLastSession && !String.IsNullOrWhiteSpace(Settings.Default.LastSession))
+            {
+                foreach (string groups in Settings.Default.LastSession.Split("|"))
+                {
+                    MainView mainView = new MainView();
+                    mainView.DataContext = ViewModelSource.Create<MainViewModel>();
+
+                    await CreateFolderTabs(groups.Split(";"), mainView, false);
+                }
+            }
+            else
+                await CreateFolderTabs();
+        }
+
+        #endregion
 
         #region Events
 

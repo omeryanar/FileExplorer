@@ -104,6 +104,14 @@ namespace FileExplorer.Helpers
 
         public static bool DirectoryExists(string path)
         {
+            switch(path)
+            {
+                case QuickAccessPath:
+                case ComputerPath:                
+                case NetworkPath:
+                    return true;
+            }
+
             return Directory.Exists(path);
         }
 

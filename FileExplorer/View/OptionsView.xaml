@@ -67,10 +67,13 @@
                             </collections:ArrayList>
                         </dxe:ListBoxEdit.ItemsSource>
                     </dxe:ListBoxEdit>
-                </dxlc:LayoutItem>                
+                </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding AddToStartup, Source={StaticResource ResourceProvider}}">
                     <dxe:ToggleSwitch IsChecked="{Binding AddToStartup, Source={x:Static settings:Settings.Default}}" />
-                </dxlc:LayoutItem>                
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding SaveSession, Source={StaticResource ResourceProvider}}">
+                    <dxe:ToggleSwitch IsChecked="{Binding SaveLastSession, Source={x:Static settings:Settings.Default}}" />
+                </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Update, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutItem Label="{Binding CheckForUpdates, Source={StaticResource ResourceProvider}}">
