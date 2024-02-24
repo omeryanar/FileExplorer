@@ -49,7 +49,7 @@ namespace FileExplorer.Controls
             get { return (ICommand)GetValue(EditCommandProperty); }
             private set { SetValue(EditCommandProperty, value); }
         }
-        public static readonly DependencyProperty EditCommandProperty = DependencyProperty.Register("EditCommand", typeof(ICommand), typeof(FileListViewControl));
+        public static readonly DependencyProperty EditCommandProperty = DependencyProperty.Register(nameof(EditCommand), typeof(ICommand), typeof(FileListViewControl));
 
         public FileListViewControl()
         {
@@ -68,6 +68,12 @@ namespace FileExplorer.Controls
             {
                 if (SelectedItem != null)
                     View.ScrollIntoView(SelectedItem);
+            };
+
+            SelectionChanged += (s, e) =>
+            {
+                if (SelectedItems.Count == 0)
+                    CurrentItem = null;
             };
 
             ClickTimer = new DispatcherTimer();
@@ -213,7 +219,7 @@ namespace FileExplorer.Controls
         {
             OldClickedItem = CurrentItem;
             base.OnPreviewMouseLeftButtonDown(e);
-            NewClickedItem = CurrentItem;
+            NewClickedItem = CurrentItem;            
 
             if (View.IsEditing || Keyboard.Modifiers != ModifierKeys.None)
             {
@@ -221,21 +227,27 @@ namespace FileExplorer.Controls
                 return;
             }
 
-            if (e.ClickCount == 2)
+            DependencyObject target = e.OriginalSource as DependencyObject;
+            GridViewHitInfoBase hitInfo = View.CalcHitInfo(target);
+            if (hitInfo?.InRow != true)
             {
-                DependencyObject target = e.OriginalSource as DependencyObject;
-                GridViewHitInfoBase hitInfo = View.CalcHitInfo(target);
-                if (hitInfo != null && hitInfo.InRow)
-                {
-                    StopClickTimer();
-                    RowDoubleClickCommand?.Execute(CurrentItem);
-                }
+                UnselectAll();
+                return;
+            }
+            else if (e.ClickCount == 2)
+            {
+                StopClickTimer();
+                RowDoubleClickCommand?.Execute(CurrentItem);
             }
         }
 
         protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseLeftButtonUp(e);
+
+            long currentTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            if (currentTime - FocusTime < SystemInformation.DoubleClickTime)
+                return;
 
             if (View.IsEditing || Keyboard.Modifiers != ModifierKeys.None)
             {
@@ -254,7 +266,15 @@ namespace FileExplorer.Controls
                 if (hitInfo != null && hitInfo.InRow && hitInfo.Column == Columns[0])
                     ClickTimer.Start();
             }
-        }        
+        }
+
+        protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnIsKeyboardFocusWithinChanged(e);
+
+            bool hasFocus = Convert.ToBoolean(e.NewValue);
+            FocusTime = hasFocus ? DateTimeOffset.Now.ToUnixTimeMilliseconds() : Int64.MaxValue;
+        }
 
         private void StopClickTimer()
         {
@@ -279,5 +299,7 @@ namespace FileExplorer.Controls
         private object NewClickedItem;
 
         private object OldClickedItem;
+
+        private long FocusTime;
     }
 }

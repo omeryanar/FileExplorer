@@ -12,7 +12,8 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:main="clr-namespace:FileExplorer"
              xmlns:common="clr-namespace:FileExplorer.Core"
-             xmlns:controls="clr-namespace:FileExplorer.Controls">
+             xmlns:controls="clr-namespace:FileExplorer.Controls"
+             xmlns:settings="clr-namespace:FileExplorer.Properties">
 
     <UserControl.Resources>
         <Style TargetType="dxg:GridCard">
@@ -467,8 +468,7 @@
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Right" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.RightPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
                 <dxlc:LayoutGroup.Visibility>
-                    <MultiBinding Converter="{common:RightPaneVisibilityConverter}">
-                        <Binding Path="CurrentItem" ElementName="FileList" />
+                    <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
                         <Binding Path="Settings.ShowPreviewPane" />
                         <Binding Path="Settings.ShowDetailsPane" />
                     </MultiBinding>
@@ -480,7 +480,8 @@
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup VerticalAlignment="Top" Header="{Binding DetailsPane, Source={StaticResource ResourceProvider}}"
                                       Visibility="{Binding Settings.ShowDetailsPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                        <dxlc:LayoutGroup Orientation="Vertical" Padding="10" DataContext="{Binding CurrentItem, ElementName=FileList}">
+                        <dxlc:LayoutGroup Orientation="Vertical" Padding="10" DataContext="{Binding CurrentItem, ElementName=FileList}"
+                                          Visibility="{Binding Converter={common:ObjectToVisibilityConverter}}">
                             <TextBlock FontSize="16" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding FullName}" />
                             <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding FullPath}" ToolTip="{Binding FullPath}" />
                             <TextBlock Text="{Binding Description}" />
@@ -496,15 +497,25 @@
                                                  Visibility="{Binding IsDrive, Converter={dxmvvm:BooleanToVisibilityConverter}}">
                             </dxe:ProgressBarEdit>
                             <Image RenderOptions.BitmapScalingMode="HighQuality" Stretch="None" HorizontalAlignment="Left" Source="{Binding ExtraLargeIcon}" />
-                            <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
-                                <TextBlock FontWeight="Bold" Text="{Binding DateCreated, StringFormat=G}" />
-                            </dxlc:LayoutItem>
-                            <dxlc:LayoutItem Label="{Binding DateModified, Source={StaticResource ResourceProvider}}">
-                                <TextBlock FontWeight="Bold" Text="{Binding DateModified, StringFormat=G}" />
-                            </dxlc:LayoutItem>
-                            <dxlc:LayoutItem Label="{Binding DateAccessed, Source={StaticResource ResourceProvider}}">
-                                <TextBlock FontWeight="Bold" Text="{Binding DateAccessed, StringFormat=G}" />
-                            </dxlc:LayoutItem>
+                            <dxlc:LayoutGroup Orientation="Vertical">
+                                <dxlc:LayoutGroup.Resources>
+                                    <Style TargetType="dxe:TextEdit">
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                        <Setter Property="IsReadOnly" Value="True" />
+                                        <Setter Property="ShowBorder" Value="False" />
+                                        <Setter Property="DisplayFormatString" Value="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
+                                    </Style>
+                                </dxlc:LayoutGroup.Resources>
+                                <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
+                                    <dxe:TextEdit EditValue="{Binding DateCreated}" />
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="{Binding DateModified, Source={StaticResource ResourceProvider}}">
+                                    <dxe:TextEdit EditValue="{Binding DateModified}" />
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="{Binding DateAccessed, Source={StaticResource ResourceProvider}}">
+                                    <dxe:TextEdit EditValue="{Binding DateAccessed}" />
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutGroup>

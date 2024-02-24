@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
@@ -51,10 +52,10 @@ namespace FileExplorer.Core
 
     public class IntToFileSizeConverter : MarkupExtension, IValueConverter
     {
-        private const string ByteFormat = "{0:0.0} Bytes";
-        private const string KiloByteFormat = "{0:0.0} KB";
-        private const string MegaByteFormat = "{0:0.0} MB";
-        private const string GigaByteFormat = "{0:0.0} GB";
+        private const string ByteFormat = "{0:N0} Bytes";
+        private const string KiloByteFormat = "{0:N1} KB";
+        private const string MegaByteFormat = "{0:N2} MB";
+        private const string GigaByteFormat = "{0:N3} GB";
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -86,7 +87,7 @@ namespace FileExplorer.Core
         }
     }
 
-    public class RightPaneVisibilityConverter : MarkupExtension, IMultiValueConverter
+    public class MultiBooleanToVisibilityConverter : MarkupExtension, IMultiValueConverter
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -95,20 +96,13 @@ namespace FileExplorer.Core
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || values.Length < 3 || values[0] == null)
+            if (values == null || values.Length < 1)
                 return Visibility.Collapsed;
 
-            try
-            {
-                if (System.Convert.ToBoolean(values[1]) || System.Convert.ToBoolean(values[2]))
-                    return Visibility.Visible;
-                else
-                    return Visibility.Collapsed;
-            }
-            catch (Exception)
-            {
+            if (values.OfType<bool>().Any(x => x))
+                return Visibility.Visible;
+            else 
                 return Visibility.Collapsed;
-            }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
