@@ -501,5 +501,17 @@ namespace FileExplorer.Properties {
                 this["LastSession"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SearchWithEverything {
+            get {
+                return ((bool)(this["SearchWithEverything"]));
+            }
+            set {
+                this["SearchWithEverything"] = value;
+            }
+        }
     }
 }

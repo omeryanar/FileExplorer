@@ -306,6 +306,49 @@ namespace FileExplorer.Helpers
             return new FileModelCollection(fileModelList);
         }
 
+        public static bool IsSearchEverythingAvailable(string path)
+        {
+            string rootPath = Path.GetPathRoot(path);
+            if (!IsDrive(rootPath))
+                return false;
+            
+            DriveInfo driveInfo = new DriveInfo(rootPath);
+            if (driveInfo?.DriveFormat != "NTFS")
+                return false;
+
+            return SearchEverything.IsAvailable;
+        }
+
+        public static async Task<FileModelCollection> SearchWithEverything(string path, string searchPattern)
+        {
+            FileSystemInfo[] items = null;
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (SearchEverything searchEverything = new SearchEverything())
+                    {
+                        items = searchEverything.Search($"\"{path}\" {searchPattern}");
+                    }
+                }
+                catch { }
+            });
+
+            List<FileModel> itemModelList = new List<FileModel>();
+            if (items?.Length > 0)
+            {
+                foreach (FileSystemInfo item in items)
+                {
+                    if (item is FileInfo fileInfo)
+                        itemModelList.Add(FileModel.FromFileInfo(fileInfo));
+                    else if (item is DirectoryInfo directoryInfo)
+                        itemModelList.Add(FileModel.FromDirectoryInfo(directoryInfo));                    
+                }
+            }
+
+            return new FileModelCollection(itemModelList);
+        }
+
         private static async Task<FileInfo[]> GetFiles(string path, string searchPattern = null)
         {
             FileInfo[] files = null;

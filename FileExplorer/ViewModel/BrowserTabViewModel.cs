@@ -313,7 +313,13 @@ namespace FileExplorer.ViewModel
                         if (SearchText.OrdinalEquals(HighlightedText))
                             SearchText = String.Format("*{0}*", SearchText);
 
-                        await Search(CurrentFolder.FullPath, this.GetAsyncCommand(x => x.Search()).CancellationTokenSource);
+                        if (Settings.Default.SearchWithEverything && FileSystemHelper.IsSearchEverythingAvailable(CurrentFolder.FullPath))
+                        {
+                            FileModelCollection results = await FileSystemHelper.SearchWithEverything(CurrentFolder.FullPath, SearchText);
+                            SearchResults.AddRange(results);
+                        }
+                        else
+                            await Search(CurrentFolder.FullPath, this.GetAsyncCommand(x => x.Search()).CancellationTokenSource);
                     }
                     finally { IsLoading = false; }
                 }
