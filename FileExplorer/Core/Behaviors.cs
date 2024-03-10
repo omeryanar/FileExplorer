@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using DevExpress.Data;
-using DevExpress.Data.Filtering;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Mvvm.UI;
@@ -17,7 +16,6 @@ using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Docking;
 using DevExpress.Xpf.Editors;
-using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Grid.TreeList;
 using DevExpress.XtraGrid;
@@ -31,25 +29,6 @@ using FileExplorer.ViewModel;
 
 namespace FileExplorer.Core
 {
-    public class TextHighlightingBehavior : Behavior<BaseEdit>
-    {
-        public string HighlightedText
-        {
-            get { return (string)GetValue(HighlightedTextProperty); }
-            set { SetValue(HighlightedTextProperty, value); }
-        }
-        public static readonly DependencyProperty HighlightedTextProperty = DependencyProperty.Register(nameof(HighlightedText), typeof(string), typeof(TextHighlightingBehavior),
-            new PropertyMetadata(String.Empty, (obj, e) => { (obj as TextHighlightingBehavior).UpdateText(); }));
-
-        protected void UpdateText()
-        {
-            if (AssociatedObject?.EditMode != EditMode.InplaceInactive)
-                return;
-
-            BaseEditHelper.UpdateHighlightingText(AssociatedObject, new TextHighlightingProperties(HighlightedText, FilterCondition.Contains));
-        }
-    }
-
     public class SortOnlyFocusedNodeBehavior : Behavior<TreeListView>
     {
         protected override void OnAttached()
