@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Alphaleonis.Win32.Filesystem;
 using Alphaleonis.Win32.Network;
@@ -201,6 +202,26 @@ namespace FileExplorer.Helpers
             }
         }
 
+        public static async Task<List<FileModel>> GetAllParents(FileModel fileModel, bool getAllChildrenToo = true)
+        {
+            List<FileModel> fileModelList = new List<FileModel>();            
+            
+            while (fileModel != null)
+            {
+                fileModelList.Add(fileModel);
+
+                if (!fileModel.IsRoot && fileModel.Parent == null)
+                    fileModel.Parent = FileModel.FromPath(fileModel.ParentPath, false);
+
+                fileModel = fileModel.Parent;
+
+                if (getAllChildrenToo && fileModel != null && fileModel.Folders == null)
+                    fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
+            }
+
+            return fileModelList;
+        }
+
         public static async Task<FileModelCollection> GetFiles(FileModel fileModel)
         {
             List<FileModel> fileModelList = new List<FileModel>();
@@ -275,7 +296,7 @@ namespace FileExplorer.Helpers
             return new FileModelCollection(fileModelList);
         }
 
-        public static async Task<FileModelCollection> SearchFolder(string path, string searchPattern)
+        public static async Task<FileModelCollection> SearchFolder(string path, string searchPattern, CancellationToken cancellationToken = default)
         {
             List<FileModel> fileModelList = new List<FileModel>();
 
@@ -284,8 +305,11 @@ namespace FileExplorer.Helpers
             {
                 foreach (DirectoryInfo folder in folders)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+
                     FileModel childFileModel = FileModel.FromDirectoryInfo(folder);
-                    childFileModel.Parent = FileModel.FromDirectoryInfo(folder.Parent);
+                    await GetAllParents(childFileModel, false);
 
                     fileModelList.Add(childFileModel);
                 }
@@ -296,8 +320,11 @@ namespace FileExplorer.Helpers
             {
                 foreach (FileInfo file in files)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+
                     FileModel childFileModel = FileModel.FromFileInfo(file);
-                    childFileModel.Parent = FileModel.FromDirectoryInfo(file.Directory);
+                    await GetAllParents(childFileModel, false);
 
                     fileModelList.Add(childFileModel);
                 }
@@ -319,7 +346,7 @@ namespace FileExplorer.Helpers
             return SearchEverything.IsAvailable;
         }
 
-        public static async Task<FileModelCollection> SearchWithEverything(string path, string searchPattern)
+        public static async Task<FileModelCollection> SearchWithEverything(string path, string searchPattern, CancellationToken cancellationToken = default)
         {
             FileSystemInfo[] items = null;
             await Task.Run(() =>
@@ -339,10 +366,21 @@ namespace FileExplorer.Helpers
             {
                 foreach (FileSystemInfo item in items)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+
+                    FileModel fileModel = null;
+
                     if (item is FileInfo fileInfo)
-                        itemModelList.Add(FileModel.FromFileInfo(fileInfo));
+                        fileModel = FileModel.FromFileInfo(fileInfo);                        
                     else if (item is DirectoryInfo directoryInfo)
-                        itemModelList.Add(FileModel.FromDirectoryInfo(directoryInfo));                    
+                        fileModel = FileModel.FromDirectoryInfo(directoryInfo);
+                    
+                    if (fileModel != null)
+                    {
+                        await GetAllParents(fileModel, false);
+                        itemModelList.Add(fileModel);
+                    }
                 }
             }
 

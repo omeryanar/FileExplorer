@@ -475,6 +475,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Search.
+        /// </summary>
+        public static string DefaultSearch {
+            get {
+                return ResourceManager.GetString("DefaultSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -1456,6 +1465,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search &amp; Filter.
         /// </summary>
         public static string SearchFilter {
@@ -1479,6 +1497,15 @@ namespace FileExplorer.Properties {
         public static string SearchTools {
             get {
                 return ResourceManager.GetString("SearchTools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search with Everything.
+        /// </summary>
+        public static string SearchWithEverything {
+            get {
+                return ResourceManager.GetString("SearchWithEverything", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
@@ -11,10 +12,19 @@ namespace FileExplorer.Native
     {
         public static bool IsAvailable { get; private set; }
 
+        public const string ExecutableName = "Everything";
+
         static SearchEverything()
         {
             ServiceController[] services = ServiceController.GetServices();
-            IsAvailable = services.Any(x => x.ServiceName == "Everything");
+            if (services.Any(x => x.ServiceName == ExecutableName))
+            {
+                IsAvailable = true;
+                return;
+            }
+
+            Process[] processes = Process.GetProcessesByName(ExecutableName);
+            IsAvailable = processes.Any();
         }
 
         public FileSystemInfo[] Search(string query)

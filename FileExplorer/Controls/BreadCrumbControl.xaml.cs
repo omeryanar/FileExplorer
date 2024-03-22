@@ -193,22 +193,10 @@ namespace FileExplorer.Controls
             FileModel fileModel = e.NewValue as FileModel;
             breadCrumbControl.Text = fileModel?.FullPath;
 
-            List<FileModel> breadCrumbs = new List<FileModel>();
-            while (fileModel != null)
-            {
-                breadCrumbs.Add(fileModel);
-
-                if (!fileModel.IsRoot && fileModel.Parent == null)
-                    fileModel.Parent = FileModel.FromPath(fileModel.ParentPath);
-
-                fileModel = fileModel.Parent;
-
-                if (fileModel != null && fileModel.Folders == null)
-                    fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
-            }
-
+            List<FileModel> breadCrumbs = await FileSystemHelper.GetAllParents(fileModel);
             breadCrumbs.Reverse();
-            breadCrumbControl.BreadCrumbs = new List<FileModel>(breadCrumbs);
+            
+            breadCrumbControl.BreadCrumbs = breadCrumbs;
         }
 
         private void OnButtonItemLinkLoaded(object sender, RoutedEventArgs e)

@@ -723,4 +723,13 @@
   <data name="SaveSession" xml:space="preserve">
     <value>Save Session on Close</value>
   </data>
+  <data name="DefaultSearch" xml:space="preserve">
+    <value>Default Search</value>
+  </data>
+  <data name="SearchWithEverything" xml:space="preserve">
+    <value>Search with Everything</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

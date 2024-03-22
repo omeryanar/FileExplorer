@@ -210,6 +210,31 @@ namespace FileExplorer.Core
         }
     }
 
+    public class NumericToBooleanConverter : MarkupExtension, IValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            decimal decimalValue = System.Convert.ToDecimal(value);
+            if (decimalValue != 0)
+                return true;
+
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool boolValue && boolValue)
+                return 1;
+
+            return 0;
+        }
+    }
+
     public class RowHandleToRowNumberConverter : MarkupExtension, IValueConverter
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
@@ -245,6 +270,29 @@ namespace FileExplorer.Core
                 return (Inverse ^ boolValue) ? EditFormShowMode.InlineHideRow : EditFormShowMode.None;
 
             return EditFormShowMode.None;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    public class StringToIncrementalSearchModeConverter : MarkupExtension, IValueConverter
+    {
+        public bool Inverse { get; set; }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string stringValue && !String.IsNullOrEmpty(stringValue))
+                return IncrementalSearchMode.Disabled;
+
+            return IncrementalSearchMode.Enabled;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

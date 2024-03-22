@@ -80,16 +80,7 @@ namespace FileExplorer.ViewModel
                     FileModel selectedFolder = FileModel.FromPath(folder);
 
                     FileModel fileModel = selectedFolder;
-                    while (fileModel != null)
-                    {
-                        if (!fileModel.IsRoot && fileModel.Parent == null)
-                            fileModel.Parent = FileModel.FromPath(fileModel.ParentPath);
-
-                        fileModel = fileModel.Parent;
-
-                        if (fileModel != null && fileModel.Folders == null)
-                            fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
-                    }
+                    await FileSystemHelper.GetAllParents(fileModel);
 
                     CreateNewTab(selectedFolder);
                 }

@@ -363,7 +363,7 @@
                                     dxfui:FilterElement.Context="{Binding FilteringContext, ElementName=FileList}">
                         <dxr:RibbonPageGroup Caption="{Binding Location, Source={StaticResource ResourceProvider}}">
                             <dxb:BarCheckItem GroupIndex="0" Glyph="/Assets/Images/NewFolder16.png" Content="{Binding CurrentFolder, Source={StaticResource ResourceProvider}}" IsChecked="True" />
-                            <dxb:BarCheckItem GroupIndex="0" Glyph="/Assets/Images/Subfolders16.png" Content="{Binding AllSubfolders, Source={StaticResource ResourceProvider}}" IsChecked="{Binding IsRecursive}" />
+                            <dxb:BarCheckItem GroupIndex="0" Glyph="/Assets/Images/Subfolders16.png" Content="{Binding AllSubfolders, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.DefaultSearch, Converter={common:NumericToBooleanConverter}}" />
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Caption="{Binding Filter, Source={StaticResource ResourceProvider}}">
                             <dxb:BarSplitButtonItem Content="{Binding DateModified, Source={StaticResource ResourceProvider}}"
@@ -533,6 +533,7 @@
                     </PriorityBinding>
                 </controls:FileListViewControl.EditSelectedItemCommand>
                 <dxmvvm:Interaction.Behaviors>
+                    <common:DataUpdateService />
                     <dxmvvm:EventToCommand EventName="PastingFromClipboard" MarkRoutedEventsAsHandled="True"
                                            Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" />
                 </dxmvvm:Interaction.Behaviors>

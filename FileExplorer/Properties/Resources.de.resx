@@ -723,4 +723,13 @@
   <data name="SaveSession" xml:space="preserve">
     <value>Sitzung beim Schließen speichern</value>
   </data>
+  <data name="DefaultSearch" xml:space="preserve">
+    <value>Standardsuche</value>
+  </data>
+  <data name="SearchWithEverything" xml:space="preserve">
+    <value>Suche mit Everything</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Suchen</value>
+  </data>
 </root>

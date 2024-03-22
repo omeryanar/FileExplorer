@@ -48,7 +48,9 @@ namespace FileExplorer.ViewModel
 
         public virtual FileModelReadOnlyCollection DisplayItems { get; protected set; }        
 
-        public virtual IDialogService DialogService { get { return null; } }        
+        public virtual IDialogService DialogService { get { return null; } }
+
+        public virtual IDataUpdateService DataUpdateService { get { return null; } }
 
         public Settings Settings { get; } = new Settings();
 
@@ -199,16 +201,7 @@ namespace FileExplorer.ViewModel
             FileModel navigationModel = FileModel.FromPath(parsingName);
 
             FileModel fileModel = navigationModel;
-            while (fileModel != null)
-            {
-                if (!fileModel.IsRoot && fileModel.Parent == null)
-                    fileModel.Parent = FileModel.FromPath(fileModel.ParentPath);
-
-                fileModel = fileModel.Parent;
-
-                if (fileModel != null && fileModel.Folders == null)
-                    fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
-            }
+            await FileSystemHelper.GetAllParents(fileModel);
 
             if (navigationModel != null)
                 OpenItem(navigationModel);
@@ -246,9 +239,7 @@ namespace FileExplorer.ViewModel
 
         #region List&Search
 
-        public virtual bool IsLoading { get; set; }
-
-        public virtual bool IsRecursive { get; set; }
+        public virtual bool IsLoading { get; set; }        
 
         public virtual string SearchText { get; set; }
 
@@ -301,7 +292,7 @@ namespace FileExplorer.ViewModel
                 HighlightedText = SearchText.RemoveSearchWildcards();
                 Show();
 
-                if (IsRecursive)
+                if (Settings.DefaultSearch == 1)
                 {
                     try
                     {
@@ -313,23 +304,42 @@ namespace FileExplorer.ViewModel
                         if (SearchText.OrdinalEquals(HighlightedText))
                             SearchText = String.Format("*{0}*", SearchText);
 
+                        CancellationToken cancellationToken = this.GetAsyncCommand(x => x.Search()).CancellationTokenSource.Token;
                         if (Settings.Default.SearchWithEverything && FileSystemHelper.IsSearchEverythingAvailable(CurrentFolder.FullPath))
                         {
-                            FileModelCollection results = await FileSystemHelper.SearchWithEverything(CurrentFolder.FullPath, SearchText);
-                            SearchResults.AddRange(results);
+                            try
+                            {
+                                DataUpdateService.BeginUpdate();
+
+                                FileModelCollection results = await FileSystemHelper.SearchWithEverything(CurrentFolder.FullPath, SearchText, cancellationToken);
+                                SearchResults.AddRange(results);
+                            }
+                            finally
+                            {
+                                DataUpdateService.EndUpdate();
+                            }
                         }
                         else
-                            await Search(CurrentFolder.FullPath, this.GetAsyncCommand(x => x.Search()).CancellationTokenSource);
+                            await Search(CurrentFolder.FullPath, cancellationToken);
                     }
                     finally { IsLoading = false; }
                 }
             }
         }
 
-        protected async Task Search(string path, CancellationTokenSource cancellationToken)
+        protected async Task Search(string path, CancellationToken cancellationToken)
         {
-            FileModelCollection results = await FileSystemHelper.SearchFolder(path, SearchText);
-            SearchResults.AddRange(results);
+            try
+            {
+                DataUpdateService.BeginUpdate();
+
+                FileModelCollection results = await FileSystemHelper.SearchFolder(path, SearchText, cancellationToken);
+                SearchResults.AddRange(results);
+            }
+            finally
+            {
+                DataUpdateService.EndUpdate();
+            }
 
             string[] childFolders = await FileSystemHelper.GetFolderPaths(path);
             foreach (string childFolder in childFolders)

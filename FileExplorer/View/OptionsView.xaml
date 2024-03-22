@@ -128,6 +128,19 @@
                     <dxe:ToggleSwitch IsChecked="{Binding StaticTaskbarTitle, Source={x:Static settings:Settings.Default}}" />
                 </dxlc:LayoutItem>                
             </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Search, Source={StaticResource ResourceProvider}}">
+                <dxlc:LayoutItem Label="{Binding DefaultSearch, Source={StaticResource ResourceProvider}}">
+                    <dxe:ListBoxEdit SelectedIndex="{Binding DefaultSearch, Source={x:Static settings:Settings.Default}}">
+                        <dxe:ListBoxEditItem Content="{Binding CurrentFolder, Source={StaticResource ResourceProvider}}" />
+                        <dxe:ListBoxEditItem Content="{Binding AllSubfolders, Source={StaticResource ResourceProvider}}" />
+                    </dxe:ListBoxEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding SearchWithEverything, Source={StaticResource ResourceProvider}}">
+                    <dxlc:LayoutGroup>
+                        <dxe:ToggleSwitch IsChecked="{Binding SearchWithEverything, Source={x:Static settings:Settings.Default}}" />
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding CopyMove, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutItem Label="{Binding ConfirmCopy, Source={StaticResource ResourceProvider}}">
                     <dxe:ToggleSwitch IsChecked="{Binding ConfirmCopy, Source={x:Static settings:Settings.Default}}" />

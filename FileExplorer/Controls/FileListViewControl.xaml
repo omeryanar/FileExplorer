@@ -147,7 +147,7 @@
                        ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
                        ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
                        ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
-                       ShowSearchPanelMode="Never" SearchColumns="Name;Extension" ShowSearchPanelResultInfo="True" ShowSearchPanelMRUButton="True" IncrementalSearchMode="Enabled"
+                       ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                        HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
                        ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
                        AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
@@ -188,7 +188,7 @@
                       AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
                       ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
                       ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
-                      ShowSearchPanelMode="Never" SearchColumns="Name;Extension" ShowSearchPanelResultInfo="True" ShowSearchPanelMRUButton="True" IncrementalSearchMode="Enabled"
+                      ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                       ScrollViewer.IsDeferredScrollingEnabled="True" EnableImmediatePosting="True" NavigationStyle="Row"
                       SeparatorThickness="0" CardMargin="0" Style="{StaticResource CardViewStyle}" FocusedCardBorderTemplate="{StaticResource FocusedCardBorderTemplate}">
             <dxmvvm:Interaction.Behaviors>
@@ -202,7 +202,7 @@
                           AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"                                    
                           ShowFocusedRectangle="False" ShowFixedTotalSummary="True"
                           ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
-                          ShowSearchPanelMode="Never" SearchColumns="Name;Extension" ShowSearchPanelResultInfo="True" ShowSearchPanelMRUButton="True" IncrementalSearchMode="Enabled"
+                          ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                           ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
                           ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
                           AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"

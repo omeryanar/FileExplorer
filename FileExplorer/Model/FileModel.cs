@@ -105,8 +105,11 @@ namespace FileExplorer.Model
             get { return FileSystemImageHelper.GetImage(this, IconSize.ExtraLarge); }
         }
 
-        public static FileModel FromPath(string path)
+        public static FileModel FromPath(string path, bool refresh = true)
         {
+            if (!refresh && FileModelCache.TryGetValue(path, out FileModel fromCache))
+                return fromCache;
+
             FileModel fileModel = FileModelCache.GetOrAdd(path, Create);
             if (fileModel.IsRoot)
                 return fileModel;

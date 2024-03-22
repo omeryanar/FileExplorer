@@ -255,6 +255,9 @@
   <data name="DateTimeFormat" xml:space="preserve">
     <value>Tarih ve Saat Formatı</value>
   </data>
+  <data name="DefaultSearch" xml:space="preserve">
+    <value>Varsayılan Arama</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Sil</value>
   </data>
@@ -582,6 +585,9 @@
   <data name="SaveSession" xml:space="preserve">
     <value>Kapatırken Oturumu Kaydet</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Arama</value>
+  </data>
   <data name="SearchFilter" xml:space="preserve">
     <value>Ara &amp; Filtrele</value>
   </data>
@@ -590,6 +596,9 @@
   </data>
   <data name="SearchTools" xml:space="preserve">
     <value>Arama Araçları</value>
+  </data>
+  <data name="SearchWithEverything" xml:space="preserve">
+    <value>Everything ile Ara</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Seç</value>

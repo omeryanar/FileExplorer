@@ -229,7 +229,7 @@ namespace FileExplorer.Controls
 
             DependencyObject target = e.OriginalSource as DependencyObject;
             GridViewHitInfoBase hitInfo = View.CalcHitInfo(target);
-            if (hitInfo?.InRow != true)
+            if (hitInfo?.IsDataArea == true)
             {
                 UnselectAll();
                 return;
