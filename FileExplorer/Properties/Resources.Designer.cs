@@ -790,6 +790,74 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FileExplorer is added to Windows startup, making the application launch much faster..
+        /// </summary>
+        public static string HelpAddToStartup {
+            get {
+                return ResourceManager.GetString("HelpAddToStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open windows and tabs are saved when the application is closed and all restored the next time it is opened..
+        /// </summary>
+        public static string HelpSaveSession {
+            get {
+                return ResourceManager.GetString("HelpSaveSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Everything is a freeware desktop search utility for Windows that can rapidly find files and folders by name.
+        ///In order this option to be active, Everything (installed or portable version) must be up and running..
+        /// </summary>
+        public static string HelpSearchWithEverything {
+            get {
+                return ResourceManager.GetString("HelpSearchWithEverything", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By default, the icon of the current folder is shown in the taskbar.
+        ///Enable this option to show a static icon..
+        /// </summary>
+        public static string HelpStaticTaskbarIcon {
+            get {
+                return ResourceManager.GetString("HelpStaticTaskbarIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By default, the name of the current folder is shown in the taskbar.
+        ///Enable this option to show a static title..
+        /// </summary>
+        public static string HelpStaticTaskbarTitle {
+            get {
+                return ResourceManager.GetString("HelpStaticTaskbarTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Regardless of the sorting column, FileExplorer always sorts folders first and files second.
+        ///Enable this option to sort them all together..
+        /// </summary>
+        public static string HelpUnifiedSorting {
+            get {
+                return ResourceManager.GetString("HelpUnifiedSorting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Virtualization improves performance when scrolling the contents of folders containing large numbers of files or folders.
+        ///When scrolling, the blur effect is shown while files and folders are loading in the background..
+        /// </summary>
+        public static string HelpVirtualization {
+            get {
+                return ResourceManager.GetString("HelpVirtualization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {

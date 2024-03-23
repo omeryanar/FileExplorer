@@ -8,8 +8,9 @@
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:settings="clr-namespace:FileExplorer.Properties"
              xmlns:common="clr-namespace:FileExplorer.Core"
+             xmlns:controls="clr-namespace:FileExplorer.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             MinWidth="500" MinHeight="260">
+             MinWidth="560" MinHeight="260">
 
     <dxlc:LayoutControl>
         <dxlc:LayoutControl.Resources>
@@ -69,10 +70,18 @@
                     </dxe:ListBoxEdit>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding AddToStartup, Source={StaticResource ResourceProvider}}">
-                    <dxe:ToggleSwitch IsChecked="{Binding AddToStartup, Source={x:Static settings:Settings.Default}}" />
+                    <dxlc:LayoutGroup Orientation="Horizontal">
+                        <dxe:ToggleSwitch IsChecked="{Binding AddToStartup, Source={x:Static settings:Settings.Default}}" />
+                        <controls:FlyoutTooltipControl HorizontalAlignment="Left" Header="{Binding AddToStartup, Source={StaticResource ResourceProvider}}"
+                                                       Content="{Binding HelpAddToStartup, Source={StaticResource ResourceProvider}}" />
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding SaveSession, Source={StaticResource ResourceProvider}}">
-                    <dxe:ToggleSwitch IsChecked="{Binding SaveLastSession, Source={x:Static settings:Settings.Default}}" />
+                    <dxlc:LayoutGroup Orientation="Horizontal">
+                        <dxe:ToggleSwitch IsChecked="{Binding SaveLastSession, Source={x:Static settings:Settings.Default}}" />
+                        <controls:FlyoutTooltipControl HorizontalAlignment="Left" Header="{Binding SaveSession, Source={StaticResource ResourceProvider}}"
+                                                       Content="{Binding HelpSaveSession, Source={StaticResource ResourceProvider}}" />
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Update, Source={StaticResource ResourceProvider}}">
@@ -98,34 +107,50 @@
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding DateTimeFormat, Source={StaticResource ResourceProvider}}">
                     <dxlc:LayoutGroup Orientation="Horizontal">
-                        <dxe:ComboBoxEdit x:Name="dateTimeFormatSelector" IsCaseSensitiveSearch="True" EditValue="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}">
+                        <dxe:ComboBoxEdit x:Name="dateTimeFormatSelector" IsCaseSensitiveSearch="True" EditValue="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}">                            
                             <dxe:ComboBoxEditItem Content="dd.MM.yyyy HH:mm" />
                             <dxe:ComboBoxEditItem Content="dd.MM.yyyy HH:mm:ss" />
                             <dxe:ComboBoxEditItem Content="MM/dd/yyyy HH:mm" />
                             <dxe:ComboBoxEditItem Content="MM/dd/yyyy HH:mm:ss" />
-                            <dxe:ComboBoxEditItem Content="G" />
-                            <dxe:ComboBoxEditItem Content="g" />
-                            <dxe:ComboBoxEditItem Content="U" />
-                            <dxe:ComboBoxEditItem Content="u" />
-                            <dxe:ComboBoxEditItem Content="D" />
-                            <dxe:ComboBoxEditItem Content="d" />
-                            <dxe:ComboBoxEditItem Content="F" />
-                            <dxe:ComboBoxEditItem Content="f" />
+                            <dxe:ComboBoxEditItem Content="G" ToolTip="General Date (long time)" />
+                            <dxe:ComboBoxEditItem Content="g" ToolTip="General Date (short time)" />
+                            <dxe:ComboBoxEditItem Content="U" ToolTip="Universal Full Date" />
+                            <dxe:ComboBoxEditItem Content="u" ToolTip="Universal Sortable Date" />
+                            <dxe:ComboBoxEditItem Content="D" ToolTip="Long Date" />
+                            <dxe:ComboBoxEditItem Content="d" ToolTip="Short Date" />
+                            <dxe:ComboBoxEditItem Content="F" ToolTip="Full (long time)" />
+                            <dxe:ComboBoxEditItem Content="f" ToolTip="Full Date (short time)" />
                         </dxe:ComboBoxEdit>
                         <dxe:TextEdit IsReadOnly="True" ShowBorder="False" EditValue="1/31/2020 13:45:30" EditValueType="{x:Type sys:DateTime}" DisplayFormatString="{Binding EditValue, ElementName=dateTimeFormatSelector}" />
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding Virtualization, Source={StaticResource ResourceProvider}}">
-                    <dxe:ToggleSwitch IsChecked="{Binding Virtualization, Source={x:Static settings:Settings.Default}}" />
+                    <dxlc:LayoutGroup Orientation="Horizontal">
+                        <dxe:ToggleSwitch IsChecked="{Binding Virtualization, Source={x:Static settings:Settings.Default}}" />
+                        <controls:FlyoutTooltipControl HorizontalAlignment="Left" Header="{Binding Virtualization, Source={StaticResource ResourceProvider}}"
+                                                       Content="{Binding HelpVirtualization, Source={StaticResource ResourceProvider}}" />
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding UnifiedSorting, Source={StaticResource ResourceProvider}}">
-                    <dxe:ToggleSwitch IsChecked="{Binding UnifiedSorting, Source={x:Static settings:Settings.Default}}" />
+                    <dxlc:LayoutGroup Orientation="Horizontal">
+                        <dxe:ToggleSwitch IsChecked="{Binding UnifiedSorting, Source={x:Static settings:Settings.Default}}" />
+                        <controls:FlyoutTooltipControl HorizontalAlignment="Left" Header="{Binding UnifiedSorting, Source={StaticResource ResourceProvider}}"
+                                                       Content="{Binding HelpUnifiedSorting, Source={StaticResource ResourceProvider}}" />
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding StaticTaskbarIcon, Source={StaticResource ResourceProvider}}">
-                    <dxe:ToggleSwitch IsChecked="{Binding StaticTaskbarIcon, Source={x:Static settings:Settings.Default}}" />
+                    <dxlc:LayoutGroup Orientation="Horizontal">
+                        <dxe:ToggleSwitch IsChecked="{Binding StaticTaskbarIcon, Source={x:Static settings:Settings.Default}}" />
+                        <controls:FlyoutTooltipControl HorizontalAlignment="Left" Header="{Binding StaticTaskbarIcon, Source={StaticResource ResourceProvider}}"
+                                                       Content="{Binding HelpStaticTaskbarIcon, Source={StaticResource ResourceProvider}}" />
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding StaticTaskbarTitle, Source={StaticResource ResourceProvider}}">
-                    <dxe:ToggleSwitch IsChecked="{Binding StaticTaskbarTitle, Source={x:Static settings:Settings.Default}}" />
+                    <dxlc:LayoutGroup Orientation="Horizontal">
+                        <dxe:ToggleSwitch IsChecked="{Binding StaticTaskbarTitle, Source={x:Static settings:Settings.Default}}" />
+                        <controls:FlyoutTooltipControl HorizontalAlignment="Left" Header="{Binding StaticTaskbarTitle, Source={StaticResource ResourceProvider}}"
+                                                       Content="{Binding HelpStaticTaskbarTitle, Source={StaticResource ResourceProvider}}" />
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>                
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Search, Source={StaticResource ResourceProvider}}">
@@ -138,6 +163,12 @@
                 <dxlc:LayoutItem Label="{Binding SearchWithEverything, Source={StaticResource ResourceProvider}}">
                     <dxlc:LayoutGroup>
                         <dxe:ToggleSwitch IsChecked="{Binding SearchWithEverything, Source={x:Static settings:Settings.Default}}" />
+                        <controls:FlyoutTooltipControl HorizontalAlignment="Left">
+                            <controls:FlyoutTooltipControl.Header>
+                                <dxe:HyperlinkEdit AllowAutoNavigate="True" EditValue="Everything" NavigationUrl="www.voidtools.com" />
+                            </controls:FlyoutTooltipControl.Header>
+                            <TextBlock Text="{Binding HelpSearchWithEverything, Source={StaticResource ResourceProvider}}" />
+                        </controls:FlyoutTooltipControl>
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>

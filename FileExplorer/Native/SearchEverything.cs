@@ -92,49 +92,49 @@ namespace FileExplorer.Native
 
         private static class EverythingNative32
         {
-            [DllImport("Everything32.dll", CharSet = CharSet.Unicode)]
+            [DllImport("Library\\Everything32.dll", CharSet = CharSet.Unicode)]
             public static extern int Everything_SetSearch(string lpSearchString);
 
-            [DllImport("Everything32.dll", CharSet = CharSet.Unicode)]
+            [DllImport("Library\\Everything32.dll", CharSet = CharSet.Unicode)]
             public static extern bool Everything_Query(bool bWait);
 
-            [DllImport("Everything32.dll")]
+            [DllImport("Library\\Everything32.dll")]
             public static extern uint Everything_GetNumResults();
 
-            [DllImport("Everything32.dll")]
+            [DllImport("Library\\Everything32.dll")]
             public static extern bool Everything_IsFileResult(uint nIndex);
 
-            [DllImport("Everything32.dll")]
+            [DllImport("Library\\Everything32.dll")]
             public static extern bool Everything_IsFolderResult(uint nIndex);
 
-            [DllImport("Everything32.dll", CharSet = CharSet.Unicode)]
+            [DllImport("Library\\Everything32.dll", CharSet = CharSet.Unicode)]
             public static extern void Everything_GetResultFullPathName(uint nIndex, StringBuilder lpString, uint nMaxCount);
 
-            [DllImport("Everything32.dll")]
+            [DllImport("Library\\Everything32.dll")]
             public static extern void Everything_Reset();
         }
 
         private static class EverythingNative64
         {
-            [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
+            [DllImport("Library\\Everything64.dll", CharSet = CharSet.Unicode)]
             public static extern int Everything_SetSearch(string lpSearchString);
 
-            [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
+            [DllImport("Library\\Everything64.dll", CharSet = CharSet.Unicode)]
             public static extern bool Everything_Query(bool bWait);
 
-            [DllImport("Everything64.dll")]
+            [DllImport("Library\\Everything64.dll")]
             public static extern uint Everything_GetNumResults();
 
-            [DllImport("Everything64.dll")]
+            [DllImport("Library\\Everything64.dll")]
             public static extern bool Everything_IsFileResult(uint nIndex);
 
-            [DllImport("Everything64.dll")]
+            [DllImport("Library\\Everything64.dll")]
             public static extern bool Everything_IsFolderResult(uint nIndex);
 
-            [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
+            [DllImport("Library\\Everything64.dll", CharSet = CharSet.Unicode)]
             public static extern void Everything_GetResultFullPathName(uint nIndex, StringBuilder lpString, uint nMaxCount);            
 
-            [DllImport("Everything64.dll")]
+            [DllImport("Library\\Everything64.dll")]
             public static extern void Everything_Reset();
         }
     }

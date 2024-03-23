@@ -263,6 +263,9 @@
     <Compile Include="Controls\FileTreeViewControl.xaml.cs">
       <DependentUpon>FileTreeViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FlyoutTooltipControl.xaml.cs">
+      <DependentUpon>FlyoutTooltipControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MenuItemControl.xaml.cs">
       <DependentUpon>MenuItemControl.xaml</DependentUpon>
     </Compile>
@@ -389,6 +392,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\FileTreeViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FlyoutTooltipControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

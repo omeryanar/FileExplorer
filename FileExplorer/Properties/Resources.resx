@@ -732,4 +732,30 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="HelpSearchWithEverything" xml:space="preserve">
+    <value>Everything is a freeware desktop search utility for Windows that can rapidly find files and folders by name.
+In order this option to be active, Everything (installed or portable version) must be up and running.</value>
+  </data>
+  <data name="HelpAddToStartup" xml:space="preserve">
+    <value>FileExplorer is added to Windows startup, making the application launch much faster.</value>
+  </data>
+  <data name="HelpSaveSession" xml:space="preserve">
+    <value>Open windows and tabs are saved when the application is closed and all restored the next time it is opened.</value>
+  </data>
+  <data name="HelpStaticTaskbarIcon" xml:space="preserve">
+    <value>By default, the icon of the current folder is shown in the taskbar.
+Enable this option to show a static icon.</value>
+  </data>
+  <data name="HelpStaticTaskbarTitle" xml:space="preserve">
+    <value>By default, the name of the current folder is shown in the taskbar.
+Enable this option to show a static title.</value>
+  </data>
+  <data name="HelpUnifiedSorting" xml:space="preserve">
+    <value>Regardless of the sorting column, FileExplorer always sorts folders first and files second.
+Enable this option to sort them all together.</value>
+  </data>
+  <data name="HelpVirtualization" xml:space="preserve">
+    <value>Virtualization improves performance when scrolling the contents of folders containing large numbers of files or folders.
+When scrolling, the blur effect is shown while files and folders are loading in the background.</value>
+  </data>
 </root>

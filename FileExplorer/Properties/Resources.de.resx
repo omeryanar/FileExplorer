@@ -732,4 +732,30 @@
   <data name="Search" xml:space="preserve">
     <value>Suchen</value>
   </data>
+  <data name="HelpSearchWithEverything" xml:space="preserve">
+    <value>Everything ist ein kostenloses Desktop-Suchprogramm für Windows, das Dateien und Ordner schnell anhand des Namens finden kann.
+Damit diese Option aktiv ist, muss Everythiing (installierte oder portable Version) betriebsbereit sein.</value>
+  </data>
+  <data name="HelpAddToStartup" xml:space="preserve">
+    <value>FileExplorer wird zum Windows-Start hinzugefügt, wodurch der Anwendungsstart wesentlich beschleunigt wird.</value>
+  </data>
+  <data name="HelpSaveSession" xml:space="preserve">
+    <value>Geöffnete Fenster und Tabs werden beim Schließen der Anwendung gespeichert und beim nächsten Öffnen wiederhergestellt.</value>
+  </data>
+  <data name="HelpStaticTaskbarIcon" xml:space="preserve">
+    <value>Standardmäßig wird das Symbol des aktuellen Ordners in der Taskleiste angezeigt.
+Aktivieren Sie diese Option, um ein statisches Symbol anzuzeigen.</value>
+  </data>
+  <data name="HelpStaticTaskbarTitle" xml:space="preserve">
+    <value>Standardmäßig wird der Name des aktuellen Ordners in der Taskleiste angezeigt.
+Aktivieren Sie diese Option, um einen statischen Titel anzuzeigen.</value>
+  </data>
+  <data name="HelpUnifiedSorting" xml:space="preserve">
+    <value>Unabhängig von der Sortierspalte sortiert der Datei-Explorer die Ordner immer zuerst und die Dateien dann.
+Aktivieren Sie diese Option, um sie alle zusammen zu sortieren.</value>
+  </data>
+  <data name="HelpVirtualization" xml:space="preserve">
+    <value>Die Virtualisierung verbessert die Leistung beim Scrollen durch den Inhalt von Ordnern, die eine große Anzahl von Dateien oder Ordnern enthalten.
+Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner im Hintergrund geladen werden.</value>
+  </data>
 </root>

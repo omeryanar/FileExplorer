@@ -360,6 +360,32 @@
   <data name="GroupName" xml:space="preserve">
     <value>Grup İsmi</value>
   </data>
+  <data name="HelpAddToStartup" xml:space="preserve">
+    <value>FileExplorer Windows başlangıcına eklenir ve böylece uygulamanın çok daha hızlı başlatılması sağlanır.</value>
+  </data>
+  <data name="HelpSaveSession" xml:space="preserve">
+    <value>Açık pencereler ve sekmeler, uygulama kapatıldığında kaydedilir ve bir sonraki açılışta tümü geri yüklenir.</value>
+  </data>
+  <data name="HelpSearchWithEverything" xml:space="preserve">
+    <value>Everything, dosya ve klasörleri isme göre hızla bulabilen, Windows için ücretsiz bir masaüstü arama programıdır.
+Bu seçeneğin aktif olabilmesi için Everything'in (kurulan veya taşınabilir sürüm) çalışır durumda olması gerekir.</value>
+  </data>
+  <data name="HelpStaticTaskbarIcon" xml:space="preserve">
+    <value>Varsayılan olarak geçerli klasörün simgesi görev çubuğunda gösterilir.
+Statik bir simge göstermek için bu seçeneği etkinleştirin.</value>
+  </data>
+  <data name="HelpStaticTaskbarTitle" xml:space="preserve">
+    <value>Varsayılan olarak geçerli klasörün ismi görev çubuğunda gösterilir.
+Statik bir isim göstermek için bu seçeneği etkinleştirin.</value>
+  </data>
+  <data name="HelpUnifiedSorting" xml:space="preserve">
+    <value>Sıralama sütunundan bağımsız olarak, FileExplorer her zaman önce klasörleri, sonra dosyaları sıralar.
+Hepsini bir arada sıralamak için bu seçeneği etkinleştirin.</value>
+  </data>
+  <data name="HelpVirtualization" xml:space="preserve">
+    <value>Sanallaştırma, çok sayıda dosya veya klasör içeren klasörlerin içeriğini görüntülerken performansı artırır.
+Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıklaştırma efekti gösterilir.</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Giriş</value>
   </data>
