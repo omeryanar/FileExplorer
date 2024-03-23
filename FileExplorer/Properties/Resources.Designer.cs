@@ -809,7 +809,7 @@ namespace FileExplorer.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Everything is a freeware desktop search utility for Windows that can rapidly find files and folders by name.
-        ///In order this option to be active, Everything (installed or portable version) must be up and running..
+        ///In order this option to be active, Everything (installed or portable version) should be up and running..
         /// </summary>
         public static string HelpSearchWithEverything {
             get {

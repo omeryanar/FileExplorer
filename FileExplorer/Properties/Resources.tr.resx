@@ -368,7 +368,7 @@
   </data>
   <data name="HelpSearchWithEverything" xml:space="preserve">
     <value>Everything, dosya ve klasörleri isme göre hızla bulabilen, Windows için ücretsiz bir masaüstü arama programıdır.
-Bu seçeneğin aktif olabilmesi için Everything'in (kurulan veya taşınabilir sürüm) çalışır durumda olması gerekir.</value>
+Bu seçeneğin aktif olabilmesi için Everything (kurulan veya taşınabilir sürüm) çalışır durumda olmalıdır.</value>
   </data>
   <data name="HelpStaticTaskbarIcon" xml:space="preserve">
     <value>Varsayılan olarak geçerli klasörün simgesi görev çubuğunda gösterilir.
