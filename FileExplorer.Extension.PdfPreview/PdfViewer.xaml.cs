@@ -40,7 +40,7 @@ namespace FileExplorer.Extension.PdfPreview
         {
             ZoomFactor = 1;
 
-            using (FileStream fileStream = File.Open(filePath, FileMode.Open))
+            using (FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 MemoryStream memoryStream = new MemoryStream();
                 await fileStream.CopyToAsync(memoryStream);

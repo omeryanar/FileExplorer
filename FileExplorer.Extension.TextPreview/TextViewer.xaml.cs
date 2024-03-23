@@ -41,10 +41,13 @@ namespace FileExplorer.Extension.TextPreview
             string extension = Path.GetExtension(filePath);
             SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(extension);
 
-            using (StreamReader reader = File.OpenText(filePath))
+            using (FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                string text = await reader.ReadToEndAsync();
-                Document = new TextDocument(text);
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    string text = await reader.ReadToEndAsync();
+                    Document = new TextDocument(text);
+                }               
             }
         }
 

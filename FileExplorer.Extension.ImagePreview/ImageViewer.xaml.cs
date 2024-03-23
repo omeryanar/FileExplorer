@@ -87,7 +87,7 @@ namespace FileExplorer.Extension.ImagePreview
             DelegateCommand delegateCommand = EditCommand as DelegateCommand;
             delegateCommand.RaiseCanExecuteChanged();
 
-            using (FileStream fileStream = File.Open(filePath, FileMode.Open))
+            using (FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 imageStream?.Close();
                 imageStream = new MemoryStream();

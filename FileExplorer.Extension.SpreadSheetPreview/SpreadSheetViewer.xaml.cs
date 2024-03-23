@@ -22,7 +22,7 @@ namespace FileExplorer.Extension.SpreadSheetPreview
 
         public async Task PreviewFile(string filePath)
         {
-            using (FileStream fileStream = File.Open(filePath, FileMode.Open))
+            using (FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 DocumentSource = new MemoryStream();
                 await fileStream.CopyToAsync(DocumentSource);
