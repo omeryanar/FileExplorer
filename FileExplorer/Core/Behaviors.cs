@@ -876,4 +876,65 @@ namespace FileExplorer.Core
             }
         }
     }
+
+    public class WindowKeyToCommand : Behavior<FrameworkElement>
+    {
+        public KeyGesture KeyGesture
+        {
+            get { return (KeyGesture)GetValue(KeyGestureProperty); }
+            set { SetValue(KeyGestureProperty, value); }
+        }
+        public static readonly DependencyProperty KeyGestureProperty =
+            DependencyProperty.Register(nameof(KeyGesture), typeof(KeyGesture), typeof(WindowKeyToCommand));
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(WindowKeyToCommand));
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(WindowKeyToCommand));
+
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            AssociatedObject.Loaded += AssociatedObject_Loaded;
+        }
+
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            AssociatedObject.Loaded -= AssociatedObject_Loaded;
+            AssociatedObject.Unloaded += AssociatedObject_Unloaded;
+
+            MainWindow = Window.GetWindow(AssociatedObject);
+            MainWindow.KeyDown += MainWindow_KeyDown;
+        }
+
+        private void AssociatedObject_Unloaded(object sender, RoutedEventArgs e)
+        {
+            AssociatedObject.Loaded += AssociatedObject_Loaded;
+            AssociatedObject.Unloaded -= AssociatedObject_Unloaded;
+
+            MainWindow.KeyDown -= MainWindow_KeyDown;
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (KeyGesture == null)
+                return;
+
+            if (e.RealKey() == KeyGesture.Key && Keyboard.Modifiers.HasFlag(KeyGesture.Modifiers))
+                Command?.Execute(CommandParameter);
+        }
+
+        private Window MainWindow;
+    }
 }

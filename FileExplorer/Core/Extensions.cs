@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using static Vanara.PInvoke.Shell32;
 
 namespace FileExplorer.Core
@@ -114,6 +115,24 @@ namespace FileExplorer.Core
                     return SHIL.SHIL_JUMBO;
                 default:
                     return SHIL.SHIL_SMALL;
+            }
+        }
+
+        public static Key RealKey(this KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.System:
+                    return e.SystemKey;
+
+                case Key.ImeProcessed:
+                    return e.ImeProcessedKey;
+
+                case Key.DeadCharProcessed:
+                    return e.DeadCharProcessedKey;
+
+                default:
+                    return e.Key;
             }
         }
     }

@@ -118,6 +118,12 @@ namespace FileExplorer.Controls
             };
         }
 
+        public void Edit()
+        {
+            Focus();
+            IsTextEditable = true;
+        }
+
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);

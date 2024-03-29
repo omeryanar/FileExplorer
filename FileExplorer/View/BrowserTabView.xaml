@@ -29,10 +29,10 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>        
+        </Style>
     </UserControl.Resources>
 
-    <dxmvvm:Interaction.Behaviors>        
+    <dxmvvm:Interaction.Behaviors>
         <dx:DialogService DialogWindowStartupLocation="CenterOwner" DialogStyle="{StaticResource DialogWindowStyle}" />
         <dxmvvm:EventToCommand Event="Loaded" Command="{Binding CheckForUpdatesCommand}" />
     </dxmvvm:Interaction.Behaviors>
@@ -46,7 +46,7 @@
                 </Style>
             </dxlc:DockLayoutControl.ItemSizerStyle>
             <dxr:RibbonControl dxlc:DockLayoutControl.Dock="Top" RibbonTitleBarVisibility="Collapsed" RibbonStyle="Office2019" ToolbarShowMode="Hide"
-                               ShowApplicationButton="False" AllowCustomization="False" IsSimplified="{Binding Settings.SimplifiedRibbon, Mode=TwoWay}">
+                               ShowApplicationButton="False" AllowCustomization="False" AllowKeyTips="False" IsSimplified="{Binding Settings.SimplifiedRibbon, Mode=TwoWay}">
                 <dxr:RibbonControl.PageHeaderItems>
                     <dxb:BarStaticItem>
                         <dxb:BarStaticItem.ContentTemplate>
@@ -439,22 +439,28 @@
                         </dxb:BarManager.DXContextMenu>
                     </Button>
                     <Button Content="{StaticResource IconUp}" Style="{StaticResource FlatButtonStyle}" Command="{Binding MoveUpCommand}"
-                            ToolTip="{Binding CurrentFolder.Parent.Name, Converter={common:StringFormatConverter}, ConverterParameter=Up}" />                    
+                            ToolTip="{Binding CurrentFolder.Parent.Name, Converter={common:StringFormatConverter}, ConverterParameter=Up}" />
                     <Button Content="{StaticResource IconRefresh}" Style="{StaticResource FlatButtonStyle}" Command="{Binding RefreshCommand}"
                             ToolTip="{Binding Refresh, Source={StaticResource ResourceProvider}}" />
                 </StackPanel>
-                <controls:BreadCrumbControl CurrentItem="{Binding CurrentFolder, Mode=OneWay}" ShowHiddenItems="{Binding Settings.ShowHiddenItems}" ShowSystemItems="{Binding Settings.ShowSystemItems}"
-                                            ItemClickCommand="{Binding OpenItemCommand}" ItemMiddleClickCommand="{Binding OpenInNewTabCommand}" NavigatePathCommand="{Binding NavigatePathCommand}" />
+                <controls:BreadCrumbControl x:Name="BreadCrumb" CurrentItem="{Binding CurrentFolder, Mode=OneWay}" ShowHiddenItems="{Binding Settings.ShowHiddenItems}" ShowSystemItems="{Binding Settings.ShowSystemItems}"
+                                            ItemClickCommand="{Binding OpenItemCommand}" ItemMiddleClickCommand="{Binding OpenInNewTabCommand}" NavigatePathCommand="{Binding NavigatePathCommand}">
+                    <dxmvvm:Interaction.Behaviors>
+                        <common:WindowKeyToCommand KeyGesture="Ctrl+L" Command="{DXCommand '@e(BreadCrumb).Edit()'}" />
+                        <common:WindowKeyToCommand KeyGesture="Alt+D" Command="{DXCommand '@e(BreadCrumb).Edit()'}" />
+                    </dxmvvm:Interaction.Behaviors>
+                </controls:BreadCrumbControl>
                 <StackPanel Margin="3,0" Orientation="Horizontal" HorizontalAlignment="Right">
                     <dxe:ButtonEdit x:Name="SearchEdit" AllowDefaultButton="False" MinWidth="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
                                     NullText="{Binding CurrentFolder.Name, Converter={common:StringFormatConverter}, ConverterParameter=SearchTitle}">
-                        <dxmvvm:Interaction.Triggers>
+                        <dxmvvm:Interaction.Behaviors>
                             <dxmvvm:KeyToCommand KeyGesture="Enter" Event="PreviewKeyDown" MarkRoutedEventsAsHandled="True"
                                                  Command="{Binding SearchCommand}" CommandParameter="{Binding Text, ElementName=SearchEdit}" />
-                        </dxmvvm:Interaction.Triggers>
+                            <common:WindowKeyToCommand KeyGesture="Ctrl+F" Command="{DXCommand '@e(SearchEdit).Focus()'}" />
+                        </dxmvvm:Interaction.Behaviors>
                         <dxe:ButtonInfo IsLeft="True" GlyphKind="Search" Command="{Binding SearchCommand}" CommandParameter="{Binding Text, ElementName=SearchEdit}" />
                         <dxe:ButtonInfo GlyphKind="Cancel" Command="{DXCommand 'SearchText = ``'}"
-                                        Visibility="{DXBinding '!SearchCommand.IsExecuting &amp; SearchText != ``', Converter={dxmvvm:BooleanToVisibilityConverter}}"/>                                        
+                                        Visibility="{DXBinding '!SearchCommand.IsExecuting &amp; SearchText != ``', Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
                         <dxe:ButtonInfo GlyphKind="Cancel" Command="{Binding SearchCommand.CancelCommand}"
                                         Visibility="{Binding SearchCommand.IsExecuting, Converter={dxmvvm:BooleanToVisibilityConverter}}" />
                     </dxe:ButtonEdit>
@@ -537,8 +543,8 @@
                     <dxmvvm:EventToCommand EventName="PastingFromClipboard" MarkRoutedEventsAsHandled="True"
                                            Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" />
                 </dxmvvm:Interaction.Behaviors>
-            </controls:FileListViewControl>            
+            </controls:FileListViewControl>
         </dxlc:DockLayoutControl>
     </dx:LoadingDecorator>
-    
+
 </UserControl>

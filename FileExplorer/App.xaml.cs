@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using CommandLine;
@@ -13,6 +15,7 @@ using DevExpress.Data.Filtering;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Grid;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
 using FileExplorer.Model;
@@ -54,6 +57,11 @@ namespace FileExplorer
             Current.Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
             Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            RuntimeHelpers.RunClassConstructor(typeof(TableView).TypeHandle);
+            CommandManager.RegisterClassInputBinding(typeof(TreeListView), new InputBinding(ApplicationCommands.NotACommand, new KeyGesture(Key.F5)));
+            CommandManager.RegisterClassInputBinding(typeof(TableView), new InputBinding(ApplicationCommands.NotACommand, new KeyGesture(Key.F5)));
+            CommandManager.RegisterClassInputBinding(typeof(CardView), new InputBinding(ApplicationCommands.NotACommand, new KeyGesture(Key.F5)));
         }
 
         public static void UpdateAndRestart()
