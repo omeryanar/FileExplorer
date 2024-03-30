@@ -418,10 +418,22 @@
             </dxr:RibbonControl>
             <dxlc:LayoutGroup Padding="3" dxlc:DockLayoutControl.Dock="Top">
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
-                    <Button Content="{StaticResource IconBack}" Style="{StaticResource FlatButtonStyle}" Command="{Binding MoveBackCommand}"
-                            ToolTip="{Binding BackwardItem.Name, Converter={common:StringFormatConverter}, ConverterParameter=Backward}" />
-                    <Button Content="{StaticResource IconNext}" Style="{StaticResource FlatButtonStyle}" Command="{Binding MoveNextCommand}"
-                            ToolTip="{Binding ForwardItem.Name, Converter={common:StringFormatConverter}, ConverterParameter=Forward}" />
+                    <Button Content="{StaticResource IconBack}" Style="{StaticResource FlatButtonStyle}" Command="{Binding MoveBackCommand}">
+                        <Button.ToolTip>
+                            <TextBlock>
+                                <Run Text="{Binding BackwardItem.Name, Converter={common:StringFormatConverter}, ConverterParameter=Backward}" />
+                                <Run Text="(Alt+&#x1F804;)"  />
+                            </TextBlock>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="{StaticResource IconNext}" Style="{StaticResource FlatButtonStyle}" Command="{Binding MoveNextCommand}">
+                        <Button.ToolTip>
+                            <TextBlock>
+                                <Run Text="{Binding ForwardItem.Name, Converter={common:StringFormatConverter}, ConverterParameter=Forward}" />
+                                <Run Text="(Alt+&#x1F806;)"  />
+                            </TextBlock>
+                        </Button.ToolTip>
+                    </Button>
                     <Button dxb:BarManager.MenuShowMouseButton="LeftButton" Content="{StaticResource IconAngleDown}" 
                             Style="{StaticResource FlatButtonStyle}" ToolTip="{Binding RecentLocations, Source={StaticResource ResourceProvider}}"
                             IsEnabled="{Binding RecentLocations.Count, Converter={dxmvvm:NumericToBooleanConverter}}">
@@ -438,10 +450,21 @@
                             </dxb:PopupMenu>
                         </dxb:BarManager.DXContextMenu>
                     </Button>
-                    <Button Content="{StaticResource IconUp}" Style="{StaticResource FlatButtonStyle}" Command="{Binding MoveUpCommand}"
-                            ToolTip="{Binding CurrentFolder.Parent.Name, Converter={common:StringFormatConverter}, ConverterParameter=Up}" />
-                    <Button Content="{StaticResource IconRefresh}" Style="{StaticResource FlatButtonStyle}" Command="{Binding RefreshCommand}"
-                            ToolTip="{Binding Refresh, Source={StaticResource ResourceProvider}}" />
+                    <Button Content="{StaticResource IconUp}" Style="{StaticResource FlatButtonStyle}" Command="{Binding MoveUpCommand}">
+                        <Button.ToolTip>
+                            <TextBlock>
+                                <Run Text="{Binding CurrentFolder.Parent.Name, Converter={common:StringFormatConverter}, ConverterParameter=Up}" />
+                                <Run Text=" (Alt+&#x1F805;)"  />
+                            </TextBlock>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="{StaticResource IconRefresh}" Style="{StaticResource FlatButtonStyle}" Command="{Binding RefreshCommand}">
+                        <Button.ToolTip>
+                            <TextBlock Text="{Binding Refresh, Source={StaticResource ResourceProvider}}">
+                                <Run Text=" (F5)"  />
+                            </TextBlock>
+                        </Button.ToolTip>
+                    </Button>
                 </StackPanel>
                 <controls:BreadCrumbControl x:Name="BreadCrumb" CurrentItem="{Binding CurrentFolder, Mode=OneWay}" ShowHiddenItems="{Binding Settings.ShowHiddenItems}" ShowSystemItems="{Binding Settings.ShowSystemItems}"
                                             ItemClickCommand="{Binding OpenItemCommand}" ItemMiddleClickCommand="{Binding OpenInNewTabCommand}" NavigatePathCommand="{Binding NavigatePathCommand}">
@@ -458,6 +481,11 @@
                                                  Command="{Binding SearchCommand}" CommandParameter="{Binding Text, ElementName=SearchEdit}" />
                             <common:WindowKeyToCommand KeyGesture="Ctrl+F" Command="{DXCommand '@e(SearchEdit).Focus()'}" />
                         </dxmvvm:Interaction.Behaviors>
+                        <dxe:ButtonEdit.ToolTip>
+                            <TextBlock Text="{Binding Search, Source={StaticResource ResourceProvider}}">
+                                <Run Text=" (Ctrl+F)"  />
+                            </TextBlock>
+                        </dxe:ButtonEdit.ToolTip>
                         <dxe:ButtonInfo IsLeft="True" GlyphKind="Search" Command="{Binding SearchCommand}" CommandParameter="{Binding Text, ElementName=SearchEdit}" />
                         <dxe:ButtonInfo GlyphKind="Cancel" Command="{DXCommand 'SearchText = ``'}"
                                         Visibility="{DXBinding '!SearchCommand.IsExecuting &amp; SearchText != ``', Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
