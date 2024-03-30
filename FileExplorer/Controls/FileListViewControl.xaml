@@ -171,13 +171,6 @@
                                    Command="{DXCommand 'DataControl.CopySelectedRowsToClipboard()'}" />
                 <dxb:BarItemSeparator dxb:BarItemLinkActionBase.ItemLinkIndex="3" />
             </dxg:TableView.ColumnMenuCustomizations>
-            <dxg:TableView.FormatConditions>
-                <dxg:DataBarFormatCondition FieldName="Size" SelectiveExpression="[IsDrive]=False">
-                    <dxg:DataBarFormatCondition.Format>
-                        <dx:DataBarFormat Fill="#FF26A0DA" />
-                    </dxg:DataBarFormatCondition.Format>
-                </dxg:DataBarFormatCondition>
-            </dxg:TableView.FormatConditions>
             <dxg:TableView.RowIndicatorContentTemplate>
                 <DataTemplate>
                     <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding RowHandle.Value, Converter={common:RowHandleToRowNumberConverter}}" />
@@ -226,19 +219,18 @@
                                    Command="{DXCommand 'DataControl.CopySelectedRowsToClipboard()'}" />
                 <dxb:BarItemSeparator dxb:BarItemLinkActionBase.ItemLinkIndex="3" />
             </dxg:TreeListView.ColumnMenuCustomizations>
-            <dxg:TreeListView.FormatConditions>
-                <dxg:DataBarFormatCondition FieldName="Size" SelectiveExpression="[IsDrive]=False">
-                    <dxg:DataBarFormatCondition.Format>
-                        <dx:DataBarFormat Fill="#FF26A0DA" />
-                    </dxg:DataBarFormatCondition.Format>
-                </dxg:DataBarFormatCondition>
-            </dxg:TreeListView.FormatConditions>
         </dxg:TreeListView>
         <DXDataTemplateSelector x:Key="FileSizeTemplateSelector">
             <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDrive}" Value="True">
                 <DataTemplate>
-                    <dxe:ProgressBarEdit ShowBorder="False" Margin="0,1" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}" 
+                    <dxe:ProgressBarEdit ShowBorder="False" Margin="0,1" Background="Transparent" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
                                          Maximum="{Binding RowData.Row.Size}" EditValue="{DXBinding 'RowData.Row.Size - RowData.Row.FreeSpace', Mode=OneWay}" />
+                </DataTemplate>
+            </DXDataTemplateTrigger>
+            <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDirectory}" Value="False">
+                <DataTemplate>
+                    <dxe:ProgressBarEdit ShowBorder="False" Margin="0,1" Background="Transparent" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
+                                         Maximum="{Binding RowData.Row.Parent.LargestFileSize}" EditValue="{Binding RowData.Row.Size}" />
                 </DataTemplate>
             </DXDataTemplateTrigger>
         </DXDataTemplateSelector>

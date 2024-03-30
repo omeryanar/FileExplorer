@@ -233,6 +233,9 @@ namespace FileExplorer.Helpers
                     FileModel childFileModel = FileModel.FromFileInfo(file);
                     childFileModel.Parent = fileModel;
 
+                    if (file.Length > fileModel.LargestFileSize)
+                        fileModel.LargestFileSize = file.Length;
+
                     fileModelList.Add(childFileModel);
                 }
             }

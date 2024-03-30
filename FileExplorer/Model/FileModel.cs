@@ -26,6 +26,9 @@ namespace FileExplorer.Model
         private long freeSpace;
 
         [GenerateProperty]
+        private long largestFileSize;
+
+        [GenerateProperty]
         [Required(ErrorMessageResourceName = "InvalidFileNameMessage", ErrorMessageResourceType = typeof(Properties.Resources))]
         [RegularExpression(@"^[^\/<>*?:""|\\]*$", ErrorMessageResourceName = "InvalidFileNameMessage", ErrorMessageResourceType = typeof(Properties.Resources))]
         private string name;
