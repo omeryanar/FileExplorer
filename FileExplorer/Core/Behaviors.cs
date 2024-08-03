@@ -419,6 +419,13 @@ namespace FileExplorer.Core
         {
             base.OnAttached();
             AssociatedObject.Loaded += AssociatedObject_Loaded;
+            AssociatedObject.Opening += AssociatedObject_Opening;
+        }
+
+        private void AssociatedObject_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                e.Cancel = true;
         }
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
@@ -522,6 +529,32 @@ namespace FileExplorer.Core
         private BarItemSeparator BarItemSeparator;
 
         private static readonly BitmapImage AddRemoveMenuItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Menu16.png"));
+    }
+
+    public class NativeContextMenuBehavior : Behavior<GridControl>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            AssociatedObject.MouseRightButtonDown += AssociatedObject_MouseRightButtonDown;
+
+            nativeContextMenuHelper = new ContextMenuHelper();
+        }
+
+        private void AssociatedObject_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                Point point = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject));
+                System.Drawing.Point ptInvoke = new System.Drawing.Point((int)point.X, (int)point.Y);
+
+                IEnumerable<FileModel> files = AssociatedObject.SelectedItems.OfType<FileModel>();
+                if (files.Count() > 0)
+                    nativeContextMenuHelper.ShowNativeContextMenu(files.Select(x => x.FullPath).ToList(), ptInvoke);
+            }
+        }
+
+        private ContextMenuHelper nativeContextMenuHelper;
     }
 
     public class CustomColumnBehavior : Behavior<GridDataViewBase>

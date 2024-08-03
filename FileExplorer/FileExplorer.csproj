@@ -43,8 +43,8 @@
     <Reference Include="AlphaFS, Version=2.2.0.0, Culture=neutral, PublicKeyToken=4d31a58f7d7ad5c9, processorArchitecture=MSIL">
       <HintPath>..\packages\AlphaFS.2.2.6\lib\net452\AlphaFS.dll</HintPath>
     </Reference>
-    <Reference Include="AsyncKeyedLock, Version=6.3.4.0, Culture=neutral, PublicKeyToken=c6dde91429ba0f2f, processorArchitecture=MSIL">
-      <HintPath>..\packages\AsyncKeyedLock.6.3.4\lib\netstandard2.0\AsyncKeyedLock.dll</HintPath>
+    <Reference Include="AsyncKeyedLock, Version=7.0.0.0, Culture=neutral, PublicKeyToken=c6dde91429ba0f2f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AsyncKeyedLock.7.0.0\lib\netstandard2.0\AsyncKeyedLock.dll</HintPath>
     </Reference>
     <Reference Include="CommandLine, Version=2.9.1.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.2.9.1\lib\net461\CommandLine.dll</HintPath>
@@ -126,10 +126,10 @@
       <HintPath>..\packages\Mono.Cecil.0.11.5\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.5.2.8\lib\net46\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.5.3.2\lib\net46\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Onova, Version=2.6.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Onova.2.6.10\lib\net462\Onova.dll</HintPath>
+    <Reference Include="Onova, Version=2.6.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Onova.2.6.12\lib\net462\Onova.dll</HintPath>
     </Reference>
     <Reference Include="Shellify, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Shellify.0.4.0\lib\netstandard2.0\Shellify.dll</HintPath>
@@ -145,6 +145,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
@@ -175,8 +177,8 @@
     <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.8.0.1\lib\net462\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Json, Version=8.0.0.4, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.8.0.4\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -194,44 +196,53 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Vanara.Core, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.Core.3.4.17\lib\net48\Vanara.Core.dll</HintPath>
+    <Reference Include="Vanara.Core, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.Core.4.0.2\lib\net48\Vanara.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.ComCtl32, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.ComCtl32.3.4.17\lib\net48\Vanara.PInvoke.ComCtl32.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.ComCtl32, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.ComCtl32.4.0.2\lib\net48\Vanara.PInvoke.ComCtl32.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.Cryptography, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Cryptography.3.4.17\lib\net48\Vanara.PInvoke.Cryptography.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.Cryptography, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.Cryptography.4.0.2\lib\net48\Vanara.PInvoke.Cryptography.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.Gdi32, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Gdi32.3.4.17\lib\net48\Vanara.PInvoke.Gdi32.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.Gdi32, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.Gdi32.4.0.2\lib\net48\Vanara.PInvoke.Gdi32.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.Kernel32, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Kernel32.3.4.17\lib\net48\Vanara.PInvoke.Kernel32.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.Kernel32, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.Kernel32.4.0.2\lib\net48\Vanara.PInvoke.Kernel32.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.Ole, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Ole.3.4.17\lib\net48\Vanara.PInvoke.Ole.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.Ole, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.Ole.4.0.2\lib\net48\Vanara.PInvoke.Ole.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.Rpc, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Rpc.3.4.17\lib\net48\Vanara.PInvoke.Rpc.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.Rpc, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.Rpc.4.0.2\lib\net48\Vanara.PInvoke.Rpc.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.Security, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Security.3.4.17\lib\net48\Vanara.PInvoke.Security.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.SearchApi, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.SearchApi.4.0.2\lib\net48\Vanara.PInvoke.SearchApi.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.Shared, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Shared.3.4.17\lib\net48\Vanara.PInvoke.Shared.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.Security, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.Security.4.0.2\lib\net48\Vanara.PInvoke.Security.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.Shell32, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Shell32.3.4.17\lib\net48\Vanara.PInvoke.Shell32.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.Shared, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.Shared.4.0.2\lib\net48\Vanara.PInvoke.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.ShlwApi, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.ShlwApi.3.4.17\lib\net48\Vanara.PInvoke.ShlwApi.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.Shell32, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.Shell32.4.0.2\lib\net48\Vanara.PInvoke.Shell32.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.PInvoke.User32, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.User32.3.4.17\lib\net48\Vanara.PInvoke.User32.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.ShlwApi, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.ShlwApi.4.0.2\lib\net48\Vanara.PInvoke.ShlwApi.dll</HintPath>
     </Reference>
-    <Reference Include="Vanara.WPF.Extensions, Version=3.4.17.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.WPF.Extensions.3.4.17\lib\net48\Vanara.WPF.Extensions.dll</HintPath>
+    <Reference Include="Vanara.PInvoke.User32, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.PInvoke.User32.4.0.2\lib\net48\Vanara.PInvoke.User32.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.Windows.Extensions, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.Windows.Extensions.4.0.2\lib\net48\Vanara.Windows.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.Windows.Shell.Common, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.Windows.Shell.Common.4.0.2\lib\net48\Vanara.Windows.Shell.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanara.WPF.Extensions, Version=4.0.2.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vanara.WPF.Extensions.4.0.2\lib\net48\Vanara.WPF.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -292,6 +303,7 @@
     <Compile Include="Core\CustomFunctions.cs" />
     <Compile Include="Helpers\FileSystemWatcherHelper.cs" />
     <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Helpers\ContextMenuHelper.cs" />
     <Compile Include="Messages\CommandMessage.cs" />
     <Compile Include="Messages\NotificationMessage.cs" />
     <Compile Include="Model\FileModelCollection.cs" />
@@ -299,9 +311,12 @@
     <Compile Include="Model\ZipItemModel.cs" />
     <Compile Include="Native\DeviceWatcher.cs" />
     <Compile Include="Native\DirectoryWatcher.cs" />
+    <Compile Include="Native\IContextMenu.cs" />
+    <Compile Include="Native\IShellFolder.cs" />
     <Compile Include="Native\SafeNativeMethods.cs" />
     <Compile Include="Native\OpenFolderDialog.cs" />
     <Compile Include="Native\SearchEverything.cs" />
+    <Compile Include="Native\ShellAPI.cs" />
     <Compile Include="Persistence\Expression.cs" />
     <Compile Include="Persistence\ExtensionMetadata.cs" />
     <Compile Include="Persistence\MenuItem.cs" />

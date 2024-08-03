@@ -260,6 +260,7 @@
     <dxmvvm:Interaction.Behaviors>
         <common:FileModelSortBehavior />
         <common:FileModelGroupBehavior />
+        <common:NativeContextMenuBehavior />
         <common:MouseEventToCommand MouseButton="Middle" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
                                     MarkRoutedEventsAsHandled="True" Command="{Binding OpenInNewTabCommand}" EventArgsConverter="{dx:EventArgsToDataRowConverter}" />
         <common:MouseEventToCommand MouseButton="XButton1" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
