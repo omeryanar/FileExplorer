@@ -145,8 +145,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
@@ -311,12 +309,9 @@
     <Compile Include="Model\ZipItemModel.cs" />
     <Compile Include="Native\DeviceWatcher.cs" />
     <Compile Include="Native\DirectoryWatcher.cs" />
-    <Compile Include="Native\IContextMenu.cs" />
-    <Compile Include="Native\IShellFolder.cs" />
     <Compile Include="Native\SafeNativeMethods.cs" />
     <Compile Include="Native\OpenFolderDialog.cs" />
     <Compile Include="Native\SearchEverything.cs" />
-    <Compile Include="Native\ShellAPI.cs" />
     <Compile Include="Persistence\Expression.cs" />
     <Compile Include="Persistence\ExtensionMetadata.cs" />
     <Compile Include="Persistence\MenuItem.cs" />

@@ -10,6 +10,7 @@
                      ShowBorder="False" ItemsSource="{Binding RootFolders}" CurrentItem="{Binding CurrentFolder}" FixedFilter="{Binding FilterCriteria}">
 
     <dxmvvm:Interaction.Behaviors>
+        <common:NativeContextMenuBehavior />
         <common:MouseEventToCommand MouseButton="Left" Event="PreviewMouseDown" ModifierKeys="Ctrl" PassEventArgsToCommand="True"
                                     MarkRoutedEventsAsHandled="True" Command="{Binding OpenInNewTabCommand}" EventArgsConverter="{dx:EventArgsToDataRowConverter}" />
         <common:MouseEventToCommand MouseButton="Middle" Event="PreviewMouseDown" PassEventArgsToCommand="True" 

@@ -531,7 +531,7 @@ namespace FileExplorer.Core
         private static readonly BitmapImage AddRemoveMenuItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Menu16.png"));
     }
 
-    public class NativeContextMenuBehavior : Behavior<GridControl>
+    public class NativeContextMenuBehavior : Behavior<DataControlBase>
     {
         protected override void OnAttached()
         {
@@ -545,12 +545,35 @@ namespace FileExplorer.Core
         {
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
+                IList<string> filePaths = new List<string>();
                 Point point = AssociatedObject.PointToScreen(e.GetPosition(AssociatedObject));
-                System.Drawing.Point ptInvoke = new System.Drawing.Point((int)point.X, (int)point.Y);
 
-                IEnumerable<FileModel> files = AssociatedObject.SelectedItems.OfType<FileModel>();
-                if (files.Count() > 0)
-                    nativeContextMenuHelper.ShowNativeContextMenu(files.Select(x => x.FullPath).ToList(), ptInvoke);
+                if (AssociatedObject is FileTreeViewControl fileTree)
+                {
+                    FileModel fileModel = fileTree.ClickedItem as FileModel;
+                    if (fileModel == null || fileModel.IsRoot)
+                        return;
+
+                    filePaths.Add(fileModel.FullPath);
+                }
+                else if (AssociatedObject is FileListViewControl fileList)
+                {
+                    if (fileList.SelectedItems.Count > 0)
+                        filePaths = AssociatedObject.SelectedItems.OfType<FileModel>().Select(x => x.FullPath).ToList();
+                    else
+                    {
+                        int rowHandle = fileList.View.GetRowHandleByMouseEventArgs(e);
+                        if (rowHandle > 0)
+                        {
+                            FileModel fileModel = AssociatedObject.GetRow(rowHandle) as FileModel;
+                            if (fileModel != null)
+                                filePaths.Add(fileModel.FullPath);
+                        }
+                    }
+                }
+
+                if (filePaths.Count() > 0)
+                    nativeContextMenuHelper.ShowNativeContextMenu(filePaths, point);
             }
         }
 
