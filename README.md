@@ -31,7 +31,11 @@ You can rename multiple files by using Excel-style formulas.
 
 ![Batch Rename](https://github.com/omeryanar/Resources/blob/master/FileExplorer/BatchRename.png?raw=true)
 
-### Custom Context Menu
+### Standard Windows and Custom Context Menu
+
+File Explorer normally shows its own context menu when you right-click on an item. If you want to display standard Windows context menu, you can right-click on files or folders while pressing CTRL key.
+
+![Windows Context Menu](https://github.com/omeryanar/Resources/blob/master/FileExplorer/WindowsContextMenu.png?raw=true)
 
 You can create your own custom context menu items and specify what will happen when you click them.
 Custom menu items will appear when you right click files and/or folders.
