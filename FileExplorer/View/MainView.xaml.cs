@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using DevExpress.Xpf.Core;
+using FileExplorer.Core;
 using FileExplorer.Properties;
+using FileExplorer.ViewModel;
+using static DevExpress.Xpf.Core.TabbedWindowDocumentUIService;
 
 namespace FileExplorer.View
 {
@@ -23,6 +27,15 @@ namespace FileExplorer.View
             {
                 SetWindowIcon();
                 SetWindowTitle();
+            };
+
+            Closed += (s, e) =>
+            {
+                if (Settings.Default.SaveLastSession && DataContext is MainViewModel viewModel)
+                {
+                    var tabs = viewModel.DocumentManagerService.Documents.OfType<TabbedWindowDocument>().Where(x => x.Window == this).Select(x => x.Content);
+                    TaskbarViewModel.LastClosedWindowSession = tabs.OfType<BrowserTabViewModel>().Select(x => x.CurrentFolder.FullPath).Join(";");
+                }
             };
 
             Settings.Default.PropertyChanged += (s, e) =>
@@ -56,7 +69,7 @@ namespace FileExplorer.View
             if (Settings.Default.StaticTaskbarIcon)
                 SetBinding(IconProperty, new Binding());
             else
-                SetBinding(IconProperty, new Binding("SelectedItem.DataContext.CurrentFolder.MediumIcon") { Source = TabControl });
+                SetBinding(IconProperty, new Binding("SelectedItem.DataContext.CurrentFolder.MediumIcon") { Source = Content });
         }
 
         private void SetWindowTitle()
@@ -64,7 +77,7 @@ namespace FileExplorer.View
             if (Settings.Default.StaticTaskbarTitle)
                 SetBinding(TitleProperty, new Binding() { Source = "File Explorer" });
             else
-                SetBinding(TitleProperty, new Binding("SelectedItem.DataContext.Title") { Source = TabControl });
+                SetBinding(TitleProperty, new Binding("SelectedItem.DataContext.Title") { Source = Content });
         }
 
         private void OnTabDragOver(object sender, DragEventArgs e)

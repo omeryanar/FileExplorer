@@ -108,6 +108,14 @@ namespace FileExplorer
             mainView.Show();
         }
 
+        public static async Task CreateFolderTabs(IEnumerable<string> folders)
+        {
+            MainView mainView = new MainView();
+            mainView.DataContext = ViewModelSource.Create<MainViewModel>();
+
+            await CreateFolderTabs(folders, mainView, true);
+        }
+
         private static async Task PreloadAsync()
         {
             await ApplicationThemeHelper.PreloadAsync(PreloadCategories.Controls, PreloadCategories.Core, PreloadCategories.Docking,
