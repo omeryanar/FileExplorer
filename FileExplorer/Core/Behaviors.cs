@@ -558,12 +558,12 @@ namespace FileExplorer.Core
                 }
                 else if (AssociatedObject is FileListViewControl fileList)
                 {
-                    if (fileList.SelectedItems.Count > 0)
+                    if (fileList.SelectedItems.Count > 1)
                         filePaths = AssociatedObject.SelectedItems.OfType<FileModel>().Select(x => x.FullPath).ToList();
                     else
                     {
                         int rowHandle = fileList.View.GetRowHandleByMouseEventArgs(e);
-                        if (rowHandle > 0)
+                        if (rowHandle >= 0)
                         {
                             FileModel fileModel = AssociatedObject.GetRow(rowHandle) as FileModel;
                             if (fileModel != null)
