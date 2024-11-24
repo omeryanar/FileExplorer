@@ -106,7 +106,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="16" Height="16" Source="{Binding SmallIcon}" />
-                                        <TextBlock Margin="5,0,0,0" Text="{Binding Name}" />
+                                        <TextBlock Margin="5,0,0,0" MaxWidth="200" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </dxe:ListBoxEdit.ItemTemplate>
@@ -115,7 +115,7 @@
                             <TextBlock Margin="20,5" FontSize="16" Text="{StaticResource IconDown}" Style="{StaticResource IconText}" />
                             <StackPanel Margin="4" Orientation="Horizontal">
                                 <Image Width="16" Height="16" Source="{Binding TargetRecord.SmallIcon}" />
-                                <TextBlock Margin="5,0,0,0" Text="{Binding TargetRecord.Name}" />
+                                <TextBlock Margin="5,0,0,0" MaxWidth="200" TextTrimming="CharacterEllipsis" Text="{Binding TargetRecord.Name}" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
