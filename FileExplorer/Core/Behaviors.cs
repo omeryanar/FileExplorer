@@ -462,6 +462,33 @@ namespace FileExplorer.Core
             foreach (MenuSubItemControl subItem in subItems)
                 AssociatedObject.Items.Remove(subItem);
 
+            if (ExpandTreeViewMenuItem == null)
+            {
+                if (AssociatedObject.Owner is GridControl gridControl)
+                {
+                    if (gridControl.View is TreeViewEx treeListView)
+                    {
+                        ExpandTreeViewMenuItem = new BarSubItem { Content = Properties.Resources.Expand, Glyph = ExpandMenuItemGlyph };
+                        KeyGestureConverter keyGestureConverter = new KeyGestureConverter();
+
+                        for (int i = 1; i < 6; i++)
+                        {
+                            BarButtonItem expandButton = new BarButtonItem
+                            {
+                                Content = $"{Properties.Resources.Level} {i}",                                
+                                CommandParameter = i,
+                                KeyGesture = keyGestureConverter.ConvertFromInvariantString($"CTRL+{i}") as KeyGesture
+                            };                            
+                            expandButton.Command = new AsyncCommand(() => treeListView.ExpandToLevel(Convert.ToInt32(expandButton.CommandParameter)));
+
+                            ExpandTreeViewMenuItem.Items.Add(expandButton);
+                        }
+                    }
+                }
+            }
+            else
+                AssociatedObject.Items.Remove(ExpandTreeViewMenuItem);
+
             if (AddRemoveMenuItem == null)
             {
                 AddRemoveMenuItem = new BarButtonItem
@@ -520,15 +547,21 @@ namespace FileExplorer.Core
                 }
             }
 
+            if (ExpandTreeViewMenuItem != null)
+                AssociatedObject.Items.Insert(index, ExpandTreeViewMenuItem);
+
             AssociatedObject.Items.Insert(index, AddRemoveMenuItem);
             AssociatedObject.Items.Insert(index + 1, BarItemSeparator);
         }
 
         private BarButtonItem AddRemoveMenuItem;
 
+        private BarSubItem ExpandTreeViewMenuItem;
+
         private BarItemSeparator BarItemSeparator;
 
         private static readonly BitmapImage AddRemoveMenuItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Menu16.png"));
+        private static readonly BitmapImage ExpandMenuItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Subfolders16.png"));
     }
 
     public class NativeContextMenuBehavior : Behavior<DataControlBase>

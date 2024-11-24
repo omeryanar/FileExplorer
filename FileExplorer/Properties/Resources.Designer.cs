@@ -646,6 +646,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expand.
+        /// </summary>
+        public static string Expand {
+            get {
+                return ResourceManager.GetString("Expand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expand To Open Folder.
         /// </summary>
         public static string ExpandToOpenFolder {
@@ -962,6 +971,15 @@ namespace FileExplorer.Properties {
         public static string LayoutSaveSuccessful {
             get {
                 return ResourceManager.GetString("LayoutSaveSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Level.
+        /// </summary>
+        public static string Level {
+            get {
+                return ResourceManager.GetString("Level", resourceCulture);
             }
         }
         

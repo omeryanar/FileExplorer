@@ -758,4 +758,10 @@ Enable this option to sort them all together.</value>
     <value>Virtualization improves performance when scrolling the contents of folders containing large numbers of files or folders.
 When scrolling, the blur effect is shown while files and folders are loading in the background.</value>
   </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
 </root>

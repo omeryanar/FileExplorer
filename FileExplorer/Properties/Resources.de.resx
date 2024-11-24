@@ -758,4 +758,10 @@ Aktivieren Sie diese Option, um sie alle zusammen zu sortieren.</value>
     <value>Die Virtualisierung verbessert die Leistung beim Scrollen durch den Inhalt von Ordnern, die eine große Anzahl von Dateien oder Ordnern enthalten.
 Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner im Hintergrund geladen werden.</value>
   </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Erweitern</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Ebene</value>
+  </data>
 </root>

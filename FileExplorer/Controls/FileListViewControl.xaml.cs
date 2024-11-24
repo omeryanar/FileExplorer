@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -10,6 +12,8 @@ using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Grid;
 using FileExplorer.Core;
+using FileExplorer.Helpers;
+using FileExplorer.Model;
 using FileExplorer.Persistence;
 
 namespace FileExplorer.Controls
@@ -301,5 +305,100 @@ namespace FileExplorer.Controls
         private object OldClickedItem;
 
         private long FocusTime;
+    }
+
+    public class TableViewEx : TableView
+    {
+        protected override void UpdateAfterIncrementalSearch()
+        {
+            base.UpdateAfterIncrementalSearch();
+
+            if (TextSearchEngineRoot.MatchedItemIndex != null && TextSearchEngineRoot.MatchedItemIndex.RowIndex == FocusedRowHandle)
+                DataControl.SelectedItem = DataControl.CurrentItem;
+        }
+    }
+
+    public class CardViewEx : CardView
+    {
+        protected override void UpdateAfterIncrementalSearch()
+        {
+            base.UpdateAfterIncrementalSearch();
+
+            if (TextSearchEngineRoot.MatchedItemIndex != null && TextSearchEngineRoot.MatchedItemIndex.RowIndex == FocusedRowHandle)
+                DataControl.SelectedItem = DataControl.CurrentItem;
+        }
+    }
+
+    public class TreeViewEx : TreeListView
+    {
+        protected override void UpdateAfterIncrementalSearch()
+        {
+            base.UpdateAfterIncrementalSearch();
+
+            if (TextSearchEngineRoot.MatchedItemIndex != null && TextSearchEngineRoot.MatchedItemIndex.RowIndex == FocusedRowHandle)
+                DataControl.SelectedItem = DataControl.CurrentItem;
+        }
+
+        public new async Task ExpandToLevel(int level)
+        {
+            TreeListNode[] nodes = Nodes.ToArray();
+
+            IList<TreeListRowInfo> selectedNodes = GetSelectedRows();
+            if (selectedNodes.Count > 0)
+                nodes = selectedNodes.Select(x => x.Node).ToArray();
+
+            try
+            {
+                BeginDataUpdate(false);
+
+                foreach (TreeListNode node in nodes)
+                    await LoadChildren(node.Content as FileModel, level);
+            }
+            finally
+            {
+                EndDataUpdate();
+            }
+
+            ExpandToLevel(nodes, level);
+        }
+
+        private async Task LoadChildren(FileModel fileModel, int level)
+        {
+            if (fileModel == null)
+                return;
+
+            bool refresh = false;
+            if (fileModel.Files == null)
+            {
+                refresh = true;
+                fileModel.Files = await FileSystemHelper.GetFiles(fileModel);
+            }
+            if (fileModel.Folders == null)
+            {
+                refresh = true;
+                fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
+            }
+
+            if (refresh)
+                fileModel.Content = new FileModelReadOnlyCollection(fileModel.Folders, fileModel.Files);
+
+            if (level > 0)
+            {
+                foreach (FileModel childModel in fileModel.Folders)
+                    await LoadChildren(childModel, level - 1);
+            }
+        }
+
+        private void ExpandToLevel(IEnumerable nodes, int level)
+        {
+            List<TreeListNode> treeListNodes = nodes.OfType<TreeListNode>().ToList();
+            foreach (TreeListNode node in treeListNodes)
+            {
+                node.IsExpanded = true;
+
+                ExpandToLevel(node.Nodes, level);
+                node.IsExpanded = level > node.Level;
+            }
+        }
     }
 }

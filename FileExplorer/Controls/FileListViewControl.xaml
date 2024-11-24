@@ -10,6 +10,7 @@
                  xmlns:dxfui="http://schemas.devexpress.com/winfx/2008/xaml/core/filteringui"
                  xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                  xmlns:common="clr-namespace:FileExplorer.Core"
+                 xmlns:controls="clr-namespace:FileExplorer.Controls"
                  xmlns:settings="clr-namespace:FileExplorer.Properties"
                  SelectionMode="Row" AutoExpandAllGroups="True" AllowInitiallyFocusedRow="False" ShowLoadingPanel="{Binding IsLoading}" ClipboardCopyMode="None"
                  dx:DXSerializer.StoreLayoutMode="All" dxg:GridSerializationOptions.AddNewColumns="False" dxg:GridSerializationOptions.RemoveOldColumns="False">
@@ -142,20 +143,20 @@
             <Border BorderThickness="1" BorderBrush="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=BorderFocusedBrush}}" />
         </ControlTemplate>
         <ControlTemplate x:Key="FocusedCardBorderTemplate" />
-        <dxg:TableView x:Key="ListView" AllowEditing="False" AllowMergedGrouping="True" AllowConditionalFormattingMenu="True"
-                       AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
-                       ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
-                       ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
-                       ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
-                       ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
-                       HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
-                       ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
-                       AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
-                       ShowIndicator="{DXBinding 'Settings.ShowRowNumbers and Layout==$common:Layout.Details'}"
-                       IndicatorWidth="{DXBinding '(@a($dxg:GridControl).VisibleRowCount.ToString().Length * 6) + 12'}"                                   
-                       EditFormPostConfirmation="None" EditFormPostMode="Immediate" NavigationStyle="Row"
-                       ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
-                       EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={common:BooleanToEditFormShowModeConverter Inverse=True}}">
+        <controls:TableViewEx x:Key="ListView" AllowEditing="False" AllowMergedGrouping="True" AllowConditionalFormattingMenu="True"
+                              AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
+                              ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
+                              ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                              ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
+                              ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
+                              HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
+                              ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
+                              AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
+                              ShowIndicator="{DXBinding 'Settings.ShowRowNumbers and Layout==$common:Layout.Details'}"
+                              IndicatorWidth="{DXBinding '(@a($dxg:GridControl).VisibleRowCount.ToString().Length * 6) + 12'}"                                   
+                              EditFormPostConfirmation="None" EditFormPostMode="Immediate" NavigationStyle="Row"
+                              ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
+                              EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={common:BooleanToEditFormShowModeConverter Inverse=True}}">
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomColumnBehavior />
                 <common:AllowDragDropBehavior />
@@ -176,34 +177,34 @@
                     <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding RowHandle.Value, Converter={common:RowHandleToRowNumberConverter}}" />
                 </DataTemplate>
             </dxg:TableView.RowIndicatorContentTemplate>
-        </dxg:TableView>
-        <dxg:CardView x:Key="CardView" AllowEditing="False" AllowMergedGrouping="True"
-                      AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
-                      ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
-                      ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
-                      ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
-                      ScrollViewer.IsDeferredScrollingEnabled="True" EnableImmediatePosting="True" NavigationStyle="Row"
-                      SeparatorThickness="0" CardMargin="0" Style="{StaticResource CardViewStyle}" FocusedCardBorderTemplate="{StaticResource FocusedCardBorderTemplate}">
+        </controls:TableViewEx>
+        <controls:CardViewEx x:Key="CardView" AllowEditing="False" AllowMergedGrouping="True"
+                             AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
+                             ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
+                             ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                             ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
+                             ScrollViewer.IsDeferredScrollingEnabled="True" EnableImmediatePosting="True" NavigationStyle="Row"
+                             SeparatorThickness="0" CardMargin="0" Style="{StaticResource CardViewStyle}" FocusedCardBorderTemplate="{StaticResource FocusedCardBorderTemplate}">
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomColumnBehavior />
                 <common:AllowDragDropBehavior />
                 <common:SortOrderOnHeaderClickBehavior />
                 <common:DragDropFilesBehavior CurrentFolderPath="{Binding CurrentFolder.FullPath}" />
             </dxmvvm:Interaction.Behaviors>
-        </dxg:CardView>
-        <dxg:TreeListView x:Key="TreeView" AllowEditing="False" AllowConditionalFormattingMenu="True"
-                          AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"                                    
-                          ShowFocusedRectangle="False" ShowFixedTotalSummary="True"
-                          ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
-                          ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
-                          ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
-                          ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
-                          AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
-                          TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Content" AllowChildNodeSourceUpdates="True"
-                          HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False" PrintExpandButtons="False"
-                          EditFormPostConfirmation="None" EditFormPostMode="Immediate"
-                          ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
-                          EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={common:BooleanToEditFormShowModeConverter Inverse=True}}">
+        </controls:CardViewEx>
+        <controls:TreeViewEx x:Key="TreeView" AllowEditing="False" AllowConditionalFormattingMenu="True"
+                             AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"                                    
+                             ShowFocusedRectangle="False" ShowFixedTotalSummary="True"
+                             ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
+                             ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
+                             ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
+                             ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
+                             AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
+                             TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Content" AllowChildNodeSourceUpdates="True"
+                             HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False" PrintExpandButtons="False"
+                             EditFormPostConfirmation="None" EditFormPostMode="Immediate"
+                             ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
+                             EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={common:BooleanToEditFormShowModeConverter Inverse=True}}">
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomColumnBehavior />
                 <common:DragDropFilesBehavior />
@@ -219,7 +220,7 @@
                                    Command="{DXCommand 'DataControl.CopySelectedRowsToClipboard()'}" />
                 <dxb:BarItemSeparator dxb:BarItemLinkActionBase.ItemLinkIndex="3" />
             </dxg:TreeListView.ColumnMenuCustomizations>
-        </dxg:TreeListView>
+        </controls:TreeViewEx>
         <DXDataTemplateSelector x:Key="FileSizeTemplateSelector">
             <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDrive}" Value="True">
                 <DataTemplate>
