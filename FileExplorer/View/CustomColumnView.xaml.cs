@@ -1,8 +1,8 @@
-﻿using DevExpress.Xpf.Core;
+﻿using System.Windows.Controls;
 
 namespace FileExplorer.View
 {
-    public partial class CustomColumnView : DXWindow
+    public partial class CustomColumnView : UserControl
     {
         public CustomColumnView()
         {

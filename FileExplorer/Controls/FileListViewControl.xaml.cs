@@ -211,6 +211,13 @@ namespace FileExplorer.Controls
                 dialogService.ShowDialog(MessageButton.OK, Properties.Resources.ManageSavedLayouts, "ManageLayoutView", App.Repository.FolderLayouts);
         }
 
+        public void ShowCustomMenuDialog()
+        {
+            IDialogService dialogService = DataContext.GetService<IDialogService>();
+            if (dialogService != null)
+                dialogService.ShowDialog(MessageButton.OK, Properties.Resources.CustomMenuItems, "CustomMenuView", App.Repository.MenuItems);
+        }
+
         protected override void InitiallyFocusedRowAfterFiltering(object row)
         {
             base.InitiallyFocusedRowAfterFiltering(row);
@@ -339,7 +346,7 @@ namespace FileExplorer.Controls
                 DataControl.SelectedItem = DataControl.CurrentItem;
         }
 
-        public new async Task ExpandToLevel(int level)
+        public async Task ExpandToLevelAsync(int level)
         {
             TreeListNode[] nodes = Nodes.ToArray();
 

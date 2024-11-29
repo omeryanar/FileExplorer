@@ -363,6 +363,9 @@
                 <common:CustomMenuBehavior CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}" />
             </dxmvvm:Interaction.Behaviors>
             <dxb:PopupMenu.ItemLinks>
+                <dxb:BarButtonItemLink BarItemName="AddRemoveMenuItems" />
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarSubItemLink BarItemName="ExpandToLevel" />
                 <dxb:BarButtonItemLink BarItemName="PinToQuickAccess" />
                 <dxb:BarButtonItemLink BarItemName="UnpinFromQuickAccess" />
                 <dxb:BarButtonItemLink BarItemName="Copy" />

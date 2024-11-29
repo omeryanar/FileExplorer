@@ -1,8 +1,8 @@
-﻿using DevExpress.Xpf.Core;
+﻿using System.Windows.Controls;
 
 namespace FileExplorer.View
 {
-    public partial class CustomMenuView : DXWindow
+    public partial class CustomMenuView : UserControl
     {
         public CustomMenuView()
         {

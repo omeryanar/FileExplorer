@@ -298,7 +298,7 @@
                                               Glyph="/Assets/Images/ShowCheckBoxes16.png" LargeGlyph="/Assets/Images/ShowCheckBoxes32.png" />
                             <dxb:BarCheckItem Content="{Binding ShowRowNumbers, Source={StaticResource ResourceProvider}}"
                                               IsChecked="{Binding Settings.ShowRowNumbers}" IsVisible="{DXBinding 'Layout==$common:Layout.Details'}"
-                                              Glyph="/Assets/Images/ShowRowNumbers16.png" LargeGlyph="/Assets/Images/ShowRowNumbers32.png" />
+                                              Glyph="/Assets/Images/ShowRowNumbers16.png" LargeGlyph="/Assets/Images/ShowRowNumbers32.png" />                            
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Caption="{Binding RowsColumns, Source={StaticResource ResourceProvider}}">
                             <dxb:BarSubItem Content="{Binding SortBy, Source={StaticResource ResourceProvider}}"
@@ -412,6 +412,21 @@
                                                Glyph="/Assets/Images/OpenFolder16.png" LargeGlyph="/Assets/Images/OpenFolder32.png" />
                             <dxb:BarButtonItem Content="{Binding Close, Source={StaticResource ResourceProvider}}" Command="{DXCommand 'SearchText = ``'}"
                                                Glyph="/Assets/Images/Delete16.png" LargeGlyph="/Assets/Images/Delete32.png" />
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                </dxr:RibbonPageCategory>
+                <dxr:RibbonPageCategory IsVisible="False">
+                    <dxr:RibbonPage>
+                        <dxr:RibbonPageGroup>
+                            <dxb:BarButtonItem x:Name="AddRemoveMenuItems" Content="{Binding AddRemoveMenuItems, Source={StaticResource ResourceProvider}}"
+                                               Glyph="/Assets/Images/Menu16.png" LargeGlyph="/Assets/Images/Menu32.png" Command="{DXCommand '@ElementName(FileList).ShowCustomMenuDialog()'}" />
+                            <dxb:BarSubItem x:Name="ExpandToLevel" Content="{Binding Expand, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Subfolders16.png" LargeGlyph="/Assets/Images/Subfolders32.png">
+                                <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 1`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(1)'}" KeyGesture="CTRL + 1" />
+                                <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 2`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(2)'}" KeyGesture="CTRL + 2" />
+                                <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 3`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(3)'}" KeyGesture="CTRL + 3" />
+                                <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 4`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(4)'}" KeyGesture="CTRL + 4" />
+                                <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 5`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(5)'}" KeyGesture="CTRL + 5" />
+                            </dxb:BarSubItem>
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonPageCategory>

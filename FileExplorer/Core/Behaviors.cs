@@ -24,7 +24,6 @@ using FileExplorer.Helpers;
 using FileExplorer.Model;
 using FileExplorer.Native;
 using FileExplorer.Properties;
-using FileExplorer.View;
 using FileExplorer.ViewModel;
 
 namespace FileExplorer.Core
@@ -462,58 +461,6 @@ namespace FileExplorer.Core
             foreach (MenuSubItemControl subItem in subItems)
                 AssociatedObject.Items.Remove(subItem);
 
-            if (ExpandTreeViewMenuItem == null)
-            {
-                if (AssociatedObject.Owner is GridControl gridControl)
-                {
-                    if (gridControl.View is TreeViewEx treeListView)
-                    {
-                        ExpandTreeViewMenuItem = new BarSubItem { Content = Properties.Resources.Expand, Glyph = ExpandMenuItemGlyph };
-                        KeyGestureConverter keyGestureConverter = new KeyGestureConverter();
-
-                        for (int i = 1; i < 6; i++)
-                        {
-                            BarButtonItem expandButton = new BarButtonItem
-                            {
-                                Content = $"{Properties.Resources.Level} {i}",                                
-                                CommandParameter = i,
-                                KeyGesture = keyGestureConverter.ConvertFromInvariantString($"CTRL+{i}") as KeyGesture
-                            };                            
-                            expandButton.Command = new AsyncCommand(() => treeListView.ExpandToLevel(Convert.ToInt32(expandButton.CommandParameter)));
-
-                            ExpandTreeViewMenuItem.Items.Add(expandButton);
-                        }
-                    }
-                }
-            }
-            else
-                AssociatedObject.Items.Remove(ExpandTreeViewMenuItem);
-
-            if (AddRemoveMenuItem == null)
-            {
-                AddRemoveMenuItem = new BarButtonItem
-                {
-                    Content = Properties.Resources.AddRemoveMenuItems,
-                    Glyph = AddRemoveMenuItemGlyph,
-                    Command = new DelegateCommand(() =>
-                    {
-                        CustomMenuView customMenuView = new CustomMenuView
-                        {
-                            DataContext = App.Repository.MenuItems,
-                            Owner = Window.GetWindow(AssociatedObject)
-                        };
-                        customMenuView.ShowDialog();
-                    })
-                };
-            }
-            else
-                AssociatedObject.Items.Remove(AddRemoveMenuItem);
-
-            if (BarItemSeparator == null)
-                BarItemSeparator = new BarItemSeparator();
-            else
-                AssociatedObject.Items.Remove(BarItemSeparator);
-
             int index = 0;
             foreach (Persistence.MenuItem menuItem in App.Repository.MenuItems)
             {
@@ -546,22 +493,7 @@ namespace FileExplorer.Core
                     subItem.Items.Add(menuItemControl);
                 }
             }
-
-            if (ExpandTreeViewMenuItem != null)
-                AssociatedObject.Items.Insert(index, ExpandTreeViewMenuItem);
-
-            AssociatedObject.Items.Insert(index, AddRemoveMenuItem);
-            AssociatedObject.Items.Insert(index + 1, BarItemSeparator);
         }
-
-        private BarButtonItem AddRemoveMenuItem;
-
-        private BarSubItem ExpandTreeViewMenuItem;
-
-        private BarItemSeparator BarItemSeparator;
-
-        private static readonly BitmapImage AddRemoveMenuItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Menu16.png"));
-        private static readonly BitmapImage ExpandMenuItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Subfolders16.png"));
     }
 
     public class NativeContextMenuBehavior : Behavior<DataControlBase>
@@ -644,12 +576,9 @@ namespace FileExplorer.Core
                         };
                         Grid.Columns.Add(gridColumn);
 
-                        CustomColumnView customColumnView = new CustomColumnView
-                        {
-                            DataContext = gridColumn,
-                            Owner = Window.GetWindow(AssociatedObject)
-                        };
-                        customColumnView.ShowDialog();
+                        IDialogService dialogService = AssociatedObject.DataContext.GetService<IDialogService>();
+                        if (dialogService != null)
+                            dialogService.ShowDialog(MessageButton.OK, Properties.Resources.CustomColumn, "CustomColumnView", gridColumn);
                     })
                 });
 
@@ -671,12 +600,9 @@ namespace FileExplorer.Core
                         Glyph = EditCustomColumnItemGlyph,
                         Command = new DelegateCommand(() =>
                         {
-                            CustomColumnView customColumnView = new CustomColumnView
-                            {
-                                DataContext = e.MenuInfo.Column,
-                                Owner = Window.GetWindow(AssociatedObject)
-                            };
-                            customColumnView.ShowDialog();
+                            IDialogService dialogService = AssociatedObject.DataContext.GetService<IDialogService>();
+                            if (dialogService != null)
+                                dialogService.ShowDialog(MessageButton.OK, Properties.Resources.CustomColumn, "CustomColumnView", e.MenuInfo.Column);
                         })
                     });
                 }
