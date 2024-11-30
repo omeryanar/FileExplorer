@@ -63,7 +63,6 @@ namespace FileExplorer.Core
 
             AssociatedObject.NodeExpanding += AssociatedObject_NodeExpanding;
             AssociatedObject.NodeCollapsing += AssociatedObject_NodeCollapsing;
-            AssociatedObject.CanSelectRow += AssociatedObject_CanSelectRow;
             AssociatedObject.CustomColumnSort += AssociatedObject_CustomColumnSort;
             AssociatedObject.EndSorting += AssociatedObject_EndSorting;
         }        
@@ -100,7 +99,6 @@ namespace FileExplorer.Core
                     AssociatedObject.DataControl.Focus();
 
                     object row = AssociatedObject.DataControl.GetRow(hitInfo.RowHandle);
-                    UnselectDifferentParent(row);
 
                     if (AssociatedObject.DataControl.SelectedItems.Contains(row))
                         AssociatedObject.DataControl.SelectedItems.Remove(row);
@@ -130,12 +128,7 @@ namespace FileExplorer.Core
         private void AssociatedObject_NodeCollapsing(object sender, TreeListNodeAllowEventArgs e)
         {
             SynchronizeFocusedNode(e.Node);
-        }
-
-        private void AssociatedObject_CanSelectRow(object sender, CanSelectRowEventArgs e)
-        {
-            UnselectDifferentParent(e.Row);
-        }        
+        }      
 
         private void AssociatedObject_CustomColumnSort(object sender, TreeListCustomColumnSortEventArgs e)
         {
@@ -209,15 +202,6 @@ namespace FileExplorer.Core
                 AssociatedObject.FocusedNode = node;
                 AssociatedObject.DataControl.SelectedItem = node.Content;
             }
-        }
-
-        private void UnselectDifferentParent(object row)
-        {
-            FileModel selection1 = AssociatedObject.DataControl.SelectedItem as FileModel;
-            FileModel selection2 = row as FileModel;
-
-            if (selection1 != null && selection2 != null && selection1.ParentPath.OrdinalEquals(selection2.ParentPath) == false)
-                AssociatedObject.DataControl.SelectedItems.Clear();
         }
 
         private Window MainWindow;
