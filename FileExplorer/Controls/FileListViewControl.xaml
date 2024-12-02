@@ -207,6 +207,7 @@
                              EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={common:BooleanToEditFormShowModeConverter Inverse=True}}">
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomColumnBehavior />
+                <common:AllowDragDropBehavior />
                 <common:DragDropFilesBehavior />
                 <common:FileModelTreeViewBehavior />
                 <common:SortOrderOnHeaderClickBehavior />

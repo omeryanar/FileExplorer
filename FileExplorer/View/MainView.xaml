@@ -44,8 +44,22 @@
                         <Setter Property="SelectedBackgroundTemplate">
                             <Setter.Value>
                                 <DataTemplate>
-                                    <dxi:TabBorder ViewInfo="{Binding}" BorderBackground="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveBackground}}" BorderBrush="{DynamicResource {dxt:LWKey FlyoutControl.BorderBrush}}"
-                                                   BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2" />
+                                    <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
+                                                   BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"
+                                                   BorderBrush="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveContentBorderBrush}}"
+                                                   BorderBackground="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveHeaderBackground}}" />
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{DXBinding '@s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`Win10`)'}" Value="True">
+                        <Setter Property="SelectedBackgroundTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
+                                                   BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"
+                                                   BorderBrush="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveContentBorderBrush}}"
+                                                   BorderBackground="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveHeaderBackground}}" />
                                 </DataTemplate>
                             </Setter.Value>
                         </Setter>
@@ -54,8 +68,10 @@
                         <Setter Property="SelectedBackgroundTemplate">
                             <Setter.Value>
                                 <DataTemplate>
-                                    <dxi:TabBorder ViewInfo="{Binding}" BorderBackground="{DynamicResource {dxt:LWKey FlyoutControl.Background}}" BorderBrush="{DynamicResource {dxt:LWKey FlyoutControl.BorderBrush}}"
-                                                   BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2" />
+                                    <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
+                                                   BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"
+                                                   BorderBrush="{DynamicResource {dxt:LWKey FlyoutControl.BorderBrush}}"
+                                                   BorderBackground="{DynamicResource {dxt:LWKey FlyoutControl.Background}}" />
                                 </DataTemplate>
                             </Setter.Value>
                         </Setter>
