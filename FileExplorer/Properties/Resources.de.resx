@@ -764,4 +764,10 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="Level" xml:space="preserve">
     <value>Ebene</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Gesampt</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Ausgewählt</value>
+  </data>
 </root>

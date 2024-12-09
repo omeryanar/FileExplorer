@@ -420,7 +420,8 @@
                         <dxr:RibbonPageGroup>
                             <dxb:BarButtonItem x:Name="AddRemoveMenuItems" Content="{Binding AddRemoveMenuItems, Source={StaticResource ResourceProvider}}"
                                                Glyph="/Assets/Images/Menu16.png" LargeGlyph="/Assets/Images/Menu32.png" Command="{DXCommand '@ElementName(FileList).ShowCustomMenuDialog()'}" />
-                            <dxb:BarSubItem x:Name="ExpandToLevel" Content="{Binding Expand, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Subfolders16.png" LargeGlyph="/Assets/Images/Subfolders32.png">
+                            <dxb:BarSubItem x:Name="ExpandToLevel" Content="{Binding Expand, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Images/Subfolders16.png" LargeGlyph="/Assets/Images/Subfolders32.png"
+                                            IsVisible="{DXBinding 'Layout==$common:Layout.Content'}" IsEnabled="{DXBinding '@ElementName(FileList).SelectedItem.IsDirectory'}">                               
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 1`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(1)'}" KeyGesture="CTRL + 1" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 2`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(2)'}" KeyGesture="CTRL + 2" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 3`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(3)'}" KeyGesture="CTRL + 3" />

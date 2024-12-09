@@ -664,7 +664,10 @@ namespace FileExplorer.Core
             }
             else
             {
-                ShowSelectionRectangle();
+                if (hitInfo != null && hitInfo.IsDataArea)
+                    ShowSelectionRectangle();
+                else
+                    AllowDragDrop();
             }
         }
 

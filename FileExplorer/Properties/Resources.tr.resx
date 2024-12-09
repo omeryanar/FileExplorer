@@ -764,4 +764,10 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="Level" xml:space="preserve">
     <value>Seviye</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Toplam</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Seçili</value>
+  </data>
 </root>
