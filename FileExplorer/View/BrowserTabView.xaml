@@ -218,7 +218,7 @@
                     <dxr:RibbonPage Caption="{Binding View, Source={StaticResource ResourceProvider}}">
                         <dxr:RibbonPageGroup Caption="{Binding Panes, Source={StaticResource ResourceProvider}}">
                             <dxb:BarSplitButtonItem Content="{Binding NavigationPane, Source={StaticResource ResourceProvider}}" ActAsDropDown="True"
-                                              Glyph="/Assets/Images/NavigationPane16.png" LargeGlyph="/Assets/Images/NavigationPane32.png">
+                                                    Glyph="/Assets/Images/NavigationPane16.png" LargeGlyph="/Assets/Images/NavigationPane32.png">
                                 <dxb:PopupMenu>
                                     <dxb:BarCheckItem Content="{Binding ShowNavigationPane, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.ShowNavigationPane}" />
                                     <dxb:BarCheckItem Content="{Binding ExpandToOpenFolder, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.ExpandFocusedNode}" />
@@ -305,10 +305,11 @@
                                             ItemLinksSource="{Binding Columns, ElementName=FileList}" Glyph="/Assets/Images/Sort16.png" LargeGlyph="/Assets/Images/Sort32.png">
                                 <dxb:BarSubItem.ItemTemplate>
                                     <DataTemplate>
-                                        <ContentControl>
+                                        <dxb:BarLinkContainerItem>
+                                            <dxb:BarItemSeparator IsVisible="{DXBinding 'Tag == `StartNewGroup`'}" />
                                             <dxb:BarCheckItem Content="{Binding Header}" IsVisible="{Binding ShowInColumnChooser, Mode=OneWay}" IsChecked="{Binding IsSorted, Mode=OneWay}"
                                                               Glyph="{Binding SortOrder, Converter={StaticResource ColumnSortOrderToIconConverter}}" Command="{Binding Commands.ChangeColumnSortOrder}" />
-                                        </ContentControl>
+                                        </dxb:BarLinkContainerItem>
                                     </DataTemplate>
                                 </dxb:BarSubItem.ItemTemplate>
                             </dxb:BarSubItem>
@@ -316,10 +317,11 @@
                                             ItemLinksSource="{Binding Columns, ElementName=FileList}" Glyph="/Assets/Images/Group16.png">
                                 <dxb:BarSubItem.ItemTemplate>
                                     <DataTemplate>
-                                        <ContentControl>
+                                        <dxb:BarLinkContainerItem>
+                                            <dxb:BarItemSeparator IsVisible="{DXBinding 'Tag == `StartNewGroup`'}" />
                                             <dxb:BarCheckItem Content="{Binding Header}" IsVisible="{Binding ShowInColumnChooser, Mode=OneWay}" IsChecked="{Binding IsGrouped, Mode=OneWay}" 
                                                               Command="{DXCommand 'View.DataControl.ToggleGrouping(FieldName)'}" />
-                                        </ContentControl>
+                                        </dxb:BarLinkContainerItem>
                                     </DataTemplate>
                                 </dxb:BarSubItem.ItemTemplate>
                             </dxb:BarSubItem>
@@ -327,9 +329,10 @@
                                             ItemLinksSource="{Binding Columns, ElementName=FileList}" Glyph="/Assets/Images/AddColumn16.png">
                                 <dxb:BarSubItem.ItemTemplate>
                                     <DataTemplate>
-                                        <ContentControl>
-                                            <dxb:BarCheckItem Content="{Binding Header}" IsVisible="{Binding ShowInColumnChooser, Mode=OneWay}" IsChecked="{Binding Visible}" />
-                                        </ContentControl>
+                                        <dxb:BarLinkContainerItem>
+                                            <dxb:BarItemSeparator IsVisible="{DXBinding 'Tag == `StartNewGroup`'}" />
+                                            <dxb:BarCheckItem Content="{Binding Header}" IsVisible="{Binding ShowInColumnChooser, Mode=OneWay}" IsChecked="{Binding Visible}" CloseSubMenuOnClick="False" />
+                                        </dxb:BarLinkContainerItem>
                                     </DataTemplate>
                                 </dxb:BarSubItem.ItemTemplate>
                             </dxb:BarSubItem>
@@ -533,7 +536,6 @@
                         <dxlc:LayoutGroup Orientation="Vertical" Padding="10" DataContext="{Binding CurrentItem, ElementName=FileList}"
                                           Visibility="{Binding Converter={common:ObjectToVisibilityConverter}}">
                             <TextBlock FontSize="16" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding FullName}" />
-                            <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding FullPath}" ToolTip="{Binding FullPath}" />
                             <TextBlock Text="{Binding Description}" />
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Visibility="{Binding IsDrive, Converter={dxmvvm:BooleanToVisibilityConverter}}">
@@ -546,25 +548,107 @@
                                                  Maximum="{Binding Size}" EditValue="{DXBinding 'Size - FreeSpace', Mode=OneWay}"
                                                  Visibility="{Binding IsDrive, Converter={dxmvvm:BooleanToVisibilityConverter}}">
                             </dxe:ProgressBarEdit>
-                            <Image RenderOptions.BitmapScalingMode="HighQuality" Stretch="None" HorizontalAlignment="Left" Source="{Binding ExtraLargeIcon}" />
-                            <dxlc:LayoutGroup Orientation="Vertical">
+                            <Grid ClipToBounds="True">
+                                <Image RenderOptions.BitmapScalingMode="HighQuality" MaxHeight="300" StretchDirection="DownOnly" HorizontalAlignment="Left">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Setter Property="Source" Value="{Binding ExtraLargeIcon}" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsAudio}" Value="True" />
+                                                        <Condition Binding="{Binding Picture, Converter={dxmvvm:ObjectToBooleanConverter}}" Value="True" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Source" Value="{Binding Picture}" />
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </Grid>
+                            <dxlc:LayoutGroup Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemLabelsAlignment="Local">
                                 <dxlc:LayoutGroup.Resources>
                                     <Style TargetType="dxe:TextEdit">
                                         <Setter Property="FontWeight" Value="Bold" />
                                         <Setter Property="IsReadOnly" Value="True" />
                                         <Setter Property="ShowBorder" Value="False" />
-                                        <Setter Property="DisplayFormatString" Value="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
                                     </Style>
-                                </dxlc:LayoutGroup.Resources>
+                                </dxlc:LayoutGroup.Resources>                                
                                 <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
-                                    <dxe:TextEdit EditValue="{Binding DateCreated}" />
+                                    <dxe:TextEdit EditValue="{Binding DateCreated}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
                                 </dxlc:LayoutItem>
                                 <dxlc:LayoutItem Label="{Binding DateModified, Source={StaticResource ResourceProvider}}">
-                                    <dxe:TextEdit EditValue="{Binding DateModified}" />
+                                    <dxe:TextEdit EditValue="{Binding DateModified}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
                                 </dxlc:LayoutItem>
                                 <dxlc:LayoutItem Label="{Binding DateAccessed, Source={StaticResource ResourceProvider}}">
-                                    <dxe:TextEdit EditValue="{Binding DateAccessed}" />
+                                    <dxe:TextEdit EditValue="{Binding DateAccessed}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
                                 </dxlc:LayoutItem>
+                                <dxlc:LayoutGroup Orientation="Vertical">
+                                    <dxlc:LayoutGroup.Visibility>
+                                        <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
+                                            <Binding Path="IsImage" />
+                                            <Binding Path="IsVideo" />
+                                        </MultiBinding>
+                                    </dxlc:LayoutGroup.Visibility>
+                                    <dxlc:GroupSeparator />
+                                    <dxlc:LayoutItem Label="{Binding Width, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Width, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding Height, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Height, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+                                <dxlc:LayoutGroup Orientation="Vertical">
+                                    <dxlc:LayoutGroup.Visibility>
+                                        <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
+                                            <Binding Path="IsVideo" />
+                                            <Binding Path="IsAudio" />
+                                        </MultiBinding>
+                                    </dxlc:LayoutGroup.Visibility>
+                                    <dxlc:GroupSeparator />
+                                    <dxlc:LayoutItem Label="{Binding Duration, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Duration, Mode=OneWay}" DisplayFormatString="{}{0:hh\:mm\:ss}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding AudioBitrate, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding AudioBitrate, Mode=OneWay}" DisplayFormatString="{}{0} kbps" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding AudioChannels, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding AudioChannels, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding AudioSampleRate, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding AudioSampleRate, Mode=OneWay}" DisplayFormatString="{}{0:N0} Hz" />
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+                                <dxlc:LayoutGroup Orientation="Vertical" Visibility="{Binding IsAudio, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+                                    <dxlc:GroupSeparator />
+                                    <dxlc:LayoutItem Label="{Binding Album, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Album, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding Title, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Title, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding Genre, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Genre, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding AlbumArtists, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding AlbumArtists, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding ContributingArtists, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding ContributingArtists, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding Composers, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Composers, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding Year, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Year, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding Track, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding Track, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{Binding TrackCount, Source={StaticResource ResourceProvider}}">
+                                        <dxe:TextEdit EditValue="{Binding TrackCount, Mode=OneWay}" />
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
                             </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                     </dxlc:LayoutGroup>

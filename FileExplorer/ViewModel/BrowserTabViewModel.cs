@@ -257,8 +257,11 @@ namespace FileExplorer.ViewModel
             {
                 IsLoading = true;
 
+                IList<string> visibleFields = DataUpdateService?.GetVisibleFields();
+                bool readMediaInfo = visibleFields?.Any(x => FileModel.MediaInfoFields.Contains(x)) == true;
+
                 if (CurrentFolder.Files == null)
-                    CurrentFolder.Files = await FileSystemHelper.GetFiles(CurrentFolder);
+                    CurrentFolder.Files = await FileSystemHelper.GetFiles(CurrentFolder, readMediaInfo);
                 if (CurrentFolder.Folders == null)
                     CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
 
@@ -333,7 +336,10 @@ namespace FileExplorer.ViewModel
             {
                 DataUpdateService.BeginUpdate();
 
-                FileModelCollection results = await FileSystemHelper.SearchFolder(path, SearchText, cancellationToken);
+                IList<string> visibleFields = DataUpdateService?.GetVisibleFields();
+                bool readMediaInfo = visibleFields?.Any(x => FileModel.MediaInfoFields.Contains(x)) == true;
+
+                FileModelCollection results = await FileSystemHelper.SearchFolder(path, SearchText, readMediaInfo, cancellationToken);
                 SearchResults.AddRange(results);
             }
             finally

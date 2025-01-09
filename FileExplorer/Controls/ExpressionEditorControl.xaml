@@ -20,6 +20,21 @@
                         <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" />
                         <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" />
                         <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Width" Header="{Binding FrameWidth, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Height" Header="{Binding FrameHeight, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Duration" Header="{Binding Duration, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="AudioBitrate" Header="{Binding AudioBitrate, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="AudioChannels" Header="{Binding AudioChannels, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="AudioSampleRate" Header="{Binding AudioSampleRate, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Album" Header="{Binding Album, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Title" Header="{Binding Title, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Genre" Header="{Binding Genre, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="AlbumArtists" Header="{Binding AlbumArtists, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="ContributingArtists" Header="{Binding ContributingArtists, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Composers" Header="{Binding Composers, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Year" Header="{Binding Year, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="Track" Header="{Binding Track, Source={StaticResource ResourceProvider}}" />
+                        <dxg:GridColumn FieldName="TrackCount" Header="{Binding TrackCount, Source={StaticResource ResourceProvider}}" />
                         <dxg:GridColumn FieldName="Unbound" AllowUnboundExpressionEditor="True" 
                                         UnboundExpression="{Binding EditValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
                     </dxg:GridControl.Columns>

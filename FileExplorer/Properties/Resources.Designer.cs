@@ -106,6 +106,24 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album.
+        /// </summary>
+        public static string Album {
+            get {
+                return ResourceManager.GetString("Album", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Album Artists.
+        /// </summary>
+        public static string AlbumArtists {
+            get {
+                return ResourceManager.GetString("AlbumArtists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All Subfolders.
         /// </summary>
         public static string AllSubfolders {
@@ -147,6 +165,33 @@ namespace FileExplorer.Properties {
         public static string AskBeforeDownloadingUpdates {
             get {
                 return ResourceManager.GetString("AskBeforeDownloadingUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio Bitrate.
+        /// </summary>
+        public static string AudioBitrate {
+            get {
+                return ResourceManager.GetString("AudioBitrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio Channels.
+        /// </summary>
+        public static string AudioChannels {
+            get {
+                return ResourceManager.GetString("AudioChannels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio Sample Rate.
+        /// </summary>
+        public static string AudioSampleRate {
+            get {
+                return ResourceManager.GetString("AudioSampleRate", resourceCulture);
             }
         }
         
@@ -250,6 +295,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Composers.
+        /// </summary>
+        public static string Composers {
+            get {
+                return ResourceManager.GetString("Composers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Compressed Size.
         /// </summary>
         public static string CompressedSize {
@@ -327,6 +381,15 @@ namespace FileExplorer.Properties {
         public static string Content {
             get {
                 return ResourceManager.GetString("Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contributing Artists.
+        /// </summary>
+        public static string ContributingArtists {
+            get {
+                return ResourceManager.GetString("ContributingArtists", resourceCulture);
             }
         }
         
@@ -592,6 +655,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -772,11 +844,38 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image/Video Height.
+        /// </summary>
+        public static string FrameHeight {
+            get {
+                return ResourceManager.GetString("FrameHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image/Video Width.
+        /// </summary>
+        public static string FrameWidth {
+            get {
+                return ResourceManager.GetString("FrameWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string General {
             get {
                 return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Genre.
+        /// </summary>
+        public static string Genre {
+            get {
+                return ResourceManager.GetString("Genre", resourceCulture);
             }
         }
         
@@ -795,6 +894,15 @@ namespace FileExplorer.Properties {
         public static string GroupName {
             get {
                 return ResourceManager.GetString("GroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Height.
+        /// </summary>
+        public static string Height {
+            get {
+                return ResourceManager.GetString("Height", resourceCulture);
             }
         }
         
@@ -1812,6 +1920,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title Case.
         /// </summary>
         public static string TitleCase {
@@ -1853,6 +1970,24 @@ namespace FileExplorer.Properties {
         public static string TouchThemes {
             get {
                 return ResourceManager.GetString("TouchThemes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track.
+        /// </summary>
+        public static string Track {
+            get {
+                return ResourceManager.GetString("Track", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track Count.
+        /// </summary>
+        public static string TrackCount {
+            get {
+                return ResourceManager.GetString("TrackCount", resourceCulture);
             }
         }
         
@@ -1974,6 +2109,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Width.
+        /// </summary>
+        public static string Width {
+            get {
+                return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong Password.
         /// </summary>
         public static string WrongPassword {
@@ -1988,6 +2132,15 @@ namespace FileExplorer.Properties {
         public static string WrongPasswordMessage {
             get {
                 return ResourceManager.GetString("WrongPasswordMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
             }
         }
         

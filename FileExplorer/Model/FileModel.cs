@@ -12,7 +12,9 @@ using FileExplorer.Helpers;
 using FileExplorer.Messages;
 using FileExplorer.Properties;
 using FileExplorer.Resources;
+using MimeTypes;
 using Shellify;
+using TagLib;
 
 namespace FileExplorer.Model
 {
@@ -49,6 +51,9 @@ namespace FileExplorer.Model
         private string extension;
 
         [GenerateProperty]
+        private string mimeType;
+
+        [GenerateProperty]
         private string description;
 
         [GenerateProperty]
@@ -76,7 +81,7 @@ namespace FileExplorer.Model
         private FileModelCollection folders;
 
         [GenerateProperty]
-        private FileModelReadOnlyCollection content;
+        private FileModelReadOnlyCollection content;       
 
         public bool IsDirectory { get; internal set; }
 
@@ -87,6 +92,242 @@ namespace FileExplorer.Model
         public bool IsSystem { get; internal set; }
 
         public bool IsRoot { get; internal set; }
+
+        public bool IsMedia { get; internal set; }
+
+        #region MediaInfo
+
+        private TagLib.File mediaInfo;
+
+        public bool IsImage => MimeType?.StartsWith("image") == true;
+
+        public bool IsVideo => MimeType?.StartsWith("video") == true;
+
+        public bool IsAudio => MimeType?.StartsWith("audio") == true;
+
+        public int? Width
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                {
+                    if (mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Photo))
+                        return mediaInfo.Properties.PhotoWidth;
+                    else if (mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Video))
+                        return mediaInfo.Properties.VideoWidth;
+                }
+
+                return null;
+            }
+        }
+        
+        public int? Height
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                {
+                    if (mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Photo))
+                        return mediaInfo.Properties.PhotoHeight;
+                    else if (mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Video))
+                        return mediaInfo.Properties.VideoHeight;
+                }
+
+                return null;
+            }
+        }
+        
+        public TimeSpan? Duration
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                {
+                    if (mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Video) || mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Audio))
+                        return mediaInfo.Properties.Duration;
+                }
+
+                return null;
+            }
+        }
+        
+        public int? AudioBitrate
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                {
+                    if (mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Audio))
+                        return mediaInfo.Properties.AudioBitrate;
+                }
+
+                return null;
+            }
+        }
+        
+        public int? AudioChannels
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                {
+                    if (mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Audio))
+                        return mediaInfo.Properties.AudioChannels;
+                }
+
+                return null;
+            }
+        }
+        
+        public int? AudioSampleRate
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                {
+                    if (mediaInfo.Properties.MediaTypes.HasFlag(MediaTypes.Audio))
+                        return mediaInfo.Properties.AudioSampleRate;
+                }
+
+                return null;
+            }
+        }
+        
+        public string Album
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                    return mediaInfo.Tag.Album;
+
+                return null;
+            }
+        }
+        
+        public string Title
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                    return mediaInfo.Tag.Title;
+
+                return null;
+            }
+        }
+        
+        public string Genre
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                    return mediaInfo.Tag.JoinedGenres;
+
+                return null;
+            }
+        }
+        
+        public string AlbumArtists
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                    return mediaInfo.Tag.JoinedAlbumArtists;
+
+                return null;
+            }
+        }
+        
+        public string ContributingArtists
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                    return mediaInfo.Tag.JoinedPerformers;
+
+                return null;
+            }
+        }
+        
+        public string Composers
+        {
+            get
+            {
+                if (ReadMediaInfo())
+                    return mediaInfo.Tag.JoinedComposers;
+
+                return null;
+            }
+        }
+        
+        public uint? Year
+        {
+            get
+            {
+                if (ReadMediaInfo() && mediaInfo.Tag.Year > 0)
+                    return mediaInfo.Tag.Year;
+
+                return null;
+            }
+        }
+        
+        public uint? Track
+        {
+            get
+            {
+                if (ReadMediaInfo() && mediaInfo.Tag.Track > 0)
+                    return mediaInfo.Tag.Track;
+
+                return null;
+            }
+        }
+        
+        public uint? TrackCount
+        {
+            get
+            {
+                if (ReadMediaInfo() && mediaInfo.Tag.TrackCount > 0)
+                    return mediaInfo.Tag.TrackCount;
+
+                return null;
+            }
+        }
+
+        public byte[] Picture
+        {
+            get
+            {
+                if (ReadMediaInfo() && mediaInfo.Tag.Pictures?.Length > 0)
+                    return mediaInfo.Tag.Pictures[0].Data.Data;
+
+                return null;
+            }
+        }
+
+        public bool ReadMediaInfo()
+        {
+            if (IsMedia == false)
+                return false;
+
+            try
+            {
+                mediaInfo = TagLib.File.Create(FullPath);
+            }
+            catch (Exception)
+            {
+                IsMedia = false;
+            }
+
+            return mediaInfo != null;
+        }
+
+        public static readonly string[] MediaInfoFields = new string[]
+        {
+            nameof(Width), nameof(Height),nameof(Duration),
+            nameof(AudioBitrate), nameof(AudioChannels), nameof(AudioSampleRate),
+            nameof(Album), nameof(Title), nameof(Genre), nameof(AlbumArtists), nameof(ContributingArtists), nameof(Composers),nameof(Year), nameof(Track), nameof(TrackCount)
+        };
+
+        #endregion
 
         public ImageSource SmallIcon
         {
@@ -245,6 +486,9 @@ namespace FileExplorer.Model
             FullName = info.Name;
             FullPath = info.FullName;
             Extension = info.Extension;
+
+            MimeType = MimeTypeMap.GetMimeType(Extension);
+            IsMedia = IsImage || IsVideo || IsAudio;
 
             ParentName = info.Directory.Name;
             ParentPath = info.Directory.FullName;

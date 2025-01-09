@@ -207,6 +207,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="TagLibSharp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <HintPath>..\packages\TagLibSharp.2.3.0\lib\net462\TagLibSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Vanara.Core, Version=4.0.4.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
       <HintPath>..\packages\Vanara.Core.4.0.4\lib\net48\Vanara.Core.dll</HintPath>
     </Reference>
@@ -302,6 +305,7 @@
     <Compile Include="Core\Converters.cs" />
     <Compile Include="Core\ExtensionManager.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\MimeTypeMap.cs" />
     <Compile Include="Core\Services.cs" />
     <Compile Include="Core\PackageManager.cs" />
     <Compile Include="Editors\FileDialogButton.cs" />

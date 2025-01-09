@@ -38,31 +38,30 @@
                 </Style>
             </dxg:GridColumn.CellStyle>
         </dxg:GridColumn>
-        <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" SortFieldName="Extension"  />
-        <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" />
-        <dxg:GridColumn FieldName="ParentName" Header="{Binding ParentName, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" />
-        <dxg:GridColumn FieldName="ParentPath" Header="{Binding ParentPath, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" />
-        <dxg:GridColumn FieldName="FullPath" Header="{Binding Path, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" />
-        <dxg:GridColumn FieldName="Size" Header="{Binding Size, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
-            <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="#,#"/>
-            </dxg:GridColumn.EditSettings>
-        </dxg:GridColumn>
-        <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
-            <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
-            </dxg:GridColumn.EditSettings>
-        </dxg:GridColumn>
-        <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
-            <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
-            </dxg:GridColumn.EditSettings>
-        </dxg:GridColumn>
-        <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False">
-            <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
-            </dxg:GridColumn.EditSettings>
-        </dxg:GridColumn>
+        <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="ParentName" Header="{Binding ParentName, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="ParentPath" Header="{Binding ParentPath, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="FullPath" Header="{Binding Path, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Size" Header="{Binding Size, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Width" Header="{Binding FrameWidth, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Height" Header="{Binding FrameHeight, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Duration" Header="{Binding Duration, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="AudioBitrate" Header="{Binding AudioBitrate, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="AudioChannels" Header="{Binding AudioChannels, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="AudioSampleRate" Header="{Binding AudioSampleRate, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Album" Header="{Binding Album, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Title" Header="{Binding Title, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Genre" Header="{Binding Genre, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="AlbumArtists" Header="{Binding AlbumArtists, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="ContributingArtists" Header="{Binding ContributingArtists, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Composers" Header="{Binding Composers, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Year" Header="{Binding Year, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="Track" Header="{Binding Track, Source={StaticResource ResourceProvider}}" Visible="False" />
+        <dxg:GridColumn FieldName="TrackCount" Header="{Binding TrackCount, Source={StaticResource ResourceProvider}}" Visible="False" />
     </dxg:GridControl.Columns>
 
 </dxg:GridControl>

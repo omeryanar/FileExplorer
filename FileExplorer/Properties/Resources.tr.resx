@@ -770,4 +770,55 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="Selected" xml:space="preserve">
     <value>Seçili</value>
   </data>
+  <data name="FrameWidth" xml:space="preserve">
+    <value>Resim/Video Genişliği</value>
+  </data>
+  <data name="FrameHeight" xml:space="preserve">
+    <value>Resim/Video Yüksekliği</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Süre</value>
+  </data>
+  <data name="AudioBitrate" xml:space="preserve">
+    <value>Ses Bit Hızı</value>
+  </data>
+  <data name="AudioChannels" xml:space="preserve">
+    <value>Ses Kanalları</value>
+  </data>
+  <data name="AudioSampleRate" xml:space="preserve">
+    <value>Ses Örnekleme Oranı</value>
+  </data>
+  <data name="Album" xml:space="preserve">
+    <value>Albüm</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Başlık</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>Tür</value>
+  </data>
+  <data name="AlbumArtists" xml:space="preserve">
+    <value>Albüm Sanatçıları</value>
+  </data>
+  <data name="ContributingArtists" xml:space="preserve">
+    <value>Katkıda Bulunan Sanatçılar</value>
+  </data>
+  <data name="Composers" xml:space="preserve">
+    <value>Besteciler</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Yıl</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Parça</value>
+  </data>
+  <data name="TrackCount" xml:space="preserve">
+    <value>Parça Sayısı</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Genişlik</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Yükseklik</value>
+  </data>
 </root>

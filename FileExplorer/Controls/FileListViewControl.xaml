@@ -347,6 +347,33 @@
                 <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
+        <dxg:GridColumn FieldName="Width" Header="{Binding FrameWidth, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" Tag="StartNewGroup" />
+        <dxg:GridColumn FieldName="Height" Header="{Binding FrameHeight, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
+        <dxg:GridColumn FieldName="Duration" Header="{Binding Duration, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False">
+            <dxg:GridColumn.EditSettings>
+                <dxe:TextEditSettings DisplayFormat="{}{0:hh\:mm\:ss}" />
+            </dxg:GridColumn.EditSettings>
+        </dxg:GridColumn>
+        <dxg:GridColumn FieldName="AudioBitrate" Header="{Binding AudioBitrate, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" Tag="StartNewGroup">
+            <dxg:GridColumn.EditSettings>
+                <dxe:TextEditSettings DisplayFormat="{}{0} kbps" />
+            </dxg:GridColumn.EditSettings>
+        </dxg:GridColumn>
+        <dxg:GridColumn FieldName="AudioChannels" Header="{Binding AudioChannels, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
+        <dxg:GridColumn FieldName="AudioSampleRate" Header="{Binding AudioSampleRate, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False">
+            <dxg:GridColumn.EditSettings>
+                <dxe:TextEditSettings DisplayFormat="{}{0:N0} Hz" />
+            </dxg:GridColumn.EditSettings>
+        </dxg:GridColumn>
+        <dxg:GridColumn FieldName="Album" Header="{Binding Album, Source={StaticResource ResourceProvider}}" Visible="False" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True" Tag="StartNewGroup" />
+        <dxg:GridColumn FieldName="Title" Header="{Binding Title, Source={StaticResource ResourceProvider}}" Visible="False" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True" />
+        <dxg:GridColumn FieldName="Genre" Header="{Binding Genre, Source={StaticResource ResourceProvider}}" Visible="False" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True" />
+        <dxg:GridColumn FieldName="AlbumArtists" Header="{Binding AlbumArtists, Source={StaticResource ResourceProvider}}" Visible="False" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True" />
+        <dxg:GridColumn FieldName="ContributingArtists" Header="{Binding ContributingArtists, Source={StaticResource ResourceProvider}}" Visible="False" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True" />
+        <dxg:GridColumn FieldName="Composers" Header="{Binding Composers, Source={StaticResource ResourceProvider}}" Visible="False" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True" />
+        <dxg:GridColumn FieldName="Year" Header="{Binding Year, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
+        <dxg:GridColumn FieldName="Track" Header="{Binding Track, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
+        <dxg:GridColumn FieldName="TrackCount" Header="{Binding TrackCount, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
     </dxg:GridControl.Columns>
 
     <dxg:GridControl.GroupSummary>

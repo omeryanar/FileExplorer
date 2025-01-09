@@ -1,4 +1,6 @@
-﻿using DevExpress.Mvvm;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DevExpress.Mvvm;
 using DevExpress.Mvvm.UI;
 using DevExpress.Xpf.Grid;
 
@@ -13,6 +15,8 @@ namespace FileExplorer.Core
     {
         void BeginUpdate();
         void EndUpdate();
+        IList<string> GetAllFields();
+        IList<string> GetVisibleFields();
     }
 
     public class ActiveWindowService : CurrentWindowService, IActiveWindowService
@@ -22,7 +26,7 @@ namespace FileExplorer.Core
 
     public class DataUpdateService : ServiceBase, IDataUpdateService
     {
-        DataControlBase DataControl { get { return AssociatedObject as GridControl; } }
+        GridControl DataControl { get { return AssociatedObject as GridControl; } }
 
         public void BeginUpdate()
         {
@@ -32,6 +36,16 @@ namespace FileExplorer.Core
         public void EndUpdate()
         {
             DataControl.EndDataUpdate();
+        }
+
+        public IList<string> GetAllFields()
+        {
+            return DataControl.Columns.Select(x => x.FieldName).ToList();
+        }
+
+        public IList<string> GetVisibleFields()
+        {
+            return DataControl.Columns.Where(x => x.Visible).Select(x => x.FieldName).ToList();
         }
     }
 }

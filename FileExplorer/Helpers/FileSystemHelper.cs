@@ -222,7 +222,7 @@ namespace FileExplorer.Helpers
             return fileModelList;
         }
 
-        public static async Task<FileModelCollection> GetFiles(FileModel fileModel)
+        public static async Task<FileModelCollection> GetFiles(FileModel fileModel, bool readMediaInfo = false)
         {
             List<FileModel> fileModelList = new List<FileModel>();
             FileInfo[] files = await GetFiles(fileModel.FullPath);
@@ -235,6 +235,9 @@ namespace FileExplorer.Helpers
 
                     if (file.Length > fileModel.LargestFileSize)
                         fileModel.LargestFileSize = file.Length;
+
+                    if (readMediaInfo)
+                        fileModel.ReadMediaInfo();
 
                     fileModelList.Add(childFileModel);
                 }
@@ -299,7 +302,7 @@ namespace FileExplorer.Helpers
             return new FileModelCollection(fileModelList);
         }
 
-        public static async Task<FileModelCollection> SearchFolder(string path, string searchPattern, CancellationToken cancellationToken = default)
+        public static async Task<FileModelCollection> SearchFolder(string path, string searchPattern, bool readMediaInfo = false, CancellationToken cancellationToken = default)
         {
             List<FileModel> fileModelList = new List<FileModel>();
 

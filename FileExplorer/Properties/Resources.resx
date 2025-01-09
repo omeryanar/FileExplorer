@@ -770,4 +770,55 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="Selected" xml:space="preserve">
     <value>Selected</value>
   </data>
+  <data name="FrameWidth" xml:space="preserve">
+    <value>Image/Video Width</value>
+  </data>
+  <data name="FrameHeight" xml:space="preserve">
+    <value>Image/Video Height</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="AudioBitrate" xml:space="preserve">
+    <value>Audio Bitrate</value>
+  </data>
+  <data name="AudioChannels" xml:space="preserve">
+    <value>Audio Channels</value>
+  </data>
+  <data name="AudioSampleRate" xml:space="preserve">
+    <value>Audio Sample Rate</value>
+  </data>
+  <data name="Album" xml:space="preserve">
+    <value>Album</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>Genre</value>
+  </data>
+  <data name="AlbumArtists" xml:space="preserve">
+    <value>Album Artists</value>
+  </data>
+  <data name="ContributingArtists" xml:space="preserve">
+    <value>Contributing Artists</value>
+  </data>
+  <data name="Composers" xml:space="preserve">
+    <value>Composers</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Track</value>
+  </data>
+  <data name="TrackCount" xml:space="preserve">
+    <value>Track Count</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
 </root>

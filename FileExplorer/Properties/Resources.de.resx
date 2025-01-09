@@ -770,4 +770,55 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="Selected" xml:space="preserve">
     <value>Ausgewählt</value>
   </data>
+  <data name="FrameWidth" xml:space="preserve">
+    <value>Bild-/Videobreite</value>
+  </data>
+  <data name="FrameHeight" xml:space="preserve">
+    <value>Bild-/Videohöhe</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Dauer</value>
+  </data>
+  <data name="AudioBitrate" xml:space="preserve">
+    <value>Audio-Bitrate</value>
+  </data>
+  <data name="AudioChannels" xml:space="preserve">
+    <value>Audiokanäle</value>
+  </data>
+  <data name="AudioSampleRate" xml:space="preserve">
+    <value>Audio-Abtastrate</value>
+  </data>
+  <data name="Album" xml:space="preserve">
+    <value>Album</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>Genre</value>
+  </data>
+  <data name="AlbumArtists" xml:space="preserve">
+    <value>Albumkünstler</value>
+  </data>
+  <data name="ContributingArtists" xml:space="preserve">
+    <value>Mitwirkende Künstler</value>
+  </data>
+  <data name="Composers" xml:space="preserve">
+    <value>Komponisten</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Jahr</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Musikspur</value>
+  </data>
+  <data name="TrackCount" xml:space="preserve">
+    <value>Anzahl der Musikspur</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Breite</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Höhe</value>
+  </data>
 </root>
