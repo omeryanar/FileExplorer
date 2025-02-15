@@ -128,6 +128,11 @@ namespace FileExplorer.ViewModel
             DialogService.ShowDialog(MessageButton.OK, Properties.Resources.Extensions, "ExtensionsView", viewModel);
         }
 
+        public void ShowHelp()
+        {
+            Utilities.OpenFile("https://github.com/omeryanar/FileExplorer?tab=readme-ov-file#file-explorer");
+        }
+
         public bool CanOpenItem(FileModel fileModel)
         {
             return fileModel != null;
@@ -184,7 +189,8 @@ namespace FileExplorer.ViewModel
 
             Settings.Default.ShowCheckBoxes = Settings.ShowCheckBoxes;
             Settings.Default.ShowRowNumbers = Settings.ShowRowNumbers;
-            Settings.Default.SimplifiedRibbon = Settings.SimplifiedRibbon;
+            Settings.Default.MinimizedRibbon = Settings.MinimizedRibbon;
+            Settings.Default.SimplifiedRibbon = Settings.SimplifiedRibbon;            
 
             Settings.Default.LeftPaneWidth = Settings.LeftPaneWidth;
             Settings.Default.RightPaneWidth = Settings.RightPaneWidth;

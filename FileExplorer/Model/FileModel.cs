@@ -2,8 +2,10 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Alphaleonis.Win32.Filesystem;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.CodeGenerators;
@@ -81,7 +83,16 @@ namespace FileExplorer.Model
         private FileModelCollection folders;
 
         [GenerateProperty]
-        private FileModelReadOnlyCollection content;       
+        private FileModelReadOnlyCollection content;
+
+        [GenerateProperty]
+        private bool isImage;
+
+        [GenerateProperty]
+        private bool isVideo;
+
+        [GenerateProperty]
+        private bool isAudio;
 
         public bool IsDirectory { get; internal set; }
 
@@ -93,17 +104,11 @@ namespace FileExplorer.Model
 
         public bool IsRoot { get; internal set; }
 
-        public bool IsMedia { get; internal set; }
+       public bool IsMedia => IsImage || IsVideo || IsAudio;
 
         #region MediaInfo
 
         private TagLib.File mediaInfo;
-
-        public bool IsImage => MimeType?.StartsWith("image") == true;
-
-        public bool IsVideo => MimeType?.StartsWith("video") == true;
-
-        public bool IsAudio => MimeType?.StartsWith("audio") == true;
 
         public int? Width
         {
@@ -308,16 +313,35 @@ namespace FileExplorer.Model
             if (IsMedia == false)
                 return false;
 
-            try
+            if (mediaInfo == null)
             {
-                mediaInfo = TagLib.File.Create(FullPath);
-            }
-            catch (Exception)
-            {
-                IsMedia = false;
+                try
+                {
+                    mediaInfo = TagLib.File.Create(FullPath);
+
+                    if (IsImage && mediaInfo.Properties == null)
+                        IsImage = false;
+
+                    if (IsVideo && mediaInfo.Properties == null)
+                        IsVideo = false;
+
+                    if (IsAudio && mediaInfo.Tag == null)
+                        IsAudio = false;
+                }
+                catch (Exception)
+                {
+                    IsImage = false;
+                    IsVideo = false;
+                    IsAudio = false;
+                }
             }
 
-            return mediaInfo != null;
+            if (IsImage || IsVideo)
+                return mediaInfo?.Properties != null;
+            if (IsAudio)
+                return mediaInfo?.Tag != null;
+
+            return false;
         }
 
         public static readonly string[] MediaInfoFields = new string[]
@@ -344,6 +368,28 @@ namespace FileExplorer.Model
             get { return FileSystemImageHelper.GetImage(this, IconSize.Large); }
         }
 
+        public ImageSource ThumbnailImage
+        {
+            get
+            {
+                if (Regex.Match(FullPath, FileSystemImageHelper.SupportedThumbnailImageFormats, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase).Success == false)
+                    return ExtraLargeIcon;
+
+                if (notifyTask == null)
+                {
+                    notifyTask = NotifyTask.Create<BitmapImage>(FileSystemImageHelper.GetThumbnailImage(FullPath));
+                    notifyTask.PropertyChanged += (s, e) =>
+                    {
+                        if (e.PropertyName == nameof(NotifyTask.IsCompleted) && notifyTask.IsCompleted)
+                            RaisePropertyChanged(new PropertyChangedEventArgs(nameof(ThumbnailImage)));
+                    };
+                }
+
+                return notifyTask.IsCompleted ? notifyTask.Result: ExtraLargeIcon;
+            }
+        }
+        private NotifyTask<BitmapImage> notifyTask;
+        
         public ImageSource ExtraLargeIcon
         {
             get { return FileSystemImageHelper.GetImage(this, IconSize.ExtraLarge); }
@@ -488,7 +534,9 @@ namespace FileExplorer.Model
             Extension = info.Extension;
 
             MimeType = MimeTypeMap.GetMimeType(Extension);
-            IsMedia = IsImage || IsVideo || IsAudio;
+            IsImage = MimeType?.StartsWith("image") == true;
+            IsVideo = MimeType?.StartsWith("video") == true;
+            IsAudio = MimeType?.StartsWith("audio") == true;
 
             ParentName = info.Directory.Name;
             ParentPath = info.Directory.FullName;

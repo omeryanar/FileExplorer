@@ -12,12 +12,13 @@ using DevExpress.Mvvm;
 using DevExpress.Utils.Svg;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Core.Native;
+using PhotoSauce.MagicScaler;
 
 namespace FileExplorer.Extension.ImagePreview
 {
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Image Viewer")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "bmp|jpg|jpeg|ico|gif|png|svg|tif|tiff")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "avif|bmp|dib|gif|heic|heif|ico|icon|jfif|jpe|jpg|jpeg|jxr|png|rle|svg|tif|tiff|wdp|webp")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class ImageViewer : UserControl, IPreviewExtension
     {
@@ -87,42 +88,48 @@ namespace FileExplorer.Extension.ImagePreview
             DelegateCommand delegateCommand = EditCommand as DelegateCommand;
             delegateCommand.RaiseCanExecuteChanged();
 
-            using (FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            if (filePath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
             {
-                imageStream?.Close();
-                imageStream = new MemoryStream();
-                await fileStream.CopyToAsync(imageStream);
-                imageStream.Seek(0, SeekOrigin.Begin);
+                double scale = 1.0;
+                SvgImage image = SvgImageHelper.CreateImage(new Uri(filePath));
+                if (image.Width > 0)
+                    scale = Math.Floor(400 / image.Width);
 
-                if (filePath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
-                {
-                    double scale = 1.0;
-                    SvgImage image = SvgImageHelper.CreateImage(imageStream);
-                    if (image.Width > 0)
-                        scale = Math.Floor(400 / image.Width);
+                ImageSource = WpfSvgRenderer.CreateImageSource(image, scale, null, null, true);
+                return;
+            }
 
-                    ImageSource = WpfSvgRenderer.CreateImageSource(image, scale, null, null, true);
-                }
-                else
+            BitmapImage bitmapImage = null;
+            await Task.Run(() =>
+            {
+                try
                 {
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.DecodePixelWidth = 960;
+                    MemoryStream stream = new MemoryStream();
+                    MagicImageProcessor.ProcessImage(currentFilePath, stream, new ProcessImageSettings { Width = 960, ResizeMode = CropScaleMode.Max });
+                    stream.Position = 0;
+
+                    bitmapImage = new BitmapImage
+                    {
+                        CreateOptions = BitmapCreateOptions.IgnoreColorProfile,
+                        CacheOption = BitmapCacheOption.OnLoad
+                    };
+
                     bitmapImage.BeginInit();
-                    bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.StreamSource = imageStream;
+                    bitmapImage.StreamSource = stream;
                     bitmapImage.EndInit();
                     bitmapImage.Freeze();
-
-                    ImageSource = bitmapImage;
                 }
-            }
+                catch
+                {
+                    bitmapImage = null;
+                }
+            });
+            ImageSource = bitmapImage;
         }
 
         public Task UnloadFile()
         {
-            ImageSource = null;
-            imageStream?.Close();
+            ImageSource = null;         
 
             currentFilePath = null;
             currentFileExtension = null;
@@ -204,8 +211,6 @@ namespace FileExplorer.Extension.ImagePreview
 
             mouseUpPosition = new Point(0, 0);
         }
-
-        private Stream imageStream;
 
         private string currentFilePath;
 

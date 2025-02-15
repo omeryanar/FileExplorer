@@ -46,7 +46,8 @@
                 </Style>
             </dxlc:DockLayoutControl.ItemSizerStyle>
             <dxr:RibbonControl dxlc:DockLayoutControl.Dock="Top" RibbonTitleBarVisibility="Collapsed" RibbonStyle="Office2019" ToolbarShowMode="Hide"
-                               ShowApplicationButton="False" AllowCustomization="False" AllowKeyTips="False" IsSimplified="{Binding Settings.SimplifiedRibbon, Mode=TwoWay}">
+                               ShowApplicationButton="False" AllowCustomization="False" AllowKeyTips="False"
+                               IsSimplified="{Binding Settings.SimplifiedRibbon, Mode=TwoWay}" IsMinimized="{Binding Settings.MinimizedRibbon, Mode=TwoWay}">
                 <dxr:RibbonControl.PageHeaderItems>
                     <dxb:BarStaticItem>
                         <dxb:BarStaticItem.ContentTemplate>
@@ -213,6 +214,9 @@
                                                Content="{Binding Options, Source={StaticResource ResourceProvider}}" Command="{Binding ShowOptionsCommand}" />
                             <dxb:BarButtonItem Glyph="/Assets/Images/Extensions16.png" LargeGlyph="/Assets/Images/Extensions32.png"
                                                Content="{Binding Extensions, Source={StaticResource ResourceProvider}}" Command="{Binding ShowExtensionsCommand}" />
+                            <dxb:BarItemSeparator />
+                            <dxb:BarButtonItem Glyph="/Assets/Images/Help16.png" LargeGlyph="/Assets/Images/Help32.png"
+                                               Content="{Binding Help, Source={StaticResource ResourceProvider}}" Command="{Binding ShowHelpCommand}" />
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                     <dxr:RibbonPage Caption="{Binding View, Source={StaticResource ResourceProvider}}">
@@ -248,6 +252,8 @@
                                                              Caption="{Binding Details, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Layout/Details.png" />
                                             <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.Content'}" IsChecked="{DXBinding 'Layout==$common:Layout.Content'}"
                                                              Caption="{Binding Content, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Layout/Content.png" />
+                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.Thumbnails'}" IsChecked="{DXBinding 'Layout==$common:Layout.Thumbnails'}"
+                                                             Caption="{Binding Thumbnails, Source={StaticResource ResourceProvider}}" Glyph="/Assets/Layout/Thumbnails.png" />
                                         </dxb:GalleryItemGroup>
                                     </dxb:Gallery>
                                 </dxr:RibbonGalleryBarItem.Gallery>

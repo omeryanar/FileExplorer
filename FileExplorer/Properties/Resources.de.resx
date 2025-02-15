@@ -821,4 +821,61 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="Height" xml:space="preserve">
     <value>Höhe</value>
   </data>
+  <data name="Thumbnails" xml:space="preserve">
+    <value>Miniaturansichten</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Modus</value>
+  </data>
+  <data name="Focus" xml:space="preserve">
+    <value>Fokus</value>
+  </data>
+  <data name="Crop" xml:space="preserve">
+    <value>Zuschneiden</value>
+  </data>
+  <data name="Stretch" xml:space="preserve">
+    <value>Strecken</value>
+  </data>
+  <data name="Contain" xml:space="preserve">
+    <value>Enthalten</value>
+  </data>
+  <data name="CropDescription" xml:space="preserve">
+    <value>Behalten Sie das Seitenverhältnis bei. Schneiden Sie es bei Bedarf zu, damit es den Ausgabeabmessungen entspricht</value>
+  </data>
+  <data name="ContainDescription" xml:space="preserve">
+    <value>Reduzieren Sie bei Bedarf eine der Ausgabedimensionen, um das Seitenverhältnis beizubehalten</value>
+  </data>
+  <data name="StretchDescription" xml:space="preserve">
+    <value>Strecken Sie das Bild bei Bedarf auf einer Achse, um die Ausgabeabmessungen auszufüllen</value>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Oben</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Unten</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Rechts</value>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="TopLeft" xml:space="preserve">
+    <value>Oben Links</value>
+  </data>
+  <data name="TopRight" xml:space="preserve">
+    <value>Oben Rechts</value>
+  </data>
+  <data name="BottomLeft" xml:space="preserve">
+    <value>Unten Links</value>
+  </data>
+  <data name="BottomRight" xml:space="preserve">
+    <value>Unten Rechts</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Helfen</value>
+  </data>
 </root>

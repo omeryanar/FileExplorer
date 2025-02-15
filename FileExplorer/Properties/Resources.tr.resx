@@ -821,4 +821,61 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="Height" xml:space="preserve">
     <value>Yükseklik</value>
   </data>
+  <data name="Thumbnails" xml:space="preserve">
+    <value>Küçük Resimler</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Mod</value>
+  </data>
+  <data name="Focus" xml:space="preserve">
+    <value>Odak</value>
+  </data>
+  <data name="Crop" xml:space="preserve">
+    <value>Kırp</value>
+  </data>
+  <data name="Stretch" xml:space="preserve">
+    <value>Uzat</value>
+  </data>
+  <data name="Contain" xml:space="preserve">
+    <value>Kapsa</value>
+  </data>
+  <data name="CropDescription" xml:space="preserve">
+    <value>En boy oranını korumak için gerekirse resmi kırp</value>
+  </data>
+  <data name="ContainDescription" xml:space="preserve">
+    <value>En boy oranını korumak için gerekirse çıktı boyutlarından birini küçült</value>
+  </data>
+  <data name="StretchDescription" xml:space="preserve">
+    <value>Çıktı boyutlarını doldurmak için gerekirse resmi bir eksende uzat</value>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Üst</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Sol</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Sağ</value>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Merkez</value>
+  </data>
+  <data name="TopLeft" xml:space="preserve">
+    <value>Sol Üst</value>
+  </data>
+  <data name="TopRight" xml:space="preserve">
+    <value>Sağ Üst</value>
+  </data>
+  <data name="BottomLeft" xml:space="preserve">
+    <value>Sol Alt</value>
+  </data>
+  <data name="BottomRight" xml:space="preserve">
+    <value>Sağ Alt</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Yardım</value>
+  </data>
 </root>

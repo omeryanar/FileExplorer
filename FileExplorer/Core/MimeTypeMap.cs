@@ -269,6 +269,7 @@ namespace MimeTypes
                 {".jpe", "image/jpeg"},
                 {".jpeg", "image/jpeg"},
                 {".jpg", "image/jpeg"},
+                {".jxr", "image/jxr"},
                 {".js", "application/javascript"},
                 {".json", "application/json"},
                 {".jsx", "text/jscript"},
@@ -521,7 +522,6 @@ namespace MimeTypes
                 {".sv4cpio", "application/x-sv4cpio"},
                 {".sv4crc", "application/x-sv4crc"},
                 {".svc", "application/xml"},
-                {".svg", "image/svg+xml"},
                 {".swf", "application/x-shockwave-flash"},
                 {".step", "application/step"},
                 {".stp", "application/step"},
@@ -715,6 +715,7 @@ namespace MimeTypes
                 {"image/heic", ".heic"},
                 {"image/heif", ".heif"},
                 {"image/jpeg", ".jpg"},
+                {"image/jxr", ".jxr"},
                 {"image/pict", ".pic"},
                 {"image/png", ".png"}, // Defined in [RFC-2045], [RFC-2048]
                 {"image/x-png", ".png"}, // See https://www.w3.org/TR/PNG/#A-Media-type :"It is recommended that implementations also recognize the media type "image/x-png"."

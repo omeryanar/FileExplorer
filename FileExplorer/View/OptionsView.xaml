@@ -10,7 +10,7 @@
              xmlns:common="clr-namespace:FileExplorer.Core"
              xmlns:controls="clr-namespace:FileExplorer.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             MinWidth="560" MinHeight="260">
+             MinWidth="600" MinHeight="320">
 
     <dxlc:LayoutControl>
         <dxlc:LayoutControl.Resources>
@@ -152,6 +152,49 @@
                                                        Content="{Binding HelpStaticTaskbarTitle, Source={StaticResource ResourceProvider}}" />
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>                
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Thumbnails, Source={StaticResource ResourceProvider}}">                
+                <dxlc:LayoutItem Label="{Binding Mode, Source={StaticResource ResourceProvider}}">
+                    <dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True"
+                                      SelectedIndex="{Binding ThumbnailMode, Source={x:Static settings:Settings.Default}}">
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:ThumbnailMode}" />
+                        </dxmvvm:Interaction.Behaviors>
+                        <dxe:ComboBoxEdit.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,8">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding Description}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </dxe:ComboBoxEdit.ItemTemplate>
+                    </dxe:ComboBoxEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding Focus, Source={StaticResource ResourceProvider}}">
+                    <dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True"
+                                      SelectedIndex="{Binding ThumbnailAnchor, Source={x:Static settings:Settings.Default}}">
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:ThumbnailAnchor}" />
+                        </dxmvvm:Interaction.Behaviors>
+                        <dxe:ComboBoxEdit.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,8">
+                                    <TextBlock Margin="4,0" Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </dxe:ComboBoxEdit.ItemTemplate>
+                    </dxe:ComboBoxEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Margin="5,10" ElementSpace="10" Label="{Binding Width, Source={StaticResource ResourceProvider}}">
+                    <dxe:TrackBarEdit TickItemDisplayMode="TickAndText" ValueToolTipPlacement="TopLeft"
+                                      Minimum="50" Maximum="450" TickFrequency="50" SmallStep="10" LargeStep="10"
+                                      EditValue="{Binding ThumbnailWidth, Converter={common:IntToDoubleConverter}, Source={x:Static settings:Settings.Default}}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Margin="5,10" ElementSpace="10" Label="{Binding Height, Source={StaticResource ResourceProvider}}">
+                    <dxe:TrackBarEdit TickItemDisplayMode="TickAndText" ValueToolTipPlacement="TopLeft"
+                                      Minimum="50" Maximum="450" TickFrequency="50" SmallStep="10" LargeStep="10"
+                                      EditValue="{Binding ThumbnailHeight, Converter={common:IntToDoubleConverter}, Source={x:Static settings:Settings.Default}}" />
+                </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Search, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutItem Label="{Binding DefaultSearch, Source={StaticResource ResourceProvider}}">

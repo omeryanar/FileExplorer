@@ -19,6 +19,7 @@
     <PackageReference Include="DevExpress.Wpf.Core" Version="23.2.*-*">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="PhotoSauce.MagicScaler" Version="0.15.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -115,6 +115,9 @@
     <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=2.0.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.2.0.1\lib\net472\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="IndexRange, Version=1.0.3.0, Culture=neutral, PublicKeyToken=35e6a3c4212514c6, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndexRange.1.0.3\lib\net47\IndexRange.dll</HintPath>
+    </Reference>
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
@@ -139,6 +142,9 @@
     </Reference>
     <Reference Include="Onova, Version=2.6.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Onova.2.6.12\lib\net462\Onova.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotoSauce.MagicScaler, Version=0.15.0.0, Culture=neutral, PublicKeyToken=fc6b9b7b06809481, processorArchitecture=MSIL">
+      <HintPath>..\packages\PhotoSauce.MagicScaler.0.15.0\lib\net472\PhotoSauce.MagicScaler.dll</HintPath>
     </Reference>
     <Reference Include="Shellify, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Shellify.0.4.0\lib\netstandard2.0\Shellify.dll</HintPath>
@@ -306,6 +312,7 @@
     <Compile Include="Core\ExtensionManager.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\MimeTypeMap.cs" />
+    <Compile Include="Core\NotifyTask.cs" />
     <Compile Include="Core\Services.cs" />
     <Compile Include="Core\PackageManager.cs" />
     <Compile Include="Editors\FileDialogButton.cs" />
@@ -709,6 +716,31 @@
   <ItemGroup>
     <Resource Include="Assets\Images\Extensions16.png" />
     <Resource Include="Assets\Images\Extensions32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Thumbnail\Bottom.svg" />
+    <Resource Include="Assets\Thumbnail\BottomLeft.svg" />
+    <Resource Include="Assets\Thumbnail\BottomRight.svg" />
+    <Resource Include="Assets\Thumbnail\Left.svg" />
+    <Resource Include="Assets\Thumbnail\Right.svg" />
+    <Resource Include="Assets\Thumbnail\Top.svg" />
+    <Resource Include="Assets\Thumbnail\TopLeft.svg" />
+    <Resource Include="Assets\Thumbnail\TopRight.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Thumbnail\Center.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Thumbnail\Contain.svg" />
+    <Resource Include="Assets\Thumbnail\Crop.svg" />
+    <Resource Include="Assets\Thumbnail\Stretch.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Layout\Thumbnails.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Help16.png" />
+    <Resource Include="Assets\Images\Help32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

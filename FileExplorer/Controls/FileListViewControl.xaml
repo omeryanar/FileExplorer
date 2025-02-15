@@ -112,9 +112,15 @@
                                 <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.LargeIcon, IsAsync=True}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.ExtraLargeIcons}">
-                                <Setter TargetName="Container" Property="Width" Value="300" />
+                                <Setter TargetName="Container" Property="Width" Value="250" />
                                 <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
                                 <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.ExtraLargeIcon, IsAsync=True}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.Thumbnails}">
+                                <Setter TargetName="Container" Property="Width" Value="{DXBinding '$settings:Settings.Default.ThumbnailWidth + 32'}" />
+                                <Setter TargetName="Container" Property="Height" Value="{DXBinding '$settings:Settings.Default.ThumbnailHeight + 32'}" />
+                                <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
+                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.ThumbnailImage}" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -161,7 +167,7 @@
                 <common:CustomColumnBehavior />
                 <common:AllowDragDropBehavior />
                 <common:SortOrderOnHeaderClickBehavior />
-                <common:DragDropFilesBehavior CurrentFolderPath="{Binding CurrentFolder.FullPath}" />                
+                <common:DragDropFilesBehavior CurrentFolderPath="{Binding CurrentFolder.FullPath}" />
             </dxmvvm:Interaction.Behaviors>
             <dxg:TableView.ColumnMenuCustomizations>
                 <dxb:BarButtonItem Content="{Binding PrintPreview, Source={StaticResource ResourceProvider}}" Glyph="pack://application:,,,/FileExplorer;component/Assets/Images/Print16.png"
@@ -238,12 +244,12 @@
         <DXDataTemplateSelector x:Key="NameCellDisplayTemplateSelector">
             <DXDataTemplateTrigger Binding="{Binding View.DataContext.Layout}" Value="Details" Template="{StaticResource NameCellDisplayTemplate}" />
             <DXDataTemplateTrigger Binding="{Binding View.DataContext.Layout}" Value="Content" Template="{StaticResource NameCellDisplayTemplate}" />
-        </DXDataTemplateSelector>        
+        </DXDataTemplateSelector>
     </dxg:GridControl.Resources>
 
     <dxg:GridControl.Style>
         <Style TargetType="dxg:GridControl">
-            <Setter Property="View" Value="{x:Null}" />
+            <Setter Property="View" Value="{StaticResource ListView}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Layout}" Value="{x:Static common:Layout.Details}">
                     <Setter Property="View" Value="{StaticResource ListView}" />
@@ -377,7 +383,7 @@
     </dxg:GridControl.Columns>
 
     <dxg:GridControl.GroupSummary>
-        <dxg:GridSummaryItem FieldName="Name" SummaryType="Count" Alignment="Left" DisplayFormat="{Binding TotalFormat, Source={StaticResource ResourceProvider}}" />
+        <dxg:GridSummaryItem SummaryType="Count" DisplayFormat="{Binding TotalFormat, Source={StaticResource ResourceProvider}}" />
     </dxg:GridControl.GroupSummary>
 
     <dxg:GridControl.TotalSummary>

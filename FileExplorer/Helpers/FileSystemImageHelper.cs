@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Alphaleonis.Win32.Filesystem;
 using AsyncKeyedLock;
 using FileExplorer.Core;
 using FileExplorer.Model;
 using FileExplorer.Native;
+using FileExplorer.Properties;
+using PhotoSauce.MagicScaler;
 
 namespace FileExplorer.Helpers
 {
@@ -13,11 +17,14 @@ namespace FileExplorer.Helpers
     {
         public static ImageSource GetImage(string path, IconSize iconSize)
         {
-            if (!File.Exists(path))
-                return SafeNativeMethods.GetIcon(Path.GetExtension(path), iconSize.ToSHIL());
+            if (File.Exists(path) || Directory.Exists(path))
+            {
 
-            FileModel fileModel = FileModel.FromPath(path);
-            return GetImage(fileModel, iconSize);
+                FileModel fileModel = FileModel.FromPath(path);
+                return GetImage(fileModel, iconSize);
+            }
+
+            return SafeNativeMethods.GetIcon(Path.GetExtension(path), iconSize.ToSHIL());
         }
 
         public static ImageSource GetImage(FileModel fileModel, IconSize iconSize)
@@ -45,7 +52,7 @@ namespace FileExplorer.Helpers
                 }
                 else if (FileSystemHelper.IsNetworkShare(fileModel.FullPath))
                     path = @"\\a\b";
-                else if (fileModel.IsDrive || fileModel.ParentPath.OrdinalEquals(UserProfile))
+                else if (fileModel.IsDrive || File.Exists(Path.Combine(fileModel.FullPath, "desktop.ini")))
                     path = fileModel.FullPath;
             }
             else
@@ -75,6 +82,46 @@ namespace FileExplorer.Helpers
 
             return imageSource;
         }
+
+        public static async Task<BitmapImage> GetThumbnailImage(string path)
+        {
+            BitmapImage bitmapImage = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    ProcessImageSettings settings = new ProcessImageSettings();
+                    settings.Anchor = (CropAnchor)Settings.Default.ThumbnailAnchor;
+                    settings.ResizeMode = (CropScaleMode)Settings.Default.ThumbnailMode;
+                    settings.Width = Settings.Default.ThumbnailHeight;
+                    settings.Height = Settings.Default.ThumbnailHeight;
+
+                    System.IO.MemoryStream stream = new System.IO.MemoryStream();
+                    MagicImageProcessor.ProcessImage(path, stream, settings);
+                    stream.Position = 0;
+
+                    bitmapImage = new BitmapImage
+                    {
+                        CreateOptions = BitmapCreateOptions.IgnoreColorProfile,
+                        CacheOption = BitmapCacheOption.OnLoad
+                    };
+
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = stream;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                }
+                catch
+                {
+                    bitmapImage = null;
+                }
+            });
+
+            return bitmapImage;
+        }
+
+        public const string SupportedThumbnailImageFormats = @"^.+\.(?:(?:avif)|(?:bmp)|(?:dip)|(?:gif)|(?:heic)|(?:heif)|(?:jfif)|(?:jpe)|(?:jpe?g)|(?:jxr)|(?:png)|(?:rle)|(?:tiff?)|(?:wdp)|(?:webp))$";
 
         protected static string Windows = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 

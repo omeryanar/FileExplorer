@@ -70,7 +70,11 @@ namespace FileExplorer.Core
 
         [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/Content.png")]
         [Display(Name = "Content", ResourceType = typeof(Properties.Resources))]
-        Content
+        Content,
+
+        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/Thumbnails.png")]
+        [Display(Name = "Thumbnails", ResourceType = typeof(Properties.Resources))]
+        Thumbnails
     }
 
     public enum CommandType
@@ -98,6 +102,60 @@ namespace FileExplorer.Core
 
         [Display(Name = "Expression", ResourceType = typeof(Properties.Resources))]
         Expression
+    }
+
+    public enum ThumbnailMode
+    {
+        [Image("pack://application:,,,/Assets/Thumbnail/Crop.svg")]
+        [Display(Name = "Crop", Description = "CropDescription", ResourceType = typeof(Properties.Resources))]
+        Crop,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/Contain.svg")]
+        [Display(Name = "Contain", Description = "ContainDescription", ResourceType = typeof(Properties.Resources))]
+        Contain,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/Stretch.svg")]
+        [Display(Name = "Stretch", Description = "StretchDescription", ResourceType = typeof(Properties.Resources))]
+        Stretch
+    }
+
+    public enum ThumbnailAnchor
+    {
+        [Image("pack://application:,,,/Assets/Thumbnail/Center.svg")]
+        [Display(Name = "Center", ResourceType = typeof(Properties.Resources))]
+        Center = 0,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/Top.svg")]
+        [Display(Name = "Top", ResourceType = typeof(Properties.Resources))]
+        Top = 1,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/Bottom.svg")]
+        [Display(Name = "Bottom", ResourceType = typeof(Properties.Resources))]
+        Bottom = 2,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/Left.svg")]
+        [Display(Name = "Left", ResourceType = typeof(Properties.Resources))]
+        Left = 4,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/Right.svg")]
+        [Display(Name = "Right", ResourceType = typeof(Properties.Resources))]
+        Right = 8,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/TopLeft.svg")]
+        [Display(Name = "TopLeft", ResourceType = typeof(Properties.Resources))]
+        TopLeft = 5,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/TopRight.svg")]
+        [Display(Name = "TopRight", ResourceType = typeof(Properties.Resources))]
+        TopRight = 9,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/BottomLeft.svg")]
+        [Display(Name = "BottomLeft", ResourceType = typeof(Properties.Resources))]
+        BottomLeft = 6,
+
+        [Image("pack://application:,,,/Assets/Thumbnail/BottomRight.svg")]
+        [Display(Name = "BottomRight", ResourceType = typeof(Properties.Resources))]
+        BottomRight = 10,
     }
 
     public enum NotificationType
