@@ -1839,11 +1839,11 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected.
+        ///   Looks up a localized string similar to Selected: {0}.
         /// </summary>
-        public static string Selected {
+        public static string SelectedFromat {
             get {
-                return ResourceManager.GetString("Selected", resourceCulture);
+                return ResourceManager.GetString("SelectedFromat", resourceCulture);
             }
         }
         
@@ -2114,15 +2114,6 @@ namespace FileExplorer.Properties {
         public static string TopRight {
             get {
                 return ResourceManager.GetString("TopRight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Total.
-        /// </summary>
-        public static string Total {
-            get {
-                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
         

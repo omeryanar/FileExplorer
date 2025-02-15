@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Data;
 using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Grid;
 
 namespace FileExplorer.Resources
 {
@@ -31,6 +32,7 @@ namespace FileExplorer.Resources
             {
                 Properties.Resources.Culture = culture;
                 DXMessageBoxLocalizer.Active = new CustomMessageBoxLocalizer();
+                GridControlLocalizer.Active = new CustomGridControlLocalizer();
 
                 Thread.CurrentThread.CurrentCulture = culture;
                 Thread.CurrentThread.CurrentUICulture = culture;
@@ -51,6 +53,15 @@ namespace FileExplorer.Resources
             AddString(DXMessageBoxStringId.Cancel, Properties.Resources.Cancel);
             AddString(DXMessageBoxStringId.Yes, Properties.Resources.Yes);
             AddString(DXMessageBoxStringId.No, Properties.Resources.No);
+        }
+    }
+
+    public class CustomGridControlLocalizer : GridControlLocalizer
+    {
+        protected override void PopulateStringTable()
+        {
+            base.PopulateStringTable();
+            AddString(GridControlStringId.SummaryItemsSeparator, "   |   ");
         }
     }
 }

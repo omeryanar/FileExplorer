@@ -764,11 +764,8 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="Level" xml:space="preserve">
     <value>Level</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
-  </data>
-  <data name="Selected" xml:space="preserve">
-    <value>Selected</value>
+  <data name="SelectedFromat" xml:space="preserve">
+    <value>Selected: {0}</value>
   </data>
   <data name="FrameWidth" xml:space="preserve">
     <value>Image/Video Width</value>

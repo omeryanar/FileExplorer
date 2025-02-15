@@ -387,22 +387,8 @@
     </dxg:GridControl.GroupSummary>
 
     <dxg:GridControl.TotalSummary>
-        <dxg:GridSummaryItem FieldName="Name" SummaryType="Count" Alignment="Left">
-            <dxg:GridSummaryItem.FixedTotalSummaryElementStyle>
-                <Style TargetType="Run">
-                    <Setter Property="Text" >
-                        <Setter.Value>
-                            <MultiBinding Mode="OneWay" StringFormat="{}{0}: {1}   &#x2759;   {2}: {3}">
-                                <Binding Path="Total" Source="{StaticResource ResourceProvider}" />
-                                <Binding Path="Value" />
-                                <Binding Path="Selected" Source="{StaticResource ResourceProvider}" />
-                                <Binding RelativeSource="{RelativeSource AncestorType=dxg:GridControl}" Path="SelectedItems.Count" />                                
-                            </MultiBinding>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </dxg:GridSummaryItem.FixedTotalSummaryElementStyle>
-        </dxg:GridSummaryItem>
+        <dxg:GridSummaryItem FieldName="Name" SummaryType="Count" Alignment="Left" DisplayFormat="{Binding TotalFormat, Source={StaticResource ResourceProvider}}" />
+        <dxg:GridSummaryItem FieldName="Name" SummaryType="Count" Alignment="Left" DisplayFormat="{Binding SelectedFromat, Source={StaticResource ResourceProvider}}" CalculationMode="SelectedRows" />
     </dxg:GridControl.TotalSummary>
 
     <dxb:BarManager.DXContextMenu>
