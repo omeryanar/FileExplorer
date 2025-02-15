@@ -67,7 +67,7 @@ You can create calculated columns by using Excel-style formulas.
 
 The Preview Pane at the rightmost of the application supports preview for the following file types:
 
-* Image Files (.png, .gif, .ico, .bmp, .jpg, .jpeg, .tif, .tiff, .svg)
+* Image Files (.avif, .bmp, .dib, .gif, .heic, .heif, .ico, .icon, .jfif, .jpe, .jpg, .jpeg, .jxr, .png, .rle, .svg, .tif, .tiff, .wdp, .webp)
 * Word Files (.rtf, .doc, .docx, .docm, .dot, .dotm, .dotx, .odt, .epub, .htm, .html, .mht)
 * Excel Files (.xls, .xlt, .xlsx, .xltx, .xlsb, .xlsm, .xltm, .csv)
 * Text Files (.txt, .xml, .cs, .sql ...)
