@@ -57,6 +57,47 @@ You can tweak the arguments for your needs.
 
 ![Custom Context Menu Expression](https://github.com/omeryanar/Resources/blob/master/FileExplorer/CustomMenuExpression.png?raw=true)
 
+### Default Columns
+
+By default, FileExplorer displays basic file system information:
+
+* Name
+* Type
+* Size
+* Date Created
+* Date Modified
+
+You can add other columns by clicking "Add Column" menu:
+
+![Add Columns](https://github.com/omeryanar/Resources/blob/master/FileExplorer/AddColumn.png?raw=true)
+
+* Basic File Info
+  * Extension
+  * Parent Name
+  * Parent Path
+  * Path
+* Image File Info
+  * Width
+  * Height
+* Video File Info
+  * Duration
+  * Frame Width
+  * Frame Height
+* Audio File Info
+  * Bitrate
+  * Sample Rate
+  * Channels
+* Music File Info
+  * Album
+  * Title
+  * Genre
+  * Album Artists
+  * Contributing Artists
+  * Composers
+  * Year
+  * Track
+  * Track Count
+
 ### Custom Columns
 
 You can create calculated columns by using Excel-style formulas.
