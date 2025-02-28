@@ -10,7 +10,7 @@
              xmlns:common="clr-namespace:FileExplorer.Core"
              xmlns:controls="clr-namespace:FileExplorer.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             MinWidth="600" MinHeight="320">
+             MinWidth="700" MinHeight="320">
 
     <dxlc:LayoutControl>
         <dxlc:LayoutControl.Resources>
@@ -121,7 +121,7 @@
                             <dxe:ComboBoxEditItem Content="F" ToolTip="Full (long time)" />
                             <dxe:ComboBoxEditItem Content="f" ToolTip="Full Date (short time)" />
                         </dxe:ComboBoxEdit>
-                        <dxe:TextEdit IsReadOnly="True" ShowBorder="False" EditValue="1/31/2020 13:45:30" EditValueType="{x:Type sys:DateTime}" DisplayFormatString="{Binding EditValue, ElementName=dateTimeFormatSelector}" />
+                        <dxe:TextEdit IsReadOnly="True" ShowBorder="False" EditValue="2020-01-31T13:45:30" EditValueType="{x:Type sys:DateTime}" DisplayFormatString="{Binding EditValue, ElementName=dateTimeFormatSelector}" />
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding Virtualization, Source={StaticResource ResourceProvider}}">
