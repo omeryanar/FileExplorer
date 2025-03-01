@@ -22,7 +22,6 @@ using DevExpress.XtraGrid;
 using FileExplorer.Controls;
 using FileExplorer.Helpers;
 using FileExplorer.Model;
-using FileExplorer.Native;
 using FileExplorer.Properties;
 using FileExplorer.ViewModel;
 
@@ -48,7 +47,7 @@ namespace FileExplorer.Core
             }
             else if (e.Column.FieldName.Contains("Name"))
             {
-                e.Result = SafeNativeMethods.NaturalCompare(e.Value1.ToString(), e.Value2.ToString());
+                e.Result = Utilities.NaturalCompare(e.Value1.ToString(), e.Value2.ToString());
                 e.Handled = true;
             }
         }
@@ -147,7 +146,7 @@ namespace FileExplorer.Core
                 }
                 else if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
                 {
-                    e.Result = SafeNativeMethods.NaturalCompare(value1.FullName, value2.FullName);
+                    e.Result = Utilities.NaturalCompare(value1.FullName, value2.FullName);
                     e.Handled = true;
                 }
             }
@@ -155,7 +154,7 @@ namespace FileExplorer.Core
             {
                 if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
                 {
-                    e.Result = SafeNativeMethods.NaturalCompare(value1.ParentName, value2.ParentName);
+                    e.Result = Utilities.NaturalCompare(value1.ParentName, value2.ParentName);
                     e.Handled = true;
                 }
             }
@@ -345,7 +344,7 @@ namespace FileExplorer.Core
                 }
                 else if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
                 {
-                    e.Result = SafeNativeMethods.NaturalCompare(value1.FullName, value2.FullName);
+                    e.Result = Utilities.NaturalCompare(value1.FullName, value2.FullName);
                     e.Handled = true;
                 }
             }
@@ -353,7 +352,7 @@ namespace FileExplorer.Core
             {
                 if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
                 {
-                    e.Result = SafeNativeMethods.NaturalCompare(value1.ParentName, value2.ParentName);
+                    e.Result = Utilities.NaturalCompare(value1.ParentName, value2.ParentName);
                     e.Handled = true;
                 }
             }

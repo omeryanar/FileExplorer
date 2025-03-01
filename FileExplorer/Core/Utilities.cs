@@ -13,6 +13,7 @@ using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
 using FileExplorer.Native;
+using NaturalSort.Extension;
 using NLog;
 
 namespace FileExplorer.Core
@@ -305,6 +306,13 @@ namespace FileExplorer.Core
 
             return emlFilePath;
         }
+
+        public static int NaturalCompare(string value1, string value2)
+        {
+            return NaturalSortComparer.Compare(value1, value2);
+        }
+
+        private static NaturalSortComparer NaturalSortComparer = new NaturalSortComparer(StringComparison.OrdinalIgnoreCase);
     }
 
     public static class UIHelper

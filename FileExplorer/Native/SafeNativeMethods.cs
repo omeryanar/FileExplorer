@@ -16,12 +16,7 @@ namespace FileExplorer.Native
         public static HWND GetActiveWindowHandle()
         {
             return GetActiveWindow();
-        }
-
-        public static int NaturalCompare(string value1, string value2)
-        {
-            return StrCmpLogicalW(value1, value2);
-        }        
+        }   
 
         public static IShellItem CreateShellItem(string path)
         {

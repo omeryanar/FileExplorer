@@ -137,6 +137,9 @@
     <Reference Include="Mono.Cecil.Rocks, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
+    <Reference Include="NaturalSort.Extension, Version=4.0.0.0, Culture=neutral, PublicKeyToken=bf10d7a29536a6dd, processorArchitecture=MSIL">
+      <HintPath>..\packages\NaturalSort.Extension.4.3.0\lib\netstandard2.0\NaturalSort.Extension.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.5.3.4\lib\net46\NLog.dll</HintPath>
     </Reference>
