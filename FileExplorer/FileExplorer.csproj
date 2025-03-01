@@ -49,67 +49,67 @@
     <Reference Include="CommandLine, Version=2.9.1.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.2.9.1\lib\net461\CommandLine.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Docs.v23.2">
+    <Reference Include="DevExpress.Docs.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Utils.v23.2">
+    <Reference Include="DevExpress.Utils.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Accordion.v23.2">
+    <Reference Include="DevExpress.Xpf.Accordion.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Controls.v23.2">
+    <Reference Include="DevExpress.Xpf.Controls.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Data.Desktop.v23.2">
+    <Reference Include="DevExpress.Data.Desktop.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Core.v23.2">
+    <Reference Include="DevExpress.Xpf.Core.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Drawing.v23.2">
+    <Reference Include="DevExpress.Drawing.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Data.v23.2">
+    <Reference Include="DevExpress.Data.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Printing.v23.2.Core">
+    <Reference Include="DevExpress.Printing.v24.2.Core">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Mvvm.v23.2">
+    <Reference Include="DevExpress.Mvvm.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Docking.v23.2">
+    <Reference Include="DevExpress.Xpf.Docking.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.ExpressionEditor.v23.2">
+    <Reference Include="DevExpress.Xpf.ExpressionEditor.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Layout.v23.2.Core">
+    <Reference Include="DevExpress.Xpf.Layout.v24.2.Core">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.LayoutControl.v23.2">
+    <Reference Include="DevExpress.Xpf.LayoutControl.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Printing.v23.2">
+    <Reference Include="DevExpress.Xpf.Printing.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v23.2">
+    <Reference Include="DevExpress.Xpf.Grid.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v23.2.Core">
+    <Reference Include="DevExpress.Xpf.Grid.v24.2.Core">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Ribbon.v23.2">
+    <Reference Include="DevExpress.Xpf.Ribbon.v24.2">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Office.v23.2.Core">
+    <Reference Include="DevExpress.Office.v24.2.Core">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.RichEdit.v23.2.Core">
+    <Reference Include="DevExpress.RichEdit.v24.2.Core">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.RichEdit.v23.2">
+    <Reference Include="DevExpress.Xpf.RichEdit.v24.2">
       <Private>False</Private>
     </Reference>
     <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=2.0.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">

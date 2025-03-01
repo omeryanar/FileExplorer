@@ -17,10 +17,10 @@
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="DevExpress.Wpf.Core" Version="23.2.*-*">
+    <PackageReference Include="DevExpress.Wpf.Core" Version="24.2.*-*">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="DevExpress.Wpf.PdfViewer" Version="23.2.*-*">
+    <PackageReference Include="DevExpress.Wpf.PdfViewer" Version="24.2.*-*">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>

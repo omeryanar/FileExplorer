@@ -40,9 +40,9 @@ namespace FileExplorer
         public static UserControl TaskbarIconContainer { get; private set; }
 
         public App()
-        {
-            Theme.RegisterPredefinedPaletteThemes();
+        {            
             CompatibilitySettings.UseLightweightThemes = true;
+            Theme.RegisterPredefinedPaletteThemes();
 
             ApplicationThemeHelper.ApplicationThemeName = Settings.Default.ThemeName;
             LightweightThemeManager.CurrentThemeChanged += (x, y) =>
