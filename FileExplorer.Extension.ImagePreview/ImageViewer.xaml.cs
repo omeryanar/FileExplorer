@@ -40,6 +40,15 @@ namespace FileExplorer.Extension.ImagePreview
             (nameof(EditCommand), typeof(ICommand), typeof(ImageViewer), new PropertyMetadata(null));
         public static readonly DependencyProperty EditCommandProperty = EditCommandPropertyKey.DependencyProperty;
 
+        public ICommand ResetCommand
+        {
+            get { return (ICommand)GetValue(ResetCommandProperty); }
+            protected set { SetValue(ResetCommandPropertyKey, value); }
+        }
+        private static readonly DependencyPropertyKey ResetCommandPropertyKey = DependencyProperty.RegisterReadOnly
+            (nameof(ResetCommand), typeof(ICommand), typeof(ImageViewer), new PropertyMetadata(null));
+        public static readonly DependencyProperty ResetCommandProperty = ResetCommandPropertyKey.DependencyProperty;
+
         public int RotationAngle
         {
             get { return (int)GetValue(RotationAngleProperty); }
@@ -72,15 +81,25 @@ namespace FileExplorer.Extension.ImagePreview
         public static readonly DependencyProperty OffSetYProperty =
             DependencyProperty.Register(nameof(OffSetY), typeof(double), typeof(ImageViewer));
 
+        public bool LockSettings
+        {
+            get { return (bool)GetValue(LockSettingsProperty); }
+            set { SetValue(LockSettingsProperty, value); }
+        }
+        public static readonly DependencyProperty LockSettingsProperty =
+            DependencyProperty.Register(nameof(LockSettings), typeof(bool), typeof(ImageViewer));
+
         public ImageViewer()
         {
             InitializeComponent();
             EditCommand = new DelegateCommand(EditImage, CanEditImage);
+            ResetCommand = new DelegateCommand(Reset, CanReset);
         }
 
         public async Task PreviewFile(string filePath)
         {
-            Reset();
+            if (!LockSettings)
+                Reset();
 
             currentFilePath = filePath;
             currentFileExtension = Path.GetExtension(currentFilePath);
@@ -202,6 +221,11 @@ namespace FileExplorer.Extension.ImagePreview
                 RotationAngle = 0;
         }
 
+        public bool CanReset()
+        {
+            return ScaleFactor != 100 || RotationAngle != 0 || OffSetX != 0 || OffSetY != 0;
+        }
+
         public void Reset()
         {
             ScaleFactor = 100;
@@ -210,6 +234,18 @@ namespace FileExplorer.Extension.ImagePreview
             OffSetY = 0;
 
             mouseUpPosition = new Point(0, 0);
+        }
+
+        protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
+        {
+            base.OnPreviewMouseWheel(e);
+
+            if (e.Delta > 0 && ScaleFactor < 500)
+                ScaleFactor = (Math.Floor(ScaleFactor / 10) + 1) * 10;
+            else if (e.Delta < 0 && ScaleFactor > 10)
+                ScaleFactor = (Math.Floor(ScaleFactor / 10) - 1) * 10;
+
+            e.Handled = true;
         }
 
         private string currentFilePath;

@@ -5,12 +5,12 @@
              xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-             x:Name="CodeBehind" DataContext="{Binding ElementName=CodeBehind}">
+             x:Name="CodeBehind" Background="Transparent" DataContext="{Binding ElementName=CodeBehind}">
     <DockPanel>
         <dxb:ToolBarControl DockPanel.Dock="Bottom" Padding="10" Background="Transparent" HorizontalAlignment="Center" AllowQuickCustomization="False">
             <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateLeft.svg}" Command="{DXCommand 'RotateLeft()'}" />
             <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateRight.svg}" Command="{DXCommand 'RotateRight()'}" />
-            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Edit.svg}" Command="{Binding EditCommand}" />
+            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Edit.svg}" Command="{Binding EditCommand}" />            
             <dxb:BarEditItem>
                 <dxb:BarEditItem.EditTemplate>
                     <DataTemplate>
@@ -32,6 +32,9 @@
                     </DataTemplate>
                 </dxb:BarStaticItem.ContentTemplate>
             </dxb:BarStaticItem>
+            <dxb:BarItemSeparator />
+            <dxb:BarCheckItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Lock.svg}" IsChecked="{Binding LockSettings}" />
+            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Reset.svg}" Command="{Binding ResetCommand}" />
         </dxb:ToolBarControl>
         <Grid ClipToBounds="True">
             <Image x:Name="image" Source="{Binding ImageSource}" StretchDirection="DownOnly" RenderTransformOrigin="0.5, 0.5"
