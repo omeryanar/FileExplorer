@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
 using CommandLine;
 using FileExplorer.Properties;
 using FileExplorer.Resources;

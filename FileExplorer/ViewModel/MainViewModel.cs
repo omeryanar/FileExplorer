@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevExpress.Data.Browsing;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using FileExplorer.Core;
@@ -8,11 +9,14 @@ using FileExplorer.Helpers;
 using FileExplorer.Messages;
 using FileExplorer.Model;
 using FileExplorer.Properties;
+using static DevExpress.Xpf.Core.TabbedWindowDocumentUIService;
 
 namespace FileExplorer.ViewModel
 {
     public class MainViewModel
     {
+        public static string LastClosedWindowSession { get; set; }
+
         public virtual IActiveWindowService ActiveWindowService { get { return null; } }
 
         public virtual IDocumentManagerService DocumentManagerService { get { return null; } }
@@ -46,7 +50,7 @@ namespace FileExplorer.ViewModel
                         foreach (FileModel file in message.Parameters)
                         {
                             if (file.IsDirectory)
-                                App.CreateNewWindow(file);
+                                App.CreateNewSingleTabWindow(file);
                         }
                         break;
                 }
@@ -87,6 +91,15 @@ namespace FileExplorer.ViewModel
             }
             else
                 CreateNewTab();
+        }
+
+        public void SaveSession()
+        {
+            if (Settings.Default.SaveLastSession)
+            {
+                var tabs = DocumentManagerService.Documents.OfType<TabbedWindowDocument>().Select(x => x.Content);
+                LastClosedWindowSession = tabs.OfType<BrowserTabViewModel>().Select(x => x.CurrentFolder.FullPath).Join(";");
+            }
         }
     }
 }

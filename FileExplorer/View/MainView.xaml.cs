@@ -1,11 +1,7 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Data;
 using DevExpress.Xpf.Core;
-using FileExplorer.Core;
 using FileExplorer.Properties;
-using FileExplorer.ViewModel;
-using static DevExpress.Xpf.Core.TabbedWindowDocumentUIService;
 
 namespace FileExplorer.View
 {
@@ -27,15 +23,6 @@ namespace FileExplorer.View
             {
                 SetWindowIcon();
                 SetWindowTitle();
-            };
-
-            Closed += (s, e) =>
-            {
-                if (Settings.Default.SaveLastSession && DataContext is MainViewModel viewModel)
-                {
-                    var tabs = viewModel.DocumentManagerService.Documents.OfType<TabbedWindowDocument>().Where(x => x.Window == this).Select(x => x.Content);
-                    TaskbarViewModel.LastClosedWindowSession = tabs.OfType<BrowserTabViewModel>().Select(x => x.CurrentFolder.FullPath).Join(";");
-                }
             };
 
             Settings.Default.PropertyChanged += (s, e) =>

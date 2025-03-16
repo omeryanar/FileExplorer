@@ -1,30 +1,22 @@
-﻿using System.Threading.Tasks;
-using FileExplorer.Core;
-using FileExplorer.Helpers;
-using FileExplorer.Properties;
+﻿using FileExplorer.Helpers;
 
 namespace FileExplorer.ViewModel
 {
     public class TaskbarViewModel
     {
-        public static string LastClosedWindowSession { get; set; }
-
-        public async Task OpenDefault()
+        public void OpenDefault()
         {
-            if (Settings.Default.SaveLastSession && LastClosedWindowSession != null)
-                await App.CreateFolderTabs(LastClosedWindowSession.Split(";"));
-            else
-                App.CreateNewWindow();
+            App.ParseArgumentsAndRun(new string[0]);
         }
 
         public void OpenComputer()
         {
-            App.CreateNewWindow(FileSystemHelper.Computer);
+            App.CreateNewSingleTabWindow(FileSystemHelper.Computer);
         }
 
         public void OpenQuickAccess()
         {
-            App.CreateNewWindow(FileSystemHelper.QuickAccess);
+            App.CreateNewSingleTabWindow(FileSystemHelper.QuickAccess);
         }
 
         public void Exit()

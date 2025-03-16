@@ -86,10 +86,10 @@ namespace FileExplorer
                     SaveSessionAndShutdown();
                 else if (options.Background)
                     await PreloadAsync();
-                else if (firstRun && options.Folders.Count() == 0)
-                    await RestoreLastSession();
+                else if (options.Folders.Count() == 0)
+                    await RestoreLastSession(firstRun);
                 else
-                    await CreateFolderTabs(options.Folders);
+                    await CreateNewMultiTabWindow(options.Folders);
 
             }).WithNotParsed(async (errors) =>
             {
@@ -97,7 +97,7 @@ namespace FileExplorer
             });
         }
 
-        public static void CreateNewWindow(FileModel fileModel = null)
+        public static void CreateNewSingleTabWindow(FileModel fileModel = null)
         {
             MainView mainView = new MainView();
             MainViewModel mainViewModel = ViewModelSource.Create<MainViewModel>();
@@ -108,7 +108,7 @@ namespace FileExplorer
             mainView.Show();
         }
 
-        public static async Task CreateFolderTabs(IEnumerable<string> folders)
+        public static async Task CreateNewMultiTabWindow(IEnumerable<string> folders)
         {
             MainView mainView = new MainView();
             mainView.DataContext = ViewModelSource.Create<MainViewModel>();
@@ -219,17 +219,29 @@ namespace FileExplorer
             Current.Shutdown();
         }
 
-        private static async Task RestoreLastSession()
+        private static async Task RestoreLastSession(bool firstRun)
         {
-            if (Settings.Default.SaveLastSession && !String.IsNullOrWhiteSpace(Settings.Default.LastSession))
+            if (Settings.Default.SaveLastSession)
             {
-                foreach (string groups in Settings.Default.LastSession.Split("|"))
+                if (firstRun && !String.IsNullOrWhiteSpace(Settings.Default.LastSession))
+                {
+                    foreach (string groups in Settings.Default.LastSession.Split("|"))
+                    {
+                        MainView mainView = new MainView();
+                        mainView.DataContext = ViewModelSource.Create<MainViewModel>();
+
+                        await CreateFolderTabs(groups.Split(";"), mainView, false);
+                    }
+                }
+                else if (!String.IsNullOrWhiteSpace(MainViewModel.LastClosedWindowSession))
                 {
                     MainView mainView = new MainView();
                     mainView.DataContext = ViewModelSource.Create<MainViewModel>();
 
-                    await CreateFolderTabs(groups.Split(";"), mainView, false);
+                    await CreateFolderTabs(MainViewModel.LastClosedWindowSession.Split(";"), mainView, true);
                 }
+                else
+                    await CreateFolderTabs();
             }
             else
                 await CreateFolderTabs();

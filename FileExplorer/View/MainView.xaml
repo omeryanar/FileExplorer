@@ -7,7 +7,7 @@
                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                    xmlns:common="clr-namespace:FileExplorer.Core"
                    ShowTitle="False" ShowIcon="False"
-                   HeaderIndentInNormalState="0" HeaderIndentInMaximizedState="0" MinWidth="480" MinHeight="270">
+                   HeaderIndentInNormalState="0" HeaderIndentInMaximizedState="0" MinWidth="480" MinHeight="270" Closed="{DXEvent 'SaveSession()'}">
 
     <dxmvvm:Interaction.Behaviors>
         <common:ActiveWindowService />

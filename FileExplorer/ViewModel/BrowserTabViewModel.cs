@@ -173,7 +173,7 @@ namespace FileExplorer.ViewModel
         public void OpenInNewWindow(FileModel fileModel)
         {
             if (CanOpenInNewWindow(fileModel))
-                App.CreateNewWindow(fileModel);
+                App.CreateNewSingleTabWindow(fileModel);
         }
 
         public void SaveSettings()
