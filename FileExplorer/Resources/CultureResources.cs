@@ -32,7 +32,7 @@ namespace FileExplorer.Resources
             {
                 Properties.Resources.Culture = culture;
                 DXMessageBoxLocalizer.Active = new CustomMessageBoxLocalizer();
-                GridControlLocalizer.Active = new CustomGridControlLocalizer();
+                GridControlResXLocalizer.Active = new CustomGridControlLocalizer();
 
                 Thread.CurrentThread.CurrentCulture = culture;
                 Thread.CurrentThread.CurrentUICulture = culture;
@@ -56,7 +56,7 @@ namespace FileExplorer.Resources
         }
     }
 
-    public class CustomGridControlLocalizer : GridControlLocalizer
+    public class CustomGridControlLocalizer : GridControlResXLocalizer
     {
         protected override void PopulateStringTable()
         {
