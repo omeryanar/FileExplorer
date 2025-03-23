@@ -267,7 +267,7 @@
     <dxmvvm:Interaction.Behaviors>
         <common:FileModelSortBehavior />
         <common:FileModelGroupBehavior />
-        <common:NativeContextMenuBehavior />
+        <common:NativeContextMenuBehavior CurrentFolder="{Binding CurrentFolder}" />
         <common:MouseEventToCommand MouseButton="Middle" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
                                     MarkRoutedEventsAsHandled="True" Command="{Binding OpenInNewTabCommand}" EventArgsConverter="{dx:EventArgsToDataRowConverter}" />
         <common:MouseEventToCommand MouseButton="XButton1" Event="PreviewMouseDown" PassEventArgsToCommand="True" 
@@ -394,7 +394,8 @@
     <dxb:BarManager.DXContextMenu>
         <dxb:PopupMenu>
             <dxmvvm:Interaction.Behaviors>
-                <common:CustomMenuBehavior CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}" />
+                <common:CustomMenuBehavior CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}"
+                                           DefaultCommandParameter="{Binding CurrentFolder}" />
             </dxmvvm:Interaction.Behaviors>
             <dxb:PopupMenu.ItemLinks>
                 <dxb:BarButtonItemLink BarItemName="AddRemoveMenuItems" />

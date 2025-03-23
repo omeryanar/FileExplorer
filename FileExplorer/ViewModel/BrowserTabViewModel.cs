@@ -748,12 +748,20 @@ namespace FileExplorer.ViewModel
 
         public bool CanShowProperties(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => !x.IsRoot);
+            if (items == null || items.Count == 0)
+                return CurrentFolder?.IsRoot == false;
+
+            return items.OfType<FileModel>().All(x => !x.IsRoot);
         }
 
         public void ShowProperties(IList<object> items)
         {
-            if (items.Count == 1)
+            if (items == null || items.Count == 0)
+            {
+                if(CurrentFolder?.IsRoot == false)
+                    Utilities.ShowProperties(CurrentFolder.FullPath);
+            }
+            else if (items.Count == 1)
             {
                 if (items[0] is FileModel fileModel)
                     Utilities.ShowProperties(fileModel.FullPath);
@@ -763,7 +771,6 @@ namespace FileExplorer.ViewModel
                 IEnumerable<FileModel> fileModels = items.OfType<FileModel>();
                 Utilities.ShowMultipleProperties(fileModels.Select(x => x.FullPath));
             }
-
         }
 
         public bool CanRecycleItems(IList<object> items)

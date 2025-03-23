@@ -19,7 +19,7 @@ namespace FileExplorer.Controls
 
         private bool CanAnyItemExecute()
         {
-            return Items.OfType<BarItem>().Any(x => x.Command.CanExecute(x.CommandParameter));
+            return Items.OfType<BarItem>().Any(x => x.Command?.CanExecute(x.CommandParameter) == true);
         }
     }
 }

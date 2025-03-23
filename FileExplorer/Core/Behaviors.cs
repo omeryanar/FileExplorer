@@ -397,6 +397,13 @@ namespace FileExplorer.Core
         }
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(CustomMenuBehavior));
 
+        public object DefaultCommandParameter
+        {
+            get => GetValue(DefaultCommandParameterProperty);
+            set => SetValue(DefaultCommandParameterProperty, value);
+        }
+        public static readonly DependencyProperty DefaultCommandParameterProperty = DependencyProperty.Register(nameof(DefaultCommandParameter), typeof(object), typeof(CustomMenuBehavior));
+
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -408,6 +415,8 @@ namespace FileExplorer.Core
         {
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
                 e.Cancel = true;
+            else
+                ResetCustomMenuItems();
         }
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
@@ -416,22 +425,12 @@ namespace FileExplorer.Core
             AssociatedObject.Unloaded += AssociatedObject_Unloaded;
 
             ResetCustomMenuItems();
-            App.Repository.MenuItems.ItemUpdated += ResetEventHandler;
-            App.Repository.MenuItems.CollectionChanged += ResetEventHandler;
         }
 
         private void AssociatedObject_Unloaded(object sender, RoutedEventArgs e)
         {
             AssociatedObject.Loaded += AssociatedObject_Loaded;
             AssociatedObject.Unloaded -= AssociatedObject_Unloaded;
-
-            App.Repository.MenuItems.ItemUpdated -= ResetEventHandler;
-            App.Repository.MenuItems.CollectionChanged -= ResetEventHandler;
-        }
-
-        private void ResetEventHandler(object sender, object e)
-        {
-            ResetCustomMenuItems();
         }
 
         private void ResetCustomMenuItems()
@@ -452,6 +451,12 @@ namespace FileExplorer.Core
                     DataContext = menuItem,
                     CommandParameter = CommandParameter
                 };
+
+                if (CommandParameter is null || (CommandParameter is ICollection collection && collection.Count == 0))
+                    menuItemControl.CommandParameter = new List<object> { DefaultCommandParameter };
+
+                if (menuItemControl.CommandParameter is IEnumerable enumerable && enumerable.OfType<FileModel>().Any(x => x.IsRoot))
+                    return;
 
                 if (String.IsNullOrEmpty(menuItem.GroupName))
                 {
@@ -481,6 +486,13 @@ namespace FileExplorer.Core
 
     public class NativeContextMenuBehavior : Behavior<DataControlBase>
     {
+        public FileModel CurrentFolder
+        {
+            get { return (FileModel)GetValue(CurrentFolderProperty); }
+            set { SetValue(CurrentFolderProperty, value); }
+        }
+        public static readonly DependencyProperty CurrentFolderProperty = DependencyProperty.Register(nameof(CurrentFolder), typeof(FileModel), typeof(NativeContextMenuBehavior));
+
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -506,17 +518,25 @@ namespace FileExplorer.Core
                 }
                 else if (AssociatedObject is FileListViewControl fileList)
                 {
-                    if (fileList.SelectedItems.Count > 1)
-                        filePaths = AssociatedObject.SelectedItems.OfType<FileModel>().Select(x => x.FullPath).ToList();
+                    int rowHandle = fileList.View.GetRowHandleByMouseEventArgs(e);
+                    if (rowHandle >= 0)
+                    {
+                        FileModel clickedItem = AssociatedObject.GetRow(rowHandle) as FileModel;
+                        if (clickedItem != null && !fileList.SelectedItems.Contains(clickedItem))
+                            fileList.SelectedItems.Add(clickedItem);
+
+                        foreach (FileModel fileModel in fileList.SelectedItems.OfType<FileModel>())
+                            filePaths.Add(fileModel.FullPath);
+                    }
                     else
                     {
-                        int rowHandle = fileList.View.GetRowHandleByMouseEventArgs(e);
-                        if (rowHandle >= 0)
+                        if (fileList.SelectedItems.Count > 1)
                         {
-                            FileModel fileModel = AssociatedObject.GetRow(rowHandle) as FileModel;
-                            if (fileModel != null)
+                            foreach (FileModel fileModel in fileList.SelectedItems.OfType<FileModel>())
                                 filePaths.Add(fileModel.FullPath);
                         }
+                        else if (CurrentFolder?.IsRoot == false)
+                            filePaths.Add(CurrentFolder.FullPath);
                     }
                 }
 
