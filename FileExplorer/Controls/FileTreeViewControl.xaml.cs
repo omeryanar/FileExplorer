@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Input;
 using DevExpress.Data.TreeList;
 using DevExpress.Xpf.Grid;
-using DevExpress.Xpf.Grid.TreeList;
 using FileExplorer.Properties;
 
 namespace FileExplorer.Controls
@@ -89,14 +88,10 @@ namespace FileExplorer.Controls
                 node.IsExpanded = true;
         }
 
-        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        protected override void OnChangeNodeExpanded(object commandParameter)
         {
-            base.OnPreviewMouseDown(e);
-
-            DependencyObject target = e.OriginalSource as DependencyObject;
-            TreeListViewHitInfo hitInfo = CalcHitInfo(target);
-            if (hitInfo.InNodeExpandButton || hitInfo.InRow)
-                allowExpandNode = true;
+            allowExpandNode = true;
+            base.OnChangeNodeExpanded(commandParameter);
         }
 
         private bool allowExpandNode;
