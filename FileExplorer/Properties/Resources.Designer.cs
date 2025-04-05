@@ -358,6 +358,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm Before Run.
+        /// </summary>
+        public static string ConfirmBeforeRun {
+            get {
+                return ResourceManager.GetString("ConfirmBeforeRun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Copy.
         /// </summary>
         public static string ConfirmCopy {
@@ -1614,6 +1623,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prefix.
+        /// </summary>
+        public static string Prefix {
+            get {
+                return ResourceManager.GetString("Prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preview Pane.
         /// </summary>
         public static string PreviewPane {
@@ -1754,6 +1772,15 @@ namespace FileExplorer.Properties {
         public static string RowsColumns {
             get {
                 return ResourceManager.GetString("RowsColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run Command.
+        /// </summary>
+        public static string RunCommand {
+            get {
+                return ResourceManager.GetString("RunCommand", resourceCulture);
             }
         }
         
@@ -2037,6 +2064,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Suffix.
+        /// </summary>
+        public static string Suffix {
+            get {
+                return ResourceManager.GetString("Suffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Supported File Types.
         /// </summary>
         public static string SupportedFileTypes {
@@ -2276,6 +2312,15 @@ namespace FileExplorer.Properties {
         public static string Width {
             get {
                 return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working Directory.
+        /// </summary>
+        public static string WorkingDirectory {
+            get {
+                return ResourceManager.GetString("WorkingDirectory", resourceCulture);
             }
         }
         

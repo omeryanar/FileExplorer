@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -59,9 +58,15 @@ namespace FileExplorer.Persistence
 
         public string Expression { get; set; }
 
+        public string Prefix { get; set; }
+
+        public string Suffix { get; set; }
+
         public string Shortcut { get; set; }
 
         public string ExtensionFilter { get; set; }
+
+        public bool ConfirmBeforeRun { get; set; }
 
         public ItemTypeFilter ItemTypeFilter { get; set; }
 
@@ -148,58 +153,41 @@ namespace FileExplorer.Persistence
 
         public void Execute(IList<object> items)
         {
-            try
+            List<string> parameters = new List<string>();
+            List<FileModel> files = items.OfType<FileModel>().ToList();
+            string directory = files.FirstOrDefault()?.ParentPath;
+
+            if (Parameter == ParameterType.Name)
+                parameters = files.Select(x => String.Format("\"{0}\"", x.FullName)).ToList();
+            else if (Parameter == ParameterType.Path)
+                parameters = files.Select(x => String.Format("\"{0}\"", x.FullPath)).ToList();
+            else if (!String.IsNullOrEmpty(Expression))
             {
-                List<string> parameters = new List<string>();
-                List<FileModel> files = items.OfType<FileModel>().ToList();
-
-                if (Parameter == ParameterType.Name)
-                    parameters = files.Select(x => String.Format("\"{0}\"", x.FullName)).ToList();
-                else if (Parameter == ParameterType.Path)
-                    parameters = files.Select(x => String.Format("\"{0}\"", x.FullPath)).ToList();
-                else if (!String.IsNullOrEmpty(Expression))
+                List<FileModel> expressionResults = new List<FileModel>();
+                foreach (FileModel file in files)
                 {
-                    List<FileModel> expressionResults = new List<FileModel>();
-                    foreach (FileModel file in files)
+                    object result = new ExpressionEvaluator(Properties, CriteriaOperator.Parse(Expression)).Evaluate(file);
+                    if (result != null)
                     {
-                        object result = new ExpressionEvaluator(Properties, CriteriaOperator.Parse(Expression)).Evaluate(file);
-                        if (result != null)
-                        {
-                            parameters.Add(result.ToString());
+                        parameters.Add(result.ToString());
 
-                            string parsingName = FileSystemHelper.GetFileParsingName(result.ToString());
-                            if (!String.IsNullOrEmpty(parsingName))
-                                expressionResults.Add(FileModel.FromPath(parsingName));
-                        }
+                        string parsingName = FileSystemHelper.GetFileParsingName(result.ToString());
+                        if (!String.IsNullOrEmpty(parsingName))
+                            expressionResults.Add(FileModel.FromPath(parsingName));
                     }
-                    files = expressionResults;
                 }
-
-                if (Command == CommandType.OpenWithApplication)
-                {
-                    ProcessStartInfo processStartInfo = new ProcessStartInfo(Application);
-                    processStartInfo.UseShellExecute = false;
-
-                    processStartInfo.WorkingDirectory = files.FirstOrDefault()?.ParentPath;
-                    processStartInfo.Arguments = parameters.Join(" ");
-
-                    Process.Start(processStartInfo);
-                }
-                else
-                {
-                    CommandMessage message = new CommandMessage
-                    {
-                        CommandType = Command,
-                        Parameters = files
-                    };
-
-                    Messenger.Default.Send(message);
-                }
+                files = expressionResults;
             }
-            catch (Exception ex)
+
+            CommandMessage message = new CommandMessage
             {
-                Utilities.ShowMessage(ex);
-            }
+                Arguments = $"{Prefix}{parameters.Join(" ")}{Suffix}",
+                Directory = directory,
+                Parameters = files,
+                MenuItem = this
+            };
+
+            Messenger.Default.Send(message);
         }
 
         public override string ToString()

@@ -875,4 +875,19 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="Help" xml:space="preserve">
     <value>Yardım</value>
   </data>
+  <data name="Prefix" xml:space="preserve">
+    <value>Önek</value>
+  </data>
+  <data name="Suffix" xml:space="preserve">
+    <value>Sonek</value>
+  </data>
+  <data name="ConfirmBeforeRun" xml:space="preserve">
+    <value>Çalıştırmadan Önce Doğrula</value>
+  </data>
+  <data name="WorkingDirectory" xml:space="preserve">
+    <value>Çalışma Dizini</value>
+  </data>
+  <data name="RunCommand" xml:space="preserve">
+    <value>Komut Çalıştır</value>
+  </data>
 </root>

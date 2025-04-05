@@ -875,4 +875,19 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="Help" xml:space="preserve">
     <value>Helfen</value>
   </data>
+  <data name="Prefix" xml:space="preserve">
+    <value>Präfix</value>
+  </data>
+  <data name="Suffix" xml:space="preserve">
+    <value>Suffix</value>
+  </data>
+  <data name="ConfirmBeforeRun" xml:space="preserve">
+    <value>Vor Ausführung Bestätigen</value>
+  </data>
+  <data name="WorkingDirectory" xml:space="preserve">
+    <value>Arbeitsverzeichnis</value>
+  </data>
+  <data name="RunCommand" xml:space="preserve">
+    <value>Befehl Ausführen</value>
+  </data>
 </root>

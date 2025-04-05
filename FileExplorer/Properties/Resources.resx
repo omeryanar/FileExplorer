@@ -875,4 +875,19 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="Prefix" xml:space="preserve">
+    <value>Prefix</value>
+  </data>
+  <data name="Suffix" xml:space="preserve">
+    <value>Suffix</value>
+  </data>
+  <data name="ConfirmBeforeRun" xml:space="preserve">
+    <value>Confirm Before Run</value>
+  </data>
+  <data name="WorkingDirectory" xml:space="preserve">
+    <value>Working Directory</value>
+  </data>
+  <data name="RunCommand" xml:space="preserve">
+    <value>Run Command</value>
+  </data>
 </root>

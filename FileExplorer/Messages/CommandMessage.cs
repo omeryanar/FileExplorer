@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
-using FileExplorer.Core;
 using FileExplorer.Model;
+using FileExplorer.Persistence;
 
 namespace FileExplorer.Messages
 {
     public class CommandMessage
     {
-        public CommandType CommandType { get; set; }
+        public string Arguments { get; set; }
+
+        public string Directory { get; set; }
+
+        public MenuItem MenuItem { get; set; }
 
         public IEnumerable<FileModel> Parameters { get; set; }
     }

@@ -11,5 +11,7 @@ namespace FileExplorer.ViewModel
         public virtual string Content { get; set; }
 
         public virtual string Details { get; set; }
+
+        public virtual bool ContentReadOnly { get; set; } = true;
     }
 }

@@ -10,7 +10,7 @@
         <dxlc:LayoutGroup View="Tabs">
             <dxlc:LayoutGroup Header="{Binding Title}">
                 <Label Width="75" FontSize="64" VerticalAlignment="Center" Content="{Binding Icon, Converter={StaticResource MessageIconConverter}}" Style="{StaticResource IconLabel}" />
-                <dxe:TextEdit Padding="10" HorizontalAlignment="Stretch" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Content}" />
+                <dxe:TextEdit Padding="10" HorizontalAlignment="Stretch" TextWrapping="Wrap" IsReadOnly="{Binding ContentReadOnly}" Text="{Binding Content}" />
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Header="{Binding Details, Source={StaticResource ResourceProvider}}" Visibility="{Binding Details, Converter={dxmvvm:StringToVisibilityConverter}}">
                 <dxe:TextEdit Padding="10" HorizontalAlignment="Stretch" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Details}" VerticalScrollBarVisibility="Auto" />
