@@ -32,7 +32,7 @@ namespace FileExplorer.Native
             if (DefaultFolder != null)
             {
                 IShellItem folderItem = SafeNativeMethods.CreateShellItem(DefaultFolder);
-                dialog.SetFolder(folderItem);
+                dialog.SetDefaultFolder(folderItem);
             }
 
             if (dialog.Show(SafeNativeMethods.GetActiveWindowHandle()) == HRESULT.S_OK)

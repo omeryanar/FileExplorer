@@ -20,7 +20,7 @@
             <dxg:GridColumn FieldName="FolderPath" Width="400" EditFormColumnSpan="3" Header="{Binding Folder, Source={StaticResource ResourceProvider}}">
                 <dxg:GridColumn.EditFormTemplate>
                     <DataTemplate>
-                        <editors:OpenFolderDialogButton x:Name="PART_Editor" />
+                        <editors:BrowseFolderPathEdit x:Name="PART_Editor" />
                     </DataTemplate>
                 </dxg:GridColumn.EditFormTemplate>
             </dxg:GridColumn>

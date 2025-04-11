@@ -29,7 +29,7 @@
 
     <dxlc:LayoutControl Orientation="Vertical">
         <dxlc:LayoutItem Label="{Binding Path, Source={StaticResource ResourceProvider}}">
-            <editors:OpenFolderDialogButton EditValue="{Binding FilePath}" />
+            <editors:BrowseFolderPathEdit EditValue="{Binding FilePath}" />
         </dxlc:LayoutItem>
         <dxlc:LayoutItem Label="{Binding Password, Source={StaticResource ResourceProvider}}"
                          Visibility="{Binding PasswordProtected, Converter={dxmvvm:BooleanToVisibilityConverter}}">

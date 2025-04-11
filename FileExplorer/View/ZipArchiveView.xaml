@@ -14,7 +14,7 @@
 
     <dxlc:LayoutControl Orientation="Vertical">
         <dxlc:LayoutItem Label="{Binding Path, Source={StaticResource ResourceProvider}}">
-            <editors:SaveFileDialogButton FileFilter="Archive (*.zip)|*.zip" EditValue="{Binding FilePath}" />
+            <dxe:BrowsePathEdit DialogType="FileSave" IsTextEditable="False" DialogFilter="Archive (*.zip)|*.zip" EditValue="{Binding FilePath}" />
         </dxlc:LayoutItem>
         <dxlc:LayoutItem Label="{Binding Password, Source={StaticResource ResourceProvider}}">
             <dxe:PasswordBoxEdit EditValue="{Binding Password}" />

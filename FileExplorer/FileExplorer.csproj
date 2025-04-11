@@ -318,11 +318,8 @@
     <Compile Include="Core\NotifyTask.cs" />
     <Compile Include="Core\Services.cs" />
     <Compile Include="Core\PackageManager.cs" />
-    <Compile Include="Editors\FileDialogButton.cs" />
+    <Compile Include="Editors\BrowseFolderPathEdit.cs" />
     <Compile Include="Editors\KeyGestureEdit.cs" />
-    <Compile Include="Editors\OpenFileDialogButton.cs" />
-    <Compile Include="Editors\OpenFolderDialogButton.cs" />
-    <Compile Include="Editors\SaveFileDialogButton.cs" />
     <Compile Include="Helpers\FileSystemHelper.cs" />
     <Compile Include="Helpers\FileSystemImageHelper.cs" />
     <Compile Include="Core\CustomFunctions.cs" />
