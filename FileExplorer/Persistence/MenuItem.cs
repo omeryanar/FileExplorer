@@ -120,13 +120,13 @@ namespace FileExplorer.Persistence
         private PropertyDescriptorCollection properties;
 
         [BsonIgnore]
-        protected static ImageSource Open = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/Open16.png"));
+        protected static ImageSource Open = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/ICO/Open.ico"));
 
         [BsonIgnore]
-        protected static ImageSource OpenInNewTab = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/OpenFolder16.png"));
+        protected static ImageSource OpenInNewTab = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/ICO/OpenFolder.ico"));
 
         [BsonIgnore]
-        protected static ImageSource OpenInNewWindow = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/OpenNewWindow16.png"));
+        protected static ImageSource OpenInNewWindow = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/ICO/OpenNewWindow.ico"));
 
         public bool CanExecute(IList<object> items)
         {

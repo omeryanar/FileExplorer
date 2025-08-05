@@ -10,7 +10,7 @@
              xmlns:common="clr-namespace:FileExplorer.Core"
              xmlns:controls="clr-namespace:FileExplorer.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             MinWidth="700" MinHeight="320">
+             MinWidth="700" MinHeight="350">
 
     <dxlc:LayoutControl>
         <dxlc:LayoutControl.Resources>
@@ -46,13 +46,13 @@
                     <dxe:ListBoxEdit SelectedIndex="{Binding FirstFolderToOpen, Source={x:Static settings:Settings.Default}}">
                         <dxe:ListBoxEditItem>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="5,0" Source="/Assets/Images/QuickAccess16.png" />
+                                <Image Margin="5,0" common:IconGlyph.Source="QuickAccess" />
                                 <TextBlock Text="{Binding QuickAccess, Source={StaticResource ResourceProvider}}" />
                             </StackPanel>
                         </dxe:ListBoxEditItem>
                         <dxe:ListBoxEditItem>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="5,0" Source="/Assets/Images/Computer16.png" />
+                                <Image Margin="5,0" common:IconGlyph.Source="Computer" />
                                 <TextBlock Text="{Binding Computer, Source={StaticResource ResourceProvider}}" />
                             </StackPanel>
                         </dxe:ListBoxEditItem>
@@ -101,8 +101,15 @@
                     <dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True"
                                       SelectedIndex="{Binding Layout, Source={x:Static settings:Settings.Default}}">
                         <dxmvvm:Interaction.Behaviors>
-                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:Layout}"/>
+                            <dxmvvm:EnumItemsSourceBehavior ImageSize="32,32" EnumType="{x:Type common:Layout}"/>
                         </dxmvvm:Interaction.Behaviors>
+                        <dxe:ComboBoxEdit.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,8" VerticalAlignment="Center">
+                                    <TextBlock Margin="4,0" Text="{Binding Name}" FontWeight="DemiBold" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </dxe:ComboBoxEdit.ItemTemplate>
                     </dxe:ComboBoxEdit>
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding DateTimeFormat, Source={StaticResource ResourceProvider}}">
@@ -163,7 +170,7 @@
                         <dxe:ComboBoxEdit.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,8">
-                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding Name}" FontWeight="DemiBold" />
                                     <TextBlock Text="{Binding Description}" />
                                 </StackPanel>
                             </DataTemplate>
@@ -179,7 +186,7 @@
                         <dxe:ComboBoxEdit.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,8">
-                                    <TextBlock Margin="4,0" Text="{Binding Name}" />
+                                    <TextBlock Margin="4,0" Text="{Binding Name}" FontWeight="DemiBold" />
                                 </StackPanel>
                             </DataTemplate>
                         </dxe:ComboBoxEdit.ItemTemplate>

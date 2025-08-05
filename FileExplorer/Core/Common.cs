@@ -44,35 +44,35 @@ namespace FileExplorer.Core
 
     public enum Layout
     {
-        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/Details.png")]
+        [Image("pack://application:,,,/FileExplorer;component/Assets/ICO/Details.ico")]
         [Display(Name = "Details", ResourceType = typeof(Properties.Resources))]
         Details,
 
-        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/List.png")]
+        [Image("pack://application:,,,/FileExplorer;component/Assets/ICO/List.ico")]
         [Display(Name = "List", ResourceType = typeof(Properties.Resources))]
         List,
 
-        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/SmallIcons.png")]
+        [Image("pack://application:,,,/FileExplorer;component/Assets/ICO/SmallIcons.ico")]
         [Display(Name = "SmallIcons", ResourceType = typeof(Properties.Resources))]
         SmallIcons,
 
-        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/MediumIcons.png")]
+        [Image("pack://application:,,,/FileExplorer;component/Assets/ICO/MediumIcons.ico")]
         [Display(Name = "MediumIcons", ResourceType = typeof(Properties.Resources))]
         MediumIcons,
 
-        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/LargeIcons.png")]
+        [Image("pack://application:,,,/FileExplorer;component/Assets/ICO/LargeIcons.ico")]
         [Display(Name = "LargeIcons", ResourceType = typeof(Properties.Resources))]
         LargeIcons,
 
-        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/ExtraLargeIcons.png")]
+        [Image("pack://application:,,,/FileExplorer;component/Assets/ICO/ExtraLargeIcons.ico")]
         [Display(Name = "ExtraLargeIcons", ResourceType = typeof(Properties.Resources))]
         ExtraLargeIcons,
 
-        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/Content.png")]
+        [Image("pack://application:,,,/FileExplorer;component/Assets/ICO/Content.ico")]
         [Display(Name = "Content", ResourceType = typeof(Properties.Resources))]
         Content,
 
-        [Image("pack://application:,,,/FileExplorer;component/Assets/Layout/Thumbnails.png")]
+        [Image("pack://application:,,,/FileExplorer;component/Assets/ICO/Thumbnails.ico")]
         [Display(Name = "Thumbnails", ResourceType = typeof(Properties.Resources))]
         Thumbnails
     }

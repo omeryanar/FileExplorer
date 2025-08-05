@@ -28,7 +28,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Assets\Images\Explorer.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\ICO\Explorer.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -741,6 +741,107 @@
   <ItemGroup>
     <Resource Include="Assets\Images\Help16.png" />
     <Resource Include="Assets\Images\Help32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Computer.ico" />
+    <Resource Include="Assets\ICO\QuickAccess.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Pin.ico" />
+    <Resource Include="Assets\ICO\Unpin.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\CopyPath.ico" />
+    <Resource Include="Assets\ICO\Cut.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Copy.ico" />
+    <Resource Include="Assets\ICO\Paste.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\CopyTo.ico" />
+    <Resource Include="Assets\ICO\Delete.ico" />
+    <Resource Include="Assets\ICO\MoveTo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Recycle.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Open.ico" />
+    <Resource Include="Assets\ICO\OpenFile.ico" />
+    <Resource Include="Assets\ICO\OpenFolder.ico" />
+    <Resource Include="Assets\ICO\Zip.ico" />
+    <Resource Include="Assets\ICO\Mail.ico" />
+    <Resource Include="Assets\ICO\NewFile.ico" />
+    <Resource Include="Assets\ICO\NewFolder.ico" />
+    <Resource Include="Assets\ICO\Properties.ico" />
+    <Resource Include="Assets\ICO\Rename.ico" />
+    <Resource Include="Assets\ICO\InvertSelection.ico" />
+    <Resource Include="Assets\ICO\SelectAll.ico" />
+    <Resource Include="Assets\ICO\SelectNone.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Options.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\DetailsPane.ico" />
+    <Resource Include="Assets\ICO\NavigationPane.ico" />
+    <Resource Include="Assets\ICO\PreviewPane.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Extensions.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Help.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Save.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Content.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\AddColumn.ico" />
+    <Resource Include="Assets\ICO\BestFit.ico" />
+    <Resource Include="Assets\ICO\Group.ico" />
+    <Resource Include="Assets\ICO\Sort.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Details.ico" />
+    <Resource Include="Assets\ICO\ExtraLargeIcons.ico" />
+    <Resource Include="Assets\ICO\LargeIcons.ico" />
+    <Resource Include="Assets\ICO\List.ico" />
+    <Resource Include="Assets\ICO\MediumIcons.ico" />
+    <Resource Include="Assets\ICO\SmallIcons.ico" />
+    <Resource Include="Assets\ICO\Thumbnails.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Date.ico" />
+    <Resource Include="Assets\ICO\Kind.ico" />
+    <Resource Include="Assets\ICO\Size.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\OpenNewWindow.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\SVG\AddRemoveMenuItems.svg" />
+    <Resource Include="Assets\SVG\ShowCheckBoxes.svg" />
+    <Resource Include="Assets\SVG\ShowRowNumbers.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\SVG\SortAsc.svg" />
+    <Resource Include="Assets\SVG\SortDesc.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\SVG\Print.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\SVG\AddCustomColumn.svg" />
+    <Resource Include="Assets\SVG\EditCustomColumn.svg" />
+    <Resource Include="Assets\SVG\RemoveCustomColumn.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ICO\Explorer.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

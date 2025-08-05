@@ -1,0 +1,38 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<svg viewBox="0 -1.9999 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g transform="translate(0, 0.0001)">
+    <g transform="matrix(1.1429, 0, 0, 1.1429, 0, 0)">
+      <g id="Remove_Sheet_Columns" transform="translate(0, -3.5)" style="enable-background:new 0 0 32 32">
+        <g transform="matrix(0.875, 0, 0, 0.875, 0, 0)">
+          <g class="st0">
+            <path d="M20, 4L28, 4L28, 10L20, 10L20, 4zM8, 10L8, 4L0, 4L0, 10L8, 10zM8, 18L8, 12L0, 12L0, 18L8, 18zM28, 18L28, 12L20, 12L20, 18L28, 18zM8, 26L8, 20L0, 20L0, 26L8, 26z" fill="#727272" opacity="0.5" id="Table_7_" class="Black" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(0, 0.0001)">
+    <g transform="matrix(1.1429, 0, 0, 1.1429, 0, 0)">
+      <g id="Remove_Sheet_Columns" transform="translate(0, -3.5)" style="enable-background:new 0 0 32 32">
+        <g transform="matrix(0.875, 0, 0, 0.875, 0, 0)">
+          <rect x="10" y="4" width="8" height="22" fill="#1177D7" class="Blue" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <g id="Layer_1" transform="translate(16, 14.0001)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(0.5, 0, 0, 0.5, 0, 0)">
+      <path d="M27.6, 8.2L23.8, 4.4C23.3, 3.9 22.4, 3.9 21.9, 4.4L19.4, 6.9L25.2, 12.7L27.7, 10.2C28.1, 9.6 28.1, 8.8 27.6, 8.2z" fill="#1177D7" class="Blue" />
+    </g>
+  </g>
+  <g id="Layer_1" transform="translate(16, 14.0001)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(0.5, 0, 0, 0.5, 0, 0)">
+      <polygon points="4,28 10,28 4,22 " fill="#1177D7" class="Blue" />
+    </g>
+  </g>
+  <g id="Layer_1" transform="translate(16, 14.0001)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(0.5, 0, 0, 0.5, 0, 0)">
+      <rect x="5.8" y="13.4" width="17.6" height="8.2" fill="#1177D7" class="Blue" transform="matrix(0.707, -0.7072, 0.7072, 0.707, -8.057, 15.457)" />
+    </g>
+  </g>
+</svg>

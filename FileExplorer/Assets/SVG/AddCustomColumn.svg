@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<svg viewBox="0 -1.9999 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g transform="translate(0, 0.0001)">
+    <g transform="matrix(1.1429, 0, 0, 1.1429, 0, 0)">
+      <g id="Layer_1" transform="translate(0, -3.5)" style="enable-background:new 0 0 32 32">
+        <g transform="matrix(0.875, 0, 0, 0.875, 0, 0)">
+          <g id="AddColumn">
+            <g class="st0">
+              <path d="M20, 4L28, 4L28, 10L20, 10L20, 4zM20, 18L28, 18L28, 12L20, 12L20, 18zM0, 12L0, 18L8, 18L8, 12L0, 12zM0, 4L0, 10L8, 10L8, 4L0, 4zM8, 26L8, 20L0, 20L0, 26L8, 26z" fill="#727272" opacity="0.5" class="Black" />
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(0, 0.0001)">
+    <g transform="matrix(1.1429, 0, 0, 1.1429, 0, 0)">
+      <g id="Layer_1" transform="translate(0, -3.5)" style="enable-background:new 0 0 32 32">
+        <g transform="matrix(0.875, 0, 0, 0.875, 0, 0)">
+          <g id="AddColumn">
+            <path d="M32, 24L28, 24L28, 20L24, 20L24, 24L20, 24L20, 28L24, 28L24, 32L28, 32L28, 28L32, 28L32, 24zM18, 4L10, 4L10, 26L18, 26L18, 4z" fill="#039C23" class="Green" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

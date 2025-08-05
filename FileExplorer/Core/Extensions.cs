@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using DevExpress.Xpf.Bars;
 using static Vanara.PInvoke.Shell32;
 
 namespace FileExplorer.Core
@@ -135,5 +141,100 @@ namespace FileExplorer.Core
                     return e.Key;
             }
         }
+
+        public static ImageSource IconBitmap(this string uriString, double size)
+        {
+            BitmapDecoder decoder = IconBitmapDecoder.Create(new Uri(uriString), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+            List<BitmapFrame> frames = decoder.Frames.OrderBy(x => x.Width).ToList();
+
+            ImageSource imageSource = frames.FirstOrDefault(x => x.Width >= size * Dpi);
+            if (imageSource == null)
+                imageSource = frames.Last();
+
+            return imageSource;
+        }
+
+        public static double Dpi
+        {
+            get
+            {
+                if (dpi == 0)
+                {
+                    using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+                    {
+                        dpi = g.DpiX / 96;
+                    }
+                }
+
+                return dpi;
+            }
+        }
+        private static double dpi = 0;
+    }
+
+    public static class IconGlyph
+    {
+        public static readonly DependencyProperty SizeProperty =
+            DependencyProperty.RegisterAttached("Size", typeof(double), typeof(IconGlyph), new PropertyMetadata(0.0, SourcePropertyChanged));
+
+        public static double GetSize(DependencyObject obj)
+        {
+            return (double)obj.GetValue(SizeProperty);
+        }
+
+        public static void SetSize(DependencyObject obj, double value)
+        {
+            obj.SetValue(SizeProperty, value);
+        }
+
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.RegisterAttached("Source", typeof(string), typeof(IconGlyph), new PropertyMetadata(null, SourcePropertyChanged));
+
+        public static string GetSource(DependencyObject obj)
+        {
+            return (string)obj.GetValue(SourceProperty);
+        }
+
+        public static void SetSource(DependencyObject obj, string value)
+        {
+            obj.SetValue(SourceProperty, value);
+        }
+
+        private static void SourcePropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            string uriString = String.Format(GlyphPath, "ICO", e.NewValue?.ToString());
+            if (obj is BitmapImage bitmap)
+            {
+                bitmap.UriSource = new Uri(uriString);
+                return;
+            }
+
+            double width = 16;
+            double size = GetSize(obj);
+            if (size > 0)
+                width = size;
+
+            switch (obj)
+            {
+                case GalleryItem galleryItem:
+                    galleryItem.Glyph = uriString.IconBitmap(galleryItem.Group.Gallery.ItemGlyphSize.Width);
+                    break;
+
+                case BarItem barItem:
+                    barItem.Glyph = uriString.IconBitmap(width);
+                    barItem.MediumGlyph = uriString.IconBitmap(width * 1.5);
+                    barItem.LargeGlyph = barItem.GlyphSize != GlyphSize.Small ? uriString.IconBitmap(width * 2.0) : null;
+                    
+                    break;
+
+                case System.Windows.Controls.Image image:
+                    image.Width = width;
+                    image.Height = width;
+                    image.Source = uriString.IconBitmap(width);
+                    break;
+            }
+        }
+
+        private const string GlyphPath = "pack://application:,,,/Assets/{0}/{1}.{0}";
     }
 }

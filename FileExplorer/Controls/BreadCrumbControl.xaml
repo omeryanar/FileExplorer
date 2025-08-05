@@ -3,6 +3,8 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                   xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+                  xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
+                  xmlns:dxet="http://schemas.devexpress.com/winfx/2008/xaml/editors/themekeys"
                   xmlns:common="clr-namespace:FileExplorer.Core"
                   xmlns:controls="clr-namespace:FileExplorer.Controls"
                   xmlns:settings="clr-namespace:FileExplorer.Properties"
@@ -31,13 +33,14 @@
         </Style>
         <Style x:Key="BreadCrumbSplitButtonStyle" TargetType="dxb:BarSplitButtonItem" BasedOn="{StaticResource BreadCrumbButtonStyle}">
             <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+            <Setter Property="Padding" Value="3,0" />
         </Style>
     </dxe:ComboBoxEdit.Resources>
 
     <dxe:ComboBoxEdit.EditTemplate>
         <ControlTemplate>
             <Grid>
-                <TextBox x:Name="PART_Editor" Padding="4" BorderThickness="0" />
+                <TextBox x:Name="PART_Editor" Padding="2" Style="{dxi:ThemeResource {dxet:TextEditThemeKey ResourceKey=TextStyle}}" />
                 <dxe:FlyoutControl Focusable="False" Content="{Binding FolderNotFound, Source={StaticResource ResourceProvider}}"
                                    DataContext="{Binding RelativeSource={RelativeSource AncestorType=dxe:ComboBoxEdit}}" PlacementTarget="{Binding}" IsOpen="{Binding HasValidationError}">
                     <dxe:FlyoutControl.Settings>

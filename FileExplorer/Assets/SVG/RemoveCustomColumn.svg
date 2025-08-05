@@ -1,0 +1,32 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<svg viewBox="0 -1.9999 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g transform="translate(0, 0.0001)">
+    <g transform="matrix(1.1429, 0, 0, 1.1429, 0, 0)">
+      <g id="Remove_Table_Columns" transform="translate(0, -3.5)" style="enable-background:new 0 0 32 32">
+        <g transform="matrix(0.875, 0, 0, 0.875, 0, 0)">
+          <g class="st0">
+            <path d="M20, 4L28, 4L28, 10L20, 10L20, 4zM8, 10L8, 4L0, 4L0, 10L8, 10zM8, 18L8, 12L0, 12L0, 18L8, 18zM28, 18L28, 12L20, 12L20, 18L28, 18zM8, 26L8, 20L0, 20L0, 26L8, 26z" fill="#727272" opacity="0.5" id="Table_7_" class="Black" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(0, 0.0001)">
+    <g transform="matrix(1.1429, 0, 0, 1.1429, 0, 0)">
+      <g id="Remove_Table_Columns" transform="translate(0, -3.5)" style="enable-background:new 0 0 32 32">
+        <g transform="matrix(0.875, 0, 0, 0.875, 0, 0)">
+          <rect x="10" y="4" width="8" height="22" fill="#D11C1C" class="Red" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(0, 0.0001)">
+    <g transform="matrix(1.1429, 0, 0, 1.1429, 0, 0)">
+      <g id="Remove_Table_Columns" transform="translate(0, -3.5)" style="enable-background:new 0 0 32 32">
+        <g transform="matrix(0.875, 0, 0, 0.875, 0, 0)">
+          <polygon points="32,22 30,20 26,24 22,20 20,22 24,26 20,30 22,32 26,28 30,32 32,30 28,26 " fill="#D11C1C" class="Red" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

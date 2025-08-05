@@ -1,0 +1,17 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<svg viewBox="-2.4827 -1.9999 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="Layer_1" transform="translate(-1.931, -1.931)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(0.9655, 0, 0, 0.9655, 0, 0)">
+      <g id="SortDesc">
+        <path d="M12, 26L7, 31L2, 26L6, 26L6, 2L8, 2L8, 26L12, 26z" fill="#1177D7" class="Blue" />
+      </g>
+    </g>
+  </g>
+  <g id="Layer_1" transform="translate(-1.931, -1.931)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(0.9655, 0, 0, 0.9655, 0, 0)">
+      <g id="SortDesc">
+        <path d="M22, 10L14, 10L14, 2L22, 2L22, 10zM26, 12L14, 12L14, 20L26, 20L26, 12zM30, 22L14, 22L14, 30L30, 30L30, 22z" fill="#727272" class="Black" />
+      </g>
+    </g>
+  </g>
+</svg>

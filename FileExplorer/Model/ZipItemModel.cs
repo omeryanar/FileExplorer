@@ -43,6 +43,6 @@ namespace FileExplorer.Model
             Parent = String.Join("/", items.Take(items.Length - 1));
         }
 
-        protected static ImageSource Folder = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/NewFolder16.png"));
+        protected static ImageSource Folder = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/ICO/NewFolder.ico"));
     }
 }

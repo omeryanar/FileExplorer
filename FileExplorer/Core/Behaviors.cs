@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 using DevExpress.Data;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
@@ -14,6 +14,7 @@ using DevExpress.Mvvm.UI;
 using DevExpress.Mvvm.UI.Interactivity;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Docking;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
@@ -612,11 +613,11 @@ namespace FileExplorer.Core
             }
         }
 
-        private static readonly BitmapImage AddCustomColumnItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/AddCustomColumn16.png"));
+        private static readonly ImageSource AddCustomColumnItemGlyph = WpfSvgRenderer.CreateImageSource(new Uri("pack://application:,,,/FileExplorer;component/Assets/SVG/AddCustomColumn.svg"));
 
-        private static readonly BitmapImage EditCustomColumnItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/EditCustomColumn16.png"));
+        private static readonly ImageSource EditCustomColumnItemGlyph = WpfSvgRenderer.CreateImageSource(new Uri("pack://application:,,,/FileExplorer;component/Assets/SVG/EditCustomColumn.svg"));
 
-        private static readonly BitmapImage RemoveCustomColumnItemGlyph = new BitmapImage(new Uri("pack://application:,,,/FileExplorer;component/Assets/Images/RemoveCustomColumn16.png"));        
+        private static readonly ImageSource RemoveCustomColumnItemGlyph = WpfSvgRenderer.CreateImageSource(new Uri("pack://application:,,,/FileExplorer;component/Assets/SVG/RemoveCustomColumn.svg"));        
     }
 
     public class AllowDragDropBehavior : Behavior<GridDataViewBase>

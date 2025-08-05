@@ -1,0 +1,25 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<svg viewBox="-2 -3.8666 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="Collapse_Field" transform="translate(-2, -2)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(1, 0, 0, 1, 0, 13)">
+      <rect x="2" y="6" width="12" height="4" fill="#D11C1C" class="Red" />
+    </g>
+  </g>
+  <g id="Expand_Field" transform="translate(-2, -2)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(1, 0, 0, 1, 0, 1)">
+      <polygon points="14,6 10,6 10,2 6,2 6,6 2,6 2,10 6,10 6,14 10,14 10,10 14,10 " fill="#039C23" class="Green" />
+    </g>
+  </g>
+  <g id="Collapse_Field" transform="translate(-2, -2)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(1, 0, 0, 1, 0, 0)">
+      <g class="st0">
+        <path d="M22, 6L32, 6L32, 8L22, 8L22, 6zM22, 12L32, 12L32, 10L22, 10L22, 12zM22, 20L32, 20L32, 18L22, 18L22, 20zM22, 24L32, 24L32, 22L22, 22L22, 24z" fill="#727272" opacity="0.75" class="Black" />
+      </g>
+    </g>
+  </g>
+  <g id="Collapse_Field" transform="translate(-2, -2)" style="enable-background:new 0 0 32 32">
+    <g transform="matrix(1, 0, 0, 1, 0, 0)">
+      <path d="M18, 2L32, 2L32, 4L18, 4L18, 2zM18, 16L32, 16L32, 14L18, 14L18, 16zM18, 28L32, 28L32, 26L18, 26L18, 28z" fill="#727272" class="Black" />
+    </g>
+  </g>
+</svg>

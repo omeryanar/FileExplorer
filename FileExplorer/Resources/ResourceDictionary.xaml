@@ -9,6 +9,7 @@
     xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:common="clr-namespace:FileExplorer.Core"
     xmlns:viewmodels="clr-namespace:FileExplorer.ViewModel">
 
     <ResourceDictionary.MergedDictionaries>
@@ -19,8 +20,8 @@
                 <dxmvvm:MapItem Source="Exclamation" Target="&#xF071;" />
             </dxmvvm:ObjectToObjectConverter>
             <dxmvvm:ObjectToObjectConverter x:Key="ColumnSortOrderToIconConverter">
-                <dxmvvm:MapItem Source="Ascending" Target="/Assets/Images/SortAsc.png" />
-                <dxmvvm:MapItem Source="Descending" Target="/Assets/Images/SortDesc.png" />
+                <dxmvvm:MapItem Source="Ascending" Target="/Assets/SVG/SortAsc.svg" />
+                <dxmvvm:MapItem Source="Descending" Target="/Assets/SVG/SortDesc.svg" />
             </dxmvvm:ObjectToObjectConverter>
         </ResourceDictionary>
         <ResourceDictionary>            
@@ -45,12 +46,12 @@
             <Style x:Key="IconLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="/Assets/Fonts/#Font AweSome 5 Free Solid" />
             </Style>
-            <Style x:Key="DialogButtonStyle" TargetType="Button">
+            <Style TargetType="dx:ThemedWindowDialogButton">
                 <Setter Property="Margin" Value="10,0,0,0" />
                 <Setter Property="MinWidth" Value="75" />
                 <Setter Property="MinHeight" Value="25" />
             </Style>
-            <Style x:Key="DialogWindowStyle" TargetType="dx:DXDialogWindow">
+            <Style x:Key="DialogWindowStyle" TargetType="dx:ThemedWindow">
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="ShowIcon" Value="False" />
                 <Setter Property="Width" Value="{DXBinding '@Self.Content.MinWidth + 20'}" />
@@ -58,14 +59,6 @@
                 <Setter Property="MinWidth" Value="{DXBinding '@Self.Content.MinWidth + 20'}" />
                 <Setter Property="MinHeight" Value="{DXBinding '@Self.Content.MinHeight + 90'}" />
                 <Setter Property="ResizeMode" Value="{DXBinding '@Self.Content.Tag', TargetNullValue=CanResize}" />
-                <Setter Property="CommandButtonsPanel">
-                    <Setter.Value>
-                        <ItemsPanelTemplate>
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="CommandButtonStyle" Value="{StaticResource DialogButtonStyle}" />
                 <Style.Triggers>
                     <Trigger Property="ResizeMode" Value="NoResize">
                         <Setter Property="SizeToContent" Value="WidthAndHeight" />
@@ -124,17 +117,17 @@
         </ResourceDictionary>
         <ResourceDictionary>
             <UserControl x:Key="TaskbarIconContainer" DataContext="{dxmvvm:ViewModelSource Type=viewmodels:TaskbarViewModel}">
-                <tb:TaskbarIcon ToolTipText="File Explorer" IconSource="/Assets/Images/Explorer.ico" DoubleClickCommand="{Binding OpenDefaultCommand}">
+                <tb:TaskbarIcon ToolTipText="File Explorer" IconSource="/Assets/ICO/Explorer.ico" DoubleClickCommand="{Binding OpenDefaultCommand}">
                     <tb:TaskbarIcon.ContextMenu>
                         <ContextMenu Padding="5">
                             <MenuItem Header="{Binding QuickAccess, Source={StaticResource ResourceProvider}}" Command="{Binding OpenQuickAccessCommand}">
                                 <MenuItem.Icon>
-                                    <Image Source="/Assets/Images/QuickAccess16.png" />
+                                    <Image common:IconGlyph.Source="QuickAccess" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="{Binding Computer, Source={StaticResource ResourceProvider}}" Command="{Binding OpenComputerCommand}">
                                 <MenuItem.Icon>
-                                    <Image Source="/Assets/Images/Computer16.png" />
+                                    <Image common:IconGlyph.Source="Computer" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator />

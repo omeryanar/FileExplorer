@@ -170,7 +170,7 @@
                 <common:DragDropFilesBehavior CurrentFolderPath="{Binding CurrentFolder.FullPath}" />
             </dxmvvm:Interaction.Behaviors>
             <dxg:TableView.ColumnMenuCustomizations>
-                <dxb:BarButtonItem Content="{Binding PrintPreview, Source={StaticResource ResourceProvider}}" Glyph="pack://application:,,,/FileExplorer;component/Assets/Images/Print16.png"
+                <dxb:BarButtonItem Content="{Binding PrintPreview, Source={StaticResource ResourceProvider}}" Glyph="pack://application:,,,/FileExplorer;component/Assets/SVG/Print.svg"
                                    Command="{Binding View.GridViewCommands.ShowPrintPreviewDialog}" dxb:BarItemLinkActionBase.ItemLinkIndex="0" />
                 <dxb:BarButtonItem Content="{Binding CopyThisColumn, Source={StaticResource ResourceProvider}}" dxb:BarItemLinkActionBase.ItemLinkIndex="1"
                                    Command="{DXCommand 'DataControl.CopySelectedRowsToClipboard(Column)'}" />
@@ -218,7 +218,7 @@
                 <common:SortOrderOnHeaderClickBehavior />
             </dxmvvm:Interaction.Behaviors>
             <dxg:TreeListView.ColumnMenuCustomizations>
-                <dxb:BarButtonItem Content="{Binding PrintPreview, Source={StaticResource ResourceProvider}}" Glyph="pack://application:,,,/FileExplorer;component/Assets/Images/Print16.png"
+                <dxb:BarButtonItem Content="{Binding PrintPreview, Source={StaticResource ResourceProvider}}" Glyph="pack://application:,,,/FileExplorer;component/Assets/SVG/Print.svg"
                                    Command="{Binding View.TreeListCommands.ShowPrintPreviewDialog}" dxb:BarItemLinkActionBase.ItemLinkIndex="0" />
                 <dxb:BarButtonItem Content="{Binding CopyThisColumn, Source={StaticResource ResourceProvider}}" dxb:BarItemLinkActionBase.ItemLinkIndex="1"
                                    Command="{DXCommand 'DataControl.CopySelectedRowsToClipboard(Column)'}" />

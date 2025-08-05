@@ -17,7 +17,7 @@
         </Style>
     </UserControl.Resources>
 
-    <dxlc:LayoutControl Orientation="Vertical">
+    <dxlc:LayoutControl Orientation="Vertical" ItemSpace="10">
         <dxlc:LayoutGroup x:Name="ValidationContainer" VerticalAlignment="Top" dxe:ValidationService.IsValidationContainer="True">
             <dxe:TextEdit ShowErrorToolTip="False" EditValue="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                 <dxmvvm:Interaction.Behaviors>
@@ -28,10 +28,10 @@
                           Visibility="{Binding Text, RelativeSource={RelativeSource Self}, Converter={dxmvvm:StringToVisibilityConverter}}" />
         </dxlc:LayoutGroup>
         <TextBlock Foreground="#F26543" FontWeight="Medium" Text="{Binding InvalidFileNameMessage, Source={StaticResource ResourceProvider}}"
-                   Visibility="{Binding Path=(dxe:ValidationService.HasValidationError), ElementName=ValidationContainer, Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
+                   Visibility="{Binding Path=(dxe:ValidationService.HasValidationError), ElementName=ValidationContainer, Converter={dxmvvm:BooleanToVisibilityConverter}}" />
         <dxlc:LayoutItem Label="{Binding Pattern, Source={StaticResource ResourceProvider}}" VerticalAlignment="Top"
                          Visibility="{Binding ShowPatternButtons, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-            <dxlc:LayoutGroup>
+            <dxlc:LayoutGroup ItemSpace="5">
                 <Button Style="{StaticResource FormatButton}" ToolTip="{Binding Parent, Source={StaticResource ResourceProvider}}" CommandParameter="Parent">
                     <TextBlock FontWeight="Normal" Style="{StaticResource IconText}">
                         <Run Text="{StaticResource IconFolder}" />
@@ -45,8 +45,8 @@
                 <Button Content="aA aA" Style="{StaticResource FormatButton}" ToolTip="{Binding ToggleCase, Source={StaticResource ResourceProvider}}" />
             </dxlc:LayoutGroup>
         </dxlc:LayoutItem>
-        <dxa:AccordionControl Width="400" HorizontalAlignment="Right" Visibility="{Binding ShowAdvancedOptions, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-            <dxa:AccordionItem Header="{Binding Advanced, Source={StaticResource ResourceProvider}}">
+        <dxa:AccordionControl Width="400" Padding="0" Margin="0" HorizontalAlignment="Right" Visibility="{Binding ShowAdvancedOptions, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+            <dxa:AccordionItem Padding="0" Margin="0" HorizontalAlignment="Right" Header="{Binding Advanced, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutControl Orientation="Vertical" TextBlock.FontSize="12">
                     <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
                         <dxe:DateEdit Mask="G" MaskUseAsDisplayFormat="True" EditValue="{Binding DateCreated}" />
