@@ -543,168 +543,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\ShowCheckBoxes32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Explorer.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\AddColumn16.png" />
-    <Resource Include="Assets\Images\AddColumn32.png" />
-    <Resource Include="Assets\Images\BestFit16.png" />
-    <Resource Include="Assets\Images\BestFit32.png" />
-    <Resource Include="Assets\Images\Copy16.png" />
-    <Resource Include="Assets\Images\Copy32.png" />
-    <Resource Include="Assets\Images\CopyPath16.png" />
-    <Resource Include="Assets\Images\CopyPath32.png" />
-    <Resource Include="Assets\Images\CopyTo16.png" />
-    <Resource Include="Assets\Images\CopyTo32.png" />
-    <Resource Include="Assets\Images\Cut16.png" />
-    <Resource Include="Assets\Images\Cut32.png" />
-    <Resource Include="Assets\Images\Delete16.png" />
-    <Resource Include="Assets\Images\Delete32.png" />
-    <Resource Include="Assets\Images\DetailsPane16.png" />
-    <Resource Include="Assets\Images\DetailsPane32.png" />
-    <Resource Include="Assets\Images\Group16.png" />
-    <Resource Include="Assets\Images\Group32.png" />
-    <Resource Include="Assets\Images\InvertSelection16.png" />
-    <Resource Include="Assets\Images\InvertSelection32.png" />
-    <Resource Include="Assets\Images\Mail16.png" />
-    <Resource Include="Assets\Images\Mail32.png" />
-    <Resource Include="Assets\Images\MoveTo16.png" />
-    <Resource Include="Assets\Images\MoveTo32.png" />
-    <Resource Include="Assets\Images\NavigationPane16.png" />
-    <Resource Include="Assets\Images\NavigationPane32.png" />
-    <Resource Include="Assets\Images\NewFolder16.png" />
-    <Resource Include="Assets\Images\NewFolder32.png" />
-    <Resource Include="Assets\Images\Paste16.png" />
-    <Resource Include="Assets\Images\Paste32.png" />
-    <Resource Include="Assets\Images\Pin16.png" />
-    <Resource Include="Assets\Images\Pin32.png" />
-    <Resource Include="Assets\Images\PreviewPane16.png" />
-    <Resource Include="Assets\Images\PreviewPane32.png" />
-    <Resource Include="Assets\Images\Properties16.png" />
-    <Resource Include="Assets\Images\Properties32.png" />
-    <Resource Include="Assets\Images\Rename16.png" />
-    <Resource Include="Assets\Images\Rename32.png" />
-    <Resource Include="Assets\Images\SelectAll16.png" />
-    <Resource Include="Assets\Images\SelectAll32.png" />
-    <Resource Include="Assets\Images\SelectNone16.png" />
-    <Resource Include="Assets\Images\SelectNone32.png" />
-    <Resource Include="Assets\Images\Sort16.png" />
-    <Resource Include="Assets\Images\Sort32.png" />
-    <Resource Include="Assets\Images\Unpin16.png" />
-    <Resource Include="Assets\Images\Unpin32.png" />
-    <Resource Include="Assets\Images\Zip16.png" />
-    <Resource Include="Assets\Images\Zip32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Layout\List.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Layout\Details.png" />
-    <Resource Include="Assets\Layout\ExtraLargeIcons.png" />
-    <Resource Include="Assets\Layout\LargeIcons.png" />
-    <Resource Include="Assets\Layout\MediumIcons.png" />
-    <Resource Include="Assets\Layout\SmallIcons.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\QuickAccess16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\QuickAccess32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\NewTextDocument32.png" />
-    <Resource Include="Assets\Images\NewTextDocument16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Computer16.png" />
-    <Resource Include="Assets\Images\Computer32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Print16.png" />
-    <Resource Include="Assets\Images\Print32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\ShowRowNumbers32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Recycle16.png" />
-    <Resource Include="Assets\Images\Recycle32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Network16.png" />
-    <Resource Include="Assets\Images\Network32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\File16.png" />
-    <Resource Include="Assets\Images\File32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Menu16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Menu32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Options16.png" />
-    <Resource Include="Assets\Images\Options32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Date32.png" />
-    <Resource Include="Assets\Images\Kind32.png" />
-    <Resource Include="Assets\Images\Size32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Date16.png" />
-    <Resource Include="Assets\Images\Kind16.png" />
-    <Resource Include="Assets\Images\Size16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\AddCustomColumn16.png" />
-    <Resource Include="Assets\Images\AddCustomColumn32.png" />
-    <Resource Include="Assets\Images\EditCustomColumn16.png" />
-    <Resource Include="Assets\Images\EditCustomColumn32.png" />
-    <Resource Include="Assets\Images\RemoveCustomColumn16.png" />
-    <Resource Include="Assets\Images\RemoveCustomColumn32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\SortAsc.png" />
-    <Resource Include="Assets\Images\SortDesc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Save16.png" />
-    <Resource Include="Assets\Images\Save32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\OpenFolder16.png" />
-    <Resource Include="Assets\Images\OpenFolder32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\OpenFile16.png" />
-    <Resource Include="Assets\Images\OpenFile32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Subfolders16.png" />
-    <Resource Include="Assets\Images\Subfolders32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\ShowCheckBoxes16.png" />
-    <Resource Include="Assets\Images\ShowRowNumbers16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Open16.png" />
-    <Resource Include="Assets\Images\Open32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\OpenNewWindow16.png" />
-    <Resource Include="Assets\Images\OpenNewWindow32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Layout\Content.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\DevExpress.Mvvm.CodeGenerators.22.1.1\analyzers\dotnet\cs\DevExpress.Mvvm.CodeGenerators.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -712,10 +550,6 @@
       <Project>{dcef0ec4-d0a0-4e15-b918-bc78e9441427}</Project>
       <Name>FileExplorer.Extension</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Extensions16.png" />
-    <Resource Include="Assets\Images\Extensions32.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Thumbnail\Bottom.svg" />
@@ -734,13 +568,6 @@
     <Resource Include="Assets\Thumbnail\Contain.svg" />
     <Resource Include="Assets\Thumbnail\Crop.svg" />
     <Resource Include="Assets\Thumbnail\Stretch.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Layout\Thumbnails.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Help16.png" />
-    <Resource Include="Assets\Images\Help32.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\ICO\Computer.ico" />
