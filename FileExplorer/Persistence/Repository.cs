@@ -16,7 +16,8 @@ namespace FileExplorer.Persistence
 
         public Repository(string databaseName)
         {
-            LiteDatabase database = new LiteDatabase(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseName));
+            string connectionString = $"Filename={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseName)}; Upgrade=true";
+            LiteDatabase database = new LiteDatabase(connectionString);
 
             MenuItems = new PersistentCollection<MenuItem>(database, "MenuItems");
             Expressions = new PersistentCollection<Expression>(database, "Expressions");

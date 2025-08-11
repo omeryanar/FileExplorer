@@ -16,6 +16,9 @@ namespace FileExplorer.Core
         public ExtensionManager(string assemblyPath) 
         {
             ExtensionDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assemblyPath);
+            if (!Directory.Exists(ExtensionDirectory))
+                Directory.CreateDirectory(ExtensionDirectory);
+
             string[] extensionAssemblies = Directory.GetFiles(ExtensionDirectory, "*.dll", SearchOption.AllDirectories);
 
             AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>

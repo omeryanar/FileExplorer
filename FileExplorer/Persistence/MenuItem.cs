@@ -62,7 +62,15 @@ namespace FileExplorer.Persistence
 
         public string Suffix { get; set; }
 
-        public string Shortcut { get; set; }
+        public string Shortcut
+        {
+            get { return shortcut; }
+            set
+            {
+                shortcut = value == null ? String.Empty : value;
+            }
+        }
+        private string shortcut;
 
         public string ExtensionFilter { get; set; }
 

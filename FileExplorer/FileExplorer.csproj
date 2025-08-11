@@ -1,599 +1,152 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <LangVersion>9</LangVersion>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-    <ProjectGuid>{99DEFCA0-AAA5-43C1-BEC2-899F2F06BC22}</ProjectGuid>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Assets\ICO\Explorer.ico</ApplicationIcon>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+	<LangVersion>latest</LangVersion>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>FileExplorer.Program</StartupObject>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup>
-    <RootNamespace>FileExplorer</RootNamespace>
+  <RootNamespace>FileExplorer</RootNamespace>
+    <ApplicationIcon>Assets\ICO\Explorer.ico</ApplicationIcon>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlphaFS, Version=2.2.0.0, Culture=neutral, PublicKeyToken=4d31a58f7d7ad5c9, processorArchitecture=MSIL">
-      <HintPath>..\packages\AlphaFS.2.2.6\lib\net452\AlphaFS.dll</HintPath>
-    </Reference>
-    <Reference Include="AsyncKeyedLock, Version=7.1.4.0, Culture=neutral, PublicKeyToken=c6dde91429ba0f2f, processorArchitecture=MSIL">
-      <HintPath>..\packages\AsyncKeyedLock.7.1.4\lib\netstandard2.0\AsyncKeyedLock.dll</HintPath>
-    </Reference>
-    <Reference Include="CommandLine, Version=2.9.1.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommandLineParser.2.9.1\lib\net461\CommandLine.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Docs.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Utils.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Accordion.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Controls.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Data.Desktop.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Core.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Drawing.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Data.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Printing.v24.2.Core">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Mvvm.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Docking.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.ExpressionEditor.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Layout.v24.2.Core">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.LayoutControl.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Printing.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v24.2.Core">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Ribbon.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Office.v24.2.Core">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.RichEdit.v24.2.Core">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.RichEdit.v24.2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=2.0.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.2.0.1\lib\net472\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="IndexRange, Version=1.0.3.0, Culture=neutral, PublicKeyToken=35e6a3c4212514c6, processorArchitecture=MSIL">
-      <HintPath>..\packages\IndexRange.1.0.3\lib\net47\IndexRange.dll</HintPath>
-    </Reference>
-    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.2\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Mono.Cecil, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="NaturalSort.Extension, Version=4.0.0.0, Culture=neutral, PublicKeyToken=bf10d7a29536a6dd, processorArchitecture=MSIL">
-      <HintPath>..\packages\NaturalSort.Extension.4.3.0\lib\netstandard2.0\NaturalSort.Extension.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.5.4.0\lib\net46\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Onova, Version=2.6.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Onova.2.6.12\lib\net462\Onova.dll</HintPath>
-    </Reference>
-    <Reference Include="PhotoSauce.MagicScaler, Version=0.15.0.0, Culture=neutral, PublicKeyToken=fc6b9b7b06809481, processorArchitecture=MSIL">
-      <HintPath>..\packages\PhotoSauce.MagicScaler.0.15.0\lib\net472\PhotoSauce.MagicScaler.dll</HintPath>
-    </Reference>
-    <Reference Include="Shellify, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Shellify.0.4.0\lib\netstandard2.0\Shellify.dll</HintPath>
-    </Reference>
-    <Reference Include="Syroot.KnownFolders, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syroot.Windows.IO.KnownFolders.1.3.0\lib\netstandard2.0\Syroot.KnownFolders.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.6.0\lib\net462\System.Buffers.dll</HintPath>
-    </Reference>
+    <PackageReference Include="AlphaFS" Version="2.2.6" />
+    <PackageReference Include="AsyncKeyedLock" Version="7.1.6" />
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.1" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+    <PackageReference Include="LiteDB" Version="5.0.21" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
+    <PackageReference Include="NaturalSort.Extension" Version="4.3.0" />
+	<PackageReference Include="NLog" Version="6.0.3" />
+    <PackageReference Include="Onova" Version="2.6.13" />
+	<PackageReference Include="PhotoSauce.MagicScaler" Version="0.15.0" />
+	<PackageReference Include="Shellify" Version="0.4.0" />
+    <PackageReference Include="Syroot.Windows.IO.KnownFolders" Version="1.3.0" />
+	<PackageReference Include="TagLibSharp" Version="2.3.0" />
+    <PackageReference Include="Vanara.Core" Version="4.1.6" />
+    <PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.1.6" />
+    <PackageReference Include="Vanara.PInvoke.Shell32" Version="4.1.6" />
+    <PackageReference Include="Vanara.PInvoke.ShlwApi" Version="4.1.6" />
+    <PackageReference Include="Vanara.PInvoke.User32" Version="4.1.6" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="4.1.6" />
+    <PackageReference Include="Vanara.WPF.Extensions" Version="4.1.6" />
+    <PackageReference Include="DevExpress.Wpf.Core" Version="24.2.*-*" />
+    <PackageReference Include="DevExpress.Wpf.Grid" Version="24.2.*-*" />
+    <PackageReference Include="DevExpress.Wpf.Accordion" Version="24.2.*-*" />
+    <PackageReference Include="DevExpress.Wpf.ThemesLW " Version="24.2.*-*" />
+    <PackageReference Include="DevExpress.Document.Processor" Version="24.2.*-*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+	<Reference Include="System.Windows.Forms" />
+	<Reference Include="System.ServiceProcess" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Pipelines, Version=9.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Pipelines.9.0.2\lib\net462\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.6.0\lib\net462\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.6.0\lib\net462\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.0\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security.Claims, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Claims.4.3.0\lib\net46\System.Security.Claims.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Text.Encodings.Web, Version=9.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.9.0.2\lib\net462\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json, Version=9.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.9.0.2\lib\net462\System.Text.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.0\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="TagLibSharp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <HintPath>..\packages\TagLibSharp.2.3.0\lib\net462\TagLibSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.Core, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.Core.4.0.6\lib\net48\Vanara.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.ComCtl32, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.ComCtl32.4.0.6\lib\net48\Vanara.PInvoke.ComCtl32.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.Cryptography, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Cryptography.4.0.6\lib\net48\Vanara.PInvoke.Cryptography.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.Gdi32, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Gdi32.4.0.6\lib\net48\Vanara.PInvoke.Gdi32.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.Kernel32, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Kernel32.4.0.6\lib\net48\Vanara.PInvoke.Kernel32.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.Ole, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Ole.4.0.6\lib\net48\Vanara.PInvoke.Ole.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.Rpc, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Rpc.4.0.6\lib\net48\Vanara.PInvoke.Rpc.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.SearchApi, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.SearchApi.4.0.6\lib\net48\Vanara.PInvoke.SearchApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.Security, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Security.4.0.6\lib\net48\Vanara.PInvoke.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.Shared, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Shared.4.0.6\lib\net48\Vanara.PInvoke.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.Shell32, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.Shell32.4.0.6\lib\net48\Vanara.PInvoke.Shell32.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.ShlwApi, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.ShlwApi.4.0.6\lib\net48\Vanara.PInvoke.ShlwApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.PInvoke.User32, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.PInvoke.User32.4.0.6\lib\net48\Vanara.PInvoke.User32.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.Windows.Extensions, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.Windows.Extensions.4.0.6\lib\net48\Vanara.Windows.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.Windows.Shell.Common, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.Windows.Shell.Common.4.0.6\lib\net48\Vanara.Windows.Shell.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Vanara.WPF.Extensions, Version=4.0.6.0, Culture=neutral, PublicKeyToken=c37e4080322237fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vanara.WPF.Extensions.4.0.6\lib\net48\Vanara.WPF.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+	<Reference Include="Microsoft.VisualBasic" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="Controls\BreadCrumbControl.xaml.cs">
-      <DependentUpon>BreadCrumbControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExpressionEditorControl.xaml.cs">
-      <DependentUpon>ExpressionEditorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExpressionSelectorControl.xaml.cs">
-      <DependentUpon>ExpressionSelectorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExtensionTokenEditControl.xaml.cs">
-      <DependentUpon>ExtensionTokenEditControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FileListViewControl.xaml.cs">
-      <DependentUpon>FileListViewControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FileRenameControl.xaml.cs">
-      <DependentUpon>FileRenameControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FileTreeViewControl.xaml.cs">
-      <DependentUpon>FileTreeViewControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FlyoutTooltipControl.xaml.cs">
-      <DependentUpon>FlyoutTooltipControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MenuItemControl.xaml.cs">
-      <DependentUpon>MenuItemControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MenuSubItemControl.xaml.cs">
-      <DependentUpon>MenuSubItemControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PreviewControl.xaml.cs">
-      <DependentUpon>PreviewControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Core\Behaviors.cs" />
-    <Compile Include="Core\Common.cs" />
-    <Compile Include="Core\Converters.cs" />
-    <Compile Include="Core\ExtensionManager.cs" />
-    <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\MimeTypeMap.cs" />
-    <Compile Include="Core\NotifyTask.cs" />
-    <Compile Include="Core\Services.cs" />
-    <Compile Include="Core\PackageManager.cs" />
-    <Compile Include="Editors\BrowseFolderPathEdit.cs" />
-    <Compile Include="Editors\KeyGestureEdit.cs" />
-    <Compile Include="Helpers\FileSystemHelper.cs" />
-    <Compile Include="Helpers\FileSystemImageHelper.cs" />
-    <Compile Include="Core\CustomFunctions.cs" />
-    <Compile Include="Helpers\FileSystemWatcherHelper.cs" />
-    <Compile Include="Core\Utilities.cs" />
-    <Compile Include="Helpers\ContextMenuHelper.cs" />
-    <Compile Include="Messages\CommandMessage.cs" />
-    <Compile Include="Messages\NotificationMessage.cs" />
-    <Compile Include="Model\FileModelCollection.cs" />
-    <Compile Include="Model\FileModelReadOnlyCollection.cs" />
-    <Compile Include="Model\ZipItemModel.cs" />
-    <Compile Include="Native\DeviceWatcher.cs" />
-    <Compile Include="Native\DirectoryWatcher.cs" />
-    <Compile Include="Native\SafeNativeMethods.cs" />
-    <Compile Include="Native\OpenFolderDialog.cs" />
-    <Compile Include="Native\SearchEverything.cs" />
-    <Compile Include="Persistence\Expression.cs" />
-    <Compile Include="Persistence\ExtensionMetadata.cs" />
-    <Compile Include="Persistence\MenuItem.cs" />
-    <Compile Include="Persistence\Persistent.cs" />
-    <Compile Include="Persistence\Repository.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Resources\CultureResources.cs" />
-    <Compile Include="Model\FileModel.cs" />
-    <Compile Include="Persistence\FolderLayout.cs" />
-    <Compile Include="ViewModel\BrowserTabViewModel.cs" />
-    <Compile Include="ViewModel\ExtensionViewModel.cs" />
-    <Compile Include="ViewModel\RenameBatchViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\MessageViewModel.cs" />
-    <Compile Include="ViewModel\RenameViewModel.cs" />
-    <Compile Include="ViewModel\TaskbarViewModel.cs" />
-    <Compile Include="ViewModel\ZipArchiveViewModel.cs" />
-    <Compile Include="ViewModel\ZipExtractViewModel.cs" />
-    <Compile Include="ViewModel\ZipViewModel.cs" />
-    <Compile Include="View\BrowserTabView.xaml.cs">
-      <DependentUpon>BrowserTabView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\CustomColumnView.xaml.cs">
-      <DependentUpon>CustomColumnView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\CustomMenuView.xaml.cs">
-      <DependentUpon>CustomMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ExtensionsView.xaml.cs">
-      <DependentUpon>ExtensionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ManageExpressionView.xaml.cs">
-      <DependentUpon>ManageExpressionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ManageLayoutView.xaml.cs">
-      <DependentUpon>ManageLayoutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\OptionsView.xaml.cs">
-      <DependentUpon>OptionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\RenameBatchView.xaml.cs">
-      <DependentUpon>RenameBatchView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MessageView.xaml.cs">
-      <DependentUpon>MessageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\RenameView.xaml.cs">
-      <DependentUpon>RenameView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\WarmupView.xaml.cs">
-      <DependentUpon>WarmupView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ZipArchiveView.xaml.cs">
-      <DependentUpon>ZipArchiveView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ZipExtractView.xaml.cs">
-      <DependentUpon>ZipExtractView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Controls\BreadCrumbControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\ExpressionEditorControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\ExpressionSelectorControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\ExtensionTokenEditControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\FileListViewControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Controls\FileRenameControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\FileTreeViewControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\FlyoutTooltipControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MenuItemControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MenuSubItemControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\PreviewControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\ResourceDictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\BrowserTabView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\CustomColumnView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\CustomMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ExtensionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ManageExpressionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ManageLayoutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\OptionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\RenameBatchView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MessageView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\RenameView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="View\WarmupView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ZipArchiveView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ZipExtractView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Native\FileOperation.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.de.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>FileExplorer.Properties</CustomToolNamespace>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.tr.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <None Include="App.config" />
+    <None Remove="Assets\Fonts\AwesomeSolid.ttf" />
+  </ItemGroup>  
+  <ItemGroup>
+    <None Remove="Assets\ICO\Computer.ico" />
+    <None Remove="Assets\ICO\QuickAccess.ico" />
+    <None Remove="Assets\ICO\Pin.ico" />
+    <None Remove="Assets\ICO\Unpin.ico" />
+    <None Remove="Assets\ICO\CopyPath.ico" />
+    <None Remove="Assets\ICO\Cut.ico" />
+    <None Remove="Assets\ICO\Copy.ico" />
+    <None Remove="Assets\ICO\Paste.ico" />
+    <None Remove="Assets\ICO\CopyTo.ico" />
+    <None Remove="Assets\ICO\Delete.ico" />
+    <None Remove="Assets\ICO\MoveTo.ico" />
+    <None Remove="Assets\ICO\Recycle.ico" />
+    <None Remove="Assets\ICO\Open.ico" />
+    <None Remove="Assets\ICO\OpenFile.ico" />
+    <None Remove="Assets\ICO\OpenFolder.ico" />
+    <None Remove="Assets\ICO\Zip.ico" />
+    <None Remove="Assets\ICO\Mail.ico" />
+    <None Remove="Assets\ICO\NewFile.ico" />
+    <None Remove="Assets\ICO\NewFolder.ico" />
+    <None Remove="Assets\ICO\Properties.ico" />
+    <None Remove="Assets\ICO\Rename.ico" />
+    <None Remove="Assets\ICO\InvertSelection.ico" />
+    <None Remove="Assets\ICO\SelectAll.ico" />
+    <None Remove="Assets\ICO\SelectNone.ico" />
+    <None Remove="Assets\ICO\Options.ico" />
+    <None Remove="Assets\ICO\DetailsPane.ico" />
+    <None Remove="Assets\ICO\NavigationPane.ico" />
+    <None Remove="Assets\ICO\PreviewPane.ico" />
+    <None Remove="Assets\ICO\Extensions.ico" />
+    <None Remove="Assets\ICO\Help.ico" />
+    <None Remove="Assets\ICO\Save.ico" />
+    <None Remove="Assets\ICO\Content.ico" />
+    <None Remove="Assets\ICO\AddColumn.ico" />
+    <None Remove="Assets\ICO\BestFit.ico" />
+    <None Remove="Assets\ICO\Group.ico" />
+    <None Remove="Assets\ICO\Sort.ico" />
+    <None Remove="Assets\ICO\Details.ico" />
+    <None Remove="Assets\ICO\ExtraLargeIcons.ico" />
+    <None Remove="Assets\ICO\LargeIcons.ico" />
+    <None Remove="Assets\ICO\List.ico" />
+    <None Remove="Assets\ICO\MediumIcons.ico" />
+    <None Remove="Assets\ICO\SmallIcons.ico" />
+    <None Remove="Assets\ICO\Thumbnails.ico" />
+    <None Remove="Assets\ICO\Date.ico" />
+    <None Remove="Assets\ICO\Kind.ico" />
+    <None Remove="Assets\ICO\Size.ico" />
+    <None Remove="Assets\ICO\OpenNewWindow.ico" />
+	<None Remove="Assets\ICO\Explorer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\SVG\AddRemoveMenuItems.svg" />
+    <None Remove="Assets\SVG\ShowCheckBoxes.svg" />
+    <None Remove="Assets\SVG\ShowRowNumbers.svg" />
+    <None Remove="Assets\SVG\SortAsc.svg" />
+    <None Remove="Assets\SVG\SortDesc.svg" />
+    <None Remove="Assets\SVG\Print.svg" />
+    <None Remove="Assets\SVG\AddCustomColumn.svg" />
+    <None Remove="Assets\SVG\EditCustomColumn.svg" />
+    <None Remove="Assets\SVG\RemoveCustomColumn.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\Thumbnail\Bottom.svg" />
+    <None Remove="Assets\Thumbnail\BottomLeft.svg" />
+    <None Remove="Assets\Thumbnail\BottomRight.svg" />
+    <None Remove="Assets\Thumbnail\Left.svg" />
+    <None Remove="Assets\Thumbnail\Right.svg" />
+    <None Remove="Assets\Thumbnail\Top.svg" />
+    <None Remove="Assets\Thumbnail\TopLeft.svg" />
+    <None Remove="Assets\Thumbnail\TopRight.svg" />
+    <None Remove="Assets\Thumbnail\Center.svg" />
+    <None Remove="Assets\Thumbnail\Contain.svg" />
+    <None Remove="Assets\Thumbnail\Crop.svg" />
+    <None Remove="Assets\Thumbnail\Stretch.svg" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Assets\Fonts\AwesomeSolid.ttf" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\DevExpress.Mvvm.CodeGenerators.22.1.1\analyzers\dotnet\cs\DevExpress.Mvvm.CodeGenerators.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj">
-      <Project>{dcef0ec4-d0a0-4e15-b918-bc78e9441427}</Project>
-      <Name>FileExplorer.Extension</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Thumbnail\Bottom.svg" />
-    <Resource Include="Assets\Thumbnail\BottomLeft.svg" />
-    <Resource Include="Assets\Thumbnail\BottomRight.svg" />
-    <Resource Include="Assets\Thumbnail\Left.svg" />
-    <Resource Include="Assets\Thumbnail\Right.svg" />
-    <Resource Include="Assets\Thumbnail\Top.svg" />
-    <Resource Include="Assets\Thumbnail\TopLeft.svg" />
-    <Resource Include="Assets\Thumbnail\TopRight.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Thumbnail\Center.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Thumbnail\Contain.svg" />
-    <Resource Include="Assets\Thumbnail\Crop.svg" />
-    <Resource Include="Assets\Thumbnail\Stretch.svg" />
-  </ItemGroup>
+  </ItemGroup>  
   <ItemGroup>
     <Resource Include="Assets\ICO\Computer.ico" />
     <Resource Include="Assets\ICO\QuickAccess.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Pin.ico" />
     <Resource Include="Assets\ICO\Unpin.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\CopyPath.ico" />
     <Resource Include="Assets\ICO\Cut.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Copy.ico" />
     <Resource Include="Assets\ICO\Paste.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\CopyTo.ico" />
     <Resource Include="Assets\ICO\Delete.ico" />
     <Resource Include="Assets\ICO\MoveTo.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Recycle.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Open.ico" />
     <Resource Include="Assets\ICO\OpenFile.ico" />
     <Resource Include="Assets\ICO\OpenFolder.ico" />
@@ -606,34 +159,18 @@
     <Resource Include="Assets\ICO\InvertSelection.ico" />
     <Resource Include="Assets\ICO\SelectAll.ico" />
     <Resource Include="Assets\ICO\SelectNone.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Options.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\DetailsPane.ico" />
     <Resource Include="Assets\ICO\NavigationPane.ico" />
     <Resource Include="Assets\ICO\PreviewPane.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Extensions.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Help.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Save.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Content.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\AddColumn.ico" />
     <Resource Include="Assets\ICO\BestFit.ico" />
     <Resource Include="Assets\ICO\Group.ico" />
     <Resource Include="Assets\ICO\Sort.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Details.ico" />
     <Resource Include="Assets\ICO\ExtraLargeIcons.ico" />
     <Resource Include="Assets\ICO\LargeIcons.ico" />
@@ -641,41 +178,59 @@
     <Resource Include="Assets\ICO\MediumIcons.ico" />
     <Resource Include="Assets\ICO\SmallIcons.ico" />
     <Resource Include="Assets\ICO\Thumbnails.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\Date.ico" />
     <Resource Include="Assets\ICO\Kind.ico" />
     <Resource Include="Assets\ICO\Size.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\ICO\OpenNewWindow.ico" />
+	<Resource Include="Assets\ICO\Explorer.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\SVG\AddRemoveMenuItems.svg" />
     <Resource Include="Assets\SVG\ShowCheckBoxes.svg" />
     <Resource Include="Assets\SVG\ShowRowNumbers.svg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\SVG\SortAsc.svg" />
     <Resource Include="Assets\SVG\SortDesc.svg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\SVG\Print.svg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\SVG\AddCustomColumn.svg" />
     <Resource Include="Assets\SVG\EditCustomColumn.svg" />
     <Resource Include="Assets\SVG\RemoveCustomColumn.svg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\ICO\Explorer.ico" />
+    <Resource Include="Assets\Thumbnail\Bottom.svg" />
+    <Resource Include="Assets\Thumbnail\BottomLeft.svg" />
+    <Resource Include="Assets\Thumbnail\BottomRight.svg" />
+    <Resource Include="Assets\Thumbnail\Left.svg" />
+    <Resource Include="Assets\Thumbnail\Right.svg" />
+    <Resource Include="Assets\Thumbnail\Top.svg" />
+    <Resource Include="Assets\Thumbnail\TopLeft.svg" />
+    <Resource Include="Assets\Thumbnail\TopRight.svg" />
+    <Resource Include="Assets\Thumbnail\Center.svg" />
+    <Resource Include="Assets\Thumbnail\Contain.svg" />
+    <Resource Include="Assets\Thumbnail\Crop.svg" />
+    <Resource Include="Assets\Thumbnail\Stretch.svg" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+	<Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+	<EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
 </Project>

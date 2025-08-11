@@ -1,4 +1,5 @@
 ﻿using FileExplorer.Extension;
+using LiteDB;
 
 namespace FileExplorer.Persistence
 {
@@ -18,6 +19,7 @@ namespace FileExplorer.Persistence
 
         public bool Disabled { get; set; }
 
+        [BsonCtor]
         public ExtensionMetadata() { }
 
         public ExtensionMetadata(IPreviewExtensionMetadata extensionMetadata) 

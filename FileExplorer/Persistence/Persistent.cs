@@ -56,6 +56,6 @@ namespace FileExplorer.Persistence
             Repository.Delete(item.Id);
         }
 
-        private LiteCollection<T> Repository;
+        private ILiteCollection<T> Repository;
     }
 }

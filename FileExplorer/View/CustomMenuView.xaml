@@ -51,6 +51,9 @@
                     </dxmvvm:Interaction.Behaviors>
                 </dxe:ComboBoxEdit>
             </DataTemplate>
+            <DataTemplate x:Key="ExecutablePathEditTemplate">
+                <dxe:BrowsePathEdit x:Name="PART_Editor" IsTextEditable="False" DialogType="FileOpen" DialogFilter="Programs (*.exe)|*.exe|All Files (*.*)|*.*" />
+            </DataTemplate>
         </dxg:GridControl.Resources>
 
         <dxg:GridControl.View>
@@ -145,11 +148,8 @@
             </dxg:GridColumn>
             <dxg:GridColumn FieldName="Command" Header="{Binding Command, Source={StaticResource ResourceProvider}}"
                             CellTemplate="{StaticResource CommandEditorTemplate}" EditFormTemplate="{StaticResource CommandEditorTemplate}" />
-            <dxg:GridColumn FieldName="Application" Header="{Binding Application, Source={StaticResource ResourceProvider}}">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:BrowsePathEditSettings DialogType="FileOpen" DialogFilter="Programs (*.exe)|*.exe|All Files (*.*)|*.*" />
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>            
+            <dxg:GridColumn FieldName="Application" Header="{Binding Application, Source={StaticResource ResourceProvider}}"
+                            CellTemplate="{StaticResource ExecutablePathEditTemplate}" EditFormTemplate="{StaticResource ExecutablePathEditTemplate}" />
             <dxg:GridColumn FieldName="Parameter" Header="{Binding Parameter, Source={StaticResource ResourceProvider}}" Visible="False"
                             CellTemplate="{StaticResource ParameterEditorTemplate}" EditFormTemplate="{StaticResource ParameterEditorTemplate}" />
             <dxg:GridColumn FieldName="Expression" Header="{Binding Expression, Source={StaticResource ResourceProvider}}" Visible="False" />
