@@ -20,6 +20,13 @@ namespace FileExplorer.Controls
 {
     public partial class FileListViewControl : GridControl
     {
+        public string CurrentFolderPath
+        {
+            get { return (string)GetValue(CurrentFolderPathProperty); }
+            set { SetValue(CurrentFolderPathProperty, value); }
+        }
+        public static readonly DependencyProperty CurrentFolderPathProperty = DependencyProperty.Register(nameof(CurrentFolderPath), typeof(string), typeof(FileListViewControl), new PropertyMetadata(null, OnCurrentFolderPathChanged));
+
         public string HighlightedText
         {
             get { return (string)GetValue(HighlightedTextProperty); }
@@ -78,6 +85,11 @@ namespace FileExplorer.Controls
             {
                 if (SelectedItems.Count == 0)
                     CurrentItem = null;
+            };
+
+            ItemsSourceChanged += (s, e) =>
+            {
+                LoadFolderLayout(CurrentFolderPath);
             };
 
             ClickTimer = new DispatcherTimer();
@@ -169,11 +181,9 @@ namespace FileExplorer.Controls
 
         public void LoadFolderLayout(string folderPath)
         {
-            if (!Path.IsPathRooted(folderPath) || !String.IsNullOrEmpty(HighlightedText))
+            if (!String.IsNullOrEmpty(HighlightedText) && LastLoadedFolderLayout != null)
             {
-                if (LastLoadedLayoutFolder != null)
-                    LoadDefaultLayout();
-
+                LoadDefaultLayout();
                 return;
             }
 
@@ -184,24 +194,22 @@ namespace FileExplorer.Controls
 
             if (layout != null)
             {
-                if (layout.LayoutStream != null && layout.FolderPath != LastLoadedLayoutFolder)
+                if (layout.LayoutStream != null && layout != LastLoadedFolderLayout)
                 {
                     layout.LayoutStream.Position = 0;
                     RestoreLayoutFromStream(layout.LayoutStream);
 
-                    LastLoadedLayoutFolder = layout.FolderPath;
+                    LastLoadedFolderLayout = layout;
                 }
             }
-            else if (LastLoadedLayoutFolder != null)
-                LoadDefaultLayout();
-        }
+        }        
 
         public void LoadDefaultLayout()
         {
             DefaultLayoutStream.Position = 0;
             RestoreLayoutFromStream(DefaultLayoutStream);
 
-            LastLoadedLayoutFolder = null;
+            LastLoadedFolderLayout = null;
         }
 
         public void ShowManageLayoutsDialog()
@@ -295,15 +303,35 @@ namespace FileExplorer.Controls
             NewClickedItem = null;
         }
 
+        private static void OnCurrentFolderPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FileListViewControl fileListViewControl && e.NewValue != null)
+            {
+                FolderLayout lastLoadedFolderLayout = fileListViewControl.LastLoadedFolderLayout;
+                if (lastLoadedFolderLayout == null)
+                    return;
+
+                string newFolderPath = e.NewValue.ToString();
+
+                if (newFolderPath.OrdinalEquals(lastLoadedFolderLayout.FolderPath))
+                    return;
+
+                if (newFolderPath.OrdinalStartsWith(lastLoadedFolderLayout.FolderPath) && lastLoadedFolderLayout.ApplyToSubFolders)
+                    return;
+
+                fileListViewControl.LoadDefaultLayout();
+            }
+        }
+
         private static void OnHighlightedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is GridControl gridControl)
                 gridControl.View.SearchString = e.NewValue == null ? null : e.NewValue.ToString();
-        }
+        }        
 
         private static MemoryStream DefaultLayoutStream;
 
-        private string LastLoadedLayoutFolder;
+        private FolderLayout LastLoadedFolderLayout;
 
         private DispatcherTimer ClickTimer;
 
