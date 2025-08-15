@@ -585,5 +585,17 @@ namespace FileExplorer.Properties {
                 this["ThumbnailHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoRestoreSelection {
+            get {
+                return ((bool)(this["AutoRestoreSelection"]));
+            }
+            set {
+                this["AutoRestoreSelection"] = value;
+            }
+        }
     }
 }

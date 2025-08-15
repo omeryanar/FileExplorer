@@ -890,4 +890,13 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="RunCommand" xml:space="preserve">
     <value>Komut Çalıştır</value>
   </data>
+  <data name="SaveSelection" xml:space="preserve">
+    <value>Seçimi Kaydet</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Seçimi Geri Yükle</value>
+  </data>
+  <data name="AutoRestoreSelection" xml:space="preserve">
+    <value>Seçimi Her Zaman Geri Yükle</value>
+  </data>
 </root>

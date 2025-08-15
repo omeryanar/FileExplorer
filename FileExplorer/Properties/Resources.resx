@@ -890,4 +890,13 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="RunCommand" xml:space="preserve">
     <value>Run Command</value>
   </data>
+  <data name="SaveSelection" xml:space="preserve">
+    <value>Save Selection</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Restore Selection</value>
+  </data>
+  <data name="AutoRestoreSelection" xml:space="preserve">
+    <value>Auto Restore Selection</value>
+  </data>
 </root>

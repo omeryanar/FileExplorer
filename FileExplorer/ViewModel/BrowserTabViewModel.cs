@@ -194,6 +194,7 @@ namespace FileExplorer.ViewModel
 
             Settings.Default.LeftPaneWidth = Settings.LeftPaneWidth;
             Settings.Default.RightPaneWidth = Settings.RightPaneWidth;
+            Settings.Default.AutoRestoreSelection = Settings.AutoRestoreSelection;
 
             Settings.Default.Save();
         }

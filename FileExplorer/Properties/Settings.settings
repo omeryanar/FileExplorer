@@ -131,7 +131,7 @@
     <Setting Name="MinimizedRibbon" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-	<Setting Name="ThumbnailMode" Type="System.Int32" Scope="User">
+    <Setting Name="ThumbnailMode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ThumbnailAnchor" Type="System.Int32" Scope="User">
@@ -142,6 +142,9 @@
     </Setting>
     <Setting Name="ThumbnailHeight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">250</Value>
-    </Setting>    
+    </Setting>
+    <Setting Name="AutoRestoreSelection" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

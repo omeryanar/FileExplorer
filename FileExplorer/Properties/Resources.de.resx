@@ -890,4 +890,13 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="RunCommand" xml:space="preserve">
     <value>Befehl Ausführen</value>
   </data>
+  <data name="SaveSelection" xml:space="preserve">
+    <value>Auswahl speichern</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Auswahl wiederherstellen</value>
+  </data>
+  <data name="AutoRestoreSelection" xml:space="preserve">
+    <value>Auswahl immer wiederherstellen</value>
+  </data>
 </root>

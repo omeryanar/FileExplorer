@@ -196,6 +196,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto Restore Selection.
+        /// </summary>
+        public static string AutoRestoreSelection {
+            get {
+                return ResourceManager.GetString("AutoRestoreSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back To Default.
         /// </summary>
         public static string BackToDefault {
@@ -1749,6 +1758,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore Selection.
+        /// </summary>
+        public static string RestoreSelection {
+            get {
+                return ResourceManager.GetString("RestoreSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Right.
         /// </summary>
         public static string Right {
@@ -1790,6 +1808,15 @@ namespace FileExplorer.Properties {
         public static string SaveLayout {
             get {
                 return ResourceManager.GetString("SaveLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Selection.
+        /// </summary>
+        public static string SaveSelection {
+            get {
+                return ResourceManager.GetString("SaveSelection", resourceCulture);
             }
         }
         

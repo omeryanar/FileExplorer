@@ -437,6 +437,9 @@
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 4`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(4)'}" KeyGesture="CTRL + 4" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 5`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(5)'}" KeyGesture="CTRL + 5" />
                             </dxb:BarSubItem>
+                            <dxb:BarButtonItem x:Name="SaveSelection" Content="{Binding SaveSelection, Source={StaticResource ResourceProvider}}" Command="{Binding SaveSelectionCommand, ElementName=FileList}" />
+                            <dxb:BarButtonItem x:Name="RestoreSelection" Content="{Binding RestoreSelection, Source={StaticResource ResourceProvider}}" Command="{Binding RestoreSelectionCommand, ElementName=FileList}" />
+                            <dxb:BarCheckItem x:Name="AutoRestoreSelection" Content="{Binding AutoRestoreSelection, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.AutoRestoreSelection, Mode=TwoWay}" />
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonPageCategory>

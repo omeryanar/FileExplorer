@@ -401,6 +401,10 @@
                 <dxb:BarButtonItemLink BarItemName="AddRemoveMenuItems" />
                 <dxb:BarItemLinkSeparator />
                 <dxb:BarSubItemLink BarItemName="ExpandToLevel" />
+                <dxb:BarButtonItemLink BarItemName="SaveSelection" />
+                <dxb:BarButtonItemLink BarItemName="RestoreSelection" />
+                <dxb:BarCheckItemLink BarItemName="AutoRestoreSelection" />
+                <dxb:BarItemLinkSeparator />                
                 <dxb:BarButtonItemLink BarItemName="PinToQuickAccess" />
                 <dxb:BarButtonItemLink BarItemName="UnpinFromQuickAccess" />
                 <dxb:BarButtonItemLink BarItemName="Copy" />

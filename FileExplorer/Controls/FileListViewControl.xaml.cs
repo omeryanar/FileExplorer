@@ -15,6 +15,7 @@ using FileExplorer.Core;
 using FileExplorer.Helpers;
 using FileExplorer.Model;
 using FileExplorer.Persistence;
+using FileExplorer.Properties;
 
 namespace FileExplorer.Controls
 {
@@ -62,6 +63,20 @@ namespace FileExplorer.Controls
         }
         public static readonly DependencyProperty EditCommandProperty = DependencyProperty.Register(nameof(EditCommand), typeof(ICommand), typeof(FileListViewControl));
 
+        public ICommand SaveSelectionCommand
+        {
+            get { return (ICommand)GetValue(SaveSelectionCommandProperty); }
+            set { SetValue(SaveSelectionCommandProperty, value); }
+        }
+        public static readonly DependencyProperty SaveSelectionCommandProperty = DependencyProperty.Register(nameof(SaveSelectionCommand), typeof(ICommand), typeof(FileListViewControl));
+
+        public ICommand RestoreSelectionCommand
+        {
+            get { return (ICommand)GetValue(RestoreSelectionCommandProperty); }
+            set { SetValue(RestoreSelectionCommandProperty, value); }
+        }
+        public static readonly DependencyProperty RestoreSelectionCommandProperty = DependencyProperty.Register(nameof(RestoreSelectionCommand), typeof(ICommand), typeof(FileListViewControl));
+
         public FileListViewControl()
         {
             InitializeComponent();
@@ -90,6 +105,9 @@ namespace FileExplorer.Controls
             ItemsSourceChanged += (s, e) =>
             {
                 LoadFolderLayout(CurrentFolderPath);
+
+                if (Settings.Default.AutoRestoreSelection)
+                    RestoreSelection();
             };
 
             ClickTimer = new DispatcherTimer();
@@ -108,6 +126,10 @@ namespace FileExplorer.Controls
                     EditSelectedItemCommand?.Execute(SelectedItem);
             }, 
             () => { return EditSelectedItemCommand?.CanExecute(SelectedItem) == true || EditSelectedItemsCommand?.CanExecute(SelectedItems) == true; });
+
+            SaveSelectionCommand = new DelegateCommand(() => { SaveSelection(); }, () => { return SelectedItems.Count > 0; });
+
+            RestoreSelectionCommand = new DelegateCommand(() => { RestoreSelection(); }, () => { return !String.IsNullOrEmpty(CurrentFolderPath) && SelectedItemsDictionary.ContainsKey(CurrentFolderPath); });
         }
 
         public void InvertSelection()
@@ -202,7 +224,33 @@ namespace FileExplorer.Controls
                     LastLoadedFolderLayout = layout;
                 }
             }
-        }        
+        }
+
+        public void SaveSelection()
+        {
+            SaveSelection(CurrentFolderPath);
+        }
+
+        public void SaveSelection(string folderPath)
+        {
+            if (!String.IsNullOrEmpty(folderPath) && SelectedItems.Count > 0)
+                SelectedItemsDictionary[folderPath] = new ArrayList(SelectedItems);
+        }
+
+        public void RestoreSelection()
+        {
+            RestoreSelection(CurrentFolderPath);   
+        }
+
+        public void RestoreSelection(string folderPath)
+        {
+            if (!String.IsNullOrEmpty(folderPath) && SelectedItemsDictionary.TryGetValue(folderPath, out IList selectedItems))
+            {
+                SelectedItems.Clear();
+                foreach (object item in selectedItems)
+                    SelectedItems.Add(item);
+            }
+        }
 
         public void LoadDefaultLayout()
         {
@@ -305,21 +353,27 @@ namespace FileExplorer.Controls
 
         private static void OnCurrentFolderPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is FileListViewControl fileListViewControl && e.NewValue != null)
+            if (d is FileListViewControl fileListViewControl)
             {
-                FolderLayout lastLoadedFolderLayout = fileListViewControl.LastLoadedFolderLayout;
-                if (lastLoadedFolderLayout == null)
-                    return;
+                if (Settings.Default.AutoRestoreSelection && e.OldValue != null)
+                    fileListViewControl.SaveSelection(e.OldValue.ToString());
 
-                string newFolderPath = e.NewValue.ToString();
+                if (e.NewValue != null)
+                {
+                    FolderLayout lastLoadedFolderLayout = fileListViewControl.LastLoadedFolderLayout;
+                    if (lastLoadedFolderLayout == null)
+                        return;
 
-                if (newFolderPath.OrdinalEquals(lastLoadedFolderLayout.FolderPath))
-                    return;
+                    string newFolderPath = e.NewValue.ToString();
 
-                if (newFolderPath.OrdinalStartsWith(lastLoadedFolderLayout.FolderPath) && lastLoadedFolderLayout.ApplyToSubFolders)
-                    return;
+                    if (newFolderPath.OrdinalEquals(lastLoadedFolderLayout.FolderPath))
+                        return;
 
-                fileListViewControl.LoadDefaultLayout();
+                    if (newFolderPath.OrdinalStartsWith(lastLoadedFolderLayout.FolderPath) && lastLoadedFolderLayout.ApplyToSubFolders)
+                        return;
+
+                    fileListViewControl.LoadDefaultLayout();
+                }
             }
         }
 
@@ -327,7 +381,9 @@ namespace FileExplorer.Controls
         {
             if (d is GridControl gridControl)
                 gridControl.View.SearchString = e.NewValue == null ? null : e.NewValue.ToString();
-        }        
+        }
+
+        private Dictionary<string, IList> SelectedItemsDictionary = new Dictionary<string, IList>();
 
         private static MemoryStream DefaultLayoutStream;
 
