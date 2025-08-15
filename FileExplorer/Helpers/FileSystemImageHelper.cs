@@ -55,13 +55,30 @@ namespace FileExplorer.Helpers
                 else if (fileModel.IsDrive || File.Exists(Path.Combine(fileModel.FullPath, "desktop.ini")))
                     path = fileModel.FullPath;
             }
+            else if (fileModel.Extension.OrdinalEquals(".url"))
+            {
+                path = fileModel.Extension;
+
+                foreach (string line in File.ReadLines(fileModel.FullPath))
+                {
+                    if (line.OrdinalStartsWith("IconFile="))
+                    {
+                        string[] split = line.Split('=');
+                        if (split.Length == 2)
+                        {
+                            path = split[1];
+                            break;
+                        }
+                    }
+                }                    
+            }
             else
             {
                 if (fileModel.Extension.OrdinalEquals(".exe") ||
                     fileModel.Extension.OrdinalEquals(".ico") ||
                     fileModel.Extension.OrdinalEquals(".lnk") ||
                     fileModel.Extension.OrdinalEquals(".cur"))
-                    path = fileModel.FullPath;
+                    path = fileModel.FullPath;                
                 else
                     path = fileModel.Extension;
             }
