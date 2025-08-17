@@ -13,6 +13,7 @@
   <RootNamespace>FileExplorer</RootNamespace>
     <ApplicationIcon>Assets\ICO\Explorer.ico</ApplicationIcon>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AlphaFS" Version="2.2.6" />
