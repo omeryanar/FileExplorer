@@ -107,7 +107,7 @@ namespace FileExplorer.Controls
                 LoadFolderLayout(CurrentFolderPath);
 
                 if (Settings.Default.AutoRestoreSelection)
-                    RestoreSelection();
+                    RestoreSelection(CurrentFolderPath);
             };
 
             ClickTimer = new DispatcherTimer();
@@ -129,7 +129,7 @@ namespace FileExplorer.Controls
 
             SaveSelectionCommand = new DelegateCommand(() => { SaveSelection(); }, () => { return SelectedItems.Count > 0; });
 
-            RestoreSelectionCommand = new DelegateCommand(() => { RestoreSelection(); }, () => { return !String.IsNullOrEmpty(CurrentFolderPath) && SelectedItemsDictionary.ContainsKey(CurrentFolderPath); });
+            RestoreSelectionCommand = new DelegateCommand(() => { RestoreSelection(); }, () => { return !String.IsNullOrEmpty(CurrentFolderPath) && ManuelRestoreItemsDictionary.ContainsKey(CurrentFolderPath); });
         }
 
         public void InvertSelection()
@@ -228,24 +228,39 @@ namespace FileExplorer.Controls
 
         public void SaveSelection()
         {
-            SaveSelection(CurrentFolderPath);
+            SaveSelection(CurrentFolderPath, false);
         }
 
-        public void SaveSelection(string folderPath)
+        public void SaveSelection(string folderPath, bool autoRestore = true)
         {
+            Dictionary<string, IList> selectedItemsDictionary = autoRestore ? AutoRestoreItemsDictionary : ManuelRestoreItemsDictionary;
+
             if (!String.IsNullOrEmpty(folderPath) && SelectedItems.Count > 0)
-                SelectedItemsDictionary[folderPath] = new ArrayList(SelectedItems);
+                selectedItemsDictionary[folderPath] = new ArrayList(SelectedItems);
         }
 
         public void RestoreSelection()
         {
-            RestoreSelection(CurrentFolderPath);   
+            RestoreSelection(CurrentFolderPath, false);   
         }
 
-        public void RestoreSelection(string folderPath)
+        public void RestoreSelection(string folderPath, bool autoRestore = true)
         {
-            if (!String.IsNullOrEmpty(folderPath) && SelectedItemsDictionary.TryGetValue(folderPath, out IList selectedItems))
+            Dictionary<string, IList> selectedItemsDictionary = autoRestore ? AutoRestoreItemsDictionary : ManuelRestoreItemsDictionary;
+
+            if (!String.IsNullOrEmpty(folderPath) && selectedItemsDictionary.TryGetValue(folderPath, out IList selectedItems))
             {
+                if (View is TreeListView treeView)
+                {
+                    TreeListNodeIterator nodeIterator = new TreeListNodeIterator(treeView.Nodes, false);
+                    while (nodeIterator.MoveNext())
+                    {
+                        FileModel fileModel = nodeIterator.Current.Content as FileModel;
+                        if (fileModel?.Folders != null)
+                            nodeIterator.Current.IsExpanded = true;
+                    }
+                }
+
                 SelectedItems.Clear();
                 foreach (object item in selectedItems)
                     SelectedItems.Add(item);
@@ -383,7 +398,9 @@ namespace FileExplorer.Controls
                 gridControl.View.SearchString = e.NewValue == null ? null : e.NewValue.ToString();
         }
 
-        private Dictionary<string, IList> SelectedItemsDictionary = new Dictionary<string, IList>();
+        private Dictionary<string, IList> AutoRestoreItemsDictionary = new Dictionary<string, IList>();
+
+        private Dictionary<string, IList> ManuelRestoreItemsDictionary = new Dictionary<string, IList>();
 
         private static MemoryStream DefaultLayoutStream;
 
@@ -403,7 +420,7 @@ namespace FileExplorer.Controls
         protected override void UpdateAfterIncrementalSearch()
         {
             base.UpdateAfterIncrementalSearch();
-
+            
             if (TextSearchEngineRoot.MatchedItemIndex != null && TextSearchEngineRoot.MatchedItemIndex.RowIndex == FocusedRowHandle)
                 DataControl.SelectedItem = DataControl.CurrentItem;
         }
