@@ -142,8 +142,6 @@ namespace FileExplorer.Helpers
 
         protected static string Windows = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
-        protected static string UserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
         protected static AsyncKeyedLocker<string> ImageKeyLockProvider = new(o =>
         {
             o.PoolSize = 20;

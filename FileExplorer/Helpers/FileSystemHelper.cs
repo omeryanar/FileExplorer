@@ -72,15 +72,15 @@ namespace FileExplorer.Helpers
             {
                 if (userFolders == null)
                 {
-                    userFolders = new string[]
-                    {
+                    userFolders =
+                    [
                         KnownFolders.Desktop.Path,
                         KnownFolders.Documents.Path,
                         KnownFolders.Downloads.Path,
                         KnownFolders.Music.Path,
                         KnownFolders.Pictures.Path,
                         KnownFolders.Videos.Path
-                    };
+                    ];
                 }
 
                 return userFolders;
@@ -105,7 +105,7 @@ namespace FileExplorer.Helpers
 
         public static bool DirectoryExists(string path)
         {
-            switch(path)
+            switch (path)
             {
                 case QuickAccessPath:
                 case ComputerPath:                
@@ -176,7 +176,7 @@ namespace FileExplorer.Helpers
             }
             catch (Exception)
             {
-                return new string[0];
+                return [];
             }
         }
 
@@ -198,7 +198,7 @@ namespace FileExplorer.Helpers
             }
             catch (Exception)
             {
-                return new string[0];
+                return [];
             }
         }
 
@@ -330,6 +330,9 @@ namespace FileExplorer.Helpers
                         break;
 
                     FileModel childFileModel = FileModel.FromFileInfo(file);
+                    if (readMediaInfo)
+                        childFileModel.ReadMediaInfo();
+
                     await GetAllParents(childFileModel, false);
 
                     fileModelList.Add(childFileModel);

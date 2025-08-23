@@ -344,12 +344,12 @@ namespace FileExplorer.Model
             return false;
         }
 
-        public static readonly string[] MediaInfoFields = new string[]
-        {
+        public static readonly string[] MediaInfoFields =
+        [
             nameof(Width), nameof(Height),nameof(Duration),
             nameof(AudioBitrate), nameof(AudioChannels), nameof(AudioSampleRate),
             nameof(Album), nameof(Title), nameof(Genre), nameof(AlbumArtists), nameof(ContributingArtists), nameof(Composers),nameof(Year), nameof(Track), nameof(TrackCount)
-        };
+        ];
 
         #endregion
 
