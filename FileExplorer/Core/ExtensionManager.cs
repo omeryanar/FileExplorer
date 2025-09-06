@@ -38,7 +38,7 @@ namespace FileExplorer.Core
         [ImportMany]
         public IEnumerable<ExportFactory<IPreviewExtension, IPreviewExtensionMetadata>> Extensions { get; private set; }
 
-        public string ExtensionDirectory { get; private set; }   
+        public string ExtensionDirectory { get; private set; }
 
         private void LoadExtensions()
         {

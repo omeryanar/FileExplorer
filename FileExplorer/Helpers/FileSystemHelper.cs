@@ -10,7 +10,7 @@ using FileExplorer.Core;
 using FileExplorer.Model;
 using FileExplorer.Native;
 using FileExplorer.Properties;
-using Syroot.Windows.IO;
+using Vanara.Windows.Shell;
 
 namespace FileExplorer.Helpers
 {
@@ -71,17 +71,7 @@ namespace FileExplorer.Helpers
             get
             {
                 if (userFolders == null)
-                {
-                    userFolders =
-                    [
-                        KnownFolders.Desktop.Path,
-                        KnownFolders.Documents.Path,
-                        KnownFolders.Downloads.Path,
-                        KnownFolders.Music.Path,
-                        KnownFolders.Pictures.Path,
-                        KnownFolders.Videos.Path
-                    ];
-                }
+                    userFolders = SafeNativeMethods.GetKnownFolderPaths();
 
                 return userFolders;
             }
@@ -166,6 +156,18 @@ namespace FileExplorer.Helpers
             {
                 return String.Empty;
             }
+        }
+
+        public static string GetFolderShortcutTargetPath(string path)
+        {
+            if (path.OrdinalEndsWith(".lnk"))
+            {
+                ShellLink shellLink = new ShellLink(path);
+                if (shellLink.Target.IsFolder)
+                    return shellLink.TargetPath;
+            }
+
+            return String.Empty;
         }
 
         public static async Task<string[]> GetFolderPaths(string path)

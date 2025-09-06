@@ -15,7 +15,6 @@ using FileExplorer.Messages;
 using FileExplorer.Properties;
 using FileExplorer.Resources;
 using MimeTypes;
-using Shellify;
 using TagLib;
 
 namespace FileExplorer.Model
@@ -552,15 +551,7 @@ namespace FileExplorer.Model
             }
 
             if (info.Extension.OrdinalEndsWith(".lnk"))
-            {
-                try
-                {
-                    ShellLinkFile shellLinkFile = ShellLinkFile.Load(info.FullName);
-                    if (shellLinkFile != null && shellLinkFile.Header.FileAttributes.HasFlag(System.IO.FileAttributes.Directory))
-                        LinkPath = shellLinkFile.LinkInfo.LocalBasePath;
-                }
-                catch { }
-            }
+                LinkPath = FileSystemHelper.GetFolderShortcutTargetPath(info.FullName);
 
             try
             {

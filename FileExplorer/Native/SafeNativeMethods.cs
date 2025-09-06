@@ -16,7 +16,7 @@ namespace FileExplorer.Native
         public static HWND GetActiveWindowHandle()
         {
             return GetActiveWindow();
-        }   
+        }
 
         public static IShellItem CreateShellItem(string path)
         {
@@ -24,6 +24,21 @@ namespace FileExplorer.Native
                 return null;
 
             return ShellUtil.GetShellItemForPath(path);
+        }
+
+        public static string[] GetKnownFolderPaths()
+        {
+            string[] paths = 
+            [
+                ShellUtil.GetPathForKnownFolder(Shell32.KNOWNFOLDERID.FOLDERID_Desktop.Guid()),
+                ShellUtil.GetPathForKnownFolder(Shell32.KNOWNFOLDERID.FOLDERID_Documents.Guid()),
+                ShellUtil.GetPathForKnownFolder(Shell32.KNOWNFOLDERID.FOLDERID_Downloads.Guid()),
+                ShellUtil.GetPathForKnownFolder(Shell32.KNOWNFOLDERID.FOLDERID_Music.Guid()),
+                ShellUtil.GetPathForKnownFolder(Shell32.KNOWNFOLDERID.FOLDERID_Pictures.Guid()),
+                ShellUtil.GetPathForKnownFolder(Shell32.KNOWNFOLDERID.FOLDERID_Videos.Guid())
+            ];
+
+            return paths;
         }
 
         public static void MultiFileProperties(IDataObject data)
@@ -56,7 +71,7 @@ namespace FileExplorer.Native
             if (iImageList == null)
                 return null;
 
-            SafeHICON hIcon = iImageList.GetIcon(shFileInfo.iIcon, IMAGELISTDRAWFLAGS.ILD_IMAGE);            
+            SafeHICON hIcon = iImageList.GetIcon(shFileInfo.iIcon, IMAGELISTDRAWFLAGS.ILD_IMAGE);
 
             ImageSource imageSource = hIcon.ToBitmapSource();
             imageSource.Freeze();
