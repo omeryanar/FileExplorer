@@ -116,7 +116,7 @@ namespace FileExplorer.Native
         private static readonly int FileInfoSize = Marshal.SizeOf(typeof(SHFILEINFO));
     }
 
-    public static class RootFolers
+    public static class RootFolders
     {
         public const string QuickAccess = "shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}";
 
