@@ -49,7 +49,7 @@
             </Setter>
             <Setter Property="Visibility">
                 <Setter.Value>
-                    <Binding Path="ShowCheckBoxes" Source="{x:Static settings:Settings.Default}" Converter="{dxmvvm:BooleanToVisibilityConverter}" />
+                    <Binding Path="View.DataContext.Settings.ShowCheckBoxes" Converter="{dxmvvm:BooleanToVisibilityConverter}" />
                 </Setter.Value>
             </Setter>
         </Style>

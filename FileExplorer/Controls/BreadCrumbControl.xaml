@@ -21,8 +21,8 @@
                     <MultiBinding Converter="{common:FileModelVisibilityConverter}">
                         <Binding Path="IsHidden" />
                         <Binding Path="IsSystem" />
-                        <Binding Path="ShowHiddenItems" Source="{x:Static settings:Settings.Default}" />
-                        <Binding Path="ShowSystemItems" Source="{x:Static settings:Settings.Default}" />
+                        <Binding Path="ShowHiddenItems" RelativeSource="{RelativeSource AncestorType=controls:BreadCrumbControl}" />
+                        <Binding Path="ShowSystemItems" RelativeSource="{RelativeSource AncestorType=controls:BreadCrumbControl}" />
                     </MultiBinding>
                 </Setter.Value>
             </Setter>

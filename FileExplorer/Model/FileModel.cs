@@ -103,7 +103,7 @@ namespace FileExplorer.Model
 
         public bool IsRoot { get; internal set; }
 
-       public bool IsMedia => IsImage || IsVideo || IsAudio;
+        public bool IsMedia => IsImage || IsVideo || IsAudio;
 
         #region MediaInfo
 

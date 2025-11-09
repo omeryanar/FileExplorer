@@ -78,7 +78,7 @@ namespace FileExplorer.Helpers
                     fileModel.Extension.OrdinalEquals(".ico") ||
                     fileModel.Extension.OrdinalEquals(".lnk") ||
                     fileModel.Extension.OrdinalEquals(".cur"))
-                    path = fileModel.FullPath;                
+                    path = fileModel.FullPath;
                 else
                     path = fileModel.Extension;
             }
