@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net4.8</TargetFramework>
@@ -14,8 +14,8 @@
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
-    <PackageReference Include="DevExpress.Wpf.Core" Version="24.2.*-*">
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\PreviewExtensions\$(ProjectName)\&quot;" />
+    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
   </Target>
 
 </Project>
