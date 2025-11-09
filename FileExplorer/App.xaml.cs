@@ -40,7 +40,7 @@ namespace FileExplorer
         public static UserControl TaskbarIconContainer { get; private set; }
 
         public App()
-        {            
+        {
             CompatibilitySettings.UseLightweightThemes = true;
             Theme.RegisterPredefinedPaletteThemes();
 
@@ -116,10 +116,21 @@ namespace FileExplorer
             await CreateFolderTabs(folders, mainView, true);
         }
 
-        private static async Task PreloadAsync()
+        private static Task PreloadAsync()
         {
-            await ApplicationThemeHelper.PreloadAsync(PreloadCategories.Controls, PreloadCategories.Core, PreloadCategories.Docking,
-                PreloadCategories.ExpressionEditor, PreloadCategories.Grid, PreloadCategories.LayoutControl, PreloadCategories.Ribbon);
+            return ApplicationThemeHelper.PreloadAsync(
+                PreloadCategories.Core,
+                PreloadCategories.Controls,
+                PreloadCategories.Docking,
+                PreloadCategories.ExpressionEditor,
+                PreloadCategories.Grid,
+                PreloadCategories.LayoutControl,
+                PreloadCategories.Printing,
+                PreloadCategories.Ribbon,
+                PreloadCategories.PdfViewer,
+                PreloadCategories.RichEdit,
+                PreloadCategories.Spreadsheet
+            );
         }
 
         private static async Task CreateFolderTabs(IEnumerable<string> folders = null, MainView mainView = null, bool bringToFront = true)
@@ -141,6 +152,8 @@ namespace FileExplorer
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            PreloadAsync();
+
             CriteriaOperator.RegisterCustomFunction(new ToggleCaseFunction());
             CriteriaOperator.RegisterCustomFunction(new TitleCaseFunction());
             CriteriaOperator.RegisterCustomFunction(new SentenceCaseFunction());

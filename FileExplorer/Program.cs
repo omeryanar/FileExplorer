@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime;
 using CommandLine;
 using FileExplorer.Properties;
 using FileExplorer.Resources;
@@ -67,6 +68,12 @@ namespace FileExplorer
         {
             base.OnStartupNextInstance(e);
             App.ParseArgumentsAndRun(e.CommandLine);
+        }
+
+        static SingleInstanceApp()
+        {
+            ProfileOptimization.SetProfileRoot(AppContext.BaseDirectory);
+            ProfileOptimization.StartProfile("Startup.Profile");
         }
     }
 }
