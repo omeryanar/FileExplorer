@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -16,12 +16,16 @@ using FileExplorer.Properties;
 using FileExplorer.Resources;
 using MimeTypes;
 using TagLib;
+using Vanara.Windows.Shell;
+using static Vanara.PInvoke.Shell32;
 
 namespace FileExplorer.Model
 {
     [GenerateViewModel(ImplementIDataErrorInfo = true)]
     public partial class FileModel : IEditableObject
     {
+        #region Fields
+
         [GenerateProperty]
         private long size;
 
@@ -92,6 +96,12 @@ namespace FileExplorer.Model
 
         [GenerateProperty]
         private bool isAudio;
+
+        protected SHFILEINFO FileInfo;
+
+        #endregion
+
+        public ShellItem ShellItem { get; protected set; }
 
         public bool IsDirectory { get; internal set; }
 
@@ -352,31 +362,54 @@ namespace FileExplorer.Model
 
         #endregion
 
+        public static readonly string[] SpecialExtenions = new string[] { ".exe", ".ico", ".cur", ".lnk", ".url" };
+
         public ImageSource SmallIcon
         {
-            get { return FileSystemImageHelper.GetImage(this, IconSize.Small); }
+            get
+            {
+                if (smallIcon == null)
+                    smallIcon = IconHelper.GetIcon(FileInfo, SHIL.SHIL_SMALL);
+
+                return smallIcon;
+            }
         }
+        private ImageSource smallIcon;
 
         public ImageSource MediumIcon
         {
-            get { return FileSystemImageHelper.GetImage(this, IconSize.Medium); }
+            get
+            {
+                if (mediumIcon == null)
+                    mediumIcon = IconHelper.GetIcon(FileInfo, SHIL.SHIL_LARGE);
+
+                return mediumIcon;
+            }
         }
+        private ImageSource mediumIcon;
 
         public ImageSource LargeIcon
         {
-            get { return FileSystemImageHelper.GetImage(this, IconSize.Large); }
+            get
+            {
+                if (largeIcon == null)
+                    largeIcon = IconHelper.GetIcon(FileInfo, SHIL.SHIL_EXTRALARGE);
+
+                return largeIcon;
+            }
         }
+        private ImageSource largeIcon;
 
         public ImageSource ThumbnailImage
         {
             get
             {
-                if (Regex.Match(FullPath, FileSystemImageHelper.SupportedThumbnailImageFormats, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase).Success == false)
+                if (ThumbnailHelper.ThumbnailExists(FullPath) == false)
                     return ExtraLargeIcon;
 
                 if (notifyTask == null)
                 {
-                    notifyTask = NotifyTask.Create<BitmapImage>(FileSystemImageHelper.GetThumbnailImage(FullPath));
+                    notifyTask = NotifyTask.Create<BitmapImage>(ThumbnailHelper.GetThumbnailImage(FullPath));
                     notifyTask.PropertyChanged += (s, e) =>
                     {
                         if (e.PropertyName == nameof(NotifyTask.IsCompleted) && notifyTask.IsCompleted)
@@ -388,11 +421,18 @@ namespace FileExplorer.Model
             }
         }
         private NotifyTask<BitmapImage> notifyTask;
-        
+
         public ImageSource ExtraLargeIcon
         {
-            get { return FileSystemImageHelper.GetImage(this, IconSize.ExtraLarge); }
+            get
+            {
+                if (extraLargeIcon == null)
+                    extraLargeIcon = IconHelper.GetIcon(FileInfo, SHIL.SHIL_JUMBO);
+
+                return extraLargeIcon;
+            }
         }
+        private ImageSource extraLargeIcon;
 
         public static FileModel FromPath(string path, bool refresh = true)
         {
@@ -510,8 +550,6 @@ namespace FileExplorer.Model
             ParentName = info.Parent?.Name;
             ParentPath = info.Parent?.FullName;
 
-            Description = "Folder";
-
             DateCreated = info.CreationTime;
             DateModified = info.LastWriteTime;
             DateAccessed = info.LastAccessTime;
@@ -523,6 +561,9 @@ namespace FileExplorer.Model
             }
 
             IsDirectory = true;
+
+            SHGetFileInfo(ShellItem.PIDL, System.IO.FileAttributes.Normal, ref FileInfo, SHFILEINFO.Size, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_PIDL | SHGFI.SHGFI_TYPENAME);
+            Description = FileInfo.szTypeName;
         }
 
         private void Initialize(FileInfo info)
@@ -550,15 +591,22 @@ namespace FileExplorer.Model
                 IsSystem = info.EntryInfo.IsSystem;
             }
 
-            if (info.Extension.OrdinalEndsWith(".lnk"))
-                LinkPath = FileSystemHelper.GetFolderShortcutTargetPath(info.FullName);
+            // TODO
+            //if (info.Extension.OrdinalEndsWith(".lnk"))
+            //    LinkPath = FileSystemHelper.GetFolderShortcutTargetPath(info.FullName);
 
             try
             {
-                Description = Shell32.GetFileFriendlyDocName(info.FullName);
                 Size = info.Length;
             }
             catch { }
+
+            if (SpecialExtenions.Any(x => x.OrdinalEquals(Extension)))
+                SHGetFileInfo(ShellItem.PIDL, System.IO.FileAttributes.Normal, ref FileInfo, SHFILEINFO.Size, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_PIDL | SHGFI.SHGFI_TYPENAME);
+            else
+                SHGetFileInfo(Extension, System.IO.FileAttributes.Normal, ref FileInfo, SHFILEINFO.Size, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_USEFILEATTRIBUTES | SHGFI.SHGFI_TYPENAME);
+
+            Description = FileInfo.szTypeName;
         }
 
         private void Initialize(DriveInfo info)
@@ -571,12 +619,8 @@ namespace FileExplorer.Model
             ParentName = Properties.Resources.Computer;
             ParentPath = FileSystemHelper.ComputerPath;
 
-            if (info.DriveType == System.IO.DriveType.Removable)
-                Description = "USB Drive";
-            else if (info.DriveType == System.IO.DriveType.CDRom)
-                Description = "CD Drive";
-            else
-                Description = "Local Disk";
+            SHGetFileInfo(ShellItem.PIDL, System.IO.FileAttributes.Normal, ref FileInfo, SHFILEINFO.Size, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_PIDL | SHGFI.SHGFI_TYPENAME);
+            Description = FileInfo.szTypeName;
 
             if (!String.IsNullOrEmpty(info.VolumeLabel))
             {
@@ -625,6 +669,7 @@ namespace FileExplorer.Model
         private static FileModel Create(string path)
         {
             FileModel fileModel = new FileModel();
+            fileModel.ShellItem = new ShellItem(path);
 
             switch (path)
             {
@@ -635,6 +680,7 @@ namespace FileExplorer.Model
                     fileModel.Name = Properties.Resources.Computer;
                     fileModel.FullName = Properties.Resources.Computer;
                     fileModel.FullPath = FileSystemHelper.ComputerPath;
+                    SHGetFileInfo(fileModel.ShellItem.PIDL, System.IO.FileAttributes.Normal, ref fileModel.FileInfo, SHFILEINFO.Size, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_PIDL | SHGFI.SHGFI_TYPENAME);
                     break;
 
                 case FileSystemHelper.QuickAccessPath:
@@ -644,6 +690,7 @@ namespace FileExplorer.Model
                     fileModel.Name = Properties.Resources.QuickAccess;
                     fileModel.FullName = Properties.Resources.QuickAccess;
                     fileModel.FullPath = FileSystemHelper.QuickAccessPath;
+                    SHGetFileInfo(fileModel.ShellItem.PIDL, System.IO.FileAttributes.Normal, ref fileModel.FileInfo, SHFILEINFO.Size, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_PIDL | SHGFI.SHGFI_TYPENAME);
                     break;
 
                 case FileSystemHelper.NetworkPath:
@@ -654,6 +701,7 @@ namespace FileExplorer.Model
                     fileModel.FullName = Properties.Resources.Network;
                     fileModel.FullPath = FileSystemHelper.NetworkPath;
                     fileModel.Folders = new FileModelCollection();
+                    SHGetFileInfo(fileModel.ShellItem.PIDL, System.IO.FileAttributes.Normal, ref fileModel.FileInfo, SHFILEINFO.Size, SHGFI.SHGFI_SYSICONINDEX | SHGFI.SHGFI_PIDL | SHGFI.SHGFI_TYPENAME);
                     break;
             }
 

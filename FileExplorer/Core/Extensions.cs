@@ -107,23 +107,6 @@ namespace FileExplorer.Core
             return value1.EndsWith(value2, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static SHIL ToSHIL(this IconSize iconSize)
-        {
-            switch (iconSize)
-            {
-                case IconSize.Small:
-                    return SHIL.SHIL_SMALL;
-                case IconSize.Medium:
-                    return SHIL.SHIL_LARGE;
-                case IconSize.Large:
-                    return SHIL.SHIL_EXTRALARGE;
-                case IconSize.ExtraLarge:
-                    return SHIL.SHIL_JUMBO;
-                default:
-                    return SHIL.SHIL_SMALL;
-            }
-        }
-
         public static Key RealKey(this KeyEventArgs e)
         {
             switch (e.Key)

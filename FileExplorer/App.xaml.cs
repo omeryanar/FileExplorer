@@ -152,8 +152,6 @@ namespace FileExplorer
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            PreloadAsync();
-
             CriteriaOperator.RegisterCustomFunction(new ToggleCaseFunction());
             CriteriaOperator.RegisterCustomFunction(new TitleCaseFunction());
             CriteriaOperator.RegisterCustomFunction(new SentenceCaseFunction());
@@ -178,6 +176,14 @@ namespace FileExplorer
             ParseArgumentsAndRun(e.Args, true);
 
             base.OnStartup(e);
+
+            // TODO
+            //Dispatcher.CurrentDispatcher.BeginInvoke(() => 
+            //    {
+            //        ApplicationThemeHelper.PreloadAsync(PreloadCategories.ExpressionEditor);
+            //    }, 
+            //    DispatcherPriority.Render
+            //);
         }
 
         protected override void OnExit(ExitEventArgs e)

@@ -94,10 +94,10 @@ namespace FileExplorer.Persistence
                     case CommandType.OpenInNewWindow:
                         return OpenInNewWindow;
                     case CommandType.OpenWithApplication:
-                        return FileSystemImageHelper.GetImage(Application, IconSize.Small);
+                        return IconHelper.GetIcon(Application);
                 }
 
-                return FileSystemImageHelper.GetImage(Application, IconSize.Small);
+                return IconHelper.GetIcon(Application);
             }
         }
 

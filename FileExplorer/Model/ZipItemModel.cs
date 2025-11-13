@@ -34,7 +34,7 @@ namespace FileExplorer.Model
         public ZipItemModel(ZipItem zipItem)
         {
             ZipItem = zipItem;
-            Icon = zipItem.Attributes.HasFlag(FileAttributes.Directory) ? Folder : FileSystemImageHelper.GetImage(zipItem.Name, IconSize.Small);
+            Icon = zipItem.Attributes.HasFlag(FileAttributes.Directory) ? Folder : IconHelper.GetIcon(zipItem.Name);
 
             string[] items = zipItem.Name.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 

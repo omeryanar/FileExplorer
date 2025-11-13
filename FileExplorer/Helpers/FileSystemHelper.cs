@@ -18,11 +18,11 @@ namespace FileExplorer.Helpers
     {
         public const string Separator = "\\";
 
-        public const string ComputerPath = "Computer";
+        public const string ComputerPath = "shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
-        public const string QuickAccessPath = "Quick Access";
+        public const string QuickAccessPath = "shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}";
 
-        public const string NetworkPath = "Network";
+        public const string NetworkPath = "shell:::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}";
 
         public static FileModel Computer
         {

@@ -3,14 +3,6 @@ using DevExpress.Mvvm.DataAnnotations;
 
 namespace FileExplorer.Core
 {
-    public enum IconSize
-    {
-        Small,
-        Medium,        
-        Large,
-        ExtraLarge
-    }
-
     public enum IconType
     {
         Question,
