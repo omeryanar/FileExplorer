@@ -31,7 +31,7 @@ namespace FileExplorer.Helpers
                 if (ImageSourceDictionary.TryGetValue(key, out ImageSource imageSource))
                     return imageSource;
 
-                SHFILEINFO fileInfo = new SHFILEINFO();
+                SHFILEINFO fileInfo = new();
                 if (usePIDL)
                 {
                     PIDL pidl = ILCreateFromPath(iconPath);
@@ -73,8 +73,7 @@ namespace FileExplorer.Helpers
         private static ImageSource GetIconCore(SHFILEINFO fileInfo, SHIL iconSize = SHIL.SHIL_SMALL)
         {
             SHGetImageList(iconSize, ImageListId, out object image);
-            IImageList imageList = image as IImageList;
-            if (imageList == null)
+            if (image is not IImageList imageList)
                 return null;
 
             SafeHICON hIcon = imageList.GetIcon(fileInfo.iIcon, IMAGELISTDRAWFLAGS.ILD_IMAGE);
@@ -86,9 +85,9 @@ namespace FileExplorer.Helpers
             return imageSource;
         }
 
-        private static readonly ConcurrentDictionary<string, ImageSource> ImageSourceDictionary = new ConcurrentDictionary<string, ImageSource>();
+        private static readonly ConcurrentDictionary<string, ImageSource> ImageSourceDictionary = new();
 
-        private static readonly AsyncKeyedLocker<string> ImageKeyLockProvider = new AsyncKeyedLocker<string>();
+        private static readonly AsyncKeyedLocker<string> ImageKeyLockProvider = new();
 
         private static readonly Guid ImageListId = typeof(IImageList).GUID;
     }

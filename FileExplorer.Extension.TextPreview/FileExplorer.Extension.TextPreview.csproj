@@ -1,35 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net4.8</TargetFramework>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Remove="Assets\ShowNumbers.svg" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Assets\ShowNumbers.svg" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
-  </ItemGroup>
-    
-  <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*">
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AvalonEdit" />
+		<PackageReference Include="DevExpress.Wpf.Core">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.ComponentModel.Composition" />
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.ComponentModel.Composition" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Assets\ShowNumbers.svg" />
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Assets\ShowNumbers.svg" />
+	</ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
-  </Target>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
+	</Target>
 
 </Project>
