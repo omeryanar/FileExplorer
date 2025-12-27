@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using FileExplorer.Core;
-using FileExplorer.Helpers;
 using FileExplorer.Messages;
 using FileExplorer.Model;
 using FileExplorer.Properties;
@@ -70,9 +69,9 @@ namespace FileExplorer.ViewModel
             if (selectedFolder != null)
                 viewModel.CurrentFolder = selectedFolder;
             else if (Settings.Default.FirstFolderToOpen == 0)
-                viewModel.CurrentFolder = FileSystemHelper.QuickAccess;
+                viewModel.CurrentFolder = FileModel.QuickAccess;
             else
-                viewModel.CurrentFolder = FileSystemHelper.Computer;
+                viewModel.CurrentFolder = FileModel.Computer;
 
             IDocument document = DocumentManagerService.CreateDocument("BrowserTabView", viewModel);
             document.DestroyOnClose = true;
@@ -81,17 +80,17 @@ namespace FileExplorer.ViewModel
 
         public async Task CreateFolderTabs(IEnumerable<string> folders = null)
         {
-            List<string> validFolders = folders?.Where(x => FileSystemHelper.DirectoryExists(x)).ToList();
+            List<string> validFolders = folders?.Where(x => FileModel.FolderExists(x)).ToList();
             if (validFolders?.Count > 0)
             {
                 foreach (string folder in validFolders)
                 {
-                    FileModel selectedFolder = FileModel.FromPath(folder);
-
-                    FileModel fileModel = selectedFolder;
-                    await FileSystemHelper.GetAllParents(fileModel);
-
-                    CreateNewTab(selectedFolder);
+                    FileModel selectedFolder = FileModel.Create(folder);
+                    if (selectedFolder != null)
+                    {
+                        await selectedFolder.EnumerateParents();
+                        CreateNewTab(selectedFolder);
+                    }
                 }
             }
             else

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Text;
-using Alphaleonis.Win32.Filesystem;
 
 namespace FileExplorer.Native
 {

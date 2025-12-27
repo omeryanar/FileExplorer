@@ -12,7 +12,6 @@ using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Grid;
 using FileExplorer.Core;
-using FileExplorer.Helpers;
 using FileExplorer.Model;
 using FileExplorer.Persistence;
 using FileExplorer.Properties;
@@ -475,20 +474,8 @@ namespace FileExplorer.Controls
             if (fileModel == null)
                 return;
 
-            bool refresh = false;
-            if (fileModel.Files == null)
-            {
-                refresh = true;
-                fileModel.Files = await FileSystemHelper.GetFiles(fileModel);
-            }
-            if (fileModel.Folders == null)
-            {
-                refresh = true;
-                fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
-            }
-
-            if (refresh)
-                fileModel.Content = new FileModelReadOnlyCollection(fileModel.Folders, fileModel.Files);
+            if (fileModel.Content == null)
+                await fileModel.EnumerateChildren();
 
             if (level > 0)
             {

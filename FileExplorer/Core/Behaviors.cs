@@ -115,14 +115,7 @@ namespace FileExplorer.Core
             SynchronizeFocusedNode(e.Node);
 
             if (e.Row is FileModel fileModel && fileModel.Content == null)
-            {
-                if (fileModel.Files == null)
-                    fileModel.Files = await FileSystemHelper.GetFiles(fileModel);
-                if (fileModel.Folders == null)
-                    fileModel.Folders = await FileSystemHelper.GetFolders(fileModel);
-
-                fileModel.Content = new FileModelReadOnlyCollection(fileModel.Folders, fileModel.Files);
-            }
+                await fileModel.EnumerateChildren();
         }
 
         private void AssociatedObject_NodeCollapsing(object sender, TreeListNodeAllowEventArgs e)
@@ -498,8 +491,6 @@ namespace FileExplorer.Core
         {
             base.OnAttached();
             AssociatedObject.MouseRightButtonDown += AssociatedObject_MouseRightButtonDown;
-
-            nativeContextMenuHelper = new ContextMenuHelper();
         }
 
         private void AssociatedObject_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -542,11 +533,9 @@ namespace FileExplorer.Core
                 }
 
                 if (filePaths.Count() > 0)
-                    nativeContextMenuHelper.ShowNativeContextMenu(filePaths, point);
+                    ContextMenuHelper.ShowNativeContextMenu(filePaths, point);
             }
         }
-
-        private ContextMenuHelper nativeContextMenuHelper;
     }
 
     public class CustomColumnBehavior : Behavior<GridDataViewBase>

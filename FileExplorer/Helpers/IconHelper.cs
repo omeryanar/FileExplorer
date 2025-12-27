@@ -2,12 +2,14 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using AsyncKeyedLock;
 using FileExplorer.Core;
-using FileExplorer.Model;
 using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 using static Vanara.PInvoke.ComCtl32;
+using static Vanara.PInvoke.Gdi32;
 using static Vanara.PInvoke.Shell32;
 using static Vanara.PInvoke.User32;
 
@@ -19,7 +21,7 @@ namespace FileExplorer.Helpers
         {
             bool usePIDL = false;
             string iconPath = Path.GetExtension(path);
-            if (String.IsNullOrEmpty(iconPath) || FileModel.SpecialExtenions.Any(x => x.OrdinalEquals(iconPath)))
+            if (String.IsNullOrEmpty(iconPath) || FileSystemHelper.SpecialExtenions.Any(x => x.OrdinalEquals(iconPath)))
             {
                 iconPath = path;
                 usePIDL = true;
@@ -48,26 +50,29 @@ namespace FileExplorer.Helpers
 
                 return imageSource;
             }
-        }        
+        }
 
-        public static ImageSource GetIcon(SHFILEINFO fileInfo, SHIL iconSize = SHIL.SHIL_SMALL)
+        public static async Task<ImageSource> GetIconAsync(string path, string extension, int dimension)
         {
-            string key = $"{fileInfo.iIcon}_{iconSize}";
-            if (fileInfo.hIcon != HICON.NULL)
-                key = $"{fileInfo.hIcon.DangerousGetHandle()}_{fileInfo.iIcon}_{iconSize}";
+            string iconPath = extension;
+            if (String.IsNullOrEmpty(iconPath) || FileSystemHelper.SpecialExtenions.Any(x => x.OrdinalEquals(iconPath)))
+                iconPath = path;
 
-            ImageSource imageSource;
+            int iconSize = Convert.ToInt32(Math.Ceiling(dimension * App.Dpi));
+            if (iconSize > 256)
+                iconSize = 256;
+
+            string key = $"{iconPath}_{iconSize}";
             using (ImageKeyLockProvider.Lock(key))
             {
-                if (ImageSourceDictionary.TryGetValue(key, out imageSource))
+                if (ImageSourceDictionary.TryGetValue(key, out ImageSource imageSource))
                     return imageSource;
-
-                imageSource = GetIconCore(fileInfo, iconSize);
-                if (imageSource != null)
-                    ImageSourceDictionary.TryAdd(key, imageSource);
             }
 
-            return imageSource;
+            if (extension?.OrdinalEquals(".url") == true)
+                return GetIconCore(path, iconSize, key);
+
+            return await Task.Run(() => GetIconCore(path, iconSize, key));
         }
 
         private static ImageSource GetIconCore(SHFILEINFO fileInfo, SHIL iconSize = SHIL.SHIL_SMALL)
@@ -77,11 +82,35 @@ namespace FileExplorer.Helpers
             if (imageList == null)
                 return null;
 
-            SafeHICON hIcon = imageList.GetIcon(fileInfo.iIcon, IMAGELISTDRAWFLAGS.ILD_IMAGE);
+            using (SafeHICON hIcon = imageList.GetIcon(fileInfo.iIcon, IMAGELISTDRAWFLAGS.ILD_IMAGE))
+            {
+                ImageSource imageSource = hIcon.ToBitmapSource();
+                imageSource.Freeze();
 
-            ImageSource imageSource = hIcon.ToBitmapSource();
-            imageSource.Freeze();
-            DestroyIcon(hIcon);
+                return imageSource;
+            }
+        }
+
+        private static ImageSource GetIconCore(string path, int iconSize, string key)
+        {
+            ImageSource imageSource = null;
+
+            using(ShellItem shellItem = new ShellItem(path))
+            {
+                using (SafeHBITMAP hBitmap = shellItem.GetImage(new SIZE(iconSize, iconSize), ShellItemGetImageOptions.IconOnly))
+                {
+                    if (hBitmap?.IsInvalid == false)
+                    {
+                        imageSource = hBitmap.ToBitmapSource();
+                        imageSource.Freeze();
+
+                        using (ImageKeyLockProvider.Lock(key))
+                        {
+                            ImageSourceDictionary.TryAdd(key, imageSource);
+                        }
+                    }
+                }
+            }
 
             return imageSource;
         }

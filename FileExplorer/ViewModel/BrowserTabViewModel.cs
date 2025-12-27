@@ -46,7 +46,7 @@ namespace FileExplorer.ViewModel
 
         public virtual FileModelCollection SearchResults { get; protected set; }
 
-        public virtual FileModelReadOnlyCollection DisplayItems { get; protected set; }        
+        public virtual FileModelCollectionView DisplayItems { get; protected set; }        
 
         public virtual IDialogService DialogService { get { return null; } }
 
@@ -54,11 +54,11 @@ namespace FileExplorer.ViewModel
 
         public Settings Settings { get; } = new Settings();
 
-        public FileModel QuickAccess { get; } = FileSystemHelper.QuickAccess;
+        public FileModel QuickAccess { get; } = FileModel.QuickAccess;
 
         public FileModelCollection RecentLocations { get; } = new FileModelCollection();
 
-        public FileModelCollection RootFolders { get; } = new FileModelCollection { FileSystemHelper.QuickAccess, FileSystemHelper.Computer, FileSystemHelper.Network };
+        public FileModelCollection RootFolders { get; } = new FileModelCollection { FileModel.QuickAccess, FileModel.Computer, FileModel.Network };
 
         #endregion
 
@@ -98,8 +98,8 @@ namespace FileExplorer.ViewModel
 
                 if (message.NotificationType == NotificationType.Add && CurrentFolder.FullPath.OrdinalEquals(FileSystemHelper.GetParentFolderPath(message.Path)))
                 {
-                    FileModel fileModel = FileModel.FromPath(message.Path);
-                    if (fileModel.Name.OrdinalContains(HighlightedText) && !SearchResults.Contains(fileModel))
+                    FileModel fileModel = FileModel.Create(message.Path);
+                    if (fileModel != null && fileModel.Name.OrdinalContains(HighlightedText) && !SearchResults.Contains(fileModel))
                         SearchResults.Add(fileModel);
                 }
                 else if (message.NotificationType == NotificationType.Remove && message.Path.OrdinalStartsWith(CurrentFolder.FullPath))
@@ -199,16 +199,11 @@ namespace FileExplorer.ViewModel
             Settings.Default.Save();
         }
 
-        public async Task NavigatePath(string path)
+        public void NavigatePath(string path)
         {
-            string parsingName = FileSystemHelper.GetFileParsingName(path);
-            if (String.IsNullOrEmpty(parsingName))
+            FileModel navigationModel = FileModel.Create(path);
+            if (navigationModel == null)
                 return;
-
-            FileModel navigationModel = FileModel.FromPath(parsingName);
-
-            FileModel fileModel = navigationModel;
-            await FileSystemHelper.GetAllParents(fileModel);
 
             if (navigationModel != null)
                 OpenItem(navigationModel);
@@ -218,6 +213,8 @@ namespace FileExplorer.ViewModel
         {
             if (CurrentFolder != null)
             {
+                lastValidFileModel = CurrentFolder;
+
                 RecentLocations.Remove(CurrentFolder);
                 RecentLocations.Insert(0, CurrentFolder);
 
@@ -231,6 +228,9 @@ namespace FileExplorer.ViewModel
 
         protected void OnCurrentFolderChanged()
         {
+            if (CurrentFolder == null)
+                CurrentFolder = lastValidFileModel;
+
             if (CurrentFolder != null)
             {
                 Title = CurrentFolder.Name;
@@ -241,6 +241,8 @@ namespace FileExplorer.ViewModel
                     SearchText = null;
             }
         }
+
+        private FileModel lastValidFileModel;
 
         private bool BackwardItemPushLock = false;
 
@@ -264,15 +266,7 @@ namespace FileExplorer.ViewModel
             {
                 IsLoading = true;
 
-                IList<string> visibleFields = DataUpdateService?.GetVisibleFields();
-                bool readMediaInfo = visibleFields?.Any(x => FileModel.MediaInfoFields.Contains(x)) == true;
-
-                if (CurrentFolder.Files == null)
-                    CurrentFolder.Files = await FileSystemHelper.GetFiles(CurrentFolder, readMediaInfo);
-                if (CurrentFolder.Folders == null)
-                    CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
-
-                CurrentFolder.Content = new FileModelReadOnlyCollection(CurrentFolder.Folders, CurrentFolder.Files);
+                await CurrentFolder.EnumerateChildren();
                 DisplayItems = CurrentFolder.Content;
 
             }
@@ -285,10 +279,7 @@ namespace FileExplorer.ViewModel
             {
                 IsLoading = true;
 
-                CurrentFolder.Files = await FileSystemHelper.GetFiles(CurrentFolder);
-                CurrentFolder.Folders = await FileSystemHelper.GetFolders(CurrentFolder);
-
-                CurrentFolder.Content = new FileModelReadOnlyCollection(CurrentFolder.Folders, CurrentFolder.Files);
+                await CurrentFolder.EnumerateChildren();
                 DisplayItems = CurrentFolder.Content;
 
             }
@@ -309,19 +300,19 @@ namespace FileExplorer.ViewModel
                         IsLoading = true;
 
                         SearchResults = new FileModelCollection();
-                        DisplayItems = new FileModelReadOnlyCollection(SearchResults);
+                        DisplayItems = new FileModelCollectionView(SearchResults);
 
                         if (SearchText.OrdinalEquals(HighlightedText))
                             SearchText = String.Format("*{0}*", SearchText);
 
                         CancellationToken cancellationToken = this.GetAsyncCommand(x => x.Search()).CancellationTokenSource.Token;
-                        if (Settings.Default.SearchWithEverything && FileSystemHelper.IsSearchEverythingAvailable(CurrentFolder.FullPath))
+                        if (Settings.Default.SearchWithEverything && SearchHelper.IsSearchEverythingAvailable(CurrentFolder.FullPath))
                         {
                             try
                             {
                                 DataUpdateService.BeginUpdate();
 
-                                FileModelCollection results = await FileSystemHelper.SearchWithEverything(CurrentFolder.FullPath, SearchText, cancellationToken);
+                                IList<FileModel> results = await SearchHelper.SearchWithEverything(CurrentFolder.FullPath, SearchText, cancellationToken);
                                 SearchResults.AddRange(results);
                             }
                             finally
@@ -343,10 +334,7 @@ namespace FileExplorer.ViewModel
             {
                 DataUpdateService.BeginUpdate();
 
-                IList<string> visibleFields = DataUpdateService?.GetVisibleFields();
-                bool readMediaInfo = visibleFields?.Any(x => FileModel.MediaInfoFields.Contains(x)) == true;
-
-                FileModelCollection results = await FileSystemHelper.SearchFolder(path, SearchText, readMediaInfo, cancellationToken);
+                IList<FileModel> results = await SearchHelper.SearchFolder(path, SearchText, cancellationToken);
                 SearchResults.AddRange(results);
             }
             finally
@@ -354,7 +342,7 @@ namespace FileExplorer.ViewModel
                 DataUpdateService.EndUpdate();
             }
 
-            string[] childFolders = await FileSystemHelper.GetFolderPaths(path);
+            string[] childFolders = await SearchHelper.GetFolderPaths(path);
             foreach (string childFolder in childFolders)
             {
                 if (cancellationToken.IsCancellationRequested)
@@ -463,7 +451,7 @@ namespace FileExplorer.ViewModel
 
         protected void SaveQuickAccessFolders()
         {
-            string quickAccessFolders = $";{String.Join(";", QuickAccess.Folders.Select(x => x.FullPath))}";
+            string quickAccessFolders = $";{String.Join(";", QuickAccess.Folders.Cast<FileModel>().Select(x => x.FullPath))}";
 
             Settings.Default.QuickAccessFolders = quickAccessFolders;
             Settings.Default.Save();
@@ -580,7 +568,7 @@ namespace FileExplorer.ViewModel
 
         public void PinToQuickAccess(FileModel fileModel)
         {
-            QuickAccess.Folders.Add(fileModel);
+            FileModel.AddToQuickAccess(fileModel);
             SaveQuickAccessFolders();
 
             App.AddToJumpList(fileModel);
@@ -593,7 +581,7 @@ namespace FileExplorer.ViewModel
 
         public void UnpinFromQuickAccess(FileModel fileModel)
         {
-            QuickAccess.Folders.Remove(fileModel);
+            FileModel.RemoveFromQuickAccess(fileModel);
             SaveQuickAccessFolders();
 
             App.RemoveFromJumpList(fileModel);
@@ -827,8 +815,6 @@ namespace FileExplorer.ViewModel
                     Utilities.SetLastWriteTime(fileModel.FullPath, viewModel.DateModified);
                 if (fileModel.DateAccessed != viewModel.DateAccessed)
                     Utilities.SetLastAccessTime(fileModel.FullPath, viewModel.DateAccessed);
-
-                FileModel.FromPath(fileModel.FullPath);
             }
         }
 
@@ -851,7 +837,8 @@ namespace FileExplorer.ViewModel
             UICommand command = DialogService.ShowDialog(viewModel.UICommandList, Properties.Resources.Rename, "RenameBatchView", viewModel);
             if (command?.IsDefault == true)
             {
-                List<string> files = new List<string>(), newNames = new List<string>();
+                List<string> files = new List<string>();
+                List<string> newNames = new List<string>();
 
                 foreach (FileModel fileModel in viewModel.FileModelList)
                 {

@@ -179,9 +179,9 @@ namespace FileExplorer.Persistence
                     {
                         parameters.Add(result.ToString());
 
-                        string parsingName = FileSystemHelper.GetFileParsingName(result.ToString());
-                        if (!String.IsNullOrEmpty(parsingName))
-                            expressionResults.Add(FileModel.FromPath(parsingName));
+                        FileModel fileModel = FileModel.Create(result.ToString());
+                        if (fileModel != null)
+                            expressionResults.Add(fileModel);
                     }
                 }
                 files = expressionResults;

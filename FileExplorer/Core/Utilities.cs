@@ -12,9 +12,12 @@ using System.Windows.Media;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
-using FileExplorer.Native;
 using NaturalSort.Extension;
 using NLog;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
+using static Vanara.PInvoke.Shell32;
+using static Vanara.Windows.Shell.ShellFileOperations;
 
 namespace FileExplorer.Core
 {
@@ -84,77 +87,74 @@ namespace FileExplorer.Core
 
         public static bool CreateFolder(String path, String name)
         {
-            using (FileOperation fileOperation = new FileOperation())
+            using (ShellFolder shellFolder = new ShellFolder(path))
             {
-                fileOperation.NewItem(path, name, FileAttributes.Directory);
-                return fileOperation.PerformOperations();
+                try
+                {
+                    NewItem(shellFolder, name, FileAttributes.Directory);
+                    return true;
+                }
+                catch { return false; }
             }
         }
 
         public static bool CreateFile(String path, String name, bool openFile = false)
         {
-            bool successful = false;
-            using (FileOperation fileOperation = new FileOperation())
+            using (ShellFolder shellFolder = new ShellFolder(path))
             {
-                fileOperation.NewItem(path, name, FileAttributes.Normal);
-                successful = fileOperation.PerformOperations();
-            }
+                try
+                {
+                    NewItem(shellFolder, name);
 
-            if (successful && openFile)
-                OpenFile(Path.Combine(path, name));
+                    if (openFile)
+                        OpenFile(Path.Combine(path, name));
 
-            return successful;
+                    return true;
+                }
+                catch { return false; }
+            }  
         }
 
         public static bool RenameFile(String path, String newName)
         {
-            using (FileOperation fileOperation = new FileOperation())
+            using (ShellItem shellItem = new ShellItem(path))
             {
-                fileOperation.RenameItem(path, newName.Trim());
-                return fileOperation.PerformOperations();
+                try
+                {
+                    Rename(shellItem, newName.Trim());
+                    return true;
+                }
+                catch { return false; }
             }
         }
 
         public static void RenameFiles(IList<String> files, IList<String> newNames)
         {
-            Task.Run(() =>
+            using (ShellFileOperations fileOperations = new ShellFileOperations())
             {
-                using (FileOperation fileOperation = new FileOperation())
+                for (int i = 0; i < files.Count; i++)
                 {
-                    for (int i = 0; i < files.Count; i++)
-                        fileOperation.RenameItem(files[i], newNames[i].Trim());
-
-                    fileOperation.PerformOperations();
+                    ShellItem shellItem = new ShellItem(files[i]);
+                    fileOperations.QueueRenameOperation(shellItem, newNames[i].Trim());
                 }
-            });
-        }        
+
+                fileOperations.PerformOperations();
+            }
+        }
 
         public static void RecycleFiles(IEnumerable<String> files)
         {
             Task.Run(() =>
             {
-                using (FileOperation fileOperation = new FileOperation())
-                {
-                    foreach (string file in files)
-                        fileOperation.DeleteItem(file);
-
-                    fileOperation.AllowUndo();
-                    fileOperation.PerformOperations();
-                }
+                Delete(files.Select(x => new ShellItem(x)), OperationFlags.NoConfirmMkDir | OperationFlags.RecycleOnDelete);
             });
-        }
+        } 
 
         public static void DeleteFiles(IEnumerable<String> files)
         {
             Task.Run(() =>
             {
-                using (FileOperation fileOperation = new FileOperation())
-                {
-                    foreach (string file in files)
-                        fileOperation.DeleteItem(file);
-
-                    fileOperation.PerformOperations();
-                }
+                Delete(files.Select(x => new ShellItem(x)), OperationFlags.NoConfirmMkDir);
             });
         }
 
@@ -162,13 +162,7 @@ namespace FileExplorer.Core
         {
             Task.Run(() =>
             {
-                using (FileOperation fileOperation = new FileOperation())
-                {
-                    foreach (string file in files)
-                        fileOperation.MoveItem(file, destination, Path.GetFileName(file));
-
-                    fileOperation.PerformOperations();
-                }
+                Move(files.Select(x => new ShellItem(x)), new ShellFolder(destination));
             });
         }
 
@@ -176,13 +170,7 @@ namespace FileExplorer.Core
         {
             Task.Run(() =>
             {
-                using (FileOperation fileOperation = new FileOperation())
-                {
-                    foreach (string file in files)
-                        fileOperation.CopyItem(file, destination, Path.GetFileName(file));
-
-                    fileOperation.PerformOperations();
-                }
+                Move(files.Select(x => new ShellItem(x)), new ShellFolder(destination));
             });
         }
 
@@ -221,15 +209,13 @@ namespace FileExplorer.Core
 
         public static void ShowProperties(string path)
         {
-            ShowMultipleProperties(new string[] { path });
+            ShowMultipleProperties([path]);
         }
 
         public static void ShowMultipleProperties(IEnumerable<String> files)
         {
-            DataObject data = CreateDataObject(files.ToArray());
-            data.SetData(ShellIdListArray, SafeNativeMethods.CreateShellIdList(files.ToArray()), true);
-
-            SafeNativeMethods.MultiFileProperties(data);
+            var dataObject = NativeClipboard.CreateDataObjectFromShellItems(files.Select(x => new ShellItem(x)).ToArray());
+            SHMultiFileProperties(dataObject);
         }
 
         public static bool FileExistsInClipboard()

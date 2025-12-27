@@ -1,4 +1,4 @@
-﻿using FileExplorer.Helpers;
+﻿using FileExplorer.Model;
 
 namespace FileExplorer.ViewModel
 {
@@ -11,12 +11,12 @@ namespace FileExplorer.ViewModel
 
         public void OpenComputer()
         {
-            App.CreateNewSingleTabWindow(FileSystemHelper.Computer);
+            App.CreateNewSingleTabWindow(FileModel.Computer);
         }
 
         public void OpenQuickAccess()
         {
-            App.CreateNewSingleTabWindow(FileSystemHelper.QuickAccess);
+            App.CreateNewSingleTabWindow(FileModel.QuickAccess);
         }
 
         public void Exit()

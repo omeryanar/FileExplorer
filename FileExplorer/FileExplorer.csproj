@@ -16,7 +16,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AlphaFS" Version="2.2.6" />
     <PackageReference Include="AsyncKeyedLock" Version="7.1.7" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.1" />
