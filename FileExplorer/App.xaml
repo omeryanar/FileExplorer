@@ -11,6 +11,15 @@
                     <x:Static x:Key="ResourceProvider" Member="resources:CultureResources.ObjectDataProvider" />
                 </ResourceDictionary>
                 <ResourceDictionary Source="/Resources/ResourceDictionary.xaml" />
+                <LWThemeDictionary Office2019Black="pack://application:,,,/Resources/ThemeOffice2019Black.xaml"
+                                   Office2019Colorful="pack://application:,,,/Resources/ThemeOffice2019Colorful.xaml"
+                                   VS2019Dark="pack://application:,,,/Resources/ThemeVS2019Dark.xaml"
+                                   VS2019Light="pack://application:,,,/Resources/ThemeVS2019Light.xaml"
+                                   Win10Dark="pack://application:,,,/Resources/ThemeWin10Dark.xaml"
+                                   Win10Light="pack://application:,,,/Resources/ThemeWin10Light.xaml"
+                                   Win11Dark="pack://application:,,,/Resources/ThemeWin11Dark.xaml"
+                                   Win11Light="pack://application:,,,/Resources/ThemeWin11Light.xaml">
+                </LWThemeDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>        
     </Application.Resources>

@@ -26,7 +26,7 @@
         <dxg:GridColumn FieldName="NewName" Header="{Binding NewName, Source={StaticResource ResourceProvider}}" Width="200" SortMode="Custom"
                         UnboundType="String" AllowUnboundExpressionEditor="True" AllowEditing="True">
             <dxg:GridColumn.CellStyle>
-                <Style TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
+                <Style TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:LWKey GridRow.LightweightCellStyle}}">
                     <Setter Property="Foreground" Value="DarkGreen" />
                     <Setter Property="Background" Value="LightGreen" />
                     <Style.Triggers>

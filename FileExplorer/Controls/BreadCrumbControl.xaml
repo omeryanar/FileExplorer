@@ -3,8 +3,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                   xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
-                  xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
-                  xmlns:dxet="http://schemas.devexpress.com/winfx/2008/xaml/editors/themekeys"
+                  xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
                   xmlns:common="clr-namespace:FileExplorer.Core"
                   xmlns:controls="clr-namespace:FileExplorer.Controls"
                   xmlns:settings="clr-namespace:FileExplorer.Properties"
@@ -25,7 +24,7 @@
                         <Binding Path="ShowSystemItems" RelativeSource="{RelativeSource AncestorType=controls:BreadCrumbControl}" />
                     </MultiBinding>
                 </Setter.Value>
-            </Setter>
+            </Setter>            
             <Setter Property="Content" Value="{Binding Name}" />
             <Setter Property="Glyph" Value="{Binding SmallIcon}" />
             <Setter Property="CommandParameter" Value="{Binding}" />
@@ -33,14 +32,14 @@
         </Style>
         <Style x:Key="BreadCrumbSplitButtonStyle" TargetType="dxb:BarSplitButtonItem" BasedOn="{StaticResource BreadCrumbButtonStyle}">
             <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
-            <Setter Property="Padding" Value="3,0" />
+            <Setter Property="Padding" Value="3,0" />           
         </Style>
     </dxe:ComboBoxEdit.Resources>
 
     <dxe:ComboBoxEdit.EditTemplate>
         <ControlTemplate>
             <Grid>
-                <TextBox x:Name="PART_Editor" Padding="2" Style="{dxi:ThemeResource {dxet:TextEditThemeKey ResourceKey=TextStyle}}" />
+                <TextBox x:Name="PART_Editor" Padding="2" Style="{DynamicResource {dxt:LWKey TextEdit.TextStyle}}" />
                 <dxe:FlyoutControl Focusable="False" Content="{Binding FolderNotFound, Source={StaticResource ResourceProvider}}"
                                    DataContext="{Binding RelativeSource={RelativeSource AncestorType=dxe:ComboBoxEdit}}" PlacementTarget="{Binding}" IsOpen="{Binding HasValidationError}">
                     <dxe:FlyoutControl.Settings>
@@ -55,10 +54,10 @@
         <ControlTemplate>
             <dxb:BarManager AllowQuickCustomization="False" AllowCustomization="False" VerticalAlignment="Center">
                 <dxb:BarManager.Bars>
-                    <dxb:Bar ItemLinksSource="{Binding BreadCrumbs, RelativeSource={RelativeSource AncestorType=controls:BreadCrumbControl}}" ShowDragWidget="False" AllowHide="False">
+                    <dxb:Bar Padding="4,0" Background="Transparent" ItemLinksSource="{Binding BreadCrumbs, RelativeSource={RelativeSource AncestorType=controls:BreadCrumbControl}}" ShowDragWidget="False" AllowHide="False">
                         <dxb:Bar.ItemTemplate>
                             <DataTemplate>
-                                <dxb:BarSplitButtonItem Style="{StaticResource BreadCrumbSplitButtonStyle}">
+                                <dxb:BarSplitButtonItem BorderBrush="Transparent" Style="{StaticResource BreadCrumbSplitButtonStyle}">
                                     <dxb:BarSplitButtonItem.PopupControl>
                                         <dxb:PopupMenu MaxHeight="400" Opening="OnPopupMenuOpening" Opened="OnPopupMenuOpened" Closed="OnPopupMenuClosed" />
                                     </dxb:BarSplitButtonItem.PopupControl>

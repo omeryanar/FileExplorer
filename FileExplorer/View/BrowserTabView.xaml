@@ -20,10 +20,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <ContentControl Template="{DynamicResource {dxgt:GridCardThemeKey ResourceKey=ContainerTemplate}}"
+                        <ContentControl Template="{DynamicResource {dxgt:LWKey GridCard.ContainerTemplate}}"
                                         Style="{Binding Path=(dxg:GridControl.ActiveView).CardStyle, RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentControl Template="{DynamicResource {dxgt:GridCardThemeKey ResourceKey=DataContentTemplate}}" ClipToBounds="False">
-                                <dxg:GridCardContentPresenter Margin="0" Style="{DynamicResource {dxgt:GridCardThemeKey ResourceKey=ContentPresenterStyle}}" ClipToBounds="False" />
+                            <ContentControl Template="{DynamicResource {dxgt:LWKey GridCard.DataContentTemplate}}" ClipToBounds="False">
+                                <dxg:GridCardContentPresenter Margin="0" Style="{DynamicResource {dxgt:LWKey GridCard.ContentPresenterStyle}}" ClipToBounds="False" />
                             </ContentControl>
                         </ContentControl>
                     </ControlTemplate>
