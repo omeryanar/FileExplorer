@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Editors.Validation.Native;
@@ -96,7 +96,7 @@ namespace FileExplorer.Controls
 
                     if (e.UpdateSource == UpdateEditorSource.ValueChanging || e.UpdateSource == UpdateEditorSource.EnterKeyPressed)
                     {
-                        if (FileSystemHelper.DirectoryExists(path) || FileSystemHelper.NetworkHostAccessible(path))
+                        if (FileModel.FolderExists(path) || FileModel.NetworkHostAccessible(path))
                         {
                             NavigatePathCommand?.Execute(path);
                             IsTextEditable = false;
@@ -111,8 +111,7 @@ namespace FileExplorer.Controls
                     if (path.LastIndexOf(FileSystemHelper.Separator) > 0)
                     {
                         path = path.Substring(0, path.LastIndexOf(FileSystemHelper.Separator) + 1);
-                        if (FileSystemHelper.DirectoryExists(path))
-                            ItemsSource = FileSystemHelper.GetFolderPaths(path, ShowHiddenItems, ShowSystemItems);
+                        ItemsSource = FileSystemHelper.GetFolderPaths(path, ShowHiddenItems, ShowSystemItems);
                     }
                 }
             };
@@ -173,8 +172,7 @@ namespace FileExplorer.Controls
             if (Text.LastIndexOf(FileSystemHelper.Separator) > 0)
             {
                 string path = Text.Substring(0, Text.LastIndexOf(FileSystemHelper.Separator) + 1);
-                if (FileSystemHelper.DirectoryExists(path))
-                    ItemsSource = FileSystemHelper.GetFolderPaths(path, ShowHiddenItems, ShowSystemItems);
+                ItemsSource = FileSystemHelper.GetFolderPaths(path, ShowHiddenItems, ShowSystemItems);
 
                 if (IsTextEditable == true && CanShowPopup)
                     ShowPopup();
@@ -185,24 +183,21 @@ namespace FileExplorer.Controls
         {
             base.OnIsTextEditableChanged();
 
-            if (IsTextEditable == true)
-            {
-                FileModel fileModel = CurrentItem as FileModel;
-                Text = fileModel?.FullPath;
-            }
+            if (IsTextEditable == true && CurrentItem is FileModel fileModel)
+                Text = fileModel.IsRoot ? fileModel.Name : fileModel.FullPath;
         }
 
         private static async void OnCurrentItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BreadCrumbControl breadCrumbControl = d as BreadCrumbControl;
+            if (d is BreadCrumbControl breadCrumbControl && e.NewValue is FileModel fileModel)
+            {
+                breadCrumbControl.EditValue = fileModel.IsRoot ? fileModel.Name : fileModel.FullPath;
 
-            FileModel fileModel = e.NewValue as FileModel;
-            breadCrumbControl.Text = fileModel?.FullPath;
+                List<FileModel> breadCrumbs = await fileModel.EnumerateParents();
+                breadCrumbs.Reverse();
 
-            List<FileModel> breadCrumbs = await FileSystemHelper.GetAllParents(fileModel);
-            breadCrumbs.Reverse();
-            
-            breadCrumbControl.BreadCrumbs = breadCrumbs;
+                breadCrumbControl.BreadCrumbs = breadCrumbs;
+            }            
         }
 
         private void OnButtonItemLinkLoaded(object sender, RoutedEventArgs e)
@@ -234,17 +229,21 @@ namespace FileExplorer.Controls
                 splitButton.ShowPopup();
         }
 
-        private void OnPopupMenuOpening(object sender, CancelEventArgs e)
+        private async void OnPopupMenuOpening(object sender, CancelEventArgs e)
         {
             if (sender is PopupMenu popupMenu && popupMenu.Items.Count == 0)
             {
-                FileModel fileModel = popupMenu.DataContext as FileModel;
-                if (fileModel?.Folders?.Count > 0)
+                if (popupMenu.DataContext is FileModel fileModel)
                 {
-                    BarLinkContainerItem linkContainer = new BarLinkContainerItem();
-                    popupMenu.Items.Add(linkContainer);
+                    if (fileModel.Content == null)
+                    {
+                        UIElement target = popupMenu.PlacementTarget;
+                        await fileModel.EnumerateChildren();
+                        popupMenu.ShowPopup(target);
+                    }
 
-                    fileModel.Folders.ToList().ForEach(x => linkContainer.Items.Add(new BarButtonItem { DataContext = x, Style = BreadCrumbButtonStyle }));
+                    if (fileModel.Folders?.Count > 0)
+                        fileModel.Folders.ForEach(x => popupMenu.Items.Add(new BarButtonItem { DataContext = x, Style = BreadCrumbButtonStyle }));
                 }
             }
         }

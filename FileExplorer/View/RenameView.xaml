@@ -31,7 +31,7 @@
                    Visibility="{Binding Path=(dxe:ValidationService.HasValidationError), ElementName=ValidationContainer, Converter={dxmvvm:BooleanToVisibilityConverter}}" />
         <dxlc:LayoutItem Label="{Binding Pattern, Source={StaticResource ResourceProvider}}" VerticalAlignment="Top"
                          Visibility="{Binding ShowPatternButtons, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-            <dxlc:LayoutGroup ItemSpace="5">
+            <dxlc:LayoutGroup Margin="5,0,0,0" ItemSpace="5">
                 <Button Style="{StaticResource FormatButton}" ToolTip="{Binding Parent, Source={StaticResource ResourceProvider}}" CommandParameter="Parent">
                     <TextBlock FontWeight="Normal" Style="{StaticResource IconText}">
                         <Run Text="{StaticResource IconFolder}" />
@@ -45,7 +45,7 @@
                 <Button Content="aA aA" Style="{StaticResource FormatButton}" ToolTip="{Binding ToggleCase, Source={StaticResource ResourceProvider}}" />
             </dxlc:LayoutGroup>
         </dxlc:LayoutItem>
-        <dxa:AccordionControl Width="400" Padding="0" Margin="0" HorizontalAlignment="Right" Visibility="{Binding ShowAdvancedOptions, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+        <dxa:AccordionControl Width="400" Padding="0" Margin="{LWThemeValue 0, Win11='0,0,-5,0'}" HorizontalAlignment="Right" Visibility="{Binding ShowAdvancedOptions, Converter={dxmvvm:BooleanToVisibilityConverter}}">
             <dxa:AccordionItem Padding="0" Margin="0" HorizontalAlignment="Right" Header="{Binding Advanced, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutControl Orientation="Vertical" TextBlock.FontSize="12">
                     <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">

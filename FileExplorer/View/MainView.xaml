@@ -1,9 +1,7 @@
 ﻿<dx:DXTabbedWindow x:Class="FileExplorer.View.MainView"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                   
                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-                   xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
-                   xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"                   
                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                    xmlns:common="clr-namespace:FileExplorer.Core"
                    ShowTitle="False" ShowIcon="False"
@@ -19,9 +17,9 @@
         </dxmvvm:Interaction.Behaviors>
         <dx:DXTabControl.ItemHeaderTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="{LWThemeValue '0,4,0,2', Win11='0,1' }">
                     <Image Width="16" Height="16" Source="{Binding DataContext.CurrentFolder.SmallIcon, RelativeSource={RelativeSource AncestorType=dx:DXTabItem}}" />
-                    <TextBlock Margin="10,0,0,0" DataContext="{Binding DataContext.CurrentFolder, RelativeSource={RelativeSource AncestorType=dx:DXTabItem}}" Text="{Binding}">
+                    <TextBlock Margin="10,0,0,0" FontWeight="Medium" Foreground="{LWThemeValue Brush.Focused, Win11=Brush.Foreground.Primary}" DataContext="{Binding DataContext.CurrentFolder, RelativeSource={RelativeSource AncestorType=dx:DXTabItem}}" Text="{Binding}">
                         <TextBlock.ToolTip>
                             <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                 <StackPanel Margin="3">
@@ -39,44 +37,6 @@
                 <Setter Property="Margin" Value="0,6,0,0" />
                 <Setter Property="AllowDrop" Value="True" />
                 <EventSetter Event="DragOver" Handler="OnTabDragOver" />
-                <Style.Triggers>
-                    <DataTrigger Binding="{DXBinding '@s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`VS2019Dark`)'}" Value="True">
-                        <Setter Property="SelectedBackgroundTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
-                                                   BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"
-                                                   BorderBrush="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveContentBorderBrush}}"
-                                                   BorderBackground="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveHeaderBackground}}" />
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                    <DataTrigger Binding="{DXBinding '@s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`Win10`)'}" Value="True">
-                        <Setter Property="SelectedBackgroundTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
-                                                   BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"
-                                                   BorderBrush="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveContentBorderBrush}}"
-                                                   BorderBackground="{DynamicResource {dxt:ThemedWindowThemeKey ResourceKey=WindowActiveHeaderBackground}}" />
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                    <DataTrigger Binding="{DXBinding '@s.($dx:LightweightThemeManager.CurrentTheme).Name.Contains(`Office2019Black`)'}" Value="True">
-                        <Setter Property="SelectedBackgroundTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
-                                                   BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"
-                                                   BorderBrush="{DynamicResource {dxt:LWKey FlyoutControl.BorderBrush}}"
-                                                   BorderBackground="{DynamicResource {dxt:LWKey FlyoutControl.Background}}" />
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                </Style.Triggers>
             </Style>
         </dx:DXTabControl.ItemContainerStyle>
         <dx:DXTabControl.View>

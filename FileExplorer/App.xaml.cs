@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -38,6 +39,23 @@ namespace FileExplorer
         public static ExtensionManager ExtensionManager { get; private set; }        
 
         public static UserControl TaskbarIconContainer { get; private set; }
+
+        public static double Dpi
+        {
+            get
+            {
+                if (dpi == 0)
+                {
+                    using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+                    {
+                        dpi = g.DpiX / 96;
+                    }
+                }
+
+                return dpi;
+            }
+        }
+        private static double dpi = 0;
 
         public App()
         {
@@ -169,7 +187,7 @@ namespace FileExplorer
             PackageManager = new PackageManager();
             ExtensionManager = new ExtensionManager("PreviewExtensions");
             TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;
-
+            
             FileSystemWatcherHelper.Start();
             
             InitializeJumpList();
@@ -222,7 +240,7 @@ namespace FileExplorer
                                 {
                                     documents.Add(document);
 
-                                    if (FileSystemHelper.DirectoryExists(tabViewModel.CurrentFolder.FullPath))
+                                    if (FileModel.FolderExists(tabViewModel.CurrentFolder.FullPath))
                                         openedFolderPaths.Append(tabViewModel.CurrentFolder.FullPath).Append(';');
                                 }
                             }
@@ -337,7 +355,7 @@ namespace FileExplorer
 
         private void InitializeJumpList()
         {
-            foreach (FileModel fileModel in FileSystemHelper.QuickAccess.Folders)
+            foreach (FileModel fileModel in FileModel.QuickAccess.Folders)
             {
                 JumpTask jumpTask = CreateJumpTask(fileModel);
                 ApplicationJumpList.JumpItems.Add(jumpTask);
@@ -350,7 +368,6 @@ namespace FileExplorer
         private static JumpTask CreateJumpTask(FileModel fileModel)
         {
             JumpTask jumpTask = new JumpTask();
-            jumpTask.CustomCategory = "Quick Access";
             jumpTask.ApplicationPath = Assembly.GetExecutingAssembly().Location;
             jumpTask.IconResourcePath = "%WINDIR%\\system32\\imageres.dll";
             jumpTask.Title = fileModel.Name;
@@ -371,7 +388,7 @@ namespace FileExplorer
             { FileSystemHelper.UserFolders[2], 175 },
             { FileSystemHelper.UserFolders[3], 103 },
             { FileSystemHelper.UserFolders[4], 108 },
-            { FileSystemHelper.UserFolders[5], 18 }
+            { FileSystemHelper.UserFolders[5], 178 }
         };
 
         #endregion

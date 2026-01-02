@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DevExpress.Xpf.Bars;
-using static Vanara.PInvoke.Shell32;
 
 namespace FileExplorer.Core
 {
@@ -130,29 +128,12 @@ namespace FileExplorer.Core
             BitmapDecoder decoder = IconBitmapDecoder.Create(new Uri(uriString), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
             List<BitmapFrame> frames = decoder.Frames.OrderBy(x => x.Width).ToList();
 
-            ImageSource imageSource = frames.FirstOrDefault(x => x.Width >= size * Dpi);
+            ImageSource imageSource = frames.FirstOrDefault(x => x.Width >= size * App.Dpi);
             if (imageSource == null)
                 imageSource = frames.Last();
 
             return imageSource;
         }
-
-        public static double Dpi
-        {
-            get
-            {
-                if (dpi == 0)
-                {
-                    using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
-                    {
-                        dpi = g.DpiX / 96;
-                    }
-                }
-
-                return dpi;
-            }
-        }
-        private static double dpi = 0;
     }
 
     public static class IconGlyph

@@ -53,9 +53,10 @@ namespace FileExplorer.Core
     public class IntToFileSizeConverter : MarkupExtension, IValueConverter
     {
         private const string ByteFormat = "{0:N0} Bytes";
-        private const string KiloByteFormat = "{0:N1} KB";
+        private const string KiloByteFormat = "{0:N2} KB";
         private const string MegaByteFormat = "{0:N2} MB";
-        private const string GigaByteFormat = "{0:N3} GB";
+        private const string GigaByteFormat = "{0:N2} GB";
+        private const string TeraByteFormat = "{0:N2} TB";
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -78,7 +79,10 @@ namespace FileExplorer.Core
             if (size < 1073741824)
                 return String.Format(MegaByteFormat, size / 1048576);
 
-            return String.Format(GigaByteFormat, size / 1073741824);
+            if (size < 1099511627776)
+                return String.Format(GigaByteFormat, size / 1073741824);
+
+            return String.Format(TeraByteFormat, size / 1099511627776);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -317,5 +321,27 @@ namespace FileExplorer.Core
         {
             return null;
         }
+    }
+
+    public class NonNullValueConverter : MarkupExtension, IValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            lastValue = value;
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value == null ? lastValue : value;
+        }
+
+        private object lastValue;
     }
 }

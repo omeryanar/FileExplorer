@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DevExpress.Compression;
-using FileExplorer.Core;
 using FileExplorer.Helpers;
 
 namespace FileExplorer.Model

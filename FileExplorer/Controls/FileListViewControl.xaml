@@ -3,12 +3,12 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                  xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
-                 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-                 xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
+                 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"                 
                  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                  xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
                  xmlns:dxfui="http://schemas.devexpress.com/winfx/2008/xaml/core/filteringui"
                  xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                 xmlns:main="clr-namespace:FileExplorer"
                  xmlns:common="clr-namespace:FileExplorer.Core"
                  xmlns:controls="clr-namespace:FileExplorer.Controls"
                  xmlns:settings="clr-namespace:FileExplorer.Properties"
@@ -26,6 +26,7 @@
         </Style>
         <Style x:Key="FileNameEditStyle" TargetType="dxe:TextEdit">
             <Setter Property="ShowError" Value="False" />
+            <Setter Property="ShowErrorToolTip" Value="False" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
             <Setter Property="EditValue" Value="{Binding Row.Name}" />
@@ -54,24 +55,24 @@
             </Setter>
         </Style>
         <Style x:Key="CardViewBorderStyle" TargetType="Border">
-            <Setter Property="Background" Value="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=BorderNoneBrush}}" />
-            <Setter Property="TextBlock.Foreground" Value="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=TextUnfocusedBrush}}" />
+            <Setter Property="Background" Value="{DynamicResource {dxgt:LWKey GridRow.BorderNoneBrush}}" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource {dxgt:LWKey GridRow.TextUnfocusedBrush}}" />
             <Style.Triggers>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsMouseOver" Value="True" />
                         <Condition Property="dxg:CardView.IsFocusedRow" Value="False" />
                     </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=BorderSelectedBrush}}" />
-                    <Setter Property="TextBlock.Foreground" Value="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=TextRowSelectedBrush}}"/>
+                    <Setter Property="Background" Value="{DynamicResource {dxgt:LWKey GridRow.BorderSelectedBrush}}" />
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {dxgt:LWKey GridRow.TextRowSelectedBrush}}"/>
                 </MultiTrigger>
                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                    <Setter Property="Background" Value="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=BorderFocusedBrush}}" />
-                    <Setter Property="TextBlock.Foreground" Value="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=TextFocusedBrush}}"/>
+                    <Setter Property="Background" Value="{DynamicResource {dxgt:LWKey GridRow.BorderFocusedBrush}}" />
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {dxgt:LWKey GridRow.TextFocusedBrush}}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsFocused}" Value="True">
-                    <Setter Property="Background" Value="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=BorderFocusedBrush}}" />
-                    <Setter Property="TextBlock.Foreground" Value="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=TextFocusedBrush}}"  />
+                    <Setter Property="Background" Value="{DynamicResource {dxgt:LWKey GridRow.BorderFocusedBrush}}" />
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {dxgt:LWKey GridRow.TextFocusedBrush}}"  />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -81,7 +82,7 @@
                 <Setter.Value>
                     <DataTemplate>
                         <Border Style="{StaticResource CardViewBorderStyle}">
-                            <StackPanel x:Name="Container" Margin="3" Width="100">
+                            <StackPanel x:Name="Container" Margin="10" Width="100">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <dxe:CheckEdit Style="{StaticResource CheckBoxSelectorStyle}" />
                                     <Image x:Name="IconImage" Style="{StaticResource FileIconImageStyle}" />
@@ -94,27 +95,37 @@
                                 <Setter TargetName="Container" Property="Width" Value="200" />
                                 <Setter TargetName="Container" Property="Orientation" Value="Horizontal" />
                                 <Setter TargetName="CellEditor" Property="Width" Value="160" />
-                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.SmallIcon, IsAsync=True}" />
+                                <Setter TargetName="IconImage" Property="Width" Value="16" />
+                                <Setter TargetName="IconImage" Property="Height" Value="16" />
+                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.SmallIcon}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.SmallIcons}">
                                 <Setter TargetName="Container" Property="Width" Value="200" />
                                 <Setter TargetName="Container" Property="Orientation" Value="Horizontal" />
                                 <Setter TargetName="CellEditor" Property="Width" Value="160" />
-                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.SmallIcon, IsAsync=True}" />
+                                <Setter TargetName="IconImage" Property="Width" Value="16" />
+                                <Setter TargetName="IconImage" Property="Height" Value="16" />
+                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.SmallIcon}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.MediumIcons}">
                                 <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
-                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.MediumIcon, IsAsync=True}" />
+                                <Setter TargetName="IconImage" Property="Width" Value="32" />
+                                <Setter TargetName="IconImage" Property="Height" Value="32" />
+                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.MediumIcon}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.LargeIcons}">
                                 <Setter TargetName="Container" Property="Width" Value="150" />
                                 <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
-                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.LargeIcon, IsAsync=True}" />
+                                <Setter TargetName="IconImage" Property="Width" Value="48" />
+                                <Setter TargetName="IconImage" Property="Height" Value="48" />
+                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.LargeIcon}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.ExtraLargeIcons}">
-                                <Setter TargetName="Container" Property="Width" Value="250" />
+                                <Setter TargetName="Container" Property="Width" Value="{DXBinding '360 / $main:App.Dpi'}" />
                                 <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
-                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.ExtraLargeIcon, IsAsync=True}" />
+                                <Setter TargetName="IconImage" Property="Width" Value="{DXBinding '256 / $main:App.Dpi'}" />
+                                <Setter TargetName="IconImage" Property="Height" Value="{DXBinding '256 / $main:App.Dpi'}" />
+                                <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.ExtraLargeIcon}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.Thumbnails}">
                                 <Setter TargetName="Container" Property="Width" Value="{DXBinding '$settings:Settings.Default.ThumbnailWidth + 32'}" />
@@ -138,15 +149,15 @@
         <DataTemplate x:Key="NameCellDisplayTemplate">
             <StackPanel Orientation="Horizontal" DataContext="{Binding RowData}">
                 <dxe:CheckEdit Margin="3,0,0,0" Style="{StaticResource CheckBoxSelectorStyle}" />
-                <Image Width="16" Height="16" Margin="3,0" Source="{Binding Row.SmallIcon, IsAsync=True}" Style="{StaticResource FileIconImageStyle}" />
+                <Image Width="16" Height="16" Source="{Binding Row.SmallIcon}" Style="{StaticResource FileIconImageStyle}" />
                 <dxe:TextEdit Name="PART_Editor" Style="{StaticResource FileNameEditStyle}" />
             </StackPanel>
         </DataTemplate>
-        <ControlTemplate x:Key="{dxgt:GridCardThemeKey ResourceKey=ContainerTemplate}" TargetType="{x:Type ContentControl}">
+        <ControlTemplate x:Key="{dxgt:LWKey GridCard.ContainerTemplate}" TargetType="{x:Type ContentControl}">
             <ContentPresenter />
         </ControlTemplate>
         <ControlTemplate x:Key="FocusedRowBorderTemplate">
-            <Border BorderThickness="1" BorderBrush="{dxi:ThemeResource {dxgt:GridRowThemeKey ResourceKey=BorderFocusedBrush}}" />
+            <Border BorderThickness="1" BorderBrush="{DynamicResource {dxgt:LWKey GridRow.BorderFocusedBrush}}" />
         </ControlTemplate>
         <ControlTemplate x:Key="FocusedCardBorderTemplate" />
         <controls:TableViewEx x:Key="ListView" AllowEditing="False" AllowMergedGrouping="True" AllowConditionalFormattingMenu="True"
@@ -180,7 +191,9 @@
             </dxg:TableView.ColumnMenuCustomizations>
             <dxg:TableView.RowIndicatorContentTemplate>
                 <DataTemplate>
-                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding RowHandle.Value, Converter={common:RowHandleToRowNumberConverter}}" />
+                    <Border Background="{LWThemeValue Brush.Editor.Background}">
+                        <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding RowHandle.Value, Converter={common:RowHandleToRowNumberConverter}}" />
+                    </Border>
                 </DataTemplate>
             </dxg:TableView.RowIndicatorContentTemplate>
         </controls:TableViewEx>
@@ -237,7 +250,7 @@
             <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDirectory}" Value="False">
                 <DataTemplate>
                     <dxe:ProgressBarEdit ShowBorder="False" Margin="0,1" Background="Transparent" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
-                                         Maximum="{Binding RowData.Row.Parent.LargestFileSize}" EditValue="{Binding RowData.Row.Size}" />
+                                         Maximum="{Binding RowData.Row.Parent.LargestFileSize}" EditValue="{Binding RowData.Row.Size, Mode=OneWay}" />
                 </DataTemplate>
             </DXDataTemplateTrigger>
         </DXDataTemplateSelector>
@@ -288,7 +301,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" DataContext="{Binding RowData.Source}">
                         <dxe:CheckEdit Margin="3,0,0,0" Style="{StaticResource CheckBoxSelectorStyle}" />
-                        <Image Width="16" Height="16" Margin="3,0" Source="{Binding Row.SmallIcon}" Style="{StaticResource FileIconImageStyle}" />
+                        <Image Width="16" Height="16" Source="{Binding Row.SmallIcon}" Style="{StaticResource FileIconImageStyle}" />
                         <dxe:ButtonEdit Name="PART_Editor" AllowDefaultButton="False">
                             <dxmvvm:Interaction.Behaviors>
                                 <dxmvvm:KeyToCommand KeyGesture="Enter" EventName="KeyDown" MarkRoutedEventsAsHandled="True" Command="{Binding View.Commands.CloseEditForm}" />
