@@ -4,7 +4,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="AlphaFS" Version="2.2.6" />
-		<PackageVersion Include="AsyncKeyedLock" Version="7.1.8" />
+		<PackageVersion Include="AsyncKeyedLock" Version="8.0.0" />
 		<PackageVersion Include="AvalonEdit" Version="6.3.1.120" />
 		<PackageVersion Include="CommandLineParser" Version="2.9.1" />
 		<PackageVersion Include="DevExpress.Document.Processor" Version="25.1.6" />
