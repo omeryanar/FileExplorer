@@ -1,43 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net4.8</TargetFramework>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Remove="Assets\RotateLeft.svg" />
+		<None Remove="Assets\RotateRight.svg" />
+		<None Remove="Assets\ZoomIn.svg" />
+		<None Remove="Assets\ZoomOut.svg" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Assets\RotateLeft.svg" />
-    <None Remove="Assets\RotateRight.svg" />
-    <None Remove="Assets\ZoomIn.svg" />
-    <None Remove="Assets\ZoomOut.svg" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
-  </ItemGroup>
-    
-  <ItemGroup>
-    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*">
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="DevExpress.Wpf.PdfViewer" Version="25.1.*">
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DevExpress.Wpf.Core">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="DevExpress.Wpf.PdfViewer">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.ComponentModel.Composition" />
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.ComponentModel.Composition" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Assets\RotateLeft.svg" />
-    <Resource Include="Assets\RotateRight.svg" />
-    <Resource Include="Assets\ZoomIn.svg" />
-    <Resource Include="Assets\ZoomOut.svg" />
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Assets\RotateLeft.svg" />
+		<Resource Include="Assets\RotateRight.svg" />
+		<Resource Include="Assets\ZoomIn.svg" />
+		<Resource Include="Assets\ZoomOut.svg" />
+	</ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
-  </Target>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
+	</Target>
 
 </Project>
