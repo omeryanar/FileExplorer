@@ -41,12 +41,10 @@ namespace FileExplorer.Native
     {
         public DirectoryWatcher(string path, Action<FileEvent> onEvent, Action<ErrorEventArgs> onError)
         {
-            fileSystemWatcher = new(path)
-            {
-                IncludeSubdirectories = true,
-                InternalBufferSize = path.StartsWith("\\\\") ? 65536 : 1048576,
-                NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite
-            };
+            fileSystemWatcher = new FileSystemWatcher(path);
+            fileSystemWatcher.IncludeSubdirectories = true;
+            fileSystemWatcher.InternalBufferSize = path.StartsWith("\\\\") ? 65536 : 1048576;
+            fileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite;
 
             fileSystemWatcher.Error += (s, e) => { onError(e); };
 
@@ -56,17 +54,15 @@ namespace FileExplorer.Native
             fileSystemWatcher.Renamed += (s, e) => { fileEventQueue.Add(new FileEvent(e.OldFullPath, e.FullPath)); };
 
             eventProcessor = new EventProcessor(onEvent);
-            Thread thread = new(() =>
+            Thread thread = new Thread(() =>
             {
                 while (true)
                 {
                     FileEvent e = fileEventQueue.Take();
                     eventProcessor.ProcessEvent(e);
                 }
-            })
-            {
-                IsBackground = true // this ensures the thread does not block the process from terminating!
-            };
+            });
+            thread.IsBackground = true; // this ensures the thread does not block the process from terminating!
             thread.Start();
         }
 
@@ -87,23 +83,30 @@ namespace FileExplorer.Native
             fileSystemWatcher.EnableRaisingEvents = false;
         }
 
-        private readonly BlockingCollection<FileEvent> fileEventQueue = [];
+        private BlockingCollection<FileEvent> fileEventQueue = new BlockingCollection<FileEvent>();
 
-        private readonly FileSystemWatcher fileSystemWatcher;
+        private FileSystemWatcher fileSystemWatcher;
 
-        private readonly EventProcessor eventProcessor;
+        private EventProcessor eventProcessor;
     }
 
-    internal class EventProcessor(Action<FileEvent> onEvent)
+    internal class EventProcessor
     {
-        private static readonly int EVENT_DELAY = 100; // aggregate and only emit events when changes have stopped for this duration (in ms)
+        private static int EVENT_DELAY = 100; // aggregate and only emit events when changes have stopped for this duration (in ms)
 
-        private readonly object LOCK = new();
+        private object LOCK = new object();
         private Task delayTask = null;
 
-        private readonly List<FileEvent> events = [];
+        private List<FileEvent> events = new List<FileEvent>();
+        private Action<FileEvent> handleEvent;
+
         private long lastEventTime = 0;
         private long delayStarted = 0;
+
+        public EventProcessor(Action<FileEvent> onEvent)
+        {
+            handleEvent = onEvent;
+        }
 
         public void ProcessEvent(FileEvent fileEvent)
         {
@@ -119,7 +122,8 @@ namespace FileExplorer.Native
                 if (delayTask == null)
                 {
                     // Create function to buffer events
-                    void func(Task value)
+                    Action<Task> func = null;
+                    func = (Task value) =>
                     {
                         lock (LOCK)
                         {
@@ -127,8 +131,8 @@ namespace FileExplorer.Native
                             if (delayStarted == lastEventTime)
                             {
                                 // Normalize and handle
-                                foreach (FileEvent e in NormalizeEvents([.. events]))
-                                    onEvent(e);
+                                foreach (FileEvent e in NormalizeEvents(events.ToArray()))
+                                    handleEvent(e);
 
                                 // Reset
                                 events.Clear();
@@ -143,7 +147,7 @@ namespace FileExplorer.Native
                                 delayTask = Task.Delay(EVENT_DELAY).ContinueWith(func);
                             }
                         }
-                    }
+                    };
 
                     // Start function after delay
                     delayStarted = lastEventTime;

@@ -1,7 +1,0 @@
-<Project>
-	<PropertyGroup>
-		<TargetFramework>net481</TargetFramework>
-		<LangVersion>latest</LangVersion>
-		<UseWPF>true</UseWPF>
-	</PropertyGroup>
-</Project>

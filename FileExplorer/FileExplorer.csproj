@@ -1,219 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-	</PropertyGroup>
-	<PropertyGroup>
-		<StartupObject>FileExplorer.Program</StartupObject>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	</PropertyGroup>
-	<PropertyGroup>
-		<RootNamespace>FileExplorer</RootNamespace>
-		<ApplicationIcon>Assets\ICO\Explorer.ico</ApplicationIcon>
-		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-		<PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="AsyncKeyedLock" />
-		<PackageReference Include="CommandLineParser" />
-		<PackageReference Include="DevExpress.Mvvm.CodeGenerators" />
-		<PackageReference Include="Hardcodet.NotifyIcon.Wpf" />
-		<PackageReference Include="LiteDB" />
-		<PackageReference Include="Mono.Cecil" />
-		<PackageReference Include="NaturalSort.Extension" />
-		<PackageReference Include="NLog" />
-		<PackageReference Include="Onova" />
-		<PackageReference Include="PhotoSauce.MagicScaler" />
-		<PackageReference Include="TagLibSharp" />
-		<PackageReference Include="Vanara.Core" />
-		<PackageReference Include="Vanara.PInvoke.ComCtl32" />
-		<PackageReference Include="Vanara.PInvoke.Shell32" />
-		<PackageReference Include="Vanara.PInvoke.ShlwApi" />
-		<PackageReference Include="Vanara.PInvoke.User32" />
-		<PackageReference Include="Vanara.Windows.Shell" />
-		<PackageReference Include="Vanara.WPF.Extensions" />
-		<PackageReference Include="DevExpress.Wpf.Core" />
-		<PackageReference Include="DevExpress.Wpf.Grid" />
-		<PackageReference Include="DevExpress.Wpf.Accordion" />
-		<PackageReference Include="DevExpress.Wpf.ThemesLW" />
-		<PackageReference Include="DevExpress.Document.Processor" />
-	</ItemGroup>
-	<ItemGroup>
-		<Reference Include="System.Web" />
-		<Reference Include="System.Windows.Forms" />
-		<Reference Include="System.ServiceProcess" />
-		<Reference Include="System.ComponentModel.Composition" />
-		<Reference Include="System.ComponentModel.DataAnnotations" />
-		<Reference Include="Microsoft.VisualBasic" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Remove="Assets\Fonts\AwesomeSolid.ttf" />
-		<None Remove="Assets\ICO\Computer.ico" />
-		<None Remove="Assets\ICO\QuickAccess.ico" />
-		<None Remove="Assets\ICO\Pin.ico" />
-		<None Remove="Assets\ICO\Unpin.ico" />
-		<None Remove="Assets\ICO\CopyPath.ico" />
-		<None Remove="Assets\ICO\Cut.ico" />
-		<None Remove="Assets\ICO\Copy.ico" />
-		<None Remove="Assets\ICO\Paste.ico" />
-		<None Remove="Assets\ICO\CopyTo.ico" />
-		<None Remove="Assets\ICO\Delete.ico" />
-		<None Remove="Assets\ICO\MoveTo.ico" />
-		<None Remove="Assets\ICO\Recycle.ico" />
-		<None Remove="Assets\ICO\Open.ico" />
-		<None Remove="Assets\ICO\OpenFile.ico" />
-		<None Remove="Assets\ICO\OpenFolder.ico" />
-		<None Remove="Assets\ICO\Zip.ico" />
-		<None Remove="Assets\ICO\Mail.ico" />
-		<None Remove="Assets\ICO\NewFile.ico" />
-		<None Remove="Assets\ICO\NewFolder.ico" />
-		<None Remove="Assets\ICO\Properties.ico" />
-		<None Remove="Assets\ICO\Rename.ico" />
-		<None Remove="Assets\ICO\InvertSelection.ico" />
-		<None Remove="Assets\ICO\SelectAll.ico" />
-		<None Remove="Assets\ICO\SelectNone.ico" />
-		<None Remove="Assets\ICO\Options.ico" />
-		<None Remove="Assets\ICO\DetailsPane.ico" />
-		<None Remove="Assets\ICO\NavigationPane.ico" />
-		<None Remove="Assets\ICO\PreviewPane.ico" />
-		<None Remove="Assets\ICO\Extensions.ico" />
-		<None Remove="Assets\ICO\Help.ico" />
-		<None Remove="Assets\ICO\Save.ico" />
-		<None Remove="Assets\ICO\Content.ico" />
-		<None Remove="Assets\ICO\AddColumn.ico" />
-		<None Remove="Assets\ICO\BestFit.ico" />
-		<None Remove="Assets\ICO\Group.ico" />
-		<None Remove="Assets\ICO\Sort.ico" />
-		<None Remove="Assets\ICO\Details.ico" />
-		<None Remove="Assets\ICO\ExtraLargeIcons.ico" />
-		<None Remove="Assets\ICO\LargeIcons.ico" />
-		<None Remove="Assets\ICO\List.ico" />
-		<None Remove="Assets\ICO\MediumIcons.ico" />
-		<None Remove="Assets\ICO\SmallIcons.ico" />
-		<None Remove="Assets\ICO\Thumbnails.ico" />
-		<None Remove="Assets\ICO\Date.ico" />
-		<None Remove="Assets\ICO\Kind.ico" />
-		<None Remove="Assets\ICO\Size.ico" />
-		<None Remove="Assets\ICO\OpenNewWindow.ico" />
-		<None Remove="Assets\ICO\Explorer.ico" />
-		<None Remove="Assets\SVG\AddRemoveMenuItems.svg" />
-		<None Remove="Assets\SVG\ShowCheckBoxes.svg" />
-		<None Remove="Assets\SVG\ShowRowNumbers.svg" />
-		<None Remove="Assets\SVG\SortAsc.svg" />
-		<None Remove="Assets\SVG\SortDesc.svg" />
-		<None Remove="Assets\SVG\Print.svg" />
-		<None Remove="Assets\SVG\AddCustomColumn.svg" />
-		<None Remove="Assets\SVG\EditCustomColumn.svg" />
-		<None Remove="Assets\SVG\RemoveCustomColumn.svg" />
-		<None Remove="Assets\Thumbnail\Bottom.svg" />
-		<None Remove="Assets\Thumbnail\BottomLeft.svg" />
-		<None Remove="Assets\Thumbnail\BottomRight.svg" />
-		<None Remove="Assets\Thumbnail\Left.svg" />
-		<None Remove="Assets\Thumbnail\Right.svg" />
-		<None Remove="Assets\Thumbnail\Top.svg" />
-		<None Remove="Assets\Thumbnail\TopLeft.svg" />
-		<None Remove="Assets\Thumbnail\TopRight.svg" />
-		<None Remove="Assets\Thumbnail\Center.svg" />
-		<None Remove="Assets\Thumbnail\Contain.svg" />
-		<None Remove="Assets\Thumbnail\Crop.svg" />
-		<None Remove="Assets\Thumbnail\Stretch.svg" />
-		<Resource Include="Assets\Fonts\AwesomeSolid.ttf" />
-		<Resource Include="Assets\ICO\Computer.ico" />
-		<Resource Include="Assets\ICO\QuickAccess.ico" />
-		<Resource Include="Assets\ICO\Pin.ico" />
-		<Resource Include="Assets\ICO\Unpin.ico" />
-		<Resource Include="Assets\ICO\CopyPath.ico" />
-		<Resource Include="Assets\ICO\Cut.ico" />
-		<Resource Include="Assets\ICO\Copy.ico" />
-		<Resource Include="Assets\ICO\Paste.ico" />
-		<Resource Include="Assets\ICO\CopyTo.ico" />
-		<Resource Include="Assets\ICO\Delete.ico" />
-		<Resource Include="Assets\ICO\MoveTo.ico" />
-		<Resource Include="Assets\ICO\Recycle.ico" />
-		<Resource Include="Assets\ICO\Open.ico" />
-		<Resource Include="Assets\ICO\OpenFile.ico" />
-		<Resource Include="Assets\ICO\OpenFolder.ico" />
-		<Resource Include="Assets\ICO\Zip.ico" />
-		<Resource Include="Assets\ICO\Mail.ico" />
-		<Resource Include="Assets\ICO\NewFile.ico" />
-		<Resource Include="Assets\ICO\NewFolder.ico" />
-		<Resource Include="Assets\ICO\Properties.ico" />
-		<Resource Include="Assets\ICO\Rename.ico" />
-		<Resource Include="Assets\ICO\InvertSelection.ico" />
-		<Resource Include="Assets\ICO\SelectAll.ico" />
-		<Resource Include="Assets\ICO\SelectNone.ico" />
-		<Resource Include="Assets\ICO\Options.ico" />
-		<Resource Include="Assets\ICO\DetailsPane.ico" />
-		<Resource Include="Assets\ICO\NavigationPane.ico" />
-		<Resource Include="Assets\ICO\PreviewPane.ico" />
-		<Resource Include="Assets\ICO\Extensions.ico" />
-		<Resource Include="Assets\ICO\Help.ico" />
-		<Resource Include="Assets\ICO\Save.ico" />
-		<Resource Include="Assets\ICO\Content.ico" />
-		<Resource Include="Assets\ICO\AddColumn.ico" />
-		<Resource Include="Assets\ICO\BestFit.ico" />
-		<Resource Include="Assets\ICO\Group.ico" />
-		<Resource Include="Assets\ICO\Sort.ico" />
-		<Resource Include="Assets\ICO\Details.ico" />
-		<Resource Include="Assets\ICO\ExtraLargeIcons.ico" />
-		<Resource Include="Assets\ICO\LargeIcons.ico" />
-		<Resource Include="Assets\ICO\List.ico" />
-		<Resource Include="Assets\ICO\MediumIcons.ico" />
-		<Resource Include="Assets\ICO\SmallIcons.ico" />
-		<Resource Include="Assets\ICO\Thumbnails.ico" />
-		<Resource Include="Assets\ICO\Date.ico" />
-		<Resource Include="Assets\ICO\Kind.ico" />
-		<Resource Include="Assets\ICO\Size.ico" />
-		<Resource Include="Assets\ICO\OpenNewWindow.ico" />
-		<Resource Include="Assets\ICO\Explorer.ico" />
-		<Resource Include="Assets\SVG\AddRemoveMenuItems.svg" />
-		<Resource Include="Assets\SVG\ShowCheckBoxes.svg" />
-		<Resource Include="Assets\SVG\ShowRowNumbers.svg" />
-		<Resource Include="Assets\SVG\SortAsc.svg" />
-		<Resource Include="Assets\SVG\SortDesc.svg" />
-		<Resource Include="Assets\SVG\Print.svg" />
-		<Resource Include="Assets\SVG\AddCustomColumn.svg" />
-		<Resource Include="Assets\SVG\EditCustomColumn.svg" />
-		<Resource Include="Assets\SVG\RemoveCustomColumn.svg" />
-		<Resource Include="Assets\Thumbnail\Bottom.svg" />
-		<Resource Include="Assets\Thumbnail\BottomLeft.svg" />
-		<Resource Include="Assets\Thumbnail\BottomRight.svg" />
-		<Resource Include="Assets\Thumbnail\Left.svg" />
-		<Resource Include="Assets\Thumbnail\Right.svg" />
-		<Resource Include="Assets\Thumbnail\Top.svg" />
-		<Resource Include="Assets\Thumbnail\TopLeft.svg" />
-		<Resource Include="Assets\Thumbnail\TopRight.svg" />
-		<Resource Include="Assets\Thumbnail\Center.svg" />
-		<Resource Include="Assets\Thumbnail\Contain.svg" />
-		<Resource Include="Assets\Thumbnail\Crop.svg" />
-		<Resource Include="Assets\Thumbnail\Stretch.svg" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-		<Compile Update="Properties\Settings.Designer.cs">
-			<DesignTimeSharedInput>True</DesignTimeSharedInput>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Settings.settings</DependentUpon>
-		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="Properties\Settings.settings">
-			<Generator>PublicSettingsSingleFileGenerator</Generator>
-			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
-		</None>
-	</ItemGroup>
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
 	<LangVersion>latest</LangVersion>
@@ -230,6 +15,31 @@
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AsyncKeyedLock" Version="7.1.7" />
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.1" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+    <PackageReference Include="LiteDB" Version="5.0.21" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
+    <PackageReference Include="NaturalSort.Extension" Version="4.4.0" />
+	<PackageReference Include="NLog" Version="6.0.5" />
+    <PackageReference Include="Onova" Version="2.6.13" />
+	<PackageReference Include="PhotoSauce.MagicScaler" Version="0.15.0" />
+	<PackageReference Include="TagLibSharp" Version="2.3.0" />
+    <PackageReference Include="Vanara.Core" Version="4.2.1" />
+    <PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.2.1" />
+    <PackageReference Include="Vanara.PInvoke.Shell32" Version="4.2.1" />
+    <PackageReference Include="Vanara.PInvoke.ShlwApi" Version="4.2.1" />
+    <PackageReference Include="Vanara.PInvoke.User32" Version="4.2.1" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="4.2.1" />
+    <PackageReference Include="Vanara.WPF.Extensions" Version="4.2.1" />
+    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*" />
+    <PackageReference Include="DevExpress.Wpf.Grid" Version="25.1.*" />
+    <PackageReference Include="DevExpress.Wpf.Accordion" Version="25.1.*" />
+    <PackageReference Include="DevExpress.Wpf.ThemesLW " Version="25.1.*" />
+    <PackageReference Include="DevExpress.Document.Processor" Version="25.1.*" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web" />
 	<Reference Include="System.Windows.Forms" />

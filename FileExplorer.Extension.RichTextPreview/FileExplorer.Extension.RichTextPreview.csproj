@@ -1,25 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<ItemGroup>
-		<ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net4.8</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="DevExpress.Wpf.Core">
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-		<PackageReference Include="DevExpress.Wpf.RichEdit">
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="System.ComponentModel.Composition" />
-		<Reference Include="System.Windows.Forms" />
-	</ItemGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
-	</Target>
+  <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Wpf.RichEdit" Version="25.1.*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+    
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
+  </Target>
 
 </Project>

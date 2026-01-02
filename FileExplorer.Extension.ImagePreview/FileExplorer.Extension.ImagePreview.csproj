@@ -1,39 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<ItemGroup>
-		<None Remove="Assets\Edit.svg" />
-		<None Remove="Assets\Lock.svg" />
-		<None Remove="Assets\Reset.svg" />
-		<None Remove="Assets\RotateLeft.svg" />
-		<None Remove="Assets\RotateRight.svg" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net4.8</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\Edit.svg" />
+    <None Remove="Assets\Lock.svg" />
+    <None Remove="Assets\Reset.svg" />
+    <None Remove="Assets\RotateLeft.svg" />
+    <None Remove="Assets\RotateRight.svg" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="DevExpress.Wpf.Core">
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-		<PackageReference Include="PhotoSauce.MagicScaler" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="PhotoSauce.MagicScaler" Version="0.15.0" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<Reference Include="System.ComponentModel.Composition" />
-		<Reference Include="System.Windows.Forms" />
-	</ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<Resource Include="Assets\Edit.svg" />
-		<Resource Include="Assets\Lock.svg" />
-		<Resource Include="Assets\Reset.svg" />
-		<Resource Include="Assets\RotateLeft.svg" />
-		<Resource Include="Assets\RotateRight.svg" />
-	</ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Edit.svg" />
+    <Resource Include="Assets\Lock.svg" />
+    <Resource Include="Assets\Reset.svg" />
+    <Resource Include="Assets\RotateLeft.svg" />
+    <Resource Include="Assets\RotateRight.svg" />
+  </ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
-	</Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
+  </Target>
 
 </Project>
