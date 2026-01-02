@@ -13,7 +13,6 @@
 		<PlatformTarget>AnyCPU</PlatformTarget>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AlphaFS" />
 		<PackageReference Include="AsyncKeyedLock" />
 		<PackageReference Include="CommandLineParser" />
 		<PackageReference Include="DevExpress.Mvvm.CodeGenerators" />
@@ -231,31 +230,6 @@
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="AsyncKeyedLock" Version="7.1.7" />
-    <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.1" />
-    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
-    <PackageReference Include="LiteDB" Version="5.0.21" />
-    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
-    <PackageReference Include="NaturalSort.Extension" Version="4.4.0" />
-	<PackageReference Include="NLog" Version="6.0.5" />
-    <PackageReference Include="Onova" Version="2.6.13" />
-	<PackageReference Include="PhotoSauce.MagicScaler" Version="0.15.0" />
-	<PackageReference Include="TagLibSharp" Version="2.3.0" />
-    <PackageReference Include="Vanara.Core" Version="4.2.1" />
-    <PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.2.1" />
-    <PackageReference Include="Vanara.PInvoke.Shell32" Version="4.2.1" />
-    <PackageReference Include="Vanara.PInvoke.ShlwApi" Version="4.2.1" />
-    <PackageReference Include="Vanara.PInvoke.User32" Version="4.2.1" />
-    <PackageReference Include="Vanara.Windows.Shell" Version="4.2.1" />
-    <PackageReference Include="Vanara.WPF.Extensions" Version="4.2.1" />
-    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*" />
-    <PackageReference Include="DevExpress.Wpf.Grid" Version="25.1.*" />
-    <PackageReference Include="DevExpress.Wpf.Accordion" Version="25.1.*" />
-    <PackageReference Include="DevExpress.Wpf.ThemesLW " Version="25.1.*" />
-    <PackageReference Include="DevExpress.Document.Processor" Version="25.1.*" />
-  </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web" />
 	<Reference Include="System.Windows.Forms" />

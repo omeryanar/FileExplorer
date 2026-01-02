@@ -1,35 +1,34 @@
 <Project>
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-	</PropertyGroup>
-	<ItemGroup>
-		<PackageVersion Include="AlphaFS" Version="2.2.6" />
-		<PackageVersion Include="AsyncKeyedLock" Version="8.0.0" />
-		<PackageVersion Include="AvalonEdit" Version="6.3.1.120" />
-		<PackageVersion Include="CommandLineParser" Version="2.9.1" />
-		<PackageVersion Include="DevExpress.Document.Processor" Version="25.1.6" />
-		<PackageVersion Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.1" />
-		<PackageVersion Include="DevExpress.Wpf.Accordion" Version="25.1.6" />
-		<PackageVersion Include="DevExpress.Wpf.Core" Version="25.1.6" />
-		<PackageVersion Include="DevExpress.Wpf.Grid" Version="25.1.6" />
-		<PackageVersion Include="DevExpress.Wpf.PdfViewer" Version="25.1.6" />
-		<PackageVersion Include="DevExpress.Wpf.RichEdit" Version="25.1.6" />
-		<PackageVersion Include="DevExpress.Wpf.Spreadsheet" Version="25.1.6" />
-		<PackageVersion Include="DevExpress.Wpf.ThemesLW " Version="25.1.6" />
-		<PackageVersion Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
-		<PackageVersion Include="LiteDB" Version="5.0.21" />
-		<PackageVersion Include="Mono.Cecil" Version="0.11.6" />
-		<PackageVersion Include="NLog" Version="6.0.7" />
-		<PackageVersion Include="NaturalSort.Extension" Version="4.4.1" />
-		<PackageVersion Include="Onova" Version="2.6.13" />
-		<PackageVersion Include="PhotoSauce.MagicScaler" Version="0.15.0" />
-		<PackageVersion Include="TagLibSharp" Version="2.3.0" />
-		<PackageVersion Include="Vanara.Core" Version="4.2.1" />
-		<PackageVersion Include="Vanara.PInvoke.ComCtl32" Version="4.2.1" />
-		<PackageVersion Include="Vanara.PInvoke.Shell32" Version="4.2.1" />
-		<PackageVersion Include="Vanara.PInvoke.ShlwApi" Version="4.2.1" />
-		<PackageVersion Include="Vanara.PInvoke.User32" Version="4.2.1" />
-		<PackageVersion Include="Vanara.WPF.Extensions" Version="4.2.1" />
-		<PackageVersion Include="Vanara.Windows.Shell" Version="4.2.1" />
-	</ItemGroup>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="AsyncKeyedLock" Version="8.0.0" />
+    <PackageVersion Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageVersion Include="CommandLineParser" Version="2.9.1" />
+    <PackageVersion Include="DevExpress.Document.Processor" Version="25.1.7" />
+    <PackageVersion Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.1" />
+    <PackageVersion Include="DevExpress.Wpf.Accordion" Version="25.1.7" />
+    <PackageVersion Include="DevExpress.Wpf.Core" Version="25.1.7" />
+    <PackageVersion Include="DevExpress.Wpf.Grid" Version="25.1.7" />
+    <PackageVersion Include="DevExpress.Wpf.PdfViewer" Version="25.1.7" />
+    <PackageVersion Include="DevExpress.Wpf.RichEdit" Version="25.1.7" />
+    <PackageVersion Include="DevExpress.Wpf.Spreadsheet" Version="25.1.7" />
+    <PackageVersion Include="DevExpress.Wpf.ThemesLW " Version="25.1.7" />
+    <PackageVersion Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+    <PackageVersion Include="LiteDB" Version="5.0.21" />
+    <PackageVersion Include="Mono.Cecil" Version="0.11.6" />
+    <PackageVersion Include="NLog" Version="6.0.7" />
+    <PackageVersion Include="NaturalSort.Extension" Version="4.4.1" />
+    <PackageVersion Include="Onova" Version="2.6.13" />
+    <PackageVersion Include="PhotoSauce.MagicScaler" Version="0.15.0" />
+    <PackageVersion Include="TagLibSharp" Version="2.3.0" />
+    <PackageVersion Include="Vanara.Core" Version="4.2.1" />
+    <PackageVersion Include="Vanara.PInvoke.ComCtl32" Version="4.2.1" />
+    <PackageVersion Include="Vanara.PInvoke.Shell32" Version="4.2.1" />
+    <PackageVersion Include="Vanara.PInvoke.ShlwApi" Version="4.2.1" />
+    <PackageVersion Include="Vanara.PInvoke.User32" Version="4.2.1" />
+    <PackageVersion Include="Vanara.WPF.Extensions" Version="4.2.1" />
+    <PackageVersion Include="Vanara.Windows.Shell" Version="4.2.1" />
+  </ItemGroup>
 </Project>
