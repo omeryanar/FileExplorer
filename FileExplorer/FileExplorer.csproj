@@ -34,11 +34,11 @@
     <PackageReference Include="Vanara.PInvoke.User32" Version="4.2.1" />
     <PackageReference Include="Vanara.Windows.Shell" Version="4.2.1" />
     <PackageReference Include="Vanara.WPF.Extensions" Version="4.2.1" />
-    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*" />
-    <PackageReference Include="DevExpress.Wpf.Grid" Version="25.1.*" />
-    <PackageReference Include="DevExpress.Wpf.Accordion" Version="25.1.*" />
-    <PackageReference Include="DevExpress.Wpf.ThemesLW " Version="25.1.*" />
-    <PackageReference Include="DevExpress.Document.Processor" Version="25.1.*" />
+    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.5" />
+    <PackageReference Include="DevExpress.Wpf.Grid" Version="25.1.5" />
+    <PackageReference Include="DevExpress.Wpf.Accordion" Version="25.1.5" />
+    <PackageReference Include="DevExpress.Wpf.ThemesLW " Version="25.1.5" />
+    <PackageReference Include="DevExpress.Document.Processor" Version="25.1.5" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web" />

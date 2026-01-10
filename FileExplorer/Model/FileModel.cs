@@ -782,6 +782,9 @@ namespace FileExplorer.Model
                     string parentPath = FileSystemHelper.GetParentFolderPath(message.Path);
                     if (FileModelCache.TryGetValue(parentPath, out FileModel parent))
                     {
+                        if (parent.Children == null)
+                            return;
+
                         string parsingName = FileSystemHelper.GetFileParsingName(message.Path);
                         if (String.IsNullOrEmpty(parsingName))
                             return;
@@ -824,20 +827,31 @@ namespace FileExplorer.Model
                 {
                     if (FileModelCache.ContainsKey(message.Path))
                     {
-                        FileModelCache.TryRemove(message.Path, out FileModel fileModel);
+                        if (FileModelCache.TryGetValue(message.NewPath, out FileModel fileModel) && message.NewPath.OrdinalEquals(fileModel.FullPath))
+                            return;
+
+                        FileModelCache.TryRemove(message.Path, out fileModel);
                         FileModelCache.TryAdd(message.NewPath, fileModel);
 
                         string parsingName = FileSystemHelper.GetFileParsingName(message.NewPath);
                         if (String.IsNullOrEmpty(parsingName))
                             return;
-
-                        fileModel.Name = Path.GetFileNameWithoutExtension(parsingName);
+                        
                         fileModel.FullName = Path.GetFileName(parsingName);
                         fileModel.FullPath = parsingName;
 
-                        string extension = Path.GetExtension(parsingName);
-                        if (fileModel.Extension != extension)
-                            fileModel.ChangeExtension(extension);
+                        if (fileModel.IsDirectory)
+                        {
+                            fileModel.Name = fileModel.FullName;
+                        }
+                        else
+                        {
+                            fileModel.Name = Path.GetFileNameWithoutExtension(parsingName);
+
+                            string extension = Path.GetExtension(parsingName);
+                            if (fileModel.Extension.OrdinalEquals(extension) == false)
+                                fileModel.ChangeExtension(extension);
+                        }                        
 
                         if (fileModel.Children != null)
                         {
@@ -853,6 +867,9 @@ namespace FileExplorer.Model
                 {
                     if (FileModelCache.TryGetValue(message.Path, out FileModel fileModel))
                     {
+                        if (fileModel.IsRoot || fileModel.IsDrive)
+                            return;
+
                         long oldSize = fileModel.Size;
 
                         if (Directory.Exists(message.Path))

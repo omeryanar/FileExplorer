@@ -9,7 +9,7 @@
              xmlns:common="clr-namespace:FileExplorer.Core"             
              xmlns:editors="clr-namespace:FileExplorer.Editors"
              xmlns:controls="clr-namespace:FileExplorer.Controls"
-             Padding="10,0" MinWidth="960" MinHeight="480">
+             Padding="10,0" MinWidth="1000" MinHeight="500">
 
     <UserControl.Resources>
         <Style x:Key="RadioListBoxStyle" TargetType="dxe:ListBoxEdit">
@@ -62,7 +62,7 @@
                            EditFormShowMode="Inline" EditFormPostConfirmation="YesNoCancel" EditFormPostMode="Immediate" NewItemRowPosition="Bottom" ValidateRow="{DXEvent 'Update(@args.Row)'}">
                 <dxg:TableView.EditFormTemplate>
                     <DataTemplate>
-                        <dxlc:LayoutControl Orientation="Vertical" ItemSpace="5">
+                        <dxlc:LayoutControl Orientation="Vertical" ItemSpace="10">
                             <dxlc:LayoutGroup View="GroupBox">
                                 <dxlc:LayoutItem Label="{Binding Name, Source={StaticResource ResourceProvider}}">
                                     <dxg:EditFormEditor FieldName="Name" />

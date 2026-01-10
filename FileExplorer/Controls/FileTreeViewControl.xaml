@@ -6,7 +6,7 @@
                      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                      xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                      xmlns:common="clr-namespace:FileExplorer.Core"
-                     xmlns:controls="clr-namespace:FileExplorer.Controls"
+                     xmlns:controls="clr-namespace:FileExplorer.Controls" Background="Transparent"
                      ShowBorder="False" ItemsSource="{Binding RootFolders}" CurrentItem="{Binding CurrentFolder, Converter={common:NonNullValueConverter}}" FixedFilter="{Binding FilterCriteria}">
 
     <dxmvvm:Interaction.Behaviors>

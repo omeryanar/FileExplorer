@@ -1,8 +1,9 @@
 ﻿<UserControl x:Class="FileExplorer.View.RenameView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-             xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              MinWidth="450" MinHeight="50" Tag="NoResize">
@@ -45,9 +46,27 @@
                 <Button Content="aA aA" Style="{StaticResource FormatButton}" ToolTip="{Binding ToggleCase, Source={StaticResource ResourceProvider}}" />
             </dxlc:LayoutGroup>
         </dxlc:LayoutItem>
-        <dxa:AccordionControl Width="400" Padding="0" Margin="{LWThemeValue 0, Win11='0,0,-5,0'}" HorizontalAlignment="Right" Visibility="{Binding ShowAdvancedOptions, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-            <dxa:AccordionItem Padding="0" Margin="0" HorizontalAlignment="Right" Header="{Binding Advanced, Source={StaticResource ResourceProvider}}">
-                <dxlc:LayoutControl Orientation="Vertical" TextBlock.FontSize="12">
+        <dxlc:GroupBox x:Name="AdvancedOptions" Padding="0" Width="200" HorizontalAlignment="Right" MinimizeElementVisibility="Visible" State="Minimized"
+                       Header="{Binding Advanced, Source={StaticResource ResourceProvider}}"
+                       Visibility="{Binding ShowAdvancedOptions, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+            <dxlc:GroupBox.Style>
+                <Style TargetType="dxlc:GroupBox">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource {dxt:LWKey TextEdit.SelectionBrush}}" />
+                            <Setter Property="TitleBackground" Value="{LWThemeValue Brush.Editor.Background}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </dxlc:GroupBox.Style>
+            <dxlc:GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Margin="1,1,0,0" Height="18" Width="88" HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding}" MouseLeftButtonDown="{DXEvent '@e(AdvancedOptions).State = $dxlc:GroupBoxState.Normal'}" />
+                </DataTemplate>
+            </dxlc:GroupBox.HeaderTemplate>
+            <StackPanel>
+                <dxlc:LayoutControl HorizontalAlignment="Right" ItemSpace="10" Orientation="Vertical" TextBlock.FontSize="12">
                     <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
                         <dxe:DateEdit Mask="G" MaskUseAsDisplayFormat="True" EditValue="{Binding DateCreated}" />
                     </dxlc:LayoutItem>
@@ -58,8 +77,8 @@
                         <dxe:DateEdit Mask="G" MaskUseAsDisplayFormat="True" EditValue="{Binding DateAccessed}" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutControl>
-            </dxa:AccordionItem>
-        </dxa:AccordionControl>
+            </StackPanel>
+        </dxlc:GroupBox>
     </dxlc:LayoutControl>
 
 </UserControl>

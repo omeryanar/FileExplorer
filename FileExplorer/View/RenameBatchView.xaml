@@ -5,15 +5,15 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:controls="clr-namespace:FileExplorer.Controls"
-             MinWidth="500" MinHeight="200">
+             MinWidth="600" MinHeight="200">
 
     <dxmvvm:Interaction.Behaviors>
         <dx:DialogService DialogWindowStartupLocation="CenterOwner" DialogStyle="{StaticResource DialogWindowStyle}" />
     </dxmvvm:Interaction.Behaviors>
 
-    <dxlc:LayoutControl Orientation="Vertical">
+    <dxlc:LayoutControl Orientation="Vertical" ItemSpace="10">
         <dxlc:LayoutItem Label="{Binding Pattern, Source={StaticResource ResourceProvider}}">
-            <controls:ExpressionSelectorControl EditValue="{Binding Columns[NewName].UnboundExpression, ElementName=FileRenameControl, UpdateSourceTrigger=PropertyChanged}" />
+            <controls:ExpressionSelectorControl Margin="5,0,0,0" EditValue="{Binding Columns[NewName].UnboundExpression, ElementName=FileRenameControl, UpdateSourceTrigger=PropertyChanged}" />
         </dxlc:LayoutItem>
         <controls:FileRenameControl x:Name="FileRenameControl" ItemsSource="{Binding FileModelList}" />
     </dxlc:LayoutControl>

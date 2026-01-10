@@ -16,6 +16,9 @@
                  dx:DXSerializer.StoreLayoutMode="All" dxg:GridSerializationOptions.AddNewColumns="False" dxg:GridSerializationOptions.RemoveOldColumns="False">
 
     <dxg:GridControl.Resources>
+        <Style TargetType="dxg:GridColumnHeader">
+            <Setter Property="FontWeight" Value="Medium" />
+        </Style>
         <Style x:Key="FileIconImageStyle" TargetType="Image">
             <Setter Property="Margin" Value="3,0" />
             <Style.Triggers>
@@ -147,8 +150,8 @@
             <dxg:EditFormEditor FieldName="Name" />
         </DataTemplate>
         <DataTemplate x:Key="NameCellDisplayTemplate">
-            <StackPanel Orientation="Horizontal" DataContext="{Binding RowData}">
-                <dxe:CheckEdit Margin="3,0,0,0" Style="{StaticResource CheckBoxSelectorStyle}" />
+            <StackPanel Margin="3,0,0,0" Orientation="Horizontal" DataContext="{Binding RowData}">
+                <dxe:CheckEdit Style="{StaticResource CheckBoxSelectorStyle}" />
                 <Image Width="16" Height="16" Source="{Binding Row.SmallIcon}" Style="{StaticResource FileIconImageStyle}" />
                 <dxe:TextEdit Name="PART_Editor" Style="{StaticResource FileNameEditStyle}" />
             </StackPanel>
@@ -170,7 +173,7 @@
                               ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
                               AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
                               ShowIndicator="{DXBinding 'Settings.ShowRowNumbers and Layout==$common:Layout.Details'}"
-                              IndicatorWidth="{DXBinding '(@a($dxg:GridControl).VisibleRowCount.ToString().Length * 6) + 12'}"                                   
+                              IndicatorWidth="{DXBinding '(@a($dxg:GridControl).VisibleRowCount.ToString().Length * 6) + 16'}"
                               EditFormPostConfirmation="None" EditFormPostMode="Immediate" NavigationStyle="Row"
                               ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
                               EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={common:BooleanToEditFormShowModeConverter Inverse=True}}">
@@ -191,9 +194,7 @@
             </dxg:TableView.ColumnMenuCustomizations>
             <dxg:TableView.RowIndicatorContentTemplate>
                 <DataTemplate>
-                    <Border Background="{LWThemeValue Brush.Editor.Background}">
-                        <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding RowHandle.Value, Converter={common:RowHandleToRowNumberConverter}}" />
-                    </Border>
+                    <TextBlock Margin="0,0,0,2" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Medium" Text="{Binding RowHandle.Value, Converter={common:RowHandleToRowNumberConverter}}" />
                 </DataTemplate>
             </dxg:TableView.RowIndicatorContentTemplate>
         </controls:TableViewEx>
@@ -260,7 +261,7 @@
         </DXDataTemplateSelector>
     </dxg:GridControl.Resources>
 
-    <dxg:GridControl.Style>
+    <dxg:GridControl.Style>        
         <Style TargetType="dxg:GridControl">
             <Setter Property="View" Value="{StaticResource ListView}" />
             <Style.Triggers>
@@ -299,8 +300,8 @@
             </dxg:GridColumn.CellDisplayTemplate>
             <dxg:GridColumn.EditFormTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" DataContext="{Binding RowData.Source}">
-                        <dxe:CheckEdit Margin="3,0,0,0" Style="{StaticResource CheckBoxSelectorStyle}" />
+                    <StackPanel Margin="3,0,0,0" Orientation="Horizontal" DataContext="{Binding RowData.Source}">
+                        <dxe:CheckEdit Style="{StaticResource CheckBoxSelectorStyle}" />
                         <Image Width="16" Height="16" Source="{Binding Row.SmallIcon}" Style="{StaticResource FileIconImageStyle}" />
                         <dxe:ButtonEdit Name="PART_Editor" AllowDefaultButton="False">
                             <dxmvvm:Interaction.Behaviors>

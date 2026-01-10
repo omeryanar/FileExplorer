@@ -57,15 +57,17 @@ namespace FileExplorer.ViewModel
                 return;
             }
 
-            List<FileModel> duplicateFileNames = FileModelList.GroupBy(x => x.Tag).SelectMany(y => y.Skip(1)).ToList();
-            if (duplicateFileNames.Count > 0)
+            var duplicates = FileModelList.GroupBy(x => (x.Tag, x.Extension), x => x.FullName).Where(x => x.Count() > 1);            
+            if (duplicates.Count() > 0)
             {
+                IEnumerable<string> duplicateFileNames = duplicates.Select(x => $"{x.Join(Environment.NewLine)} \r\n\r\n └{new string('─', x.Max(y => y.Length))}> {x.Key.Tag}{x.Key.Extension}\r\n");
+
                 MessageViewModel viewModel = new MessageViewModel
                 {
                     Icon = IconType.Exclamation,
                     Title = Properties.Resources.DuplicateFileName,
                     Content = Properties.Resources.DuplicateFileNameMessage,
-                    Details = duplicateFileNames.Select(x => $"'{x}' => '{x.Tag}'").Join(Environment.NewLine)
+                    Details = duplicateFileNames.Join(Environment.NewLine)
                 };
                 DialogService.ShowDialog(MessageButton.OK, viewModel.Title, "MessageView", viewModel);
 

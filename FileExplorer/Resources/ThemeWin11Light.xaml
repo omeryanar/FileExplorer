@@ -1,14 +1,36 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                     xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
-                    xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys">
+                    xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
+                    xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys">
+
+    <SolidColorBrush x:Key="{dxgt:LWKey CardView.Background}" Color="{LWThemeValue Color.WindowBackground}" />
+    <SolidColorBrush x:Key="{dxgt:LWKey TableView.DataPresenterBackground}" Color="{LWThemeValue Color.WindowBackground}" />
+    <SolidColorBrush x:Key="{dxgt:LWKey TreeListView.RowMarginBackgroundBrush}" Color="{LWThemeValue Color.WindowBackground}" />
+    <SolidColorBrush x:Key="{dxgt:LWKey GridColumnHeader.BorderBrush}" Color="{LWThemeValue Color.PanelBorder}" />
+    <SolidColorBrush x:Key="{dxgt:LWKey GridRow.BorderNoneBrush}" Color="{LWThemeValue Color.WindowBackground}" />
+    <SolidColorBrush x:Key="{dxgt:LWKey GridRow.FixedSummaryFillBrush}" Color="{LWThemeValue Color.WindowBackground}" />
+    <SolidColorBrush x:Key="{dxgt:LWKey GridRow.TotalSummaryBorderBrush}" Color="{LWThemeValue Color.PanelBorder}" />
 
     <DataTemplate x:Key="{dxt:LWKey DXTabItem.SelectedBackground}">
         <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
                        BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"
                        BorderCornerRadius="4,4,0,0" HoldBorderCornerRadius="4"
-                       BorderBrush="{LWThemeValue Brush.PanelBorder}"
-                       BorderBackground="{LWThemeValue Brush.FlyoutBackground}" />
+                       BorderBrush="{LWThemeValue Brush.PanelBorder}" BorderBackground="{LWThemeValue Brush.WindowBackground}" />
     </DataTemplate>
+
+    <ControlTemplate x:Key="{dxgt:LWKey RowIndicator.RowIndicatorTemplate}" TargetType="{x:Type dxg:RowIndicator}">
+        <dx:DXBorder x:Name="PART_ContentBorder" BorderThickness="0,0,1,0"
+                     BorderBrush="{LWThemeValue Brush.PanelBorder}" Background="{LWThemeValue Brush.WindowBackground}" />
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="{dxgt:LWKey RowIndicator.GroupRowIndicatorTemplate}" TargetType="{x:Type dxg:RowIndicator}">
+        <dx:DXBorder x:Name="PART_ContentBorder" BorderThickness="0,0,1,1"
+                     BorderBrush="{LWThemeValue Brush.PanelBorder}" Background="{LWThemeValue Brush.WindowBackground}" />
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="{dxgt:LWKey RowIndicator.RowOffsetControlTemplate}" />
 
 </ResourceDictionary>

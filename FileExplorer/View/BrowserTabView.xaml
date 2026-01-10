@@ -522,7 +522,7 @@
                     </dxe:ButtonEdit>
                 </StackPanel>
             </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Margin="7,0,3,0" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.LeftPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+            <dxlc:LayoutGroup Padding="7,0,3,0" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" Width="{Binding Settings.LeftPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                               Visibility="{Binding Settings.ShowNavigationPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
                 <dxb:BarManager>
                     <controls:FileTreeViewControl />
