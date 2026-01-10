@@ -110,6 +110,7 @@ namespace FileExplorer.ViewModel
         {
             ProcessStartInfo processStartInfo = new ProcessStartInfo(application, arguments);
             processStartInfo.WorkingDirectory = workingDirectory;
+            processStartInfo.RedirectStandardError = true;
             processStartInfo.UseShellExecute = false;            
 
             if (DocumentManagerService.ActiveDocument?.Content is BrowserTabViewModel viewModel)
@@ -118,7 +119,7 @@ namespace FileExplorer.ViewModel
                 {
                     if (!confirmBeforeRun)
                     {
-                        Process.Start(processStartInfo);
+                        Utilities.StartProcess(processStartInfo, viewModel.DialogService);
                         return;
                     }
 
@@ -133,7 +134,7 @@ namespace FileExplorer.ViewModel
                     if (result == MessageResult.OK)
                     {
                         processStartInfo.Arguments = messageViewModel.Content;
-                        Process.Start(processStartInfo);
+                        Utilities.StartProcess(processStartInfo, viewModel.DialogService);
                     }
                 }
                 catch (Exception exception)

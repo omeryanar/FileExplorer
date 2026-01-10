@@ -9,9 +9,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using DevExpress.Mvvm;
+using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
+using FileExplorer.ViewModel;
 using NaturalSort.Extension;
 using NLog;
 using Vanara.PInvoke;
@@ -56,6 +59,36 @@ namespace FileExplorer.Core
             catch (Exception ex)
             {
                 ShowMessage(ex);
+            }
+        }
+
+        public static async void StartProcess(ProcessStartInfo startInfo, IDialogService dialogService)
+        {
+            string errorData = String.Empty;
+
+            await Task.Run(() =>
+            {
+                using (Process process = new Process())
+                {
+                    process.StartInfo = startInfo;
+                    process.EnableRaisingEvents = true;
+                    process.ErrorDataReceived += (s, e) => { errorData += e.Data; };
+
+                    process.Start();
+                    process.BeginErrorReadLine();
+                    process.WaitForExit();
+                }
+            });
+
+            if (!String.IsNullOrEmpty(errorData))
+            {
+                MessageViewModel messageViewModel = ViewModelSource.Create(() => new MessageViewModel());
+                messageViewModel.Title = Properties.Resources.RunCommand;
+                messageViewModel.Icon = IconType.Exclamation;
+                messageViewModel.Content = $"{startInfo.FileName} {startInfo.Arguments}";
+                messageViewModel.Details = errorData;
+
+                dialogService.ShowDialog(MessageButton.OK, Properties.Resources.Error, "MessageView", messageViewModel);
             }
         }
 
