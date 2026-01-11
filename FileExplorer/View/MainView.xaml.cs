@@ -54,7 +54,7 @@ namespace FileExplorer.View
         private void SetWindowIcon()
         {
             if (Settings.Default.StaticTaskbarIcon)
-                SetBinding(IconProperty, new Binding());
+                SetBinding(IconProperty, new Binding() { Source = "pack://application:,,,/FileExplorer;component/Assets/ICO/Explorer.ico" });
             else
                 SetBinding(IconProperty, new Binding("SelectedItem.DataContext.CurrentFolder.MediumIcon") { Source = Content });
         }

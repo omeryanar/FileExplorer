@@ -253,8 +253,12 @@ namespace FileExplorer.Core
 
         public static bool FileExistsInClipboard()
         {
-            IDataObject data = Clipboard.GetDataObject();
-            return data.GetDataPresent(DataFormats.FileDrop);
+            try
+            {
+                IDataObject data = Clipboard.GetDataObject();
+                return data.GetDataPresent(DataFormats.FileDrop);
+            }
+            catch{ return false; }
         }
 
         public static int GetCopyOrMoveFlagInClipboard()

@@ -174,23 +174,42 @@ namespace FileExplorer.Controls
 
         public void CopySelectedRowsToClipboard(GridColumn gridColumn = null)
         {
-            int startRowHandle = GetRowHandleByVisibleIndex(0);
-            int endRowHandle = GetRowHandleByVisibleIndex(VisibleRowCount - 1);
-
-            if (gridColumn == null)
+            try
             {
-                if (SelectedItem != null)
-                    CopySelectedItemsToClipboard();
-                else
-                    CopyRangeToClipboard(startRowHandle, endRowHandle);
+                ClipboardCopyMode = ClipboardCopyMode.Default;
 
-                return;
+                int startRowHandle = GetRowHandleByVisibleIndex(0);
+                int endRowHandle = GetRowHandleByVisibleIndex(VisibleRowCount - 1);
+
+                if (gridColumn == null)
+                {
+                    if (SelectedItem != null)
+                        CopySelectedItemsToClipboard();
+                    else
+                        CopyRangeToClipboard(startRowHandle, endRowHandle);
+                }
+                else
+                {
+                    if (SelectedItem != null)
+                    {
+                        List<string> values = new List<string>();
+                        values.Add(gridColumn.HeaderCaption.ToString());
+
+                        foreach (int rowHandle in GetSelectedRowHandles())
+                            values.Add(GetCellDisplayText(rowHandle, gridColumn));
+
+                        System.Windows.Clipboard.SetText(values.Join(Environment.NewLine));
+                    }
+                    else
+                    {
+                        if (View is TableView tableView)
+                            tableView.CopyCellsToClipboard(startRowHandle, gridColumn, endRowHandle, gridColumn);
+                        else if (View is TreeListView treeView)
+                            treeView.CopyCellsToClipboard(startRowHandle, gridColumn, endRowHandle, gridColumn);
+                    }                    
+                }
             }
-            
-            if (View is TableView tableView)
-                tableView.CopyCellsToClipboard(startRowHandle, gridColumn, endRowHandle, gridColumn);
-            else if (View is TreeListView treeView)
-                treeView.CopyCellsToClipboard(startRowHandle, gridColumn, endRowHandle, gridColumn);
+            finally { ClipboardCopyMode = ClipboardCopyMode.None; }
         }
 
         public void SaveFolderLayout(string folderPath, bool applyToSubFolders = false)

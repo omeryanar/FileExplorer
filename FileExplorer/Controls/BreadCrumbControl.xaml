@@ -6,7 +6,6 @@
                   xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
                   xmlns:common="clr-namespace:FileExplorer.Core"
                   xmlns:controls="clr-namespace:FileExplorer.Controls"
-                  xmlns:settings="clr-namespace:FileExplorer.Properties"
                   ShowErrorToolTip="False" IncrementalFiltering="True" ImmediatePopup="True" IsTextEditable="False">
 
     <dxe:ComboBoxEdit.Resources>
