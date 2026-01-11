@@ -439,7 +439,7 @@
                             </dxb:BarSubItem>
                             <dxb:BarButtonItem x:Name="SaveSelection" Content="{Binding SaveSelection, Source={StaticResource ResourceProvider}}" Command="{Binding SaveSelectionCommand, ElementName=FileList}" />
                             <dxb:BarButtonItem x:Name="RestoreSelection" Content="{Binding RestoreSelection, Source={StaticResource ResourceProvider}}" Command="{Binding RestoreSelectionCommand, ElementName=FileList}" />
-                            <dxb:BarCheckItem x:Name="AutoRestoreSelection" Content="{Binding AutoRestoreSelection, Source={StaticResource ResourceProvider}}" IsChecked="{Binding Settings.AutoRestoreSelection, Mode=TwoWay}" />
+                            <dxb:BarCheckItem x:Name="AutoRestoreSelection" Content="{Binding AutoRestoreSelection, Source={StaticResource ResourceProvider}}" IsChecked="{Binding LocalSettings.AutoRestoreSelection, ElementName=FileList}" />
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonPageCategory>
@@ -665,7 +665,8 @@
             </dxlc:LayoutGroup>
             <controls:FileListViewControl x:Name="FileList" Margin="0,0,-1,-1" CurrentFolderPath="{Binding CurrentFolder.FullPath}" ItemsSource="{Binding DisplayItems}"
                                           FixedFilter="{Binding FilterCriteria, Mode=OneWay}" HighlightedText="{Binding HighlightedText}"
-                                          RowDoubleClickCommand="{Binding OpenItemCommand}" EditSelectedItemsCommand="{Binding RenameItemsCommand}">
+                                          RowDoubleClickCommand="{Binding OpenItemCommand}" EditSelectedItemsCommand="{Binding RenameItemsCommand}"
+                                          ShowLoadingPanel="{Binding IsLoading}" LocalSettings="{Binding Settings}">
                 <controls:FileListViewControl.EditSelectedItemCommand>
                     <PriorityBinding>
                         <Binding Path="View.TableViewCommands.EditFocusedRow" ElementName="FileList" />

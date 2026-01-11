@@ -93,7 +93,7 @@
             <DataTemplate x:Key="DragDropHintTemplate">
                 <Border Padding="5" BorderThickness="1" BorderBrush="{DynamicResource {dxt:LWKey TextEdit.SelectionBrush}}" Background="{DynamicResource {dxt:LWKey FlyoutControl.Background}}">
                     <StackPanel>
-                        <dxe:ListBoxEdit ShowBorder="False" ItemsSource="{Binding Records}">
+                        <dxe:ListBoxEdit ShowBorder="False" MaxHeight="200" ItemsSource="{Binding Records}">
                             <dxe:ListBoxEdit.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">

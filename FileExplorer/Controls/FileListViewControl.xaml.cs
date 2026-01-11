@@ -8,9 +8,11 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
+using DevExpress.Data;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.Grid.TreeList;
 using FileExplorer.Core;
 using FileExplorer.Model;
 using FileExplorer.Persistence;
@@ -76,6 +78,13 @@ namespace FileExplorer.Controls
         }
         public static readonly DependencyProperty RestoreSelectionCommandProperty = DependencyProperty.Register(nameof(RestoreSelectionCommand), typeof(ICommand), typeof(FileListViewControl));
 
+        public Settings LocalSettings
+        {
+            get { return (Settings)GetValue(LocalSettingsProperty); }
+            set { SetValue(LocalSettingsProperty, value); }
+        }
+        public static readonly DependencyProperty LocalSettingsProperty = DependencyProperty.Register(nameof(LocalSettings), typeof(Settings), typeof(FileListViewControl), new PropertyMetadata(new Settings()));
+
         public FileListViewControl()
         {
             InitializeComponent();
@@ -105,8 +114,13 @@ namespace FileExplorer.Controls
             {
                 LoadFolderLayout(CurrentFolderPath);
 
-                if (Settings.Default.AutoRestoreSelection)
+                if (LocalSettings.AutoRestoreSelection)
                     RestoreSelection(CurrentFolderPath);
+            };
+
+            CustomColumnSort += (s, e) =>
+            {
+                this.NaturalSort(e, LocalSettings.UnifiedSorting);
             };
 
             ClickTimer = new DispatcherTimer();
@@ -369,7 +383,7 @@ namespace FileExplorer.Controls
         {
             if (d is FileListViewControl fileListViewControl)
             {
-                if (Settings.Default.AutoRestoreSelection && e.OldValue != null)
+                if (fileListViewControl.LocalSettings.AutoRestoreSelection && e.OldValue != null)
                     fileListViewControl.SaveSelection(e.OldValue.ToString());
 
                 if (e.NewValue != null)
@@ -438,6 +452,15 @@ namespace FileExplorer.Controls
 
     public class TreeViewEx : TreeListView
     {
+        public TreeViewEx()
+        {
+            CustomColumnSort += (s, e) =>
+            {
+                if (DataControl is FileListViewControl fileListViewControl)
+                    this.NaturalSort(e, fileListViewControl.LocalSettings.UnifiedSorting);
+            };
+        }
+
         protected override void UpdateAfterIncrementalSearch()
         {
             base.UpdateAfterIncrementalSearch();
@@ -493,6 +516,130 @@ namespace FileExplorer.Controls
 
                 ExpandToLevel(node.Nodes, level);
                 node.IsExpanded = level > node.Level;
+            }
+        }
+    }
+
+    public static class FileModelSorter
+    {
+        public static void NaturalSort(this TreeListView treeListView, TreeListCustomColumnSortEventArgs e, bool unifiedSorting)
+        {
+            FileModel value1 = e.Node1.Content as FileModel;
+            FileModel value2 = e.Node2.Content as FileModel;
+
+            if (value1 == null || value2 == null)
+                return;
+
+            if (e.Column.FieldName == nameof(FileModel.Name))
+            {
+                if (value1.IsDrive == true && value2.IsDrive == true)
+                {
+                    e.Result = value1.FullPath.CompareTo(value2.FullPath);
+                    e.Handled = true;
+                }
+                else if (unifiedSorting || value1.IsDirectory == value2.IsDirectory)
+                {
+                    e.Result = Utilities.NaturalCompare(value1.FullName, value2.FullName);
+                    e.Handled = true;
+                }
+            }
+            else if (e.Column.FieldName == nameof(FileModel.ParentName))
+            {
+                if (unifiedSorting || value1.IsDirectory == value2.IsDirectory)
+                {
+                    e.Result = Utilities.NaturalCompare(value1.ParentName, value2.ParentName);
+                    e.Handled = true;
+                }
+            }
+            else if (e.Column.UnboundType != UnboundColumnType.Bound)
+            {
+                object nodeValue1 = treeListView.GetNodeValue(e.Node1, e.Column);
+                object nodeValue2 = treeListView.GetNodeValue(e.Node2, e.Column);
+
+                if (nodeValue1 is UnboundErrorObject)
+                    e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
+                else if (nodeValue2 is UnboundErrorObject)
+                    e.Result = e.SortOrder == ColumnSortOrder.Ascending ? -1 : 1;
+                else
+                    e.Result = Comparer.Default.Compare(nodeValue1, nodeValue2);
+
+                e.Handled = true;
+            }
+
+            if (unifiedSorting)
+                return;
+
+            if (value1.IsDirectory == true && value2.IsDirectory == false)
+            {
+                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? -1 : 1;
+                e.Handled = true;
+            }
+            else if (value2.IsDirectory == true && value1.IsDirectory == false)
+            {
+                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
+                e.Handled = true;
+            }
+        }
+
+        public static void NaturalSort(this GridControl gridControl, CustomColumnSortEventArgs e, bool unifiedSorting)
+        {
+            FileModel value1 = e.Row1 as FileModel;
+            FileModel value2 = e.Row2 as FileModel;
+
+            if (value1 == null || value2 == null)
+                return;
+
+            if (e.Column.FieldName == nameof(FileModel.Name))
+            {
+                if (value1.IsDrive == true && value2.IsDrive == true)
+                {
+                    e.Result = value1.FullPath.CompareTo(value2.FullPath);
+                    e.Handled = true;
+                }
+                else if (unifiedSorting || value1.IsDirectory == value2.IsDirectory)
+                {
+                    e.Result = Utilities.NaturalCompare(value1.FullName, value2.FullName);
+                    e.Handled = true;
+                }
+            }
+            else if (e.Column.FieldName == nameof(FileModel.ParentName))
+            {
+                if (unifiedSorting || value1.IsDirectory == value2.IsDirectory)
+                {
+                    e.Result = Utilities.NaturalCompare(value1.ParentName, value2.ParentName);
+                    e.Handled = true;
+                }
+            }
+            else if (e.Column.UnboundType != UnboundColumnType.Bound)
+            {
+                int rowHandle1 = gridControl.GetRowHandleByListIndex(e.ListSourceRowIndex1);
+                int rowHandle2 = gridControl.GetRowHandleByListIndex(e.ListSourceRowIndex2);
+
+                object cellValue1 = gridControl.GetCellValue(rowHandle1, e.Column);
+                object cellValue2 = gridControl.GetCellValue(rowHandle2, e.Column);
+
+                if (cellValue1 is UnboundErrorObject)
+                    e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
+                else if (cellValue2 is UnboundErrorObject)
+                    e.Result = e.SortOrder == ColumnSortOrder.Ascending ? -1 : 1;
+                else
+                    e.Result = Comparer.Default.Compare(cellValue1, cellValue2);
+
+                e.Handled = true;
+            }
+
+            if (unifiedSorting)
+                return;
+
+            if (value1.IsDirectory == true && value2.IsDirectory == false)
+            {
+                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? -1 : 1;
+                e.Handled = true;
+            }
+            else if (value2.IsDirectory == true && value1.IsDirectory == false)
+            {
+                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
+                e.Handled = true;
             }
         }
     }

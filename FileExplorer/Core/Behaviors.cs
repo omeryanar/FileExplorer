@@ -63,7 +63,6 @@ namespace FileExplorer.Core
 
             AssociatedObject.NodeExpanding += AssociatedObject_NodeExpanding;
             AssociatedObject.NodeCollapsing += AssociatedObject_NodeCollapsing;
-            AssociatedObject.CustomColumnSort += AssociatedObject_CustomColumnSort;
             AssociatedObject.EndSorting += AssociatedObject_EndSorting;
         }        
 
@@ -121,65 +120,6 @@ namespace FileExplorer.Core
         private void AssociatedObject_NodeCollapsing(object sender, TreeListNodeAllowEventArgs e)
         {
             SynchronizeFocusedNode(e.Node);
-        }      
-
-        private void AssociatedObject_CustomColumnSort(object sender, TreeListCustomColumnSortEventArgs e)
-        {
-            FileModel value1 = e.Node1.Content as FileModel;
-            FileModel value2 = e.Node2.Content as FileModel;
-
-            if (value1 == null || value2 == null)
-                return;
-
-            if (e.Column.FieldName == nameof(FileModel.Name))
-            {
-                if (value1.IsDrive == true && value2.IsDrive == true)
-                {
-                    e.Result = value1.FullPath.CompareTo(value2.FullPath);
-                    e.Handled = true;
-                }
-                else if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
-                {
-                    e.Result = Utilities.NaturalCompare(value1.FullName, value2.FullName);
-                    e.Handled = true;
-                }
-            }
-            else if (e.Column.FieldName == nameof(FileModel.ParentName))
-            {
-                if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
-                {
-                    e.Result = Utilities.NaturalCompare(value1.ParentName, value2.ParentName);
-                    e.Handled = true;
-                }
-            }
-            else if (e.Column.UnboundType != UnboundColumnType.Bound)
-            {
-                object nodeValue1 = AssociatedObject.GetNodeValue(e.Node1, e.Column);
-                object nodeValue2 = AssociatedObject.GetNodeValue(e.Node2, e.Column);
-
-                if (nodeValue1 is UnboundErrorObject)
-                    e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
-                else if (nodeValue2 is UnboundErrorObject)
-                    e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
-                else
-                    e.Result = Comparer.Default.Compare(nodeValue1, nodeValue2);
-
-                e.Handled = true;                
-            }
-
-            if (Settings.Default.UnifiedSorting)
-                return;
-
-            if (value1.IsDirectory == true && value2.IsDirectory == false)
-            {
-                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? -1 : 1;
-                e.Handled = true;
-            }
-            else if (value2.IsDirectory == true && value1.IsDirectory == false)
-            {
-                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
-                e.Handled = true;
-            }
         }
 
         private void AssociatedObject_EndSorting(object sender, RoutedEventArgs e)
@@ -312,60 +252,6 @@ namespace FileExplorer.Core
             }
         } 
     }
-
-    public class FileModelSortBehavior : Behavior<GridControl>
-    {
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            AssociatedObject.CustomColumnSort += AssociatedObject_CustomColumnSort;
-        }
-
-        private void AssociatedObject_CustomColumnSort(object sender, CustomColumnSortEventArgs e)
-        {
-            FileModel value1 = e.Row1 as FileModel;
-            FileModel value2 = e.Row2 as FileModel;
-
-            if (value1 == null || value2 == null)
-                return;
-
-            if (e.Column.FieldName == nameof(FileModel.Name))
-            {
-                if (value1.IsDrive == true && value2.IsDrive == true)
-                {
-                    e.Result = value1.FullPath.CompareTo(value2.FullPath);
-                    e.Handled = true;
-                }
-                else if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
-                {
-                    e.Result = Utilities.NaturalCompare(value1.FullName, value2.FullName);
-                    e.Handled = true;
-                }
-            }
-            else if (e.Column.FieldName == nameof(FileModel.ParentName))
-            {
-                if (Settings.Default.UnifiedSorting || value1.IsDirectory == value2.IsDirectory)
-                {
-                    e.Result = Utilities.NaturalCompare(value1.ParentName, value2.ParentName);
-                    e.Handled = true;
-                }
-            }
-
-            if (Settings.Default.UnifiedSorting)
-                return;
-
-            if (value1.IsDirectory == true && value2.IsDirectory == false)
-            {
-                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? -1 : 1;
-                e.Handled = true;
-            }
-            else if (value2.IsDirectory == true && value1.IsDirectory == false)
-            {
-                e.Result = e.SortOrder == ColumnSortOrder.Ascending ? 1 : -1;
-                e.Handled = true;
-            }
-        }
-    }    
 
     public class SortOrderOnHeaderClickBehavior : Behavior<GridDataViewBase>
     {

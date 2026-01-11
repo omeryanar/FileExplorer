@@ -7,10 +7,6 @@
                  xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                  xmlns:settings="clr-namespace:FileExplorer.Properties"
                  xmlns:common="clr-namespace:FileExplorer.Core">
-    
-    <dxmvvm:Interaction.Behaviors>
-        <common:FileModelSortBehavior />
-    </dxmvvm:Interaction.Behaviors>
 
     <dxg:GridControl.View>
         <dxg:TableView AutoWidth="True" ShowIndicator="False" EnableImmediatePosting="True" EnableSelectedRowAppearance="False"

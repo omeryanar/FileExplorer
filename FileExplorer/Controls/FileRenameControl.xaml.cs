@@ -14,6 +14,11 @@ namespace FileExplorer.Controls
         {
             InitializeComponent();
 
+            CustomColumnSort += (s, e) =>
+            {
+                this.NaturalSort(e, false);
+            };
+
             CustomUnboundColumnData += (s, e) =>
             {
                 if (e.IsGetData && e.Column.FieldName == "RowNumber")
