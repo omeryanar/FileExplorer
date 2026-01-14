@@ -176,13 +176,13 @@ namespace FileExplorer.Controls
         {
             try
             {
-                ClipboardCopyMode = ClipboardCopyMode.Default;
-
                 int startRowHandle = GetRowHandleByVisibleIndex(0);
                 int endRowHandle = GetRowHandleByVisibleIndex(VisibleRowCount - 1);
 
                 if (gridColumn == null)
                 {
+                    ClipboardCopyMode = ClipboardCopyMode.Default;
+
                     if (SelectedItem != null)
                         CopySelectedItemsToClipboard();
                     else
@@ -190,10 +190,11 @@ namespace FileExplorer.Controls
                 }
                 else
                 {
+                    ClipboardCopyMode = ClipboardCopyMode.ExcludeHeader;
+
                     if (SelectedItem != null)
                     {
                         List<string> values = new List<string>();
-                        values.Add(gridColumn.HeaderCaption.ToString());
 
                         foreach (int rowHandle in GetSelectedRowHandles())
                             values.Add(GetCellDisplayText(rowHandle, gridColumn));

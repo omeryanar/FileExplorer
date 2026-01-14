@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using DevExpress.Data.Filtering;
 using DevExpress.Xpf.Grid;
+using FileExplorer.Core;
 using FileExplorer.Model;
 
 namespace FileExplorer.Controls
@@ -42,11 +42,19 @@ namespace FileExplorer.Controls
                             else
                                 fileModel.Tag = e.Value;
                         }
-                    }                    
+                    }
                 }
             };
+        }
 
-            FixedFilter = CriteriaOperator.Parse("[NewName] IS NULL OR [NewName] IS NOT NULL");
+        private void OnValidate(object sender, GridCellValidationEventArgs e)
+        {
+            if (e.Column.FieldName == "NewName" && e.CellValue != null)
+            {
+                string newName = e.CellValue.ToString();
+                if (newName.ContainsInvalidFileNameCharacters())
+                    e.SetError(Properties.Resources.InvalidFileNameMessage);
+            }
         }
     }
 }

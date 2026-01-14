@@ -1,39 +1,32 @@
 ﻿<dxg:GridControl x:Class="FileExplorer.Controls.FileRenameControl"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                  xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
                  xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                  xmlns:settings="clr-namespace:FileExplorer.Properties"
-                 xmlns:common="clr-namespace:FileExplorer.Core">
+                 xmlns:common="clr-namespace:FileExplorer.Core" SelectionMode="Cell">
 
     <dxg:GridControl.View>
         <dxg:TableView AutoWidth="True" ShowIndicator="False" EnableImmediatePosting="True" EnableSelectedRowAppearance="False"
-                       AllowEditing="False" AllowColumnFiltering="False" AllowColumnMoving="False" IsColumnMenuEnabled="False"
-                       ShowGroupPanel="False" ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto">
+                       AllowEditing="True" AllowColumnFiltering="False" AllowColumnMoving="False" IsColumnMenuEnabled="False"
+                       ShowGroupPanel="False" ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto"
+                       PasteMode="Update" AllowLeaveInvalidEditor="True" ValidateCell="OnValidate">
+            <dxg:TableView.FormatConditions>
+                <dxg:UniqueDuplicateRuleFormatCondition Rule="Duplicate" FieldName="NewName" ApplyToRow="True" PredefinedFormatName="LightRedFillWithDarkRedText"
+                                                        SelectiveExpression="IsNullOrEmpty([NewName]) = false" />
+            </dxg:TableView.FormatConditions>
         </dxg:TableView>
     </dxg:GridControl.View>
     
     <dxg:GridControl.Columns>
-        <dxg:GridColumn FieldName="RowNumber" Width="30" Fixed="Left" Header="{Binding Row, Source={StaticResource ResourceProvider}}" 
-                        UnboundType="Integer" AllowSorting="False" AllowColumnFiltering="False" AllowGrouping="False" AllowConditionalFormattingMenu="False" />
-        <dxg:GridColumn FieldName="Name" Header="{Binding Name, Source={StaticResource ResourceProvider}}" Width="200" SortMode="Custom" />
+        <dxg:GridColumn FieldName="RowNumber" Width="30" Fixed="Left" Header="{Binding Row, Source={StaticResource ResourceProvider}}"
+                        UnboundType="Integer" AllowEditing="False" AllowSorting="False" AllowColumnFiltering="False" AllowGrouping="False" AllowConditionalFormattingMenu="False" />
+        <dxg:GridColumn FieldName="Name" AllowEditing="False" Header="{Binding Name, Source={StaticResource ResourceProvider}}" Width="200" SortMode="Custom" />
         <dxg:GridColumn FieldName="NewName" Header="{Binding NewName, Source={StaticResource ResourceProvider}}" Width="200" SortMode="Custom"
-                        UnboundType="String" AllowUnboundExpressionEditor="True" AllowEditing="True">
-            <dxg:GridColumn.CellStyle>
-                <Style TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:LWKey GridRow.LightweightCellStyle}}">
-                    <Setter Property="Foreground" Value="DarkGreen" />
-                    <Setter Property="Background" Value="LightGreen" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Value, Converter={common:InvalidFileNameConverter}}" Value="True">
-                            <Setter Property="Foreground" Value="DarkRed" />
-                            <Setter Property="Background" Value="#FFC7CE" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </dxg:GridColumn.CellStyle>
-        </dxg:GridColumn>
+                        UnboundType="String" AllowUnboundExpressionEditor="True" />
         <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" Visible="False" />
         <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" Visible="False" />
         <dxg:GridColumn FieldName="ParentName" Header="{Binding ParentName, Source={StaticResource ResourceProvider}}" Visible="False" />

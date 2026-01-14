@@ -32,24 +32,6 @@ namespace FileExplorer.Core
         }
     }
 
-    public class InvalidFileNameConverter : MarkupExtension, IValueConverter
-    {
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value?.ToString().ContainsInvalidFileNameCharacters();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
-    }
-
     public class IntToFileSizeConverter : MarkupExtension, IValueConverter
     {
         private const string ByteFormat = "{0:N0} Bytes";
