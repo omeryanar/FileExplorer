@@ -254,6 +254,8 @@ namespace FileExplorer.ViewModel
 
         public virtual string HighlightedText { get; set; }
 
+        public virtual long LargestFileSize { get; set; }
+
         public async void Show()
         {
             if (CurrentFolder?.Content != null)
@@ -298,6 +300,7 @@ namespace FileExplorer.ViewModel
                     try
                     {
                         IsLoading = true;
+                        LargestFileSize = 0;
 
                         SearchResults = new FileModelCollection();
                         DisplayItems = new FileModelCollectionView(SearchResults);
@@ -314,6 +317,9 @@ namespace FileExplorer.ViewModel
 
                                 IList<FileModel> results = await SearchHelper.SearchWithEverything(CurrentFolder.FullPath, SearchText, cancellationToken);
                                 SearchResults.AddRange(results);
+
+                                if (results.Count > 0)
+                                    LargestFileSize = results.Max(x => x.Size);
                             }
                             finally
                             {
@@ -336,6 +342,13 @@ namespace FileExplorer.ViewModel
 
                 IList<FileModel> results = await SearchHelper.SearchFolder(path, SearchText, cancellationToken);
                 SearchResults.AddRange(results);
+
+                if (results.Count > 0)
+                {
+                    long currentLargestFileSize = results.Max(x => x.Size);
+                    if (currentLargestFileSize > LargestFileSize)
+                        LargestFileSize = currentLargestFileSize;
+                }                
             }
             finally
             {

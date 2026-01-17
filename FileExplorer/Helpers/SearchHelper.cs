@@ -73,7 +73,7 @@ namespace FileExplorer.Helpers
                 {
                     using (SearchEverything searchEverything = new SearchEverything())
                     {
-                        items = searchEverything.Search($"\"{path}\" {searchPattern}");
+                        items = searchEverything.Search($"{path}\\ {searchPattern}");
                     }
                 }
                 catch { }

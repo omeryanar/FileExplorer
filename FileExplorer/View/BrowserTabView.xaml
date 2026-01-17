@@ -516,7 +516,7 @@
                         </dxe:ButtonEdit.ToolTip>
                         <dxe:ButtonInfo IsLeft="True" GlyphKind="Search" Command="{Binding SearchCommand}" CommandParameter="{Binding Text, ElementName=SearchEdit}" />
                         <dxe:ButtonInfo GlyphKind="Cancel" Command="{DXCommand 'SearchText = ``'}"
-                                        Visibility="{DXBinding '!SearchCommand.IsExecuting &amp; SearchText != ``', Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
+                                        Visibility="{DXBinding '!SearchCommand.IsExecuting and SearchText != ``', Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
                         <dxe:ButtonInfo GlyphKind="Cancel" Command="{Binding SearchCommand.CancelCommand}"
                                         Visibility="{Binding SearchCommand.IsExecuting, Converter={dxmvvm:BooleanToVisibilityConverter}}" />
                     </dxe:ButtonEdit>

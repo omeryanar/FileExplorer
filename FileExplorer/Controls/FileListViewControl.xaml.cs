@@ -450,6 +450,11 @@ namespace FileExplorer.Controls
 
     public class TableViewEx : TableView
     {
+        public TableViewEx()
+        {
+            RowEditStarting += (s, e) => { ScrollIntoView(e.RowHandle); };
+        }
+
         protected override void UpdateAfterIncrementalSearch()
         {
             base.UpdateAfterIncrementalSearch();
@@ -474,6 +479,8 @@ namespace FileExplorer.Controls
     {
         public TreeViewEx()
         {
+            NodeEditStarting += (s, e) => { ScrollIntoView(e.Node.RowHandle); };
+
             CustomColumnSort += (s, e) =>
             {
                 if (DataControl is FileListViewControl fileListViewControl)

@@ -16,6 +16,7 @@
                  dx:DXSerializer.StoreLayoutMode="All" dxg:GridSerializationOptions.AddNewColumns="False" dxg:GridSerializationOptions.RemoveOldColumns="False">
 
     <dxg:GridControl.Resources>
+        <dxmvvm:BooleanToObjectConverter x:Key="BooleanToEditFormShowModeConverter" TrueValue="None" FalseValue="InlineHideRow" />
         <Style TargetType="dxg:GridColumnHeader">
             <Setter Property="FontWeight" Value="Medium" />
         </Style>
@@ -176,7 +177,7 @@
                               IndicatorWidth="{DXBinding '(@a($dxg:GridControl).VisibleRowCount.ToString().Length * 6) + 16'}"
                               EditFormPostConfirmation="None" EditFormPostMode="Immediate" NavigationStyle="Row"
                               ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
-                              EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={common:BooleanToEditFormShowModeConverter Inverse=True}}">
+                              EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={StaticResource BooleanToEditFormShowModeConverter}}">
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomColumnBehavior />
                 <common:AllowDragDropBehavior />
@@ -230,7 +231,7 @@
                              HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False" PrintExpandButtons="False"
                              EditFormPostConfirmation="None" EditFormPostMode="Immediate"
                              ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
-                             EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={common:BooleanToEditFormShowModeConverter Inverse=True}}">
+                             EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={StaticResource BooleanToEditFormShowModeConverter}}">
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomColumnBehavior />
                 <common:DragDropFilesBehavior />
@@ -252,24 +253,30 @@
         <DXDataTemplateSelector x:Key="FileSizeTemplateSelector">
             <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDrive}" Value="True">
                 <DataTemplate>
-                    <dxe:ProgressBarEdit ShowBorder="False" Margin="0,1" Background="Transparent" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
+                    <dxe:ProgressBarEdit x:Name="PART_Editor" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
                                          Maximum="{Binding RowData.Row.Size}" EditValue="{DXBinding 'RowData.Row.Size - RowData.Row.FreeSpace', Mode=OneWay}" />
                 </DataTemplate>
             </DXDataTemplateTrigger>
             <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDirectory}" Value="False">
                 <DataTemplate>
-                    <dxe:ProgressBarEdit ShowBorder="False" Margin="0,1" Background="Transparent" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
+                    <dxe:ProgressBarEdit x:Name="PART_Editor" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
                                          Maximum="{Binding RowData.Row.Parent.LargestFileSize}" EditValue="{Binding RowData.Row.Size, Mode=OneWay}" />
+                </DataTemplate>
+            </DXDataTemplateTrigger>
+            <DXDataTemplateTrigger Binding="{DXBinding '!RowData.Row.IsDirectory and View.DataContext.SearchText != `` and View.DataContext.Settings.DefaultSearch == 1'}" Value="True">
+                <DataTemplate>
+                    <dxe:ProgressBarEdit x:Name="PART_Editor" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
+                                         Maximum="{Binding View.DataContext.LargestFileSize}" EditValue="{Binding RowData.Row.Size, Mode=OneWay}" />
                 </DataTemplate>
             </DXDataTemplateTrigger>
         </DXDataTemplateSelector>
         <DXDataTemplateSelector x:Key="NameCellDisplayTemplateSelector">
             <DXDataTemplateTrigger Binding="{Binding View.DataContext.Layout}" Value="Details" Template="{StaticResource NameCellDisplayTemplate}" />
             <DXDataTemplateTrigger Binding="{Binding View.DataContext.Layout}" Value="Content" Template="{StaticResource NameCellDisplayTemplate}" />
-        </DXDataTemplateSelector>
+        </DXDataTemplateSelector>        
     </dxg:GridControl.Resources>
 
-    <dxg:GridControl.Style>        
+    <dxg:GridControl.Style>
         <Style TargetType="dxg:GridControl">
             <Setter Property="View" Value="{StaticResource ListView}" />
             <Style.Triggers>
@@ -350,12 +357,12 @@
             <dxg:GridColumn.PredefinedFilters>
                 <dxfui:PredefinedFilterCollection>
                     <dxfui:PredefinedFilter Name="Empty (0 KB)" Filter="?p = 0" />
-                    <dxfui:PredefinedFilter Name="Tiny (0 - 10 KB)" Filter="?p > 0 AND ?p &lt; 10000" />
-                    <dxfui:PredefinedFilter Name="Small (10 - 100 KB)" Filter="?p >= 10000 AND ?p &lt; 100000" />
-                    <dxfui:PredefinedFilter Name="Medium (100 KB - 1 MB)" Filter="?p >= 100000 AND ?p &lt; 1000000" />
-                    <dxfui:PredefinedFilter Name="Large (1 - 16 MB)" Filter="?p >= 1000000 AND ?p &lt; 16000000" />
-                    <dxfui:PredefinedFilter Name="Huge (16 - 128 MB)" Filter="?p >= 16000000 AND ?p &lt; 128000000" />
-                    <dxfui:PredefinedFilter Name="Gigantic (> 128 MB)" Filter="?p >= 128000000" />
+                    <dxfui:PredefinedFilter Name="Tiny (0 - 16 KB)" Filter="?p > 0 AND ?p &lt; 16384" />
+                    <dxfui:PredefinedFilter Name="Small (16 KB - 1 MB)" Filter="?p >= 16384 AND ?p &lt; 1048576" />
+                    <dxfui:PredefinedFilter Name="Medium (1 - 128 MB)" Filter="?p >= 1048576 AND ?p &lt; 134217728" />
+                    <dxfui:PredefinedFilter Name="Large (128 MB - 1 GB)" Filter="?p >= 134217728 AND ?p &lt; 1073741824" />
+                    <dxfui:PredefinedFilter Name="Huge (1 - 4 GB)" Filter="?p >= 1073741824 AND ?p &lt; 4294967296" />
+                    <dxfui:PredefinedFilter Name="Gigantic (> 4 GB)" Filter="?p >= 4294967296" />
                 </dxfui:PredefinedFilterCollection>
             </dxg:GridColumn.PredefinedFilters>
         </dxg:GridColumn>

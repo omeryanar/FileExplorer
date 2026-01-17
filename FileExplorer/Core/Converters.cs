@@ -259,29 +259,6 @@ namespace FileExplorer.Core
         }
     }
 
-    public class BooleanToEditFormShowModeConverter : MarkupExtension, IValueConverter
-    {
-        public bool Inverse { get; set; }
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool boolValue)
-                return (Inverse ^ boolValue) ? EditFormShowMode.InlineHideRow : EditFormShowMode.None;
-
-            return EditFormShowMode.None;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
-    }
-
     public class StringToIncrementalSearchModeConverter : MarkupExtension, IValueConverter
     {
         public bool Inverse { get; set; }
