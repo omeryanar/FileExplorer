@@ -14,6 +14,7 @@ using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Grid.TreeList;
 using FileExplorer.Core;
+using FileExplorer.Helpers;
 using FileExplorer.Model;
 using FileExplorer.Persistence;
 using FileExplorer.Properties;
@@ -240,6 +241,20 @@ namespace FileExplorer.Controls
             {
                 LoadDefaultLayout();
                 return;
+            }
+
+            if (FileSystemHelper.RecycleBinPath.OrdinalEquals(folderPath))
+            {
+                LoadDefaultLayout();
+                Columns["DateDeleted"].Visible = true;
+                Columns["OriginalLocation"].Visible = true;
+
+                return;
+            }
+            else
+            {
+                Columns["DateDeleted"].Visible = false;
+                Columns["OriginalLocation"].Visible = false;
             }
 
             FolderLayout layout = App.Repository.FolderLayouts.FirstOrDefault(x => x.FolderPath.OrdinalEquals(folderPath));

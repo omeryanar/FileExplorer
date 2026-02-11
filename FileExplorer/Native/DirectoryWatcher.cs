@@ -34,7 +34,9 @@ namespace FileExplorer.Native
         Changed,
         Created,
         Deleted,
-        Renamed
+        Renamed,
+        Recycled,
+        Restored
     }
 
     public class DirectoryWatcher

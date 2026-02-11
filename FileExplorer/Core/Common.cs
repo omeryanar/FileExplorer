@@ -96,6 +96,27 @@ namespace FileExplorer.Core
         Expression
     }
 
+    public enum ColumnType
+    {
+        [Display(Name = "General", ResourceType = typeof(Properties.Resources))]
+        General,
+
+        [Display(Name = "Text", ResourceType = typeof(Properties.Resources))]
+        Text,
+
+        [Display(Name = "Integer", ResourceType = typeof(Properties.Resources))]
+        Integer,
+
+        [Display(Name = "Decimal", ResourceType = typeof(Properties.Resources))]
+        Decimal,
+
+        [Display(Name = "DateTime", ResourceType = typeof(Properties.Resources))]
+        DateTime,
+
+        [Display(Name = "Boolean", ResourceType = typeof(Properties.Resources))]
+        Boolean,
+    }
+
     public enum ThumbnailMode
     {
         [Image("pack://application:,,,/Assets/Thumbnail/Crop.svg")]
@@ -155,7 +176,9 @@ namespace FileExplorer.Core
         Add,
         Remove,
         Update,
-        Rename
+        Rename,
+        Recycle,
+        Restore
     }
 
     public enum UpdateStatus

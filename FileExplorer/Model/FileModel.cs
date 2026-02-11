@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -16,7 +17,9 @@ using FileExplorer.Helpers;
 using FileExplorer.Messages;
 using MimeTypes;
 using TagLib;
+using Vanara.Extensions;
 using Vanara.Windows.Shell;
+using static Vanara.PInvoke.Ole32;
 
 namespace FileExplorer.Model
 {
@@ -92,6 +95,18 @@ namespace FileExplorer.Model
 
         [GenerateProperty]
         private FileModelCollectionView folders;
+
+        [GenerateProperty]
+        private DateTime dateDeleted;
+
+        [GenerateProperty]
+        private string originalPath;
+
+        [GenerateProperty]
+        private string originalLocation;
+
+        [GenerateProperty]
+        private bool isRecycleBin;
 
         protected FileModelCollection Children
         {
@@ -735,6 +750,12 @@ namespace FileExplorer.Model
 
             if (fileSystemInfo is FileInfo fileInfo)
                 Size = fileInfo.Length;
+
+            MimeType = MimeTypeMap.GetMimeType(Extension);
+            IsImage = MimeType?.StartsWith("image") == true;
+            IsVideo = MimeType?.StartsWith("video") == true;
+            IsAudio = MimeType?.StartsWith("audio") == true;
+            mediaInfo = null;
         }
 
         protected void ChangeExtension(string newExtension)
@@ -751,6 +772,12 @@ namespace FileExplorer.Model
             RaisePropertyChanged(MediumIconChangedEventArgs);
             RaisePropertyChanged(LargeIconChangedEventArgs);
             RaisePropertyChanged(ExtraLargeIconChangedEventArgs);
+
+            MimeType = MimeTypeMap.GetMimeType(Extension);
+            IsImage = MimeType?.StartsWith("image") == true;
+            IsVideo = MimeType?.StartsWith("video") == true;
+            IsAudio = MimeType?.StartsWith("audio") == true;
+            mediaInfo = null;
         }
 
         #endregion
@@ -774,6 +801,7 @@ namespace FileExplorer.Model
             QuickAccess = new QuickAccessModel();
             Computer = new ComputerModel();
             Network = new NetworkModel();
+            RecycleBin = new RecycleBinModel();
 
             Messenger.Default.Register(App.Current, (NotificationMessage message) =>
             {
@@ -879,6 +907,32 @@ namespace FileExplorer.Model
 
                         if (fileModel.Parent?.LargestFileSize == oldSize || fileModel.Parent?.LargestFileSize < fileModel.Size)
                             fileModel.Parent.LargestFileSize = fileModel.Size;
+                    }
+                }
+                else if (message.NotificationType == NotificationType.Recycle)
+                {
+                    if (RecycleBin.Children != null)
+                    {
+                        ShellItem shellItem = new ShellItem(message.Path);
+                        if (shellItem.Name.OrdinalContains(FileSystemHelper.RecycleBinVirtualPath))
+                            return;
+
+                        FileModel fileModel = RecycleBin.CreateRecycledFileModel(shellItem);
+                        if (fileModel != null)
+                        {
+                            RecycleBin.Children.Add(fileModel);
+
+                            if (fileModel.Size > RecycleBin.LargestFileSize)
+                                RecycleBin.LargestFileSize = fileModel.Size;
+                        }
+                    }
+                }
+                else if (message.NotificationType == NotificationType.Restore)
+                {
+                    if (RecycleBin.Children != null)
+                    {
+                        if (FileModelCache.TryGetValue(message.Path, out FileModel fileModel))
+                            RecycleBin.Children.Remove(fileModel);
                     }
                 }
             });
@@ -1120,6 +1174,107 @@ namespace FileExplorer.Model
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region RecycleBin
+
+        public static FileModel RecycleBin { get; private set; }
+
+        private class RecycleBinModel : FileModel
+        {
+            public RecycleBinModel()
+            {
+                using (ShellFolder shellFolder = new ShellFolder(FileSystemHelper.RecycleBinPath))
+                {
+                    Name = shellFolder.Name;
+                    FullName = shellFolder.Name;
+                    FullPath = FileSystemHelper.RecycleBinPath;
+
+                    IsRoot = true;
+                    IsDirectory = true;
+                    IsRecycleBin = true;
+                    ParentPath = String.Empty;
+
+                    FileModelCache.TryAdd(shellFolder.Name, this);
+                    FileModelCache.TryAdd(shellFolder.ParsingName, this);
+                }
+            }
+
+            public async override Task EnumerateChildren()
+            {
+                List<FileModel> items = new List<FileModel>();
+
+                await Task.Run(() =>
+                {
+                    using (ShellFolder shellFolder = new ShellFolder(FullPath))
+                    {
+                        foreach (ShellItem shellItem in shellFolder.EnumerateChildren(FolderItemFilter.Folders | FolderItemFilter.NonFolders))
+                        {
+                            FileModel fileModel = CreateRecycledFileModel(shellItem);
+                            if (fileModel != null)
+                                items.Add(fileModel);
+                        }
+                    }
+                });
+                
+                Children = new FileModelCollection(items);
+                if (items.Count > 0)
+                    LargestFileSize = items.Max(x => x.Size);
+            }
+        }
+
+        private FileModel CreateRecycledFileModel(ShellItem shellItem)
+        {
+            try
+            {
+                if (!FileModelCache.TryGetValue(shellItem.ParsingName, out FileModel fileModel))
+                    fileModel = new FileModel();
+ 
+                fileModel.Parent = this;
+                fileModel.ParentName = Name;
+                fileModel.ParentPath = FullPath;
+
+                fileModel.Name = Path.GetFileNameWithoutExtension(shellItem.Name);
+                fileModel.FullName = Path.GetFileName(shellItem.Name);
+                fileModel.FullPath = shellItem.ParsingName;
+
+                fileModel.IsDrive = false;
+                fileModel.IsDirectory = false;
+                fileModel.IsHidden = shellItem.FileInfo.Attributes.HasFlag(FileAttributes.Hidden);
+                fileModel.IsSystem = shellItem.FileInfo.Attributes.HasFlag(FileAttributes.System);
+
+                fileModel.DateCreated = shellItem.FileInfo.CreationTime;
+                fileModel.DateModified = shellItem.FileInfo.LastWriteTime;
+                fileModel.DateAccessed = shellItem.FileInfo.LastAccessTime;
+
+                if (shellItem.FileInfo.Attributes.HasFlag(FileAttributes.Directory))
+                {
+                    fileModel.Extension = String.Empty;
+                    fileModel.Description = Properties.Resources.Folder;
+                }
+                else
+                {
+                    fileModel.Extension = shellItem.FileInfo.Extension;
+                    fileModel.Description = FileSystemHelper.GetFileFriendlyDocName(fileModel.Extension);
+
+                    fileModel.Size = shellItem.FileInfo.Length;
+                }
+
+                fileModel.OriginalPath = shellItem.Name;
+                fileModel.OriginalLocation = Path.GetDirectoryName(shellItem.Name);
+
+                FILETIME fileTime = shellItem.Properties.GetProperty<FILETIME>(PROPERTYKEY.System.Recycle.DateDeleted);
+                fileModel.DateDeleted = fileTime.ToDateTime();
+
+                FileModelCache.TryAdd(shellItem.ParsingName, fileModel);
+                return fileModel;
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
         #endregion

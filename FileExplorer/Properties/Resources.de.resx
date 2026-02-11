@@ -899,4 +899,49 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="AutoRestoreSelection" xml:space="preserve">
     <value>Auswahl immer wiederherstellen</value>
   </data>
+  <data name="DateDeleted" xml:space="preserve">
+    <value>Gelöschtdatum</value>
+  </data>
+  <data name="OriginalLocation" xml:space="preserve">
+    <value>Ursprünglicher Standort</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Recyclingbehälter</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Leeren Sie den Recyclingbehälter</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
+  <data name="RestoreAll" xml:space="preserve">
+    <value>Alle wiederherstellen</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Integer" xml:space="preserve">
+    <value>Ganze Zahl</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Dezimal</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Datum &amp; Uhrzeit</value>
+  </data>
+  <data name="Boolean" xml:space="preserve">
+    <value>Wahr / Falsch</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Auswahl</value>
+  </data>
+  <data name="RecycleBinProperties" xml:space="preserve">
+    <value>Eigenschaften des Recyclingbehälters</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Verwalten</value>
+  </data>
+  <data name="RestoreSelected" xml:space="preserve">
+    <value>Auswahl wiederherstellen</value>
+  </data>
 </root>

@@ -270,6 +270,13 @@ namespace FileExplorer.Core
 
     public class CustomMenuBehavior : Behavior<PopupMenu>
     {
+        public bool IsVisible
+        {
+            get { return (bool)GetValue(IsVisibleProperty); }
+            set { SetValue(IsVisibleProperty, value); }
+        }
+        public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.Register(nameof(IsVisible), typeof(bool), typeof(CustomMenuBehavior), new PropertyMetadata(true));
+
         public object CommandParameter
         {
             get => GetValue(CommandParameterProperty);
@@ -322,6 +329,9 @@ namespace FileExplorer.Core
             List<MenuSubItemControl> subItems = AssociatedObject.Items.OfType<MenuSubItemControl>().ToList();
             foreach (MenuSubItemControl subItem in subItems)
                 AssociatedObject.Items.Remove(subItem);
+
+            if (!IsVisible)
+                return;
 
             int index = 0;
             foreach (Persistence.MenuItem menuItem in App.Repository.MenuItems)

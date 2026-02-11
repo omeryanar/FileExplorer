@@ -424,6 +424,28 @@
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonPageCategory>
+                <dxr:RibbonPageCategory Caption="{Binding RecycleBin, Source={StaticResource ResourceProvider}}" IsVisible="{Binding CurrentFolder.IsRecycleBin}">
+                    <dxr:RibbonPage Caption="{Binding RecycleBin, Source={StaticResource ResourceProvider}}">
+                        <dxr:RibbonPageGroup Caption="{Binding Manage, Source={StaticResource ResourceProvider}}">
+                            <dxb:BarButtonItem x:Name="EmptyRecycleBin" Content="{Binding EmptyRecycleBin, Source={StaticResource ResourceProvider}}"
+                                               Command="{Binding EmptyRecycleBinCommand}" common:IconGlyph.Source="EmptyRecycleBin" />
+                            <dxb:BarButtonItem x:Name="RecycleBinProperties" Content="{Binding RecycleBinProperties, Source={StaticResource ResourceProvider}}"
+                                               Command="{Binding ShowRecycleBinPropertiesCommand}" common:IconGlyph.Source="RecycleBinProperties" />
+                            <dxb:BarItemSeparator />
+                        </dxr:RibbonPageGroup>
+                        <dxr:RibbonPageGroup Caption="{Binding Restore, Source={StaticResource ResourceProvider}}">
+                            <dxb:BarButtonItem x:Name="RestoreAll" Content="{Binding RestoreAll, Source={StaticResource ResourceProvider}}"
+                                               Command="{Binding RestoreAllCommand}" common:IconGlyph.Source="RestoreAll" />
+                            <dxb:BarButtonItem x:Name="Restore" Content="{Binding RestoreSelected, Source={StaticResource ResourceProvider}}"
+                                               Command="{Binding RestoreItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
+                                               common:IconGlyph.Source="Restore" />
+                            <dxb:BarItemSeparator />
+                            <dxb:BarButtonItem x:Name="PermanentlyDelete" Content="{Binding PermanentlyDelete, Source={StaticResource ResourceProvider}}"
+                                               Command="{Binding DeleteItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
+                                               common:IconGlyph.Source="Delete" />
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                </dxr:RibbonPageCategory>
                 <dxr:RibbonPageCategory IsVisible="False">
                     <dxr:RibbonPage>
                         <dxr:RibbonPageGroup>
@@ -437,9 +459,11 @@
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 4`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(4)'}" KeyGesture="CTRL + 4" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 5`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(5)'}" KeyGesture="CTRL + 5" />
                             </dxb:BarSubItem>
-                            <dxb:BarButtonItem x:Name="SaveSelection" Content="{Binding SaveSelection, Source={StaticResource ResourceProvider}}" Command="{Binding SaveSelectionCommand, ElementName=FileList}" />
-                            <dxb:BarButtonItem x:Name="RestoreSelection" Content="{Binding RestoreSelection, Source={StaticResource ResourceProvider}}" Command="{Binding RestoreSelectionCommand, ElementName=FileList}" />
-                            <dxb:BarCheckItem x:Name="AutoRestoreSelection" Content="{Binding AutoRestoreSelection, Source={StaticResource ResourceProvider}}" IsChecked="{Binding LocalSettings.AutoRestoreSelection, ElementName=FileList}" />
+                            <dxb:BarSubItem x:Name="Selection" Content="{Binding Selection, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="SelectAll">
+                                <dxb:BarButtonItem Content="{Binding SaveSelection, Source={StaticResource ResourceProvider}}" Command="{Binding SaveSelectionCommand, ElementName=FileList}" />
+                                <dxb:BarButtonItem Content="{Binding RestoreSelection, Source={StaticResource ResourceProvider}}" Command="{Binding RestoreSelectionCommand, ElementName=FileList}" />
+                                <dxb:BarCheckItem Content="{Binding AutoRestoreSelection, Source={StaticResource ResourceProvider}}" IsChecked="{Binding LocalSettings.AutoRestoreSelection, ElementName=FileList}" />
+                            </dxb:BarSubItem>                            
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonPageCategory>

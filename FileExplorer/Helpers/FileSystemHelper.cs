@@ -25,6 +25,10 @@ namespace FileExplorer.Helpers
 
         public const string NetworkPath = "shell:::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}";
 
+        public const string RecycleBinPath = "shell:::{645FF040-5081-101B-9F08-00AA002F954E}";
+
+        public const string RecycleBinVirtualPath = "$Recycle.Bin";
+
         public static readonly string[] SpecialExtenions = [".exe", ".ico", ".cur", ".lnk", ".url"];
 
         public static string[] UserFolders

@@ -58,7 +58,7 @@ namespace FileExplorer.ViewModel
 
         public FileModelCollection RecentLocations { get; } = new FileModelCollection();
 
-        public FileModelCollection RootFolders { get; } = new FileModelCollection { FileModel.QuickAccess, FileModel.Computer, FileModel.Network };
+        public FileModelCollection RootFolders { get; } = new FileModelCollection { FileModel.QuickAccess, FileModel.Computer, FileModel.RecycleBin, FileModel.Network };
 
         #endregion
 
@@ -135,7 +135,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanOpenItem(FileModel fileModel)
         {
-            return fileModel != null;
+            return fileModel != null && fileModel.Parent?.IsRecycleBin == false;
         }
 
         public void OpenItem(FileModel fileModel)
@@ -153,7 +153,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanOpenInNewTab(FileModel fileModel)
         {
-            return fileModel?.IsDirectory == true;
+            return fileModel?.IsDirectory == true && fileModel.Parent?.IsRecycleBin == false;
         }
 
         public void OpenInNewTab(FileModel fileModel)
@@ -167,7 +167,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanOpenInNewWindow(FileModel fileModel)
         {
-            return fileModel?.IsDirectory == true;
+            return fileModel?.IsDirectory == true && fileModel.Parent?.IsRecycleBin == false;
         }
 
         public void OpenInNewWindow(FileModel fileModel)
@@ -479,7 +479,7 @@ namespace FileExplorer.ViewModel
             if (fileModel == null)
                 fileModel = CurrentFolder;
 
-            return fileModel?.IsRoot == false && !FileSystemHelper.IsNetworkHost(fileModel.FullPath);
+            return fileModel?.IsRoot == false && fileModel.Parent?.IsRecycleBin == false;
         }
 
         public void CreateNewFolder(FileModel fileModel)
@@ -504,7 +504,7 @@ namespace FileExplorer.ViewModel
             if (fileModel == null)
                 fileModel = CurrentFolder;
 
-            return fileModel?.IsRoot == false && !FileSystemHelper.IsNetworkHost(fileModel.FullPath);
+            return fileModel?.IsRoot == false && fileModel.Parent?.IsRecycleBin == false;
         }
 
         public void CreateNewFile(FileModel fileModel)
@@ -527,7 +527,10 @@ namespace FileExplorer.ViewModel
 
         public bool CanSendAsEmail(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => !x.IsDirectory);
+            if (CurrentFolder?.IsRecycleBin == true)
+                return false;
+
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => !x.IsDirectory);
         }
 
         public void SendAsEmail(IList<object> items)
@@ -540,7 +543,10 @@ namespace FileExplorer.ViewModel
 
         public bool CanZipItems(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().Any(x => !x.IsRoot && !x.Extension.OrdinalEquals(".zip"));
+            if (CurrentFolder?.IsRecycleBin == true)
+                return false;
+
+            return items?.Count > 0 && items.OfType<FileModel>().Any(x => !x.IsRoot && !x.Extension.OrdinalEquals(".zip"));
         }
 
         public void ZipItems(IList<object> items)
@@ -558,7 +564,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanUnzip(FileModel fileModel)
         {
-            return fileModel != null && fileModel.Extension.OrdinalEquals(".zip");
+            return fileModel != null && fileModel.Parent?.IsRecycleBin == false && fileModel.Extension.OrdinalEquals(".zip");
         }
 
         public void Unzip(FileModel fileModel)
@@ -576,7 +582,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanPinToQuickAccess(FileModel fileModel)
         {
-            return fileModel != null && !fileModel.IsRoot && fileModel.IsDirectory && !QuickAccess.Folders.Contains(fileModel);
+            return fileModel != null && fileModel.Parent?.IsRecycleBin == false && !fileModel.IsRoot && fileModel.IsDirectory && !QuickAccess.Folders.Contains(fileModel);
         }
 
         public void PinToQuickAccess(FileModel fileModel)
@@ -589,7 +595,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanUnpinFromQuickAccess(FileModel fileModel)
         {
-            return fileModel != null && !fileModel.IsRoot && QuickAccess.Folders.Contains(fileModel);
+            return fileModel != null && fileModel.Parent?.IsRecycleBin == false && !fileModel.IsRoot && QuickAccess.Folders.Contains(fileModel);
         }
 
         public void UnpinFromQuickAccess(FileModel fileModel)
@@ -602,7 +608,10 @@ namespace FileExplorer.ViewModel
 
         public bool CanCopyPathToClipboard(IList<object> items)
         {
-            return items != null && items.Count > 0;
+            if (CurrentFolder?.IsRecycleBin == true)
+                return false;
+
+            return items?.Count > 0;
         }
 
         public void CopyPathToClipboard(IList<object> items)
@@ -615,7 +624,10 @@ namespace FileExplorer.ViewModel
 
         public bool CanCopyToClipboard(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => !x.IsRoot);
+            if (CurrentFolder?.IsRecycleBin == true)
+                return false;
+
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => !x.IsRoot);
         }
 
         public void CopyToClipboard(IList<object> items)
@@ -628,7 +640,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanCutToClipboard(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void CutToClipboard(IList<object> items)
@@ -676,7 +688,7 @@ namespace FileExplorer.ViewModel
             }
 
             Utilities.PasteFromClipboard(targetPath);
-        }
+        }        
 
         #endregion
 
@@ -684,7 +696,10 @@ namespace FileExplorer.ViewModel
 
         public bool CanCopyToItems(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => !x.IsRoot);
+            if (CurrentFolder?.IsRecycleBin == true)
+                return false;
+
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => !x.IsRoot);
         }
 
         public void CopyToItems(IList<object> items, string path)
@@ -717,7 +732,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanMoveToItems(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void MoveToItems(IList<object> items, string path)
@@ -777,7 +792,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanRecycleItems(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void RecycleItems(IList<object> items)
@@ -787,7 +802,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanDeleteItems(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRecycleBin == true || x.Parent?.IsRoot == false);
         }
 
         public void DeleteItems(IList<object> items)
@@ -833,7 +848,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanRenameItems(IList<object> items)
         {
-            return items != null && items.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
         }
 
         public void RenameItems(IList<object> items)
@@ -865,6 +880,45 @@ namespace FileExplorer.ViewModel
 
                 Utilities.RenameFiles(files, newNames);
             }
+        }
+
+        #endregion
+
+        #region RecycleBin
+
+        public bool CanRestoreItems(IList<object> items)
+        {
+            return CurrentFolder?.IsRecycleBin == true && items?.Count > 0;
+        }
+
+        public void RestoreItems(IList<object> items)
+        {
+            Utilities.RestoreFiles(items.OfType<FileModel>().Select(x => x.FullPath));
+        }
+
+        public bool CanRestoreAll()
+        {
+            return CurrentFolder?.IsRecycleBin == true && CurrentFolder.Content?.Count > 0;
+        }
+
+        public void RestoreAll()
+        {
+            Utilities.RestoreAll();
+        }
+
+        public bool CanEmptyRecycleBin()
+        {
+            return CurrentFolder?.IsRecycleBin == true && CurrentFolder.Content?.Count > 0;
+        }
+
+        public void EmptyRecycleBin()
+        {
+            Utilities.EmptyRecycleBin();
+        }
+
+        public void ShowRecycleBinProperties()
+        {
+            Utilities.ShowProperties(FileModel.RecycleBin.FullPath);
         }
 
         #endregion

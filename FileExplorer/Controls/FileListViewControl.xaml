@@ -3,7 +3,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                  xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
-                 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"                 
+                 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                  xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
                  xmlns:dxfui="http://schemas.devexpress.com/winfx/2008/xaml/core/filteringui"
@@ -253,19 +253,19 @@
         <DXDataTemplateSelector x:Key="FileSizeTemplateSelector">
             <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDrive}" Value="True">
                 <DataTemplate>
-                    <dxe:ProgressBarEdit x:Name="PART_Editor" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
+                    <dxe:ProgressBarEdit x:Name="PART_Editor" Background="Transparent" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
                                          Maximum="{Binding RowData.Row.Size}" EditValue="{DXBinding 'RowData.Row.Size - RowData.Row.FreeSpace', Mode=OneWay}" />
                 </DataTemplate>
             </DXDataTemplateTrigger>
             <DXDataTemplateTrigger Binding="{Binding RowData.Row.IsDirectory}" Value="False">
                 <DataTemplate>
-                    <dxe:ProgressBarEdit x:Name="PART_Editor" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
+                    <dxe:ProgressBarEdit x:Name="PART_Editor" Background="Transparent" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
                                          Maximum="{Binding RowData.Row.Parent.LargestFileSize}" EditValue="{Binding RowData.Row.Size, Mode=OneWay}" />
                 </DataTemplate>
             </DXDataTemplateTrigger>
             <DXDataTemplateTrigger Binding="{DXBinding '!RowData.Row.IsDirectory and View.DataContext.SearchText != `` and View.DataContext.Settings.DefaultSearch == 1'}" Value="True">
                 <DataTemplate>
-                    <dxe:ProgressBarEdit x:Name="PART_Editor" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
+                    <dxe:ProgressBarEdit x:Name="PART_Editor" Background="Transparent" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
                                          Maximum="{Binding View.DataContext.LargestFileSize}" EditValue="{Binding RowData.Row.Size, Mode=OneWay}" />
                 </DataTemplate>
             </DXDataTemplateTrigger>
@@ -353,7 +353,10 @@
         <dxg:GridColumn FieldName="ParentPath" Header="{Binding ParentPath, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
         <dxg:GridColumn FieldName="FullPath" Header="{Binding Path, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
         <dxg:GridColumn FieldName="Size" Header="{Binding Size, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowAutoFilter="False" AllowIncrementalSearch="False"
-                        Binding="{Binding Size, Converter={common:IntToFileSizeConverter}}" CellTemplateSelector="{StaticResource FileSizeTemplateSelector}">
+                        CellTemplateSelector="{StaticResource FileSizeTemplateSelector}">
+            <dxg:GridColumn.EditSettings>
+                <dxe:TextEditSettings DisplayTextConverter="{common:IntToFileSizeConverter}"/>
+            </dxg:GridColumn.EditSettings>
             <dxg:GridColumn.PredefinedFilters>
                 <dxfui:PredefinedFilterCollection>
                     <dxfui:PredefinedFilter Name="Empty (0 KB)" Filter="?p = 0" />
@@ -408,6 +411,12 @@
         <dxg:GridColumn FieldName="Year" Header="{Binding Year, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
         <dxg:GridColumn FieldName="Track" Header="{Binding Track, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
         <dxg:GridColumn FieldName="TrackCount" Header="{Binding TrackCount, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
+        <dxg:GridColumn FieldName="DateDeleted" Header="{Binding DateDeleted, Source={StaticResource ResourceProvider}}" Visible="False" ShowInColumnChooser="False" AllowAutoFilter="False" AllowIncrementalSearch="False">
+            <dxg:GridColumn.EditSettings>
+                <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
+            </dxg:GridColumn.EditSettings>
+        </dxg:GridColumn>
+        <dxg:GridColumn FieldName="OriginalLocation" Header="{Binding OriginalLocation, Source={StaticResource ResourceProvider}}" Visible="False" ShowInColumnChooser="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
     </dxg:GridControl.Columns>
 
     <dxg:GridControl.GroupSummary>
@@ -423,41 +432,54 @@
         <dxb:PopupMenu>
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomMenuBehavior CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}"
-                                           DefaultCommandParameter="{Binding CurrentFolder}" />
+                                           DefaultCommandParameter="{Binding CurrentFolder}" IsVisible="{Binding CurrentFolder.IsRecycleBin, Converter={dxmvvm:BooleanNegationConverter}}" />
             </dxmvvm:Interaction.Behaviors>
-            <dxb:PopupMenu.ItemLinks>
-                <dxb:BarButtonItemLink BarItemName="AddRemoveMenuItems" />
-                <dxb:BarItemLinkSeparator />
-                <dxb:BarSubItemLink BarItemName="ExpandToLevel" />
-                <dxb:BarButtonItemLink BarItemName="SaveSelection" />
-                <dxb:BarButtonItemLink BarItemName="RestoreSelection" />
-                <dxb:BarCheckItemLink BarItemName="AutoRestoreSelection" />
-                <dxb:BarItemLinkSeparator />                
-                <dxb:BarButtonItemLink BarItemName="PinToQuickAccess" />
-                <dxb:BarButtonItemLink BarItemName="UnpinFromQuickAccess" />
-                <dxb:BarButtonItemLink BarItemName="Copy" />
-                <dxb:BarButtonItemLink BarItemName="Paste" />
-                <dxb:BarButtonItemLink BarItemName="Cut" />
-                <dxb:BarButtonItemLink BarItemName="CopyPath" />
-                <dxb:BarItemLinkSeparator />
-                <dxb:BarSubItemLink BarItemName="MoveTo" />
-                <dxb:BarSubItemLink BarItemName="CopyTo" />
-                <dxb:BarSplitButtonItemLink BarItemName="Delete" />
-                <dxb:BarButtonItemLink BarItemName="Rename" />
-                <dxb:BarItemLinkSeparator />
-                <dxb:BarButtonItemLink BarItemName="NewFolder" />
-                <dxb:BarButtonItemLink BarItemName="NewFile" />
-                <dxb:BarButtonItemLink BarItemName="Mail" />
-                <dxb:BarButtonItemLink BarItemName="Zip" />
-                <dxb:BarButtonItemLink BarItemName="Unzip" />
-                <dxb:BarItemLinkSeparator />
-                <dxb:BarButtonItemLink BarItemName="Open" />
-                <dxb:BarButtonItemLink BarItemName="OpenInNewTab" />
-                <dxb:BarButtonItemLink BarItemName="OpenInNewWindow" />
-                <dxb:BarButtonItemLink BarItemName="Properties" />
-                <dxb:BarItemLinkSeparator />
-                <dxb:BarButtonItemLink BarItemName="OpenContainingFolder" IsVisible="{Binding HighlightedText, Converter={dxmvvm:StringToBooleanConverter}}" />
-            </dxb:PopupMenu.ItemLinks>
+            <dxb:PopupMenu.Items>
+                <dxb:BarLinkContainerItem IsVisible="{Binding CurrentFolder.IsRecycleBin, Converter={dxmvvm:BooleanNegationConverter}}">
+                    <dxb:BarLinkContainerItem.ItemLinks>
+                        <dxb:BarButtonItemLink BarItemName="AddRemoveMenuItems" />
+                        <dxb:BarItemLinkSeparator />
+                        <dxb:BarSubItemLink BarItemName="ExpandToLevel" />
+                        <dxb:BarSubItemLink BarItemName="Selection" />
+                        <dxb:BarItemLinkSeparator />
+                        <dxb:BarButtonItemLink BarItemName="PinToQuickAccess" />
+                        <dxb:BarButtonItemLink BarItemName="UnpinFromQuickAccess" />
+                        <dxb:BarButtonItemLink BarItemName="Copy" />
+                        <dxb:BarButtonItemLink BarItemName="Paste" />
+                        <dxb:BarButtonItemLink BarItemName="Cut" />
+                        <dxb:BarButtonItemLink BarItemName="CopyPath" />
+                        <dxb:BarItemLinkSeparator />
+                        <dxb:BarSubItemLink BarItemName="MoveTo" />
+                        <dxb:BarSubItemLink BarItemName="CopyTo" />
+                        <dxb:BarSplitButtonItemLink BarItemName="Delete" />
+                        <dxb:BarButtonItemLink BarItemName="Rename" />
+                        <dxb:BarItemLinkSeparator />
+                        <dxb:BarButtonItemLink BarItemName="NewFolder" />
+                        <dxb:BarButtonItemLink BarItemName="NewFile" />
+                        <dxb:BarButtonItemLink BarItemName="Mail" />
+                        <dxb:BarButtonItemLink BarItemName="Zip" />
+                        <dxb:BarButtonItemLink BarItemName="Unzip" />
+                        <dxb:BarItemLinkSeparator />
+                        <dxb:BarButtonItemLink BarItemName="Open" />
+                        <dxb:BarButtonItemLink BarItemName="OpenInNewTab" />
+                        <dxb:BarButtonItemLink BarItemName="OpenInNewWindow" />
+                        <dxb:BarButtonItemLink BarItemName="Properties" />
+                        <dxb:BarItemLinkSeparator />
+                        <dxb:BarButtonItemLink BarItemName="OpenContainingFolder" IsVisible="{Binding HighlightedText, Converter={dxmvvm:StringToBooleanConverter}}" />
+                    </dxb:BarLinkContainerItem.ItemLinks>
+                </dxb:BarLinkContainerItem>
+                <dxb:BarLinkContainerItem IsVisible="{Binding CurrentFolder.IsRecycleBin}">
+                    <dxb:BarLinkContainerItem.ItemLinks>
+                        <dxb:BarButtonItemLink BarItemName="EmptyRecycleBin" />
+                        <dxb:BarButtonItemLink BarItemName="RecycleBinProperties" />
+                        <dxb:BarItemLinkSeparator />
+                        <dxb:BarButtonItemLink BarItemName="RestoreAll" />
+                        <dxb:BarButtonItemLink BarItemName="Restore" />
+                        <dxb:BarItemLinkSeparator />
+                        <dxb:BarButtonItemLink BarItemName="PermanentlyDelete" />
+                    </dxb:BarLinkContainerItem.ItemLinks>
+                </dxb:BarLinkContainerItem>
+            </dxb:PopupMenu.Items>
         </dxb:PopupMenu>
     </dxb:BarManager.DXContextMenu>
 

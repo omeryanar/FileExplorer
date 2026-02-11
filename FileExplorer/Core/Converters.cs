@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using DevExpress.Data;
 using DevExpress.Xpf.Grid;
 
 namespace FileExplorer.Core
@@ -50,7 +51,7 @@ namespace FileExplorer.Core
             decimal size = System.Convert.ToDecimal(value);
 
             if (size == 0)
-                return String.Empty;
+                return " ";
 
             if (size < 1024)
                 return String.Format(ByteFormat, size);
@@ -302,5 +303,65 @@ namespace FileExplorer.Core
         }
 
         private object lastValue;
+    }
+
+    public class ColumnTypeToUnboundTypeConverter : MarkupExtension, IValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is UnboundColumnType unboundType)
+            {
+                switch (unboundType)
+                {
+                    case UnboundColumnType.Object:
+                        return ColumnType.General;
+                    case UnboundColumnType.String:
+                        return ColumnType.Text; ;
+                    case UnboundColumnType.Integer:
+                        return ColumnType.Integer; ;
+                    case UnboundColumnType.Decimal:
+                        return ColumnType.Decimal; ;
+                    case UnboundColumnType.DateTime:
+                        return ColumnType.DateTime; ;
+                    case UnboundColumnType.Boolean:
+                        return ColumnType.Boolean; ;
+                    default:
+                        return ColumnType.General;
+                }
+            }
+
+            return ColumnType.General;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is ColumnType columnType)
+            {
+                switch (columnType)
+                {
+                    case ColumnType.General:
+                        return UnboundColumnType.Object;
+                    case ColumnType.Text:
+                        return UnboundColumnType.String; ;
+                    case ColumnType.Integer:
+                        return UnboundColumnType.Integer; ;
+                    case ColumnType.Decimal:
+                        return UnboundColumnType.Decimal; ;
+                    case ColumnType.DateTime:
+                        return UnboundColumnType.DateTime; ;
+                    case ColumnType.Boolean:
+                        return UnboundColumnType.Boolean; ;
+                    default:
+                        return UnboundColumnType.Object;
+                }
+            }
+
+            return UnboundColumnType.Object;            
+        }
     }
 }

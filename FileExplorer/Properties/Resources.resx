@@ -899,4 +899,49 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="AutoRestoreSelection" xml:space="preserve">
     <value>Auto Restore Selection</value>
   </data>
+  <data name="DateDeleted" xml:space="preserve">
+    <value>Date Deleted</value>
+  </data>
+  <data name="OriginalLocation" xml:space="preserve">
+    <value>Original Location</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Recycle Bin</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Empty Recycle Bin</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="RestoreAll" xml:space="preserve">
+    <value>Restore All</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Integer" xml:space="preserve">
+    <value>Integer</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Date &amp; Time</value>
+  </data>
+  <data name="Boolean" xml:space="preserve">
+    <value>True / False</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="RecycleBinProperties" xml:space="preserve">
+    <value>Recycle Bin Properties</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="RestoreSelected" xml:space="preserve">
+    <value>Restore Selected</value>
+  </data>
 </root>

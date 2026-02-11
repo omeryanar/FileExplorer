@@ -19,7 +19,6 @@ using NaturalSort.Extension;
 using NLog;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using static Vanara.PInvoke.Shell32;
 using static Vanara.Windows.Shell.ShellFileOperations;
 
 namespace FileExplorer.Core
@@ -181,7 +180,40 @@ namespace FileExplorer.Core
             {
                 Delete(files.Select(x => new ShellItem(x)), OperationFlags.NoConfirmMkDir | OperationFlags.RecycleOnDelete);
             });
-        } 
+        }
+
+        public static void RestoreFiles(IEnumerable<String> files)
+        {
+            Task.Run(() =>
+            {
+                using (ShellFileOperations  fileOperations = new ShellFileOperations())
+                {
+                    foreach (string file in files)
+                    {
+                        ShellItem shellItem = new ShellItem(file);
+                        fileOperations.QueueMoveOperation(shellItem, new ShellFolder(Path.GetDirectoryName(shellItem.Name)));
+                    }
+
+                    fileOperations.PerformOperations();
+                }
+            });
+        }
+
+        public static void RestoreAll()
+        {
+            Task.Run(() =>
+            {
+                RecycleBin.RestoreAll();
+            });
+        }
+
+        public static void EmptyRecycleBin()
+        {
+            Task.Run(() =>
+            {
+                RecycleBin.Empty(false, false, false);
+            });
+        }
 
         public static void DeleteFiles(IEnumerable<String> files)
         {
@@ -203,7 +235,7 @@ namespace FileExplorer.Core
         {
             Task.Run(() =>
             {
-                Move(files.Select(x => new ShellItem(x)), new ShellFolder(destination));
+                Copy(files.Select(x => new ShellItem(x)), new ShellFolder(destination));
             });
         }
 
@@ -242,13 +274,16 @@ namespace FileExplorer.Core
 
         public static void ShowProperties(string path)
         {
-            ShowMultipleProperties([path]);
+            using (ShellItem shellItem = new ShellItem(path))
+            {
+                shellItem.InvokeVerb("properties");
+            }                
         }
 
         public static void ShowMultipleProperties(IEnumerable<String> files)
         {
             var dataObject = NativeClipboard.CreateDataObjectFromShellItems(files.Select(x => new ShellItem(x)).ToArray());
-            SHMultiFileProperties(dataObject);
+            Shell32.SHMultiFileProperties(dataObject);
         }
 
         public static bool FileExistsInClipboard()

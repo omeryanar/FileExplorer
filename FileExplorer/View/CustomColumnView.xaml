@@ -1,12 +1,11 @@
 ﻿<UserControl x:Class="FileExplorer.View.CustomColumnView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-             xmlns:controls="clr-namespace:FileExplorer.Controls"             
+             xmlns:common="clr-namespace:FileExplorer.Core"
+             xmlns:controls="clr-namespace:FileExplorer.Controls"
              MinWidth="400" MinHeight="100">
 
     <dxlc:LayoutControl Orientation="Vertical">
@@ -14,10 +13,10 @@
             <dxe:TextEdit EditValue="{Binding Header, UpdateSourceTrigger=PropertyChanged}" />
         </dxlc:LayoutItem>
         <dxlc:LayoutItem Label="{Binding ColumnType, Source={StaticResource ResourceProvider}}">
-            <dxe:ComboBoxEdit EditValue="{Binding UnboundType}">
-                <!--<dxmvvm:Interaction.Behaviors>
-                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type dxd:UnboundColumnType}" />
-                </dxmvvm:Interaction.Behaviors>-->
+            <dxe:ComboBoxEdit EditValue="{Binding UnboundType, Converter={common:ColumnTypeToUnboundTypeConverter}}">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:ColumnType}" />
+                </dxmvvm:Interaction.Behaviors>
             </dxe:ComboBoxEdit>
         </dxlc:LayoutItem>
         <dxlc:LayoutItem Label="{Binding Expression, Source={StaticResource ResourceProvider}}">

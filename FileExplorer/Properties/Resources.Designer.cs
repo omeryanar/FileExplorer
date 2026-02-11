@@ -232,6 +232,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to True / False.
+        /// </summary>
+        public static string Boolean {
+            get {
+                return ResourceManager.GetString("Boolean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bottom.
         /// </summary>
         public static string Bottom {
@@ -610,6 +619,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date Deleted.
+        /// </summary>
+        public static string DateDeleted {
+            get {
+                return ResourceManager.GetString("DateDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date Modified.
         /// </summary>
         public static string DateModified {
@@ -619,11 +637,29 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date &amp; Time.
+        /// </summary>
+        public static string DateTime {
+            get {
+                return ResourceManager.GetString("DateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date and Time Format.
         /// </summary>
         public static string DateTimeFormat {
             get {
                 return ResourceManager.GetString("DateTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decimal.
+        /// </summary>
+        public static string Decimal {
+            get {
+                return ResourceManager.GetString("Decimal", resourceCulture);
             }
         }
         
@@ -777,6 +813,15 @@ namespace FileExplorer.Properties {
         public static string EmptyFiles {
             get {
                 return ResourceManager.GetString("EmptyFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empty Recycle Bin.
+        /// </summary>
+        public static string EmptyRecycleBin {
+            get {
+                return ResourceManager.GetString("EmptyRecycleBin", resourceCulture);
             }
         }
         
@@ -1092,6 +1137,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Integer.
+        /// </summary>
+        public static string Integer {
+            get {
+                return ResourceManager.GetString("Integer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid File Name.
         /// </summary>
         public static string InvalidFileName {
@@ -1259,6 +1313,15 @@ namespace FileExplorer.Properties {
         public static string Mail {
             get {
                 return ResourceManager.GetString("Mail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        public static string Manage {
+            get {
+                return ResourceManager.GetString("Manage", resourceCulture);
             }
         }
         
@@ -1524,6 +1587,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Original Location.
+        /// </summary>
+        public static string OriginalLocation {
+            get {
+                return ResourceManager.GetString("OriginalLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Panes.
         /// </summary>
         public static string Panes {
@@ -1704,6 +1776,24 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recycle Bin.
+        /// </summary>
+        public static string RecycleBin {
+            get {
+                return ResourceManager.GetString("RecycleBin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recycle Bin Properties.
+        /// </summary>
+        public static string RecycleBinProperties {
+            get {
+                return ResourceManager.GetString("RecycleBinProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         public static string Refresh {
@@ -1754,6 +1844,33 @@ namespace FileExplorer.Properties {
         public static string RestartRequired {
             get {
                 return ResourceManager.GetString("RestartRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore.
+        /// </summary>
+        public static string Restore {
+            get {
+                return ResourceManager.GetString("Restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore All.
+        /// </summary>
+        public static string RestoreAll {
+            get {
+                return ResourceManager.GetString("RestoreAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore Selected.
+        /// </summary>
+        public static string RestoreSelected {
+            get {
+                return ResourceManager.GetString("RestoreSelected", resourceCulture);
             }
         }
         
@@ -1898,6 +2015,15 @@ namespace FileExplorer.Properties {
         public static string SelectedFromat {
             get {
                 return ResourceManager.GetString("SelectedFromat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selection.
+        /// </summary>
+        public static string Selection {
+            get {
+                return ResourceManager.GetString("Selection", resourceCulture);
             }
         }
         
@@ -2105,6 +2231,15 @@ namespace FileExplorer.Properties {
         public static string SupportedFileTypes {
             get {
                 return ResourceManager.GetString("SupportedFileTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        public static string Text {
+            get {
+                return ResourceManager.GetString("Text", resourceCulture);
             }
         }
         

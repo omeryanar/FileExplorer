@@ -60,6 +60,14 @@ namespace FileExplorer.Helpers
             if (SuppressNotification(fileEvent.Path))
                 return;
 
+            if (fileEvent.Path.OrdinalContains(FileSystemHelper.RecycleBinVirtualPath))
+            {
+                if (fileEvent.ChangeType == ChangeType.Created)
+                    fileEvent.ChangeType = ChangeType.Recycled;
+                else if (fileEvent.ChangeType == ChangeType.Deleted)
+                    fileEvent.ChangeType = ChangeType.Restored;
+            }
+
             switch (fileEvent.ChangeType)
             {
                 case ChangeType.Created:
@@ -72,6 +80,14 @@ namespace FileExplorer.Helpers
 
                 case ChangeType.Changed:
                     SendNotificationMessage(NotificationType.Update, fileEvent.Path);
+                    break;
+
+                case ChangeType.Recycled:
+                    SendNotificationMessage(NotificationType.Recycle, fileEvent.Path);
+                    break;
+
+                case ChangeType.Restored:
+                    SendNotificationMessage(NotificationType.Restore, fileEvent.Path);
                     break;
             }
 
@@ -93,8 +109,6 @@ namespace FileExplorer.Helpers
         private static bool IsPathExcluded(string path)
         {
             if (String.IsNullOrEmpty(path))
-                return true;
-            if (path.OrdinalContains(RecycleBin))
                 return true;
             if (path.OrdinalStartsWith(Windows))
                 return true;
@@ -148,9 +162,7 @@ namespace FileExplorer.Helpers
         {
             NotificationMessage notificationMessage = new NotificationMessage { Path = path, NewPath = newPath, NotificationType = notificationType };
             Application.Current.Dispatcher.Invoke(() => Messenger.Default.Send(notificationMessage));
-        }
-
-        private static readonly string RecycleBin = "$Recycle.Bin";
+        }        
 
         private static readonly string Windows = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 

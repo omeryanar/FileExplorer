@@ -103,6 +103,10 @@
     <None Remove="Assets\ICO\Size.ico" />
     <None Remove="Assets\ICO\OpenNewWindow.ico" />
 	<None Remove="Assets\ICO\Explorer.ico" />
+	<None Remove="Assets\ICO\EmptyRecycleBin.ico" />
+	<None Remove="Assets\ICO\RestoreAll.ico" />
+	<None Remove="Assets\ICO\Restore.ico" />
+	<None Remove="Assets\ICO\RecycleBinProperties.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\SVG\AddRemoveMenuItems.svg" />
@@ -181,6 +185,10 @@
     <Resource Include="Assets\ICO\Size.ico" />
     <Resource Include="Assets\ICO\OpenNewWindow.ico" />
 	<Resource Include="Assets\ICO\Explorer.ico" />
+	<Resource Include="Assets\ICO\EmptyRecycleBin.ico" />
+	<Resource Include="Assets\ICO\RestoreAll.ico" />
+	<Resource Include="Assets\ICO\Restore.ico" />
+	<Resource Include="Assets\ICO\RecycleBinProperties.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\SVG\AddRemoveMenuItems.svg" />
