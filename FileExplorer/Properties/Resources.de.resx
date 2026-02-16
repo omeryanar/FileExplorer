@@ -944,4 +944,7 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="RestoreSelected" xml:space="preserve">
     <value>Auswahl wiederherstellen</value>
   </data>
+  <data name="ShowErrors" xml:space="preserve">
+    <value>Fehler anzeigen</value>
+  </data>
 </root>

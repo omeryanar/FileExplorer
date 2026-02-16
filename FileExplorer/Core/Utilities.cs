@@ -61,7 +61,7 @@ namespace FileExplorer.Core
             }
         }
 
-        public static async void StartProcess(ProcessStartInfo startInfo, IDialogService dialogService)
+        public static async void StartProcess(ProcessStartInfo startInfo, IDialogService dialogService, bool showErrors)
         {
             string errorData = String.Empty;
 
@@ -79,7 +79,7 @@ namespace FileExplorer.Core
                 }
             });
 
-            if (!String.IsNullOrEmpty(errorData))
+            if (showErrors && !String.IsNullOrEmpty(errorData))
             {
                 MessageViewModel messageViewModel = ViewModelSource.Create(() => new MessageViewModel());
                 messageViewModel.Title = Properties.Resources.RunCommand;
@@ -290,8 +290,7 @@ namespace FileExplorer.Core
         {
             try
             {
-                IDataObject data = Clipboard.GetDataObject();
-                return data.GetDataPresent(DataFormats.FileDrop);
+                return Clipboard.ContainsData(DataFormats.FileDrop);
             }
             catch{ return false; }
         }

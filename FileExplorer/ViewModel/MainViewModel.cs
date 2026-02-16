@@ -55,7 +55,7 @@ namespace FileExplorer.ViewModel
                         break;
 
                     case CommandType.OpenWithApplication:
-                        OpenWithApplication(message.MenuItem.Application, message.Directory, message.Arguments, message.MenuItem.ConfirmBeforeRun);
+                        OpenWithApplication(message.MenuItem.Application, message.Directory, message.Arguments, message.MenuItem.ConfirmBeforeRun, message.MenuItem.ShowErrors);
                         break;
                 }
             });
@@ -106,7 +106,7 @@ namespace FileExplorer.ViewModel
             }
         }
 
-        private void OpenWithApplication(string application, string workingDirectory, string arguments, bool confirmBeforeRun)
+        private void OpenWithApplication(string application, string workingDirectory, string arguments, bool confirmBeforeRun, bool showErrors)
         {
             ProcessStartInfo processStartInfo = new ProcessStartInfo(application, arguments);
             processStartInfo.WorkingDirectory = workingDirectory;
@@ -119,7 +119,7 @@ namespace FileExplorer.ViewModel
                 {
                     if (!confirmBeforeRun)
                     {
-                        Utilities.StartProcess(processStartInfo, viewModel.DialogService);
+                        Utilities.StartProcess(processStartInfo, viewModel.DialogService, showErrors);
                         return;
                     }
 
@@ -134,7 +134,7 @@ namespace FileExplorer.ViewModel
                     if (result == MessageResult.OK)
                     {
                         processStartInfo.Arguments = messageViewModel.Content;
-                        Utilities.StartProcess(processStartInfo, viewModel.DialogService);
+                        Utilities.StartProcess(processStartInfo, viewModel.DialogService, showErrors);
                     }
                 }
                 catch (Exception exception)

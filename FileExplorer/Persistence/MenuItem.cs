@@ -76,6 +76,8 @@ namespace FileExplorer.Persistence
 
         public bool ConfirmBeforeRun { get; set; }
 
+        public bool ShowErrors { get; set; }
+
         public ItemTypeFilter ItemTypeFilter { get; set; }
 
         public SelectionFilter SelectionFilter { get; set; }

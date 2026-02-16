@@ -944,4 +944,7 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="RestoreSelected" xml:space="preserve">
     <value>Seçilenleri Geri Yükle</value>
   </data>
+  <data name="ShowErrors" xml:space="preserve">
+    <value>Hataları Göster</value>
+  </data>
 </root>

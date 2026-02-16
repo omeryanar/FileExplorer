@@ -944,4 +944,7 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="RestoreSelected" xml:space="preserve">
     <value>Restore Selected</value>
   </data>
+  <data name="ShowErrors" xml:space="preserve">
+    <value>Show Errors</value>
+  </data>
 </root>

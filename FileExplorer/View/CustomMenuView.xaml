@@ -78,13 +78,18 @@
                                 <dxlc:LayoutItem HorizontalAlignment="Left" Label="{Binding Command, Source={StaticResource ResourceProvider}}">
                                     <dxg:EditFormEditor FieldName="Command" />
                                 </dxlc:LayoutItem>
-                                <dxlc:LayoutGroup HorizontalAlignment="Stretch" Orientation="Vertical" IsEnabled="{DXBinding 'Source.Row.Command==$common:CommandType.OpenWithApplication'}">                                    
+                                <dxlc:LayoutGroup HorizontalAlignment="Stretch" Orientation="Vertical" Visibility="{DXBinding 'Source.Row.Command==$common:CommandType.OpenWithApplication', Converter={dxmvvm:BooleanToVisibilityConverter}}">                                    
                                     <dxlc:LayoutItem Label="{Binding Application, Source={StaticResource ResourceProvider}}">
                                         <dxg:EditFormEditor FieldName="Application" />
                                     </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem HorizontalAlignment="Left" Label="{Binding ConfirmBeforeRun, Source={StaticResource ResourceProvider}}">
-                                        <dxg:EditFormEditor FieldName="ConfirmBeforeRun" />
-                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutGroup ItemSpace="20">
+                                        <dxlc:LayoutItem HorizontalAlignment="Left" Label="{Binding ConfirmBeforeRun, Source={StaticResource ResourceProvider}}">
+                                            <dxg:EditFormEditor FieldName="ConfirmBeforeRun" />
+                                        </dxlc:LayoutItem>
+                                        <dxlc:LayoutItem HorizontalAlignment="Left" Label="{Binding ShowErrors, Source={StaticResource ResourceProvider}}">
+                                            <dxg:EditFormEditor FieldName="ShowErrors" />
+                                        </dxlc:LayoutItem>
+                                    </dxlc:LayoutGroup>
                                 </dxlc:LayoutGroup>                                
                             </dxlc:LayoutGroup>
                             <dxlc:LayoutGroup View="GroupBox" Orientation="Vertical">
@@ -156,6 +161,12 @@
             <dxg:GridColumn FieldName="Prefix" Header="{Binding Prefix, Source={StaticResource ResourceProvider}}" Visible="False" />
             <dxg:GridColumn FieldName="Suffix" Header="{Binding Suffix, Source={StaticResource ResourceProvider}}" Visible="False" />
             <dxg:GridColumn FieldName="ConfirmBeforeRun" Header="{Binding ConfirmBeforeRun, Source={StaticResource ResourceProvider}}" Visible="False">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:ToggleSwitchEditSettings ContentPlacement="Far" CheckedStateContent="{Binding Yes, Source={StaticResource ResourceProvider}}"
+                                                  UncheckedStateContent="{Binding No, Source={StaticResource ResourceProvider}}" />
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn FieldName="ShowErrors" Header="{Binding ShowErrors, Source={StaticResource ResourceProvider}}" Visible="False">
                 <dxg:GridColumn.EditSettings>
                     <dxe:ToggleSwitchEditSettings ContentPlacement="Far" CheckedStateContent="{Binding Yes, Source={StaticResource ResourceProvider}}"
                                                   UncheckedStateContent="{Binding No, Source={StaticResource ResourceProvider}}" />
