@@ -6,7 +6,8 @@
                     xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
                     xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
                     xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
-                    xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys">
+                    xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
+                    xmlns:dxrt="http://schemas.devexpress.com/winfx/2008/xaml/ribbon/themekeys">
 
     <Style TargetType="{x:Type dxb:BarCheckItem}">
         <Style.Triggers>
@@ -22,7 +23,11 @@
         <Setter Property="BorderTemplateInMinimizedRibbon" Value="{StaticResource CaptionBorderTemplate}" />
         <Setter Property="HighlightedBorderTemplateInMinimizedRibbon" Value="{StaticResource CaptionBorderTemplate}" />
     </Style>
-    
+
+    <Style x:Key="{dxrt:LWKey Ribbon.SelectedPageCaptionTextStyle}" TargetType="{x:Type ContentControl}">
+        <Setter Property="Foreground" Value="{LWThemeValue Brush.Focused}" />
+    </Style>
+
     <DataTemplate x:Key="{dxt:LWKey DXTabItem.SelectedBackground}">
         <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
                        BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"

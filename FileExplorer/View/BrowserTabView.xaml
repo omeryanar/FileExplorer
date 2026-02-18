@@ -366,7 +366,7 @@
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonDefaultPageCategory>
-                <dxr:RibbonPageCategory Caption="{Binding SearchTools, Source={StaticResource ResourceProvider}}" 
+                <dxr:RibbonPageCategory Caption="{Binding SearchTools, Source={StaticResource ResourceProvider}}" Color="Transparent"
                                         IsVisible="{Binding Text, UpdateSourceTrigger=PropertyChanged, ElementName=SearchEdit, Converter={dxmvvm:StringToBooleanConverter}}">
                     <dxr:RibbonPage Caption="{Binding SearchFilter, Source={StaticResource ResourceProvider}}"
                                     dxfui:FilterElement.Context="{Binding FilteringContext, ElementName=FileList}">
@@ -424,7 +424,8 @@
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonPageCategory>
-                <dxr:RibbonPageCategory Caption="{Binding RecycleBin, Source={StaticResource ResourceProvider}}" IsVisible="{Binding CurrentFolder.IsRecycleBin}">
+                <dxr:RibbonPageCategory Caption="{Binding RecycleBin, Source={StaticResource ResourceProvider}}" Color="Transparent"
+                                        IsVisible="{Binding CurrentFolder.IsRecycleBin}">
                     <dxr:RibbonPage Caption="{Binding RecycleBin, Source={StaticResource ResourceProvider}}">
                         <dxr:RibbonPageGroup Caption="{Binding Manage, Source={StaticResource ResourceProvider}}">
                             <dxb:BarButtonItem x:Name="EmptyRecycleBin" Content="{Binding EmptyRecycleBin, Source={StaticResource ResourceProvider}}"

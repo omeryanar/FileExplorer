@@ -160,7 +160,7 @@
                         </Trigger.ExitActions>
                     </Trigger>
                     <Trigger Property="IsChecked" Value="True">
-                        <Setter TargetName="IsDefault" Property="BorderBrush" Value="{DynamicResource {dxt:LWKey TextEdit.SelectionBrush}}" />
+                        <Setter TargetName="IsDefault" Property="BorderBrush" Value="{LWThemeValue Brush.Focused}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
