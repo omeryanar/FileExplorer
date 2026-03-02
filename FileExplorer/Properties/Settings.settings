@@ -30,7 +30,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ThemeName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Office2019White</Value>
+      <Value Profile="(Default)">Win11System</Value>
     </Setting>
     <Setting Name="ConfirmMove" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

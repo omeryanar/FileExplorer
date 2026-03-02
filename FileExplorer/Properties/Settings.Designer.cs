@@ -133,7 +133,7 @@ namespace FileExplorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Office2019White")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Win11System")]
         public string ThemeName {
             get {
                 return ((string)(this["ThemeName"]));
