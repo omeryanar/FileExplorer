@@ -57,6 +57,12 @@ namespace FileExplorer
             CultureInfo currentCulture = new CultureInfo(Settings.Default.Language);
             CultureResources.ChangeCulture(currentCulture);
 
+            Settings.Default.SettingsSaving += (s, e) =>
+            {
+                if (Properties.Resources.Culture.Name != Settings.Default.Language)
+                    CultureResources.ChangeCulture(Settings.Default.Language);
+            };
+
             App app = new App();
             app.InitializeComponent();
             app.Run();
