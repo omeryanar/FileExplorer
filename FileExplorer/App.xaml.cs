@@ -103,7 +103,7 @@ namespace FileExplorer
                 if (options.Shutdown)
                     SaveSessionAndShutdown();
                 else if (options.Background)
-                    await PreloadAsync();
+                    Preload();
                 else if (options.Folders.Count() == 0)
                     await RestoreLastSession(firstRun);
                 else
@@ -117,13 +117,16 @@ namespace FileExplorer
 
         public static void CreateNewSingleTabWindow(FileModel fileModel = null)
         {
-            MainView mainView = new MainView();
-            MainViewModel mainViewModel = ViewModelSource.Create<MainViewModel>();
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, () =>
+            {
+                MainView mainView = new MainView();
+                MainViewModel mainViewModel = ViewModelSource.Create<MainViewModel>();
 
-            mainView.DataContext = mainViewModel;
-            mainViewModel.CreateNewTab(fileModel);
+                mainView.DataContext = mainViewModel;
+                mainViewModel.CreateNewTab(fileModel);
 
-            mainView.Show();
+                mainView.Show();
+            });
         }
 
         public static async Task CreateNewMultiTabWindow(IEnumerable<string> folders)
@@ -134,9 +137,9 @@ namespace FileExplorer
             await CreateFolderTabs(folders, mainView, true);
         }
 
-        private static Task PreloadAsync()
+        private static void Preload()
         {
-            return ApplicationThemeHelper.PreloadAsync(
+            ApplicationThemeHelper.Preload(
                 PreloadCategories.Core,
                 PreloadCategories.Controls,
                 PreloadCategories.Docking,
@@ -195,13 +198,10 @@ namespace FileExplorer
 
             base.OnStartup(e);
 
-            // TODO
-            //Dispatcher.CurrentDispatcher.BeginInvoke(() => 
-            //    {
-            //        ApplicationThemeHelper.PreloadAsync(PreloadCategories.ExpressionEditor);
-            //    }, 
-            //    DispatcherPriority.Render
-            //);
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Render, () =>
+            {
+                ApplicationThemeHelper.PreloadAsync(PreloadCategories.ExpressionEditor);
+            });
         }
 
         protected override void OnExit(ExitEventArgs e)

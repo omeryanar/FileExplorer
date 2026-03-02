@@ -10,10 +10,10 @@
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*">
+    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.8">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="DevExpress.Wpf.RichEdit" Version="25.1.*">
+    <PackageReference Include="DevExpress.Wpf.RichEdit" Version="25.1.8">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>

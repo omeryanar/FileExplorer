@@ -15,7 +15,7 @@
     
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.*">
+    <PackageReference Include="DevExpress.Wpf.Core" Version="25.1.8">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>

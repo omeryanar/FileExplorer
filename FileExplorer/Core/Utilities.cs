@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -17,6 +18,7 @@ using DevExpress.Xpf.Grid;
 using FileExplorer.ViewModel;
 using NaturalSort.Extension;
 using NLog;
+using Vanara.Collections;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using static Vanara.Windows.Shell.ShellFileOperations;
@@ -176,67 +178,37 @@ namespace FileExplorer.Core
 
         public static void RecycleFiles(IEnumerable<String> files)
         {
-            Task.Run(() =>
-            {
-                Delete(files.Select(x => new ShellItem(x)), OperationFlags.NoConfirmMkDir | OperationFlags.RecycleOnDelete);
-            });
+            PerformFileOperation(FileOperation.Recycle, files);
         }
 
         public static void RestoreFiles(IEnumerable<String> files)
         {
-            Task.Run(() =>
-            {
-                using (ShellFileOperations  fileOperations = new ShellFileOperations())
-                {
-                    foreach (string file in files)
-                    {
-                        ShellItem shellItem = new ShellItem(file);
-                        fileOperations.QueueMoveOperation(shellItem, new ShellFolder(Path.GetDirectoryName(shellItem.Name)));
-                    }
-
-                    fileOperations.PerformOperations();
-                }
-            });
+            PerformFileOperation(FileOperation.Restore, files);
         }
 
         public static void RestoreAll()
         {
-            Task.Run(() =>
-            {
-                RecycleBin.RestoreAll();
-            });
+            PerformFileOperation(FileOperation.RestoreAll);
         }
 
         public static void EmptyRecycleBin()
         {
-            Task.Run(() =>
-            {
-                RecycleBin.Empty(false, false, false);
-            });
+            PerformFileOperation(FileOperation.Empty);
         }
 
         public static void DeleteFiles(IEnumerable<String> files)
         {
-            Task.Run(() =>
-            {
-                Delete(files.Select(x => new ShellItem(x)), OperationFlags.NoConfirmMkDir);
-            });
+            PerformFileOperation(FileOperation.Delete, files);
         }
 
         public static void MoveFiles(IEnumerable<String> files, string destination)
         {
-            Task.Run(() =>
-            {
-                Move(files.Select(x => new ShellItem(x)), new ShellFolder(destination));
-            });
+            PerformFileOperation(FileOperation.Move, files, destination);
         }
 
         public static void CopyFiles(IEnumerable<String> files, string destination)
         {
-            Task.Run(() =>
-            {
-                Copy(files.Select(x => new ShellItem(x)), new ShellFolder(destination));
-            });
+            PerformFileOperation(FileOperation.Copy, files, destination);
         }
 
         public static void CopyFilesToClipboard(IEnumerable<String> files, bool cut)
@@ -367,6 +339,73 @@ namespace FileExplorer.Core
         public static int NaturalCompare(string value1, string value2)
         {
             return NaturalSortComparer.Compare(value1, value2);
+        }
+
+        private static void PerformFileOperation(FileOperation fileOperation, IEnumerable<string> files = null, string destination = null)
+        {
+            Thread thread = new Thread(() =>
+            {
+                try
+                {
+                    switch (fileOperation)
+                    {
+                        case FileOperation.Copy:
+                            Copy(files.Select(x => new ShellItem(x)), new ShellFolder(destination));
+                            break;
+                        
+                        case FileOperation.Move:
+                            Move(files.Select(x => new ShellItem(x)), new ShellFolder(destination));
+                            break;
+                        
+                        case FileOperation.Recycle:
+                            Delete(files.Select(x => new ShellItem(x)), OperationFlags.NoConfirmMkDir | OperationFlags.RecycleOnDelete);
+                            break;
+
+                        case FileOperation.Delete:
+                            Delete(files.Select(x => new ShellItem(x)), OperationFlags.NoConfirmMkDir);
+                            break;
+
+                        case FileOperation.Restore:
+                            using (ShellFileOperations fileOperations = new ShellFileOperations())
+                            {
+                                foreach (string file in files)
+                                {
+                                    ShellItem shellItem = new ShellItem(file);
+                                    fileOperations.QueueMoveOperation(shellItem, new ShellFolder(Path.GetDirectoryName(shellItem.Name)));
+                                }
+
+                                fileOperations.PerformOperations();
+                            }
+                            break;
+
+                        case FileOperation.RestoreAll:
+                            RecycleBin.RestoreAll();
+                            break;
+
+                        case FileOperation.Empty:
+                            RecycleBin.Empty(false, false, false);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ShowMessage(ex);
+                }
+            });
+
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();            
+        }
+
+        private enum FileOperation
+        {
+            Copy,
+            Move,
+            Recycle,
+            RestoreAll,
+            Restore,
+            Delete,
+            Empty
         }
 
         private static NaturalSortComparer NaturalSortComparer = new NaturalSortComparer(StringComparison.OrdinalIgnoreCase);
