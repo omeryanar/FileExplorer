@@ -18,7 +18,6 @@ using DevExpress.Xpf.Grid;
 using FileExplorer.ViewModel;
 using NaturalSort.Extension;
 using NLog;
-using Vanara.Collections;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using static Vanara.Windows.Shell.ShellFileOperations;

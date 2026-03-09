@@ -468,6 +468,8 @@ namespace FileExplorer.Controls
         public TableViewEx()
         {
             RowEditStarting += (s, e) => { ScrollIntoView(e.RowHandle); };
+
+            RowEditFinished += (s, e) => { DataControl.Focus(); };
         }
 
         protected override void UpdateAfterIncrementalSearch()
@@ -495,6 +497,8 @@ namespace FileExplorer.Controls
         public TreeViewEx()
         {
             NodeEditStarting += (s, e) => { ScrollIntoView(e.Node.RowHandle); };
+
+            NodeEditFinished += (s, e) => { DataControl.Focus(); };
 
             CustomColumnSort += (s, e) =>
             {

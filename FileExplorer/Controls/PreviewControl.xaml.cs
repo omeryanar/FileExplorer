@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using DevExpress.Mvvm;
 using FileExplorer.Core;
 using FileExplorer.Extension;
@@ -22,6 +23,14 @@ namespace FileExplorer.Controls
         }
         public static readonly DependencyProperty FileProperty =
             DependencyProperty.Register(nameof(File), typeof(FileModel), typeof(PreviewControl), new PropertyMetadata(null, OnFileChanged));
+
+        public ICommand ErrorCommand
+        {
+            get { return (ICommand)GetValue(ErrorCommandProperty); }
+            set { SetValue(ErrorCommandProperty, value); }
+        }
+        public static readonly DependencyProperty ErrorCommandProperty = 
+            DependencyProperty.Register(nameof(ErrorCommand), typeof(ICommand), typeof(PreviewControl));
 
         public IPreviewExtension ActiveExtension
         {
@@ -53,6 +62,12 @@ namespace FileExplorer.Controls
         public PreviewControl()
         {
             InitializeComponent();
+
+            Loaded += async (s, e) =>
+            {
+                if (File?.IsDirectory == false)
+                    await ActivateExtension(File);
+            };
 
             Messenger.Default.Register(this, async (NotificationMessage message) =>
             {
@@ -129,17 +144,20 @@ namespace FileExplorer.Controls
 
         private static async void OnFileChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PreviewControl previewControl && previewControl.IsVisible && e.NewValue is FileModel fileModel)
+            if (d is PreviewControl previewControl)
             {
                 if (previewControl.ActiveExtension != null)
                     await previewControl.ActiveExtension.UnloadFile();
 
                 previewControl.ActiveExtension = null;
 
-                if (fileModel.IsDirectory)
-                    previewControl.Message = String.Empty;
-                else
-                    await previewControl.ActivateExtension(fileModel);
+                if (previewControl.IsLoaded && e.NewValue is FileModel fileModel)
+                {
+                    if (fileModel.IsDirectory)
+                        previewControl.Message = String.Empty;
+                    else
+                        await previewControl.ActivateExtension(fileModel);
+                }
             }
         }
 

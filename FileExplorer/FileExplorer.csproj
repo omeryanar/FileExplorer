@@ -10,7 +10,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup>
-  <RootNamespace>FileExplorer</RootNamespace>
+    <RootNamespace>FileExplorer</RootNamespace>
     <ApplicationIcon>Assets\ICO\Explorer.ico</ApplicationIcon>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PlatformTarget>AnyCPU</PlatformTarget>

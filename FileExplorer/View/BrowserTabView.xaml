@@ -7,7 +7,7 @@
              xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
-             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:dxfui="http://schemas.devexpress.com/winfx/2008/xaml/core/filteringui"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:main="clr-namespace:FileExplorer"
@@ -38,14 +38,8 @@
     </dxmvvm:Interaction.Behaviors>
 
     <dx:LoadingDecorator>
-        <dxlc:DockLayoutControl>
-            <dxlc:DockLayoutControl.ItemSizerStyle>
-                <Style TargetType="dxlc:ElementSizer">
-                    <EventSetter Event="PreviewMouseDoubleClick" Handler="ElementSizer_PreviewMouseDoubleClick" />
-                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ElementSizer_PreviewMouseLeftButtonUp" />
-                </Style>
-            </dxlc:DockLayoutControl.ItemSizerStyle>
-            <dxr:RibbonControl dxlc:DockLayoutControl.Dock="Top" RibbonTitleBarVisibility="Collapsed" RibbonStyle="Office2019" ToolbarShowMode="Hide"
+        <DockPanel>
+            <dxr:RibbonControl DockPanel.Dock="Top" RibbonTitleBarVisibility="Collapsed" RibbonStyle="Office2019" ToolbarShowMode="Hide"
                                ShowApplicationButton="False" AllowCustomization="False" AllowKeyTips="False"
                                IsSimplified="{Binding Settings.SimplifiedRibbon, Mode=TwoWay}" IsMinimized="{Binding Settings.MinimizedRibbon, Mode=TwoWay}">
                 <dxr:RibbonControl.PageHeaderItems>
@@ -469,8 +463,8 @@
                     </dxr:RibbonPage>
                 </dxr:RibbonPageCategory>
             </dxr:RibbonControl>
-            <dxlc:LayoutGroup Padding="3" dxlc:DockLayoutControl.Dock="Top">
-                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
+            <DockPanel Margin="{LWThemeValue Default='4,8,8,2', Win11='4,4,6,4'}" DockPanel.Dock="Top">
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
                     <Button Content="{StaticResource IconBack}" Style="{StaticResource FlatButtonStyle}" Command="{Binding MoveBackCommand}">
                         <Button.ToolTip>
                             <TextBlock>
@@ -518,15 +512,8 @@
                             </TextBlock>
                         </Button.ToolTip>
                     </Button>
-                </StackPanel>
-                <controls:BreadCrumbControl x:Name="BreadCrumb" CurrentItem="{Binding CurrentFolder, Mode=OneWay}" ShowHiddenItems="{Binding Settings.ShowHiddenItems}" ShowSystemItems="{Binding Settings.ShowSystemItems}"
-                                            ItemClickCommand="{Binding OpenItemCommand}" ItemMiddleClickCommand="{Binding OpenInNewTabCommand}" NavigatePathCommand="{Binding NavigatePathCommand}">
-                    <dxmvvm:Interaction.Behaviors>
-                        <common:WindowKeyToCommand KeyGesture="Ctrl+L" Command="{DXCommand '@e(BreadCrumb).Edit()'}" />
-                        <common:WindowKeyToCommand KeyGesture="Alt+D" Command="{DXCommand '@e(BreadCrumb).Edit()'}" />
-                    </dxmvvm:Interaction.Behaviors>
-                </controls:BreadCrumbControl>
-                <StackPanel Margin="3,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                </StackPanel>                
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                     <dxe:ButtonEdit x:Name="SearchEdit" AllowDefaultButton="False" MinWidth="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
                                     NullText="{Binding CurrentFolder.Name, Converter={common:StringFormatConverter}, ConverterParameter=SearchTitle}">
                         <dxmvvm:Interaction.Behaviors>
@@ -546,166 +533,70 @@
                                         Visibility="{Binding SearchCommand.IsExecuting, Converter={dxmvvm:BooleanToVisibilityConverter}}" />
                     </dxe:ButtonEdit>
                 </StackPanel>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Padding="7,0,3,0" dxlc:DockLayoutControl.Dock="Left" dxlc:DockLayoutControl.AllowHorizontalSizing="True" MinWidth="125" Width="{Binding Settings.LeftPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
-                              Visibility="{Binding Settings.ShowNavigationPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                <dxb:BarManager>
-                    <controls:FileTreeViewControl />
-                </dxb:BarManager>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Right" dxlc:DockLayoutControl.AllowHorizontalSizing="True" MinWidth="210" Width="{Binding Settings.RightPaneWidth, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
-                <dxlc:LayoutGroup.Visibility>
-                    <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
-                        <Binding Path="Settings.ShowPreviewPane" />
-                        <Binding Path="Settings.ShowDetailsPane" />
-                    </MultiBinding>
-                </dxlc:LayoutGroup.Visibility>
-                <dxlc:LayoutGroup Orientation="Vertical">
-                    <dxlc:LayoutGroup Orientation="Vertical" Header="{Binding PreviewPane, Source={StaticResource ResourceProvider}}"
-                                      Visibility="{Binding Settings.ShowPreviewPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                        <controls:PreviewControl Margin="3,0" File="{Binding CurrentItem, ElementName=FileList}" />
-                    </dxlc:LayoutGroup>
-                    <dxlc:LayoutGroup VerticalAlignment="Top" Header="{Binding DetailsPane, Source={StaticResource ResourceProvider}}"
-                                      Visibility="{Binding Settings.ShowDetailsPane, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                        <dxlc:LayoutGroup Orientation="Vertical" Padding="10" DataContext="{Binding CurrentItem, ElementName=FileList}"
-                                          Visibility="{Binding Converter={common:ObjectToVisibilityConverter}}">
-                            <TextBlock FontSize="16" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding FullName}" />
-                            <TextBlock Text="{Binding Description}" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Visibility="{Binding IsDrive, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                                    <Run Text="{Binding FreeSpace, Converter={common:IntToFileSizeConverter}}" />
-                                    <Run Text="free of " />
-                                </TextBlock>
-                                <TextBlock Text="{Binding Size, Converter={common:IntToFileSizeConverter}}" />
-                            </StackPanel>
-                            <dxe:ProgressBarEdit Width="180" HorizontalAlignment="Left" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
-                                                 Maximum="{Binding Size}" EditValue="{DXBinding 'Size - FreeSpace', Mode=OneWay}"
-                                                 Visibility="{Binding IsDrive, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                            </dxe:ProgressBarEdit>
-                            <Grid ClipToBounds="True">
-                                <Image RenderOptions.BitmapScalingMode="HighQuality" MaxHeight="300" StretchDirection="DownOnly" HorizontalAlignment="Left">
-                                    <Image.Style>
-                                        <Style TargetType="{x:Type Image}">
-                                            <Setter Property="Source" Value="{Binding ExtraLargeIcon}" />
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsAudio}" Value="True" />
-                                                        <Condition Binding="{Binding Picture, Converter={dxmvvm:ObjectToBooleanConverter}}" Value="True" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Source" Value="{Binding Picture}" />
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
-                            </Grid>
-                            <dxlc:LayoutGroup Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemLabelsAlignment="Local">
-                                <dxlc:LayoutGroup.Resources>
-                                    <Style TargetType="dxe:TextEdit">
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="IsReadOnly" Value="True" />
-                                        <Setter Property="ShowBorder" Value="False" />
-                                    </Style>
-                                </dxlc:LayoutGroup.Resources>                                
-                                <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
-                                    <dxe:TextEdit EditValue="{Binding DateCreated}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
-                                </dxlc:LayoutItem>
-                                <dxlc:LayoutItem Label="{Binding DateModified, Source={StaticResource ResourceProvider}}">
-                                    <dxe:TextEdit EditValue="{Binding DateModified}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
-                                </dxlc:LayoutItem>
-                                <dxlc:LayoutItem Label="{Binding DateAccessed, Source={StaticResource ResourceProvider}}">
-                                    <dxe:TextEdit EditValue="{Binding DateAccessed}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
-                                </dxlc:LayoutItem>
-                                <dxlc:LayoutGroup Orientation="Vertical">
-                                    <dxlc:LayoutGroup.Visibility>
-                                        <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
-                                            <Binding Path="IsImage" />
-                                            <Binding Path="IsVideo" />
-                                        </MultiBinding>
-                                    </dxlc:LayoutGroup.Visibility>
-                                    <dxlc:GroupSeparator />
-                                    <dxlc:LayoutItem Label="{Binding Width, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Width, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding Height, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Height, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                </dxlc:LayoutGroup>
-                                <dxlc:LayoutGroup Orientation="Vertical">
-                                    <dxlc:LayoutGroup.Visibility>
-                                        <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
-                                            <Binding Path="IsVideo" />
-                                            <Binding Path="IsAudio" />
-                                        </MultiBinding>
-                                    </dxlc:LayoutGroup.Visibility>
-                                    <dxlc:GroupSeparator />
-                                    <dxlc:LayoutItem Label="{Binding Duration, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Duration, Mode=OneWay}" DisplayFormatString="{}{0:hh\:mm\:ss}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding AudioBitrate, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding AudioBitrate, Mode=OneWay}" DisplayFormatString="{}{0} kbps" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding AudioChannels, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding AudioChannels, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding AudioSampleRate, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding AudioSampleRate, Mode=OneWay}" DisplayFormatString="{}{0:N0} Hz" />
-                                    </dxlc:LayoutItem>
-                                </dxlc:LayoutGroup>
-                                <dxlc:LayoutGroup Orientation="Vertical" Visibility="{Binding IsAudio, Converter={dxmvvm:BooleanToVisibilityConverter}}">
-                                    <dxlc:GroupSeparator />
-                                    <dxlc:LayoutItem Label="{Binding Album, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Album, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding Title, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Title, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding Genre, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Genre, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding AlbumArtists, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding AlbumArtists, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding ContributingArtists, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding ContributingArtists, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding Composers, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Composers, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding Year, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Year, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding Track, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding Track, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                    <dxlc:LayoutItem Label="{Binding TrackCount, Source={StaticResource ResourceProvider}}">
-                                        <dxe:TextEdit EditValue="{Binding TrackCount, Mode=OneWay}" />
-                                    </dxlc:LayoutItem>
-                                </dxlc:LayoutGroup>
-                            </dxlc:LayoutGroup>
-                        </dxlc:LayoutGroup>
-                    </dxlc:LayoutGroup>
-                </dxlc:LayoutGroup>
-            </dxlc:LayoutGroup>
-            <controls:FileListViewControl x:Name="FileList" Margin="0,0,-1,-1" CurrentFolderPath="{Binding CurrentFolder.FullPath}" ItemsSource="{Binding DisplayItems}"
-                                          FixedFilter="{Binding FilterCriteria, Mode=OneWay}" HighlightedText="{Binding HighlightedText}"
-                                          RowDoubleClickCommand="{Binding OpenItemCommand}" EditSelectedItemsCommand="{Binding RenameItemsCommand}"
-                                          ShowLoadingPanel="{Binding IsLoading}" LocalSettings="{Binding Settings}">
-                <controls:FileListViewControl.EditSelectedItemCommand>
-                    <PriorityBinding>
-                        <Binding Path="View.TableViewCommands.EditFocusedRow" ElementName="FileList" />
-                        <Binding Path="View.TreeListCommands.EditFocusedRow" ElementName="FileList" />
-                        <Binding Path="RenameCommand" />
-                    </PriorityBinding>
-                </controls:FileListViewControl.EditSelectedItemCommand>
-                <dxmvvm:Interaction.Behaviors>
-                    <common:DataUpdateService />
-                    <dxmvvm:EventToCommand EventName="PastingFromClipboard" MarkRoutedEventsAsHandled="True"
-                                           Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" />
-                </dxmvvm:Interaction.Behaviors>
-            </controls:FileListViewControl>
-        </dxlc:DockLayoutControl>
+                <controls:BreadCrumbControl x:Name="BreadCrumb" Margin="8,0" CurrentItem="{Binding CurrentFolder, Mode=OneWay}" ShowHiddenItems="{Binding Settings.ShowHiddenItems}" ShowSystemItems="{Binding Settings.ShowSystemItems}"
+                                            ItemClickCommand="{Binding OpenItemCommand}" ItemMiddleClickCommand="{Binding OpenInNewTabCommand}" NavigatePathCommand="{Binding NavigatePathCommand}">
+                    <dxmvvm:Interaction.Behaviors>
+                        <common:WindowKeyToCommand KeyGesture="Ctrl+L" Command="{DXCommand '@e(BreadCrumb).Edit()'}" />
+                        <common:WindowKeyToCommand KeyGesture="Alt+D" Command="{DXCommand '@e(BreadCrumb).Edit()'}" />
+                    </dxmvvm:Interaction.Behaviors>
+                </controls:BreadCrumbControl>
+            </DockPanel>
+            <dxdo:DockLayoutManager AutoHideExpandMode="MouseDown" AutoHideMode="Inline" Background="{DynamicResource {dxgt:LWKey TableView.DataPresenterBackground}}">
+                <dxdo:LayoutGroup>
+                    <dxdo:LayoutPanel Padding="4" ShowCaption="False" ShowBorder="False" Background="Transparent"
+                                      Closed="{Binding Settings.ShowNavigationPane, Converter={dxmvvm:BooleanNegationConverter}}"
+                                      MinWidth="120" ItemWidth="{Binding Settings.LeftPaneWidth, Mode=TwoWay, Delay=3000, Converter={common:NumericToGridLengthConverter}}">
+                        <dxb:BarManager>
+                            <controls:FileTreeViewControl />
+                        </dxb:BarManager>
+                    </dxdo:LayoutPanel>
+                    <dxdo:LayoutGroup>
+                        <dxdo:LayoutPanel>
+                            <dxdo:LayoutPanel.Template>
+                                <ControlTemplate TargetType="dxdo:LayoutPanel">
+                                    <Border Padding="0,4,0,-3">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </dxdo:LayoutPanel.Template>
+                            <controls:FileListViewControl x:Name="FileList" CurrentFolderPath="{Binding CurrentFolder.FullPath}" ItemsSource="{Binding DisplayItems}"
+                                                          FixedFilter="{Binding FilterCriteria, Mode=OneWay}" HighlightedText="{Binding HighlightedText}"
+                                                          RowDoubleClickCommand="{Binding OpenItemCommand}" EditSelectedItemsCommand="{Binding RenameItemsCommand}"
+                                                          ShowLoadingPanel="{Binding IsLoading}" LocalSettings="{Binding Settings}">
+                                <controls:FileListViewControl.EditSelectedItemCommand>
+                                    <PriorityBinding>
+                                        <Binding Path="View.TableViewCommands.EditFocusedRow" ElementName="FileList" />
+                                        <Binding Path="View.TreeListCommands.EditFocusedRow" ElementName="FileList" />
+                                        <Binding Path="RenameCommand" />
+                                    </PriorityBinding>
+                                </controls:FileListViewControl.EditSelectedItemCommand>
+                                <dxmvvm:Interaction.Behaviors>
+                                    <common:DataUpdateService />
+                                    <dxmvvm:EventToCommand EventName="PastingFromClipboard" MarkRoutedEventsAsHandled="True"
+                                                           Command="{Binding PasteFromClipboardCommand}" CommandParameter="{Binding SelectedItem, ElementName=FileList}" />
+                                </dxmvvm:Interaction.Behaviors>
+                            </controls:FileListViewControl>
+                        </dxdo:LayoutPanel>
+                    </dxdo:LayoutGroup>
+                    <dxdo:TabbedGroup Margin="{LWThemeValue Default='4,4,6,4', Win11='4'}" AllowDrag="False" MinWidth="210" ItemWidth="{Binding Settings.RightPaneWidth, Mode=TwoWay, Delay=3000, Converter={common:NumericToGridLengthConverter}}">
+                        <dxdo:TabbedGroup.Visibility>
+                            <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
+                                <Binding Path="Settings.ShowPreviewPane" />
+                                <Binding Path="Settings.ShowDetailsPane" />
+                            </MultiBinding>
+                        </dxdo:TabbedGroup.Visibility>
+                        <dxdo:LayoutPanel Background="Transparent" Caption="{Binding PreviewPane, Source={StaticResource ResourceProvider}}"
+                                          Closed="{Binding Settings.ShowPreviewPane, Converter={dxmvvm:BooleanNegationConverter}}">
+                            <controls:PreviewControl File="{Binding SelectedItem, ElementName=FileList}" ErrorCommand="{Binding DataContext.ShowExtensionsCommand, ElementName=FileList}" />
+                        </dxdo:LayoutPanel>
+                        <dxdo:LayoutPanel Background="Transparent" Caption="{Binding DetailsPane, Source={StaticResource ResourceProvider}}"
+                                          Closed="{Binding Settings.ShowDetailsPane, Converter={dxmvvm:BooleanNegationConverter}}">
+                            <controls:FileDetailsControl VerticalAlignment="Center" DataContext="{Binding CurrentItem, ElementName=FileList}" />
+                        </dxdo:LayoutPanel>
+                    </dxdo:TabbedGroup>
+                </dxdo:LayoutGroup>
+            </dxdo:DockLayoutManager>
+        </DockPanel>
     </dx:LoadingDecorator>
 
 </UserControl>

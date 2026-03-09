@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using DevExpress.Data;
+using DevExpress.Data.Filtering;
 using DevExpress.Xpf.Grid;
 
 namespace FileExplorer.Core
@@ -94,6 +95,8 @@ namespace FileExplorer.Core
 
     public class MultiBooleanToVisibilityConverter : MarkupExtension, IMultiValueConverter
     {
+        public GroupOperatorType Condition { get; set; } = GroupOperatorType.Or;
+
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             return this;
@@ -101,13 +104,13 @@ namespace FileExplorer.Core
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || values.Length < 1)
+            if (values?.Length < 1)
                 return Visibility.Collapsed;
 
-            if (values.OfType<bool>().Any(x => x))
-                return Visibility.Visible;
-            else 
-                return Visibility.Collapsed;
+            if (Condition == GroupOperatorType.Or)
+                return values.Any(x => x is bool boolValue && boolValue) ? Visibility.Visible : Visibility.Collapsed;
+            else
+                return values.All(x => x is bool boolValue && boolValue) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -235,6 +238,31 @@ namespace FileExplorer.Core
         {
             if (value is bool boolValue && boolValue)
                 return 1;
+
+            return 0;
+        }
+    }
+
+    public class NumericToGridLengthConverter : MarkupExtension, IValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double doubleValue = System.Convert.ToDouble(value);
+            if (doubleValue != 0)
+                return new GridLength(doubleValue);
+
+            return GridLength.Auto;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is GridLength gridLength)
+                return gridLength.Value;
 
             return 0;
         }

@@ -1,0 +1,129 @@
+﻿<dxlc:LayoutControl x:Class="FileExplorer.Controls.FileDetailsControl"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                    xmlns:common="clr-namespace:FileExplorer.Core"
+                    xmlns:settings="clr-namespace:FileExplorer.Properties">
+
+    <dxlc:LayoutGroup Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding Converter={common:ObjectToVisibilityConverter}}">
+        <TextBlock FontSize="16" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding FullName}" />
+        <TextBlock Text="{Binding Description}" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Visibility="{Binding IsDrive, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+                <Run Text="{Binding FreeSpace, Converter={common:IntToFileSizeConverter}}" />
+                <Run Text="free of " />
+            </TextBlock>
+            <TextBlock Text="{Binding Size, Converter={common:IntToFileSizeConverter}}" />
+        </StackPanel>
+        <dxe:ProgressBarEdit Width="180" HorizontalAlignment="Left" ContentDisplayMode="Value" DisplayTextConverter="{common:IntToFileSizeConverter}"
+                             Maximum="{Binding Size}" EditValue="{DXBinding 'Size - FreeSpace', Mode=OneWay}"
+                             Visibility="{Binding IsDrive, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+        </dxe:ProgressBarEdit>
+        <Grid ClipToBounds="True">
+            <Image RenderOptions.BitmapScalingMode="HighQuality" MaxHeight="300" StretchDirection="DownOnly" HorizontalAlignment="Left">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="{Binding ExtraLargeIcon}" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsAudio}" Value="True" />
+                                    <Condition Binding="{Binding Picture, Converter={dxmvvm:ObjectToBooleanConverter}}" Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Source" Value="{Binding Picture}" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </Grid>
+        <dxlc:LayoutGroup Orientation="Vertical" VerticalAlignment="Top" ItemLabelsAlignment="Local">
+            <dxlc:LayoutGroup.Resources>
+                <Style TargetType="dxe:TextEdit">
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="ShowBorder" Value="False" />
+                </Style>
+            </dxlc:LayoutGroup.Resources>
+            <dxlc:LayoutItem Label="{Binding DateCreated, Source={StaticResource ResourceProvider}}">
+                <dxe:TextEdit EditValue="{Binding DateCreated}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding DateModified, Source={StaticResource ResourceProvider}}">
+                <dxe:TextEdit EditValue="{Binding DateModified}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="{Binding DateAccessed, Source={StaticResource ResourceProvider}}">
+                <dxe:TextEdit EditValue="{Binding DateAccessed}" DisplayFormatString="{Binding DateTimeFormatString, Source={x:Static settings:Settings.Default}}" />
+            </dxlc:LayoutItem>
+            <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutGroup.Visibility>
+                    <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
+                        <Binding Path="IsImage" />
+                        <Binding Path="IsVideo" />
+                    </MultiBinding>
+                </dxlc:LayoutGroup.Visibility>
+                <dxlc:GroupSeparator />
+                <dxlc:LayoutItem Label="{Binding Width, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Width, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding Height, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Height, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutGroup.Visibility>
+                    <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
+                        <Binding Path="IsVideo" />
+                        <Binding Path="IsAudio" />
+                    </MultiBinding>
+                </dxlc:LayoutGroup.Visibility>
+                <dxlc:GroupSeparator />
+                <dxlc:LayoutItem Label="{Binding Duration, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Duration, Mode=OneWay}" DisplayFormatString="{}{0:hh\:mm\:ss}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding AudioBitrate, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding AudioBitrate, Mode=OneWay}" DisplayFormatString="{}{0} kbps" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding AudioChannels, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding AudioChannels, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding AudioSampleRate, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding AudioSampleRate, Mode=OneWay}" DisplayFormatString="{}{0:N0} Hz" />
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical" Visibility="{Binding IsAudio, Converter={dxmvvm:BooleanToVisibilityConverter}}">
+                <dxlc:GroupSeparator />
+                <dxlc:LayoutItem Label="{Binding Album, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Album, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding Title, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Title, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding Genre, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Genre, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding AlbumArtists, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding AlbumArtists, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding ContributingArtists, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding ContributingArtists, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding Composers, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Composers, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding Year, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Year, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding Track, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding Track, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="{Binding TrackCount, Source={StaticResource ResourceProvider}}">
+                    <dxe:TextEdit EditValue="{Binding TrackCount, Mode=OneWay}" />
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutGroup>
+
+    </dxlc:LayoutGroup>
+
+</dxlc:LayoutControl>
