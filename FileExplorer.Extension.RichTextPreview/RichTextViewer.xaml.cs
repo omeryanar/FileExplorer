@@ -36,7 +36,17 @@ namespace FileExplorer.Extension.RichTextPreview
         public Task PreviewFile(string filePath)
         {
             ZoomFactor = 100f;
-            Document = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+            Stream stream = null;
+            try
+            {
+                stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                Document = stream;
+            }
+            catch
+            {
+                stream?.Dispose();
+                throw;
+            }
 
             return Task.CompletedTask;
         }
