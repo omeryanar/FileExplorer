@@ -85,19 +85,19 @@ namespace FileExplorer.Extension.VideoPreview
         }
     }
 
-    public enum LoadBehavior
-    {
-        [Display(Name = "Stop", ResourceType = typeof(Properties.Resources))]
-        None,
+	public enum LoadBehavior
+	{
+		[Display(Name = "Stop", Description = "StopDescription", ResourceType = typeof(Properties.Resources))]
+		None,
 
-        [Display(Name = "Pause", ResourceType = typeof(Properties.Resources))]
-        Pause,
+		[Display(Name = "Pause", Description = "PauseDescription", ResourceType = typeof(Properties.Resources))]
+		Pause,
 
-        [Display(Name = "Play", ResourceType = typeof(Properties.Resources))]
-        Play
-    }
+		[Display(Name = "Play", Description = "PlayDescription", ResourceType = typeof(Properties.Resources))]
+		Play
+	}
 
-    public enum TimestampPosition
+	public enum TimestampPosition
     {
         [Display(Name = "None", ResourceType = typeof(Properties.Resources))]
         None,

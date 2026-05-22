@@ -130,10 +130,10 @@
     <value>Nein</value>
   </data>
   <data name="Pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>Pausieren</value>
   </data>
   <data name="Play" xml:space="preserve">
-    <value>Wiedergabe</value>
+    <value>Abspielen</value>
   </data>
   <data name="PreviousTimeJump" xml:space="preserve">
     <value>Vorheriger Zeitsprung</value>
@@ -145,7 +145,7 @@
     <value>Miniaturansichten anzeigen</value>
   </data>
   <data name="Stop" xml:space="preserve">
-    <value>Stopp</value>
+    <value>Anhalten</value>
   </data>
   <data name="RowsAndColumns" xml:space="preserve">
     <value>Zeilen &amp; Spalten</value>
@@ -154,7 +154,7 @@
     <value>Miniaturansichten</value>
   </data>
   <data name="UseDirectShow" xml:space="preserve">
-    <value>DirectShow verwenden</value>
+    <value>DirectShow Verwenden</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
@@ -191,5 +191,20 @@
   </data>
   <data name="RememberPlaybackPosition" xml:space="preserve">
     <value>Wiedergabeposition Merken</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Laden</value>
+  </data>
+  <data name="PauseDescription" xml:space="preserve">
+    <value>Die ausgewählte Datei wird geladen, aber angehalten.</value>
+  </data>
+  <data name="PlayDescription" xml:space="preserve">
+    <value>Die Datei wird unmittelbar nach der Auswahl abgespielt.</value>
+  </data>
+  <data name="StopDescription" xml:space="preserve">
+    <value>Die ausgewählte Datei wird nicht geladen; Miniaturansichten werden angezeigt, sofern diese aktiviert sind.</value>
+  </data>
+  <data name="Unload" xml:space="preserve">
+    <value>Entladen</value>
   </data>
 </root>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
@@ -7,132 +6,127 @@ using WPFMediaKit.DirectShow.MediaPlayers;
 
 namespace FileExplorer.Extension.VideoPreview.ViewModel
 {
-    public class DirectShowVideoPlayerViewModel : VideoPlayerViewModel
-    {
-        [ServiceProperty(Key = "DirectShowVideoPlayerService")]
-        public virtual IUIObjectService VideoPlayerService { get { return null; } }
+	public class DirectShowVideoPlayerViewModel : VideoPlayerViewModel
+	{
+		[ServiceProperty(Key = "DirectShowVideoPlayerService")]
+		public virtual IUIObjectService VideoPlayerService { get { return null; } }
 
-        public dynamic VideoPlayer => VideoPlayerService.Object;
+		public dynamic VideoPlayer => VideoPlayerService.Object;
 
-        public override int PlaybackPosition => Convert.ToInt32(Position / TimeSpan.TicksPerSecond);
+		public override int PlaybackPosition => Convert.ToInt32(Position / TimeSpan.TicksPerSecond);
 
-        public DirectShowVideoPlayerViewModel()
-        {
-            DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
-            timer.Interval = TimeSpan.FromMilliseconds(100);
-            timer.Tick += (s, e) =>
-            {
-                if (VideoPlayerService == null)
-                    return;
+		public DirectShowVideoPlayerViewModel()
+		{
+			DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
+			timer.Interval = TimeSpan.FromMilliseconds(100);
+			timer.Tick += (s, e) =>
+			{
+				if (VideoPlayerService == null)
+					return;
 
-                IsPlaying = VideoPlayer.IsPlaying;
-                if (IsPlaying)
-                {
-                    PlayCommand.RaiseCanExecuteChanged();
-                    PauseCommand.RaiseCanExecuteChanged();
-                    StopCommand.RaiseCanExecuteChanged();
-                    NextCommand.RaiseCanExecuteChanged();
-                    PreviousCommand.RaiseCanExecuteChanged();
-                }
-            };
-            timer.Start();
-        }
+				IsPlaying = VideoPlayer.IsPlaying;
+				if (IsPlaying)
+				{
+					PlayCommand.RaiseCanExecuteChanged();
+					PauseCommand.RaiseCanExecuteChanged();
+					StopCommand.RaiseCanExecuteChanged();
+					NextCommand.RaiseCanExecuteChanged();
+					PreviousCommand.RaiseCanExecuteChanged();
+				}
+			};
+			timer.Start();
+		}
 
-        public override Task PreviewFile(string filePath)
-        {
-            switch (VideoPreviewSettings.Default.LoadBehavior)
-            {
-                case LoadBehavior.None:
-                    VideoPlayer.LoadedBehavior = MediaState.Stop;
-                    break;
+		public override void UnloadFile()
+		{
+			base.UnloadFile();
+			VideoPlayer.Source = null;
+		}
 
-                case LoadBehavior.Pause:
-                    VideoPlayer.LoadedBehavior = MediaState.Pause;
-                    break;
+		public override void Load()
+		{
+			if (VideoPreviewSettings.Default.LoadBehavior == LoadBehavior.Play)
+				VideoPlayer.LoadedBehavior = MediaState.Play;
+			else
+				VideoPlayer.LoadedBehavior = MediaState.Pause;
 
-                case LoadBehavior.Play:
-                    VideoPlayer.LoadedBehavior = MediaState.Play;
-                    break;
-            }
+			VideoPlayer.Source = new Uri(MediaInfo.Name);
+			base.Load();
+		}
 
-            VideoPlayer.Source = new Uri(filePath);
+		public override void Eject()
+		{
+			VideoPlayer.Source = null;
+			base.Eject();
+		}
 
-            return base.PreviewFile(filePath);
-        }
+		public override void Play()
+		{
+			if (VideoPlayer.Source != null && !VideoPlayer.IsPlaying)
+				VideoPlayer.Play();
+		}
 
-        public override void UnloadFile()
-        {
-            base.UnloadFile();
-            VideoPlayer.Source = null;
-        }
+		public override void Pause()
+		{
+			if (VideoPlayer.Source != null && VideoPlayer.IsPlaying)
+				VideoPlayer.Pause();
+		}
 
-        public override void Play()
-        {
-            if (VideoPlayer.Source != null && !VideoPlayer.IsPlaying)
-                VideoPlayer.Play();
-        }
+		public override void Stop()
+		{
+			VideoPlayer.Stop();
+			Position = 0;
+		}
 
-        public override void Pause()
-        {
-            if (VideoPlayer.Source != null && VideoPlayer.IsPlaying)
-                VideoPlayer.Pause();
-        }
+		public override void Next()
+		{
+			long jump = VideoPreviewSettings.Default.NextTimeJump * TimeSpan.TicksPerSecond;
 
-        public override void Stop()
-        {
-            VideoPlayer.Stop();
-            Position = 0;
-        }
+			if (VideoPlayer.MediaDuration - VideoPlayer.MediaPosition > jump)
+				VideoPlayer.MediaPosition += jump;
+			else
+				VideoPlayer.MediaPosition = VideoPlayer.MediaDuration;
+		}
 
-        public override void Next()
-        {
-            long jump = VideoPreviewSettings.Default.NextTimeJump * TimeSpan.TicksPerSecond;
+		public override void Previous()
+		{
+			long jump = VideoPreviewSettings.Default.PreviousTimeJump * TimeSpan.TicksPerSecond;
 
-            if (VideoPlayer.MediaDuration - VideoPlayer.MediaPosition > jump)
-                VideoPlayer.MediaPosition += jump;
-            else
-                VideoPlayer.MediaPosition = VideoPlayer.MediaDuration;
-        }
+			if (VideoPlayer.MediaPosition > jump)
+				VideoPlayer.MediaPosition -= jump;
+			else
+				VideoPlayer.MediaPosition = 0;
+		}
 
-        public override void Previous()
-        {
-            long jump = VideoPreviewSettings.Default.PreviousTimeJump * TimeSpan.TicksPerSecond;
+		public override void Seek(int seconds)
+		{
+			Position = seconds * TimeSpan.TicksPerSecond;
+		}
 
-            if (VideoPlayer.MediaPosition > jump)
-                VideoPlayer.MediaPosition -= jump;
-            else
-                VideoPlayer.MediaPosition = 0;
-        }
+		public override void MediaOpened()
+		{
+			base.MediaOpened();
 
-        public override void Seek(int seconds)
-        {
-            Position = seconds * TimeSpan.TicksPerSecond;
-        }
+			PlayCommand.RaiseCanExecuteChanged();
+			Duration = VideoPlayer.MediaDuration;
+		}
 
-        public override void MediaOpened()
-        {
-            base.MediaOpened();
+		protected void OnIsMutedChanged()
+		{
+			if (IsMuted)
+			{
+				VolumeBeforeMute = VideoPlayer.Volume;
+				VideoPlayer.Volume = 0;
+			}
+			else
+			{
+				if (VolumeBeforeMute > 0)
+					VideoPlayer.Volume = VolumeBeforeMute;
+				else
+					VideoPlayer.Volume = 0.5;
+			}
+		}
 
-            PlayCommand.RaiseCanExecuteChanged();
-            Duration = VideoPlayer.MediaDuration;
-        }
-
-        protected void OnIsMutedChanged()
-        {
-            if (IsMuted)
-            {
-                VolumeBeforeMute = VideoPlayer.Volume;
-                VideoPlayer.Volume = 0;
-            }
-            else
-            {
-                if (VolumeBeforeMute > 0)
-                    VideoPlayer.Volume = VolumeBeforeMute;
-                else
-                    VideoPlayer.Volume = 0.5;
-            }
-        }
-
-        private double VolumeBeforeMute = 0.5;
-    }
+		private double VolumeBeforeMute = 0.5;
+	}
 }

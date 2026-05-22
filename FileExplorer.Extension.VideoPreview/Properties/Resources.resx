@@ -192,4 +192,19 @@
   <data name="RememberPlaybackPosition" xml:space="preserve">
     <value>Remember Playback Position</value>
   </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="PauseDescription" xml:space="preserve">
+    <value>The selected file will load but will be paused.</value>
+  </data>
+  <data name="PlayDescription" xml:space="preserve">
+    <value>The file starts playing immediately after it is selected.</value>
+  </data>
+  <data name="StopDescription" xml:space="preserve">
+    <value>The selected file will not load; thumbnails will be displayed if enabled.</value>
+  </data>
+  <data name="Unload" xml:space="preserve">
+    <value>Unload</value>
+  </data>
 </root>

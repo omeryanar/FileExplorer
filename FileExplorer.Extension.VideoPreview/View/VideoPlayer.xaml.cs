@@ -50,23 +50,13 @@ namespace FileExplorer.Extension.VideoPreview.View
             FilePath = filePath;
 
             if (DataContext is VideoPlayerViewModel videoPlayer)
-            {
                 await videoPlayer.PreviewFile(filePath);
-
-                if (VideoPreviewSettings.Default.RememberPlaybackPosition && VideoPlayerViewModel.History.ContainsKey(FilePath))
-                    videoPlayer.Seek(VideoPlayerViewModel.History[FilePath]);
-            }
         }
 
         public Task UnloadFile()
         {
             if (DataContext is VideoPlayerViewModel videoPlayer)
-            {
-                if (VideoPreviewSettings.Default.RememberPlaybackPosition && File.Exists(FilePath) && videoPlayer.PlaybackPosition > 0)
-                    VideoPlayerViewModel.History[FilePath] = videoPlayer.PlaybackPosition;
-
                 videoPlayer.UnloadFile();
-            }
 
             return Task.CompletedTask;
         }

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using DevExpress.Mvvm.UI.Interactivity;
+using DevExpress.Xpf.Core;
 using FileExplorer.Extension.VideoPreview.ViewModel;
 
 namespace FileExplorer.Extension.VideoPreview.Behaviours
@@ -27,17 +28,23 @@ namespace FileExplorer.Extension.VideoPreview.Behaviours
             AssociatedObject.Loaded += AssociatedObject_Loaded;
             AssociatedObject.Unloaded -= AssociatedObject_Unloaded;
 
-            MainWindow.KeyDown -= MainWindow_PreviewKeyDown;
+            MainWindow.PreviewKeyDown -= MainWindow_PreviewKeyDown;
         }
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (AssociatedObject.DataContext is VideoPlayerViewModel videoPlayer)
+			if (MainWindow is DXTabbedWindow tabbedWindow)
+            {
+                if (IsVisualChildOf(tabbedWindow.TabControl.SelectedContainer) == false)
+                    return;
+            }
+
+			if (AssociatedObject.DataContext is VideoPlayerViewModel videoPlayer)
             {
                 switch (e.Key)
                 {
                     case Key.Space:
-                        videoPlayer.TogglePlayPause();
+                        videoPlayer.TogglePlayPauseCommand.Execute(null);
                         break;
 
                     case Key.Right:
@@ -61,6 +68,19 @@ namespace FileExplorer.Extension.VideoPreview.Behaviours
             }
         }
 
-        private Window MainWindow;
+		private bool IsVisualChildOf(DependencyObject parent)
+		{
+            DependencyObject child = AssociatedObject;
+			while (child != null)
+			{
+				if (child == parent)
+                    return true;
+				
+                child = LogicalTreeHelper.GetParent(child);
+			}
+			return false;
+		}
+
+		private Window MainWindow;
     }
 }

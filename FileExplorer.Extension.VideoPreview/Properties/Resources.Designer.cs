@@ -106,6 +106,15 @@ namespace FileExplorer.Extension.VideoPreview.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load.
+        /// </summary>
+        public static string Load {
+            get {
+                return ResourceManager.GetString("Load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load Behavior.
         /// </summary>
         public static string LoadBehavior {
@@ -160,11 +169,29 @@ namespace FileExplorer.Extension.VideoPreview.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The selected file will load but will be paused..
+        /// </summary>
+        public static string PauseDescription {
+            get {
+                return ResourceManager.GetString("PauseDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play.
         /// </summary>
         public static string Play {
             get {
                 return ResourceManager.GetString("Play", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file starts playing immediately after it is selected..
+        /// </summary>
+        public static string PlayDescription {
+            get {
+                return ResourceManager.GetString("PlayDescription", resourceCulture);
             }
         }
         
@@ -232,6 +259,15 @@ namespace FileExplorer.Extension.VideoPreview.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The selected file will not load; thumbnails will be displayed if enabled..
+        /// </summary>
+        public static string StopDescription {
+            get {
+                return ResourceManager.GetString("StopDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thumbnails.
         /// </summary>
         public static string Thumbnails {
@@ -264,6 +300,15 @@ namespace FileExplorer.Extension.VideoPreview.Properties {
         public static string TopRight {
             get {
                 return ResourceManager.GetString("TopRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unload.
+        /// </summary>
+        public static string Unload {
+            get {
+                return ResourceManager.GetString("Unload", resourceCulture);
             }
         }
         

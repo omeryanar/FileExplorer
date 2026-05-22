@@ -137,7 +137,7 @@ namespace FileExplorer.Extension.VideoPreview
                 dc.DrawImage(d3dImage, new Rect(0, 0, width, height));
             }
 
-            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
             rtb.Render(dv);
 
             return BitmapFrame.Create(rtb);

@@ -192,4 +192,19 @@
   <data name="RememberPlaybackPosition" xml:space="preserve">
     <value>Oynatma Konumunu Hatırla</value>
   </data>
+  <data name="Load" xml:space="preserve">
+    <value>Yükle</value>
+  </data>
+  <data name="PauseDescription" xml:space="preserve">
+    <value>Seçilen dosya yüklenir ancak duraklatılır.</value>
+  </data>
+  <data name="PlayDescription" xml:space="preserve">
+    <value>Dosya seçildikten hemen sonra oynatılmaya başlar.</value>
+  </data>
+  <data name="StopDescription" xml:space="preserve">
+    <value>Seçilen dosya yüklenmez; etkinleştirilmişse küçük resimler gösterilir.</value>
+  </data>
+  <data name="Unload" xml:space="preserve">
+    <value>Çıkar</value>
+  </data>
 </root>

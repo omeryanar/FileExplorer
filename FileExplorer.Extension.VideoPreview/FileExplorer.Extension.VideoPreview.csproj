@@ -5,6 +5,18 @@
 	<LangVersion>latest</LangVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Backward.svg" />
+    <None Remove="Assets\Eject.svg" />
+    <None Remove="Assets\Forward.svg" />
+    <None Remove="Assets\Mute.svg" />
+    <None Remove="Assets\Pause.svg" />
+    <None Remove="Assets\Play.svg" />
+    <None Remove="Assets\Settings.svg" />
+    <None Remove="Assets\Stop.svg" />
+    <None Remove="Assets\Volume.svg" />
+  </ItemGroup>
 	
   <ItemGroup>
     <ProjectReference Include="..\FileExplorer.Common\FileExplorer.Common.csproj" />
@@ -15,6 +27,7 @@
     <PackageReference Include="DevExpress.Wpf" Version="25.1.8">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="TagLibSharp" Version="2.3.0" />
     <PackageReference Include="WPFMediaKit" Version="2.3.0" />
   </ItemGroup>
 	
@@ -23,6 +36,18 @@
     <Reference Include="System.ComponentModel.Composition" />
 	<Reference Include="System.Web" />
 	<Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Resource Include="Assets\Backward.svg" />
+    <Resource Include="Assets\Eject.svg" />
+    <Resource Include="Assets\Forward.svg" />
+    <Resource Include="Assets\Mute.svg" />
+    <Resource Include="Assets\Pause.svg" />
+    <Resource Include="Assets\Play.svg" />
+    <Resource Include="Assets\Settings.svg" />
+    <Resource Include="Assets\Stop.svg" />
+    <Resource Include="Assets\Volume.svg" />
   </ItemGroup>
 	
   <ItemGroup>
