@@ -19,7 +19,7 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 
 		public override void Load()
 		{
-			MediaTimeline mediaTimeline = new MediaTimeline(new Uri(MediaInfo.Name));
+			MediaTimeline mediaTimeline = new MediaTimeline(new Uri(FilePath));
 			MediaClock = mediaTimeline.CreateClock();
 
 			MediaClock.Completed += OnCompleted;

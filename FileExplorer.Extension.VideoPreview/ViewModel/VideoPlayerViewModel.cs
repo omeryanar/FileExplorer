@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DevExpress.Mvvm;
 using FileExplorer.Common;
+using FileExplorer.Extension.VideoPreview.Common;
 using TagLib;
 
 namespace FileExplorer.Extension.VideoPreview.ViewModel
@@ -36,6 +37,8 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 
 		public virtual double Volume { get; set; } = 0.5;
 
+		public virtual string FilePath { get; set; }
+
 		public virtual string ErrorMessage { get; set; }
 
 		public virtual object ThumbnailImage { get; set; }
@@ -43,8 +46,6 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 		public virtual object AudioAlbumImage { get; set; }
 
 		public virtual IDialogService DialogService { get { return null; } }
-
-		public File MediaInfo { get; protected set; }
 
 		public DelegateCommand PlayCommand => new DelegateCommand(Play, () => Opened);
 
@@ -70,21 +71,43 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 				Eject();
 			else
 				Load();
-		}, () => MediaInfo != null);
+		}, () => FilePath != null);
 
 		public static PersistentDictionary<string, int> History { get; private set; }
 
 		public virtual async Task PreviewFile(string filePath)
 		{
-			MediaInfo = File.Create(filePath);
-			bool isVideo = MediaInfo?.Properties?.MediaTypes.HasFlag(MediaTypes.Video) == true;
-			bool isAudio = MediaInfo?.Properties?.MediaTypes.HasFlag(MediaTypes.Audio) == true;
+			FilePath = filePath;
+			Duration = 0;
 
-			if (isVideo || isAudio)
-				Duration = MediaInfo.Properties.Duration.TotalSeconds;
+			File mediaInfo = null;
+			bool isVideo, isAudio;
+			try
+			{
+				mediaInfo = File.Create(filePath);
 
-			if (isAudio && !isVideo && MediaInfo?.Tag != null && MediaInfo.Tag.Pictures?.Length > 0)
-				AudioAlbumImage = MediaInfo.Tag.Pictures[0].Data.Data;
+				isVideo = mediaInfo.Properties?.MediaTypes.HasFlag(MediaTypes.Video) == true;
+				isAudio = mediaInfo.Properties?.MediaTypes.HasFlag(MediaTypes.Audio) == true;
+
+				if (isVideo || isAudio)
+					Duration = mediaInfo.Properties.Duration.TotalSeconds;
+			}
+			catch
+			{
+				using (VideoMetadata videoMetadata = new VideoMetadata(filePath))
+				{
+					await videoMetadata.Read();
+
+					isAudio = false;
+					isVideo = videoMetadata.HasVideo;
+
+					if (isVideo)
+						Duration = videoMetadata.Duration;
+				}
+			}				
+
+			if (isAudio && !isVideo && mediaInfo?.Tag != null && mediaInfo.Tag.Pictures?.Length > 0)
+				AudioAlbumImage = mediaInfo.Tag.Pictures[0].Data.Data;
 			else
 				AudioAlbumImage = null;
 
@@ -105,8 +128,8 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 		{
 			Loaded = true;
 
-			if (VideoPreviewSettings.Default.RememberPlaybackPosition && History.ContainsKey(MediaInfo.Name))
-				Seek(History[MediaInfo.Name]);
+			if (VideoPreviewSettings.Default.RememberPlaybackPosition && History.ContainsKey(FilePath))
+				Seek(History[FilePath]);
 		}
 
 		public virtual void Eject()
@@ -114,7 +137,7 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 			Pause();
 
 			if (VideoPreviewSettings.Default.RememberPlaybackPosition && PlaybackPosition > 0)
-				History[MediaInfo.Name] = PlaybackPosition;
+				History[FilePath] = PlaybackPosition;
 
 			Opened = false;
 			Loaded = false;
@@ -122,8 +145,15 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 
 		public virtual async Task GenerateThumbnails(string filePath)
 		{
-			ThumbnailImage = await VideoThumbnailHelper.GenerateThumbnails(new Uri(filePath),
-				VideoPreviewSettings.Default.ThumbnailRows, VideoPreviewSettings.Default.ThumbnailColumns, VideoPreviewSettings.Default.TimestampPosition);
+			try
+			{
+				ThumbnailImage = await VideoThumbnailHelper.GenerateThumbnails(new Uri(filePath),
+					VideoPreviewSettings.Default.ThumbnailRows, VideoPreviewSettings.Default.ThumbnailColumns, VideoPreviewSettings.Default.TimestampPosition);
+			}
+			catch
+			{
+				ThumbnailImage = null;
+			}
 		}
 
 		public virtual void MediaOpened()

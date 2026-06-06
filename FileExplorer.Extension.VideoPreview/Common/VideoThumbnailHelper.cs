@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using FileExplorer.Common;
 using FileExplorer.Common.Helper;
 using WPFMediaKit.DirectShow.Controls;
 using WPFMediaKit.DirectShow.MediaPlayers;
@@ -16,12 +17,15 @@ namespace FileExplorer.Extension.VideoPreview
     {
         public static async Task<ImageSource> GenerateThumbnails(Uri source, int rows, int columns, TimestampPosition timestampPosition)
         {
-            string file = Path.ChangeExtension(source.LocalPath, null);
-            string cacheFile = $"{file}_{rows}x{columns}.jpg";
-            if (timestampPosition != TimestampPosition.None)
-                cacheFile = $"{file}_{rows}x{columns}_{timestampPosition}.jpg";
+			MetadataProperties properties = new MetadataProperties();
+            if (rows > 1)
+                properties["Rows"] = rows;
+			if (columns > 1)
+				properties["Columns"] = columns;
+			if (timestampPosition != TimestampPosition.None)
+				properties["TimestampPosition"] = timestampPosition;
 
-            ImageSource image = await ImageCache.TryGetValue(cacheFile);
+			ImageSource image = await ImageCache.TryGetValue(source.LocalPath, properties);
             if (image == null)
             {
                 using (VideoScreenGrabber grabber = new VideoScreenGrabber())
@@ -115,7 +119,7 @@ namespace FileExplorer.Extension.VideoPreview
                             encoder.Save(memoryStream);
                             memoryStream.Position = 0;
 
-                            image = await ImageCache.GetOrAddValue(cacheFile, memoryStream);
+                            image = await ImageCache.GetOrAddValue(source.LocalPath, memoryStream, properties);
                         }
                     }
                     else

@@ -50,7 +50,7 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 			else
 				VideoPlayer.LoadedBehavior = MediaState.Pause;
 
-			VideoPlayer.Source = new Uri(MediaInfo.Name);
+			VideoPlayer.Source = new Uri(FilePath);
 			base.Load();
 		}
 
