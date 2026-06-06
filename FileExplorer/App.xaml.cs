@@ -17,6 +17,7 @@ using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
+using FileExplorer.Common;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
 using FileExplorer.Model;
@@ -298,6 +299,9 @@ namespace FileExplorer
                 registryKey.DeleteValue(Utilities.AppName, false);
 
             FileSystemWatcherHelper.Stop();
+            
+            Repository.Database.Dispose();
+            Cache.Database.Dispose();
         }
 
         private void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

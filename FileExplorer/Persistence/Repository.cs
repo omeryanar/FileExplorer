@@ -6,7 +6,9 @@ namespace FileExplorer.Persistence
 {
     public class Repository
     {
-        public PersistentCollection<MenuItem> MenuItems { get; private set; }
+        public LiteDatabase Database { get; private set; }
+
+		public PersistentCollection<MenuItem> MenuItems { get; private set; }
 
         public PersistentCollection<Expression> Expressions { get; private set; }
 
@@ -17,12 +19,12 @@ namespace FileExplorer.Persistence
         public Repository(string databaseName)
         {
             string connectionString = $"Filename={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseName)}; Upgrade=true";
-            LiteDatabase database = new LiteDatabase(connectionString);
+            Database = new LiteDatabase(connectionString);
 
-            MenuItems = new PersistentCollection<MenuItem>(database, "MenuItems");
-            Expressions = new PersistentCollection<Expression>(database, "Expressions");
-            FolderLayouts = new PersistentCollection<FolderLayout>(database, "FolderLayouts");
-            Extensions = new PersistentCollection<ExtensionMetadata>(database, "Extensions");
+			MenuItems = new PersistentCollection<MenuItem>(Database, "MenuItems");
+            Expressions = new PersistentCollection<Expression>(Database, "Expressions");
+            FolderLayouts = new PersistentCollection<FolderLayout>(Database, "FolderLayouts");
+            Extensions = new PersistentCollection<ExtensionMetadata>(Database, "Extensions");
         }
-    }
+	}
 }
