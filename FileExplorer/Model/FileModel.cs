@@ -1031,7 +1031,7 @@ namespace FileExplorer.Model
             public override Task EnumerateChildren()
             {
                 DriveInfo[] drives = DriveInfo.GetDrives();
-                Children = new FileModelCollection(drives.Select(x => Create(x.RootDirectory, this)));
+                Children = new FileModelCollection(drives.Where(x => x.IsReady).Select(x => Create(x.RootDirectory, this)));
 
                 return Task.CompletedTask;
             }

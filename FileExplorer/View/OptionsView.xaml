@@ -65,7 +65,8 @@
                                 <collections:DictionaryEntry Key="de" Value="Deutsch"/>
                                 <collections:DictionaryEntry Key="en" Value="English"/>
                                 <collections:DictionaryEntry Key="tr" Value="Türkçe"/>
-								<collections:DictionaryEntry Key="zh" Value="中國人"/>
+								<collections:DictionaryEntry Key="zh-Hans" Value="简体中文"/>
+								<collections:DictionaryEntry Key="zh-Hant" Value="繁體中文"/>
                             </collections:ArrayList>
                         </dxe:ListBoxEdit.ItemsSource>
                     </dxe:ListBoxEdit>

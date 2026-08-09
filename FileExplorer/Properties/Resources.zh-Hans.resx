@@ -1,0 +1,950 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddColumn" xml:space="preserve">
+    <value>添加列</value>
+  </data>
+  <data name="AddRemoveMenuItems" xml:space="preserve">
+    <value>添加/移除菜单项</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>应用程序</value>
+  </data>
+  <data name="ApplicationError" xml:space="preserve">
+    <value>应用程序错误</value>
+  </data>
+  <data name="ApplicationErrorOccured" xml:space="preserve">
+    <value>发生应用程序错误。</value>
+  </data>
+  <data name="BackToDefault" xml:space="preserve">
+    <value>恢复默认值</value>
+  </data>
+  <data name="Backward" xml:space="preserve">
+    <value>返回“{0}”</value>
+  </data>
+  <data name="BestFitAllColumns" xml:space="preserve">
+    <value>最佳大小（所有列）</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Clipboard" xml:space="preserve">
+    <value>剪贴板</value>
+  </data>
+  <data name="ConfirmCopy" xml:space="preserve">
+    <value>确认复制</value>
+  </data>
+  <data name="ConfirmCopyMessage" xml:space="preserve">
+    <value>要将“{0}”复制到“{1}”吗？</value>
+  </data>
+  <data name="ConfirmMove" xml:space="preserve">
+    <value>确认移动</value>
+  </data>
+  <data name="ConfirmMoveMessage" xml:space="preserve">
+    <value>要将“{0}”移动到“{1}”吗？</value>
+  </data>
+  <data name="ConfirmMultipleCopy" xml:space="preserve">
+    <value>要将选定的项目复制到“{0}”吗？</value>
+  </data>
+  <data name="ConfirmMultipleMove" xml:space="preserve">
+    <value>要将选定的项目移动到“{0}”吗？</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="CopyPath" xml:space="preserve">
+    <value>复制路径</value>
+  </data>
+  <data name="CopyTo" xml:space="preserve">
+    <value>复制到</value>
+  </data>
+  <data name="CustomColumn" xml:space="preserve">
+    <value>自定义列</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>剪切</value>
+  </data>
+  <data name="DateAccessed" xml:space="preserve">
+    <value>访问日期</value>
+  </data>
+  <data name="DateCreated" xml:space="preserve">
+    <value>创建日期</value>
+  </data>
+  <data name="DateModified" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>详细信息</value>
+  </data>
+  <data name="DetailsPane" xml:space="preserve">
+    <value>详细信息窗格</value>
+  </data>
+  <data name="DuplicateFileName" xml:space="preserve">
+    <value>文件名重复</value>
+  </data>
+  <data name="DuplicateFileNameMessage" xml:space="preserve">
+    <value>部分名称已被分配给多个文件。</value>
+  </data>
+  <data name="EditCustomColumn" xml:space="preserve">
+    <value>编辑自定义列</value>
+  </data>
+  <data name="EmptyFiles" xml:space="preserve">
+    <value>文件夹与空文件</value>
+  </data>
+  <data name="Extension" xml:space="preserve">
+    <value>扩展名</value>
+  </data>
+  <data name="ExtensionFilter" xml:space="preserve">
+    <value>扩展名筛选</value>
+  </data>
+  <data name="ExtraLargeIcons" xml:space="preserve">
+    <value>特大图标</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>前进到“{0}”</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>分组依据</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>主页</value>
+  </data>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>无效的文件名</value>
+  </data>
+  <data name="InvalidFileNameMessage" xml:space="preserve">
+    <value>文件名不能为空，也不能包含以下任何字符：\ / : * ? "" &lt; &gt; |</value>
+  </data>
+  <data name="InvertSelection" xml:space="preserve">
+    <value>反向选择</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>大图标</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>布局</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="LoadLayout" xml:space="preserve">
+    <value>加载布局</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>邮件</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>中图标</value>
+  </data>
+  <data name="MoveTo" xml:space="preserve">
+    <value>移动到</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="NavigationPane" xml:space="preserve">
+    <value>导航窗格</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>新文件</value>
+  </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="NewName" xml:space="preserve">
+    <value>新名称</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Organize" xml:space="preserve">
+    <value>组织</value>
+  </data>
+  <data name="Panes" xml:space="preserve">
+    <value>窗格</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>上一级</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>路径</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>模式</value>
+  </data>
+  <data name="PermanentlyDelete" xml:space="preserve">
+    <value>永久删除</value>
+  </data>
+  <data name="PinToQuickAccess" xml:space="preserve">
+    <value>固定到快速访问</value>
+  </data>
+  <data name="PreviewPane" xml:space="preserve">
+    <value>预览窗格</value>
+  </data>
+  <data name="PrintPreview" xml:space="preserve">
+    <value>打印预览</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="Recycle" xml:space="preserve">
+    <value>移入回收站</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="RemoveCustomColumn" xml:space="preserve">
+    <value>移除自定义列</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Row" xml:space="preserve">
+    <value>行</value>
+  </data>
+  <data name="RowsColumns" xml:space="preserve">
+    <value>行和列</value>
+  </data>
+  <data name="SaveLayout" xml:space="preserve">
+    <value>保存布局</value>
+  </data>
+  <data name="SearchTitle" xml:space="preserve">
+    <value>搜索：{0}</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="SelectionFilter" xml:space="preserve">
+    <value>选择范围筛选</value>
+  </data>
+  <data name="ItemTypeFilter" xml:space="preserve">
+    <value>项目类型筛选</value>
+  </data>
+  <data name="SelectNone" xml:space="preserve">
+    <value>取消全选</value>
+  </data>
+  <data name="ShowCheckBoxes" xml:space="preserve">
+    <value>显示复选框</value>
+  </data>
+  <data name="ShowFileExtensions" xml:space="preserve">
+    <value>显示扩展名</value>
+  </data>
+  <data name="ShowHiddenItems" xml:space="preserve">
+    <value>显示隐藏项目</value>
+  </data>
+  <data name="ShowHide" xml:space="preserve">
+    <value>显示 / 隐藏</value>
+  </data>
+  <data name="ShowRowNumbers" xml:space="preserve">
+    <value>显示行号</value>
+  </data>
+  <data name="ShowSystemItems" xml:space="preserve">
+    <value>显示系统项目</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>小图标</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>排序方式</value>
+  </data>
+  <data name="StandardThemes" xml:space="preserve">
+    <value>标准主题</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="TotalFormat" xml:space="preserve">
+    <value>总计：{0}</value>
+  </data>
+  <data name="TouchThemes" xml:space="preserve">
+    <value>触控主题</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="UnpinFromQuickAccess" xml:space="preserve">
+    <value>从快速访问取消固定</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>向上移动“{0}”</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="Zip" xml:space="preserve">
+    <value>Zip</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>组名称</value>
+  </data>
+  <data name="NewMenuItem" xml:space="preserve">
+    <value>新建菜单项</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>进度</value>
+  </data>
+  <data name="Unzip" xml:space="preserve">
+    <value>解压缩</value>
+  </data>
+  <data name="CompressedSize" xml:space="preserve">
+    <value>压缩后大小</value>
+  </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>原始大小</value>
+  </data>
+  <data name="WrongPassword" xml:space="preserve">
+    <value>密码错误</value>
+  </data>
+  <data name="WrongPasswordMessage" xml:space="preserve">
+    <value>提供的密码错误。要跳过此文件吗？</value>
+  </data>
+  <data name="OpenContainingFolder" xml:space="preserve">
+    <value>打开所在文件夹</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="NewTab" xml:space="preserve">
+    <value>新建选项卡</value>
+  </data>
+  <data name="CopyMove" xml:space="preserve">
+    <value>复制与移动</value>
+  </data>
+  <data name="CopyWindows" xml:space="preserve">
+    <value>复制（Windows 标准）</value>
+  </data>
+  <data name="DragDrop" xml:space="preserve">
+    <value>拖放</value>
+  </data>
+  <data name="DragDropDifferentDrive" xml:space="preserve">
+    <value>拖放到不同驱动器</value>
+  </data>
+  <data name="DragDropSameDrive" xml:space="preserve">
+    <value>拖放到相同驱动器</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="MoveWindows" xml:space="preserve">
+    <value>移动（Windows 标准）</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="FolderNotFound" xml:space="preserve">
+    <value>Windows 找不到指定的文件夹。请检查拼写并重试。</value>
+  </data>
+  <data name="LowerCase" xml:space="preserve">
+    <value>小写</value>
+  </data>
+  <data name="Multiple" xml:space="preserve">
+    <value>多个</value>
+  </data>
+  <data name="SentenceCase" xml:space="preserve">
+    <value>句首大写</value>
+  </data>
+  <data name="TitleCase" xml:space="preserve">
+    <value>首字母大写</value>
+  </data>
+  <data name="ToggleCase" xml:space="preserve">
+    <value>切换大小写</value>
+  </data>
+  <data name="UpperCase" xml:space="preserve">
+    <value>大写</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>列名称</value>
+  </data>
+  <data name="ColumnType" xml:space="preserve">
+    <value>列类型</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>表达式</value>
+  </data>
+  <data name="CustomMenuItems" xml:space="preserve">
+    <value>自定义菜单项</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>单个</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>筛选</value>
+  </data>
+  <data name="AllSubfolders" xml:space="preserve">
+    <value>所有子文件夹</value>
+  </data>
+  <data name="CurrentFolder" xml:space="preserve">
+    <value>当前文件夹</value>
+  </data>
+  <data name="SearchFilter" xml:space="preserve">
+    <value>搜索与筛选</value>
+  </data>
+  <data name="SearchTools" xml:space="preserve">
+    <value>搜索工具</value>
+  </data>
+  <data name="CopyAllColumns" xml:space="preserve">
+    <value>复制到剪贴板（所有列）</value>
+  </data>
+  <data name="CopyThisColumn" xml:space="preserve">
+    <value>复制到剪贴板（此列）</value>
+  </data>
+  <data name="ShowColumnChooser" xml:space="preserve">
+    <value>显示列选择器</value>
+  </data>
+  <data name="AddCustomColumn" xml:space="preserve">
+    <value>添加自定义列</value>
+  </data>
+  <data name="LayoutLoadError" xml:space="preserve">
+    <value>布局加载错误</value>
+  </data>
+  <data name="LayoutLoadErrorOccured" xml:space="preserve">
+    <value>加载布局时发生错误。已恢复为默认布局。</value>
+  </data>
+  <data name="Customizations" xml:space="preserve">
+    <value>自定义项</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
+  <data name="LoadDefaultLayout" xml:space="preserve">
+    <value>加载默认布局</value>
+  </data>
+  <data name="ManageSavedLayouts" xml:space="preserve">
+    <value>管理已保存的布局</value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value>快捷方式</value>
+  </data>
+  <data name="LayoutSaved" xml:space="preserve">
+    <value>布局已保存</value>
+  </data>
+  <data name="LayoutSaveSuccessful" xml:space="preserve">
+    <value>布局已成功保存。</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>最近的位置</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="OpenInNewTab" xml:space="preserve">
+    <value>在新选项卡中打开</value>
+  </data>
+  <data name="OpenInNewWindow" xml:space="preserve">
+    <value>在新窗口中打开</value>
+  </data>
+  <data name="ManageExpressions" xml:space="preserve">
+    <value>管理表达式</value>
+  </data>
+  <data name="OpenWithApplication" xml:space="preserve">
+    <value>使用应用程序打开</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>命令</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>参数</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="AddToStartup" xml:space="preserve">
+    <value>开机启动</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Computer" xml:space="preserve">
+    <value>此电脑</value>
+  </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>快速访问</value>
+  </data>
+  <data name="ClearSorting" xml:space="preserve">
+    <value>清除排序</value>
+  </data>
+  <data name="ParentName" xml:space="preserve">
+    <value>上级名称</value>
+  </data>
+  <data name="ParentPath" xml:space="preserve">
+    <value>上级路径</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>网络</value>
+  </data>
+  <data name="ExpandToOpenFolder" xml:space="preserve">
+    <value>展开到当前文件夹</value>
+  </data>
+  <data name="ShowNavigationPane" xml:space="preserve">
+    <value>显示导航窗格</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>内容</value>
+  </data>
+  <data name="StaticTaskbarIcon" xml:space="preserve">
+    <value>固定任务栏图标</value>
+  </data>
+  <data name="StaticTaskbarTitle" xml:space="preserve">
+    <value>固定任务栏标题</value>
+  </data>
+  <data name="NoPreviewAvailable" xml:space="preserve">
+    <value>没有为此文件类型注册的预览扩展</value>
+  </data>
+  <data name="Extensions" xml:space="preserve">
+    <value>扩展</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>已禁用</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Preferred" xml:space="preserve">
+    <value>首选</value>
+  </data>
+  <data name="ExtensionError" xml:space="preserve">
+    <value>此扩展包含错误，无法启用。请参阅错误详细信息以获取更多信息。</value>
+  </data>
+  <data name="ErrorDetails" xml:space="preserve">
+    <value>错误详细信息</value>
+  </data>
+  <data name="FileFormatError" xml:space="preserve">
+    <value>文件格式不正确或文件已损坏</value>
+  </data>
+  <data name="UnifiedSorting" xml:space="preserve">
+    <value>统一排序</value>
+  </data>
+  <data name="Virtualization" xml:space="preserve">
+    <value>虚拟化</value>
+  </data>
+  <data name="SupportedFileTypes" xml:space="preserve">
+    <value>支持的文件类型</value>
+  </data>
+  <data name="AskBeforeDownloadingUpdates" xml:space="preserve">
+    <value>下载更新前先询问</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>启动时检查更新</value>
+  </data>
+  <data name="DownloadUpdatesAutomatically" xml:space="preserve">
+    <value>自动下载更新</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>有新的应用程序版本可用</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>重新启动</value>
+  </data>
+  <data name="RestartRequired" xml:space="preserve">
+    <value>应用程序的新版本已下载，需要重新启动以完成安装</value>
+  </data>
+  <data name="DownloadInProgress" xml:space="preserve">
+    <value>正在下载应用程序的新版本</value>
+  </data>
+  <data name="RestartConfirmation" xml:space="preserve">
+    <value>应用程序的新版本已下载，需要重新启动以完成安装。要立即重新启动吗？</value>
+  </data>
+  <data name="UpdateConfirmation" xml:space="preserve">
+    <value>有新的应用程序版本可用。要下载并安装吗？</value>
+  </data>
+  <data name="DownloadUpdates" xml:space="preserve">
+    <value>下载更新</value>
+  </data>
+  <data name="NoUpdateAvailable" xml:space="preserve">
+    <value>当前没有可用的更新</value>
+  </data>
+  <data name="DateTimeFormat" xml:space="preserve">
+    <value>日期和时间格式</value>
+  </data>
+  <data name="SaveSession" xml:space="preserve">
+    <value>关闭时保存会话</value>
+  </data>
+  <data name="DefaultSearch" xml:space="preserve">
+    <value>默认搜索</value>
+  </data>
+  <data name="SearchWithEverything" xml:space="preserve">
+    <value>使用 Everything 搜索</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="HelpSearchWithEverything" xml:space="preserve">
+    <value>Everything 是一款 Windows 上的免费桌面搜索工具，可快速按名称查找文件和文件夹。
+ 要启用此选项，需先运行 Everything（安装版或便携版）。</value>
+  </data>
+  <data name="HelpAddToStartup" xml:space="preserve">
+    <value>FileExplorer 会加入 Windows 启动项，使应用程序启动更快速。</value>
+  </data>
+  <data name="HelpSaveSession" xml:space="preserve">
+    <value>当应用程序关闭时，会保存已打开的窗口和选项卡，并在下次打开时全部还原。</value>
+  </data>
+  <data name="HelpStaticTaskbarIcon" xml:space="preserve">
+    <value>默认会在任务栏显示当前文件夹的图标。
+ 启用此选项以显示固定图标。</value>
+  </data>
+  <data name="HelpStaticTaskbarTitle" xml:space="preserve">
+    <value>默认会在任务栏显示当前文件夹的名称。
+ 启用此选项以显示固定标题。</value>
+  </data>
+  <data name="HelpUnifiedSorting" xml:space="preserve">
+    <value>无论排序字段为何，FileExplorer 会先排序文件夹，再排序文件。
+ 启用此选项可将两者一并排序。</value>
+  </data>
+  <data name="HelpVirtualization" xml:space="preserve">
+    <value>虚拟化可在浏览包含大量文件或文件夹时提升性能。
+ 滚动时，文件和文件夹会在后台加载，并显示模糊效果。</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>展开</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>层级</value>
+  </data>
+  <data name="SelectedFromat" xml:space="preserve">
+    <value>已选择：{0}</value>
+  </data>
+  <data name="FrameWidth" xml:space="preserve">
+    <value>图像/视频宽度</value>
+  </data>
+  <data name="FrameHeight" xml:space="preserve">
+    <value>图像/视频高度</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>时长</value>
+  </data>
+  <data name="AudioBitrate" xml:space="preserve">
+    <value>音频比特率</value>
+  </data>
+  <data name="AudioChannels" xml:space="preserve">
+    <value>音频声道</value>
+  </data>
+  <data name="AudioSampleRate" xml:space="preserve">
+    <value>音频采样率</value>
+  </data>
+  <data name="Album" xml:space="preserve">
+    <value>专辑</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>流派</value>
+  </data>
+  <data name="AlbumArtists" xml:space="preserve">
+    <value>专辑艺术家</value>
+  </data>
+  <data name="ContributingArtists" xml:space="preserve">
+    <value>参与艺术家</value>
+  </data>
+  <data name="Composers" xml:space="preserve">
+    <value>作曲家</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>年份</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>音轨</value>
+  </data>
+  <data name="TrackCount" xml:space="preserve">
+    <value>音轨数</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>宽度</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="Thumbnails" xml:space="preserve">
+    <value>缩略图</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>模式</value>
+  </data>
+  <data name="Focus" xml:space="preserve">
+    <value>焦点</value>
+  </data>
+  <data name="Crop" xml:space="preserve">
+    <value>裁剪</value>
+  </data>
+  <data name="Stretch" xml:space="preserve">
+    <value>拉伸</value>
+  </data>
+  <data name="Contain" xml:space="preserve">
+    <value>等比例缩放</value>
+  </data>
+  <data name="CropDescription" xml:space="preserve">
+    <value>必要时裁剪图像以保持纵横比</value>
+  </data>
+  <data name="ContainDescription" xml:space="preserve">
+    <value>必要时缩小其中一个输出尺寸以保持纵横比</value>
+  </data>
+  <data name="StretchDescription" xml:space="preserve">
+    <value>必要时在单一轴上拉伸图像以填满输出尺寸</value>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>上</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>下</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>左</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>右</value>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>居中</value>
+  </data>
+  <data name="TopLeft" xml:space="preserve">
+    <value>左上</value>
+  </data>
+  <data name="TopRight" xml:space="preserve">
+    <value>右上</value>
+  </data>
+  <data name="BottomLeft" xml:space="preserve">
+    <value>左下</value>
+  </data>
+  <data name="BottomRight" xml:space="preserve">
+    <value>右下</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>帮助</value>
+  </data>
+  <data name="Prefix" xml:space="preserve">
+    <value>前缀</value>
+  </data>
+  <data name="Suffix" xml:space="preserve">
+    <value>后缀</value>
+  </data>
+  <data name="ConfirmBeforeRun" xml:space="preserve">
+    <value>运行前确认</value>
+  </data>
+  <data name="WorkingDirectory" xml:space="preserve">
+    <value>工作目录</value>
+  </data>
+  <data name="RunCommand" xml:space="preserve">
+    <value>运行命令</value>
+  </data>
+  <data name="SaveSelection" xml:space="preserve">
+    <value>保存选择</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>还原选择</value>
+  </data>
+  <data name="AutoRestoreSelection" xml:space="preserve">
+    <value>自动还原选择</value>
+  </data>
+  <data name="DateDeleted" xml:space="preserve">
+    <value>删除日期</value>
+  </data>
+  <data name="OriginalLocation" xml:space="preserve">
+    <value>原始位置</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>回收站</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>清空回收站</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="RestoreAll" xml:space="preserve">
+    <value>全部还原</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>文本</value>
+  </data>
+  <data name="Integer" xml:space="preserve">
+    <value>整数</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>小数</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>日期和时间</value>
+  </data>
+  <data name="Boolean" xml:space="preserve">
+    <value>真 / 假</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="RecycleBinProperties" xml:space="preserve">
+    <value>回收站属性</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="RestoreSelected" xml:space="preserve">
+    <value>还原选定的项目</value>
+  </data>
+  <data name="ShowErrors" xml:space="preserve">
+    <value>显示错误</value>
+  </data>
+</root>
