@@ -52,11 +52,11 @@ namespace FileExplorer.ViewModel
 
         public Settings Settings { get; } = new Settings();
 
-        public FileModel QuickAccess { get; } = FileModel.QuickAccess;
+		public FileModel QuickAccess { get; } = FileModel.QuickAccess;
 
         public FileModelCollection RecentLocations { get; } = new FileModelCollection();
 
-        public FileModelCollection RootFolders { get; } = new FileModelCollection { FileModel.QuickAccess, FileModel.Computer, FileModel.Network, FileModel.RecycleBin };
+        public FileModelCollection RootFolders { get; } = new FileModelCollection { FileModel.QuickAccess, FileModel.Computer, FileModel.Network, FileModel.RecycleBin, FileModel.TagRoot };
 
         #endregion
 
@@ -370,11 +370,6 @@ namespace FileExplorer.ViewModel
 
                 Show();
             }
-        }
-
-        protected void OnIsRecursiveChanged()
-        {
-            this.GetAsyncCommand(x => x.Search()).Execute(null);
         }
 
         #endregion
@@ -877,6 +872,11 @@ namespace FileExplorer.ViewModel
                 Utilities.RenameFiles(files, newNames);
             }
         }
+
+        public void ShowManageTagsDialog()
+        {
+			DialogService.ShowDialog(MessageButton.OK, Properties.Resources.ManageTags, "ManageTagsView", App.Repository.TagFolders);
+		}
 
         #endregion
 

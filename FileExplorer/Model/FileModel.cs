@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -14,7 +15,9 @@ using DevExpress.Mvvm.Native;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
 using FileExplorer.Messages;
+using FileExplorer.Persistence;
 using FileExplorer.Properties;
+using MahApps.Metro.IconPacks;
 using MimeTypes;
 using TagLib;
 using Vanara.Extensions;
@@ -379,7 +382,7 @@ namespace FileExplorer.Model
 
         #endregion
 
-        public ImageSource SmallIcon
+        public virtual ImageSource SmallIcon
         {
             get
             {
@@ -407,7 +410,7 @@ namespace FileExplorer.Model
         }
         private NotifyTask<ImageSource> smallIcon;
 
-        public ImageSource MediumIcon
+        public virtual ImageSource MediumIcon
         {
             get
             {
@@ -435,7 +438,7 @@ namespace FileExplorer.Model
         }
         private NotifyTask<ImageSource> mediumIcon;
 
-        public ImageSource LargeIcon
+        public virtual ImageSource LargeIcon
         {
             get
             {
@@ -463,7 +466,7 @@ namespace FileExplorer.Model
         }
         private NotifyTask<ImageSource> largeIcon;
 
-        public ImageSource ThumbnailImage
+        public virtual ImageSource ThumbnailImage
         {
             get
             {
@@ -485,7 +488,7 @@ namespace FileExplorer.Model
         }
         private NotifyTask<ImageSource> thumbnailImage;
 
-        public ImageSource ExtraLargeIcon
+        public virtual ImageSource ExtraLargeIcon
         {
             get
             {
@@ -516,11 +519,25 @@ namespace FileExplorer.Model
         }
         private NotifyTask<ImageSource> extraLargeIcon;
 
-        #endregion
+        public ICollection<TagFolder> Tags
+        {
+            get
+            {
+                if (tags == null)
+                    tags = App.TagManager.GetTagFolders(FullPath);
 
-        #region Methods
+                return tags;
+            }
+        }
+        private ICollection<TagFolder> tags;
 
-        public override string ToString()
+        public string AllTags => Tags != null ? Tags.Select(x => x.Name).Join("; ") : null;
+
+		#endregion
+
+		#region Methods
+
+		public override string ToString()
         {
             return Name;
         }
@@ -780,11 +797,11 @@ namespace FileExplorer.Model
             mediaInfo = null;
         }
 
-        #endregion
+		#endregion
 
-        #region Static
+		#region Static
 
-        private static readonly ConcurrentDictionary<String, FileModel> FileModelCache = new ConcurrentDictionary<String, FileModel>();        
+		private static readonly ConcurrentDictionary<String, FileModel> FileModelCache = new ConcurrentDictionary<String, FileModel>(StringComparer.OrdinalIgnoreCase);
 
         private static PropertyChangedEventArgs SmallIconChangedEventArgs = new PropertyChangedEventArgs(nameof(SmallIcon));
 
@@ -802,6 +819,7 @@ namespace FileExplorer.Model
             Computer = new ComputerModel();
             Network = new NetworkModel();
             RecycleBin = new RecycleBinModel();
+            TagRoot = new TagRootModel();
 
             Messenger.Default.Register(App.Current, (NotificationMessage message) =>
             {
@@ -1286,6 +1304,243 @@ namespace FileExplorer.Model
             }
         }
 
-        #endregion
-    }
+		#endregion
+
+		#region Tags
+
+        public static FileModel TagRoot { get; private set; }
+
+        private class TagRootModel : FileModel
+        {
+            public TagRootModel() 
+            {
+				Name = Properties.Resources.Tags;
+				FullName = Properties.Resources.Tags;
+				FullPath = Properties.Resources.Tags;
+
+				IsRoot = true;
+				IsDirectory = true;
+				ParentPath = String.Empty;
+
+				FileModelCache.TryAdd(Name, this);
+				FileModelCache.TryAdd(FullPath, this);
+
+                App.Repository.TagFolders.CollectionChanged += (s, e) =>
+                {
+                    if (Children == null)
+                        return;
+
+                    switch (e.Action)
+                    {
+                        case NotifyCollectionChangedAction.Add:
+                            foreach (TagFolder tagFolder in e.NewItems.OfType<TagFolder>())
+								Children.Add(new TagFolderModel(tagFolder));
+							break;
+
+                        case NotifyCollectionChangedAction.Remove:
+                            List<TagFolderModel> removed = Children.OfType<TagFolderModel>().Where(x => e.OldItems.Contains(x.TagFolder)).ToList();
+                            foreach (FileModel child in removed)
+                                Children.Remove(child);
+							break;
+                    }
+                };
+			}
+
+            public void CreateTagFolder(string name, string iconData, string iconColor)
+            {
+				TagFolder tagFolder = new TagFolder
+				{
+					Name = name,
+					IconData = iconData,
+					IconColor = iconColor,
+				};
+
+				App.Repository.TagFolders.Add(tagFolder);
+                Children.Add(new TagFolderModel(tagFolder));
+			}
+
+			public override ImageSource SmallIcon
+            {
+                get
+                {
+                    if (smallIcon == null)
+                        smallIcon = FontIconHelper.GetIconImage(PackIconFontAwesomeKind.TagsSolid, "#FFFDD835");
+                    
+					return smallIcon;
+                }
+            }
+            private new ImageSource smallIcon;
+
+			public override ImageSource MediumIcon => SmallIcon;
+
+			public override ImageSource LargeIcon => SmallIcon;
+
+			public override ImageSource ExtraLargeIcon => SmallIcon;
+
+			public async override Task EnumerateChildren()
+            {
+				List<FileModel> items = new List<FileModel>();
+
+                await Task.Run(() =>
+                {
+					if (App.Repository.TagFolders.Count == 0)
+					{
+						foreach (var defaultTag in DefaultTags)
+						{
+							TagFolder tagFolder = new TagFolder
+							{
+								Name = defaultTag.Key,
+								IconData = FontIconHelper.GetIconData(PackIconFontAwesomeKind.TagSolid),
+								IconColor = defaultTag.Value
+							};
+
+							App.Repository.TagFolders.Add(tagFolder);
+						}
+					}
+
+					foreach (TagFolder tagFolder in App.Repository.TagFolders)
+						items.Add(new TagFolderModel(tagFolder));
+				});
+
+                Children = new FileModelCollection(items);
+			}
+		}
+
+        private class TagFolderModel : FileModel
+        {
+            public TagFolder TagFolder { get; }
+
+			public TagFolderModel(TagFolder tagFolder)
+            {
+				TagFolder = tagFolder;
+                TagFolder.PropertyChanged += (s, e) =>
+                {
+                    RaisePropertyChanged(DateModifiedChangedEventArgs);
+
+					if (e.PropertyName == nameof(TagFolder.Name))
+                    {
+						FileModelCache.TryRemove(FullPath, out _);
+
+						Name = tagFolder.Name;
+						FullName = tagFolder.Name;
+						FullPath = $"{TagRoot.FullPath}\\{Name}";
+
+						FileModelCache.TryAdd(FullPath, this);
+
+						RaisePropertyChanged(NameChangedEventArgs);
+						RaisePropertyChanged(FullNameChangedEventArgs);
+						RaisePropertyChanged(FullPathChangedEventArgs);
+					}
+                    else if (e.PropertyName == nameof(TagFolder.IconData) || e.PropertyName == nameof(TagFolder.IconColor))
+                    {
+						smallIcon = null;
+
+						RaisePropertyChanged(SmallIconChangedEventArgs);
+						RaisePropertyChanged(MediumIconChangedEventArgs);
+						RaisePropertyChanged(LargeIconChangedEventArgs);
+						RaisePropertyChanged(ExtraLargeIconChangedEventArgs);
+					}
+				};
+                TagFolder.TaggedFiles.CollectionChanged += async (s, e) =>
+                {
+                    if (Children != null)
+                    {
+                        switch (e.Action)
+                        {
+                            case NotifyCollectionChangedAction.Add:
+                                foreach (string name in e.NewItems)
+                                {
+                                    string filePath = App.TagManager.GetTaggedFilePath(name);
+                                    if (filePath != null)
+										Children.Add(FileModel.Create(filePath));
+								}
+                                break;
+
+                            case NotifyCollectionChangedAction.Remove:
+								foreach (string name in e.OldItems)
+								{
+									string filePath = App.TagManager.GetTaggedFilePath(name);                                    
+									if (filePath != null)
+                                    {
+										FileModel fileModel = Children.FirstOrDefault(x => x.FullPath.OrdinalEquals(filePath));
+										Children.Remove(fileModel);
+									}
+								}
+								break;
+
+							case NotifyCollectionChangedAction.Reset:
+                                await EnumerateChildren();
+                                break;
+                        }
+                    }
+                };
+
+				Name = tagFolder.Name;
+                FullName = tagFolder.Name;
+                FullPath = $"{TagRoot.FullPath}\\{Name}";
+               
+                DateCreated = TagFolder.DateCreated;
+                DateModified = TagFolder.DateModified;
+				DateAccessed = DateTime.Now;
+
+				IsRoot = true;
+				IsDirectory = true;
+
+                Parent = TagRoot;
+				ParentPath = TagRoot.FullPath;
+
+				FileModelCache.TryAdd(FullPath, this);
+			}
+
+			public override ImageSource SmallIcon
+			{
+				get
+				{
+                    if (smallIcon == null)
+                        smallIcon = FontIconHelper.GetIconImage(TagFolder.IconData, TagFolder.IconColor);
+
+                    return smallIcon;
+				}
+			}
+			private new ImageSource smallIcon;
+
+			public override ImageSource MediumIcon => SmallIcon;
+
+			public override ImageSource LargeIcon => SmallIcon;
+
+			public override ImageSource ExtraLargeIcon => SmallIcon;
+
+			public async override Task EnumerateChildren()
+            {
+				DateAccessed = DateTime.Now;
+				List<FileModel> items = new List<FileModel>();
+
+                await Task.Run(() =>
+                {
+					if (TagFolder.TaggedFiles != null)
+					{
+						foreach (FileSystemInfo fileSystemInfo in App.TagManager.GetTaggedFiles(TagFolder))
+                        {
+                            if (fileSystemInfo.Exists)
+								items.Add(FileModel.Create(fileSystemInfo));
+						}
+					}
+				});
+
+				Children = new FileModelCollection(items);
+            }
+		}
+
+		private static readonly Dictionary<string, string> DefaultTags = new Dictionary<string, string>
+		{
+			{ "Red", "#FFF44336" },
+			{ "Blue", "#FF2196F3" },
+			{ "Green", "#FF4CAF50" },
+			{ "Purple", "#FF9C27B0" },
+			{ "Orange", "#FFFB8C00" },
+			{ "Yellow", "#FFFFEB3B" }
+		};
+
+		#endregion
+	}
 }

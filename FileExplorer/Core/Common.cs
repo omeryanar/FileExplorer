@@ -19,7 +19,7 @@ namespace FileExplorer.Core
         File,
 
         [Display(Name = "Folder", ResourceType = typeof(Properties.Resources))]
-        Folder,
+        Folder
     }
 
     public enum SelectionFilter
@@ -114,7 +114,7 @@ namespace FileExplorer.Core
         DateTime,
 
         [Display(Name = "Boolean", ResourceType = typeof(Properties.Resources))]
-        Boolean,
+        Boolean
     }
 
     public enum ThumbnailMode
@@ -168,7 +168,7 @@ namespace FileExplorer.Core
 
         [Image("pack://application:,,,/Assets/Thumbnail/BottomRight.svg")]
         [Display(Name = "BottomRight", ResourceType = typeof(Properties.Resources))]
-        BottomRight = 10,
+        BottomRight = 10
     }
 
     public enum NotificationType
@@ -181,7 +181,7 @@ namespace FileExplorer.Core
         Restore
     }
 
-    public enum UpdateStatus
+	public enum UpdateStatus
     {
         UpToDate,
         ReadyToDownload,

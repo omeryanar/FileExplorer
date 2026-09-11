@@ -947,4 +947,28 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="ShowErrors" xml:space="preserve">
     <value>Show Errors</value>
   </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage Tags</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="ItemCount" xml:space="preserve">
+    <value>Item Count</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Confirm Delete</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete ?</value>
+  </data>
+  <data name="UniqueTagName" xml:space="preserve">
+    <value>Tag names must be unique.</value>
+  </data>
 </root>

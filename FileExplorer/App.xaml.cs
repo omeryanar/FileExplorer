@@ -35,7 +35,9 @@ namespace FileExplorer
 
         public static Repository Repository { get; private set; }
 
-        public static PackageManager PackageManager { get; private set; }
+		public static TagManager TagManager { get; private set; }
+
+		public static PackageManager PackageManager { get; private set; }
 
         public static ExtensionManager ExtensionManager { get; private set; }        
 
@@ -188,7 +190,8 @@ namespace FileExplorer
             AssemblyName = entryAssembly.GetName();
 
             Repository = new Repository("Data.db");
-            PackageManager = new PackageManager();
+			TagManager = new TagManager();
+			PackageManager = new PackageManager();
             ExtensionManager = new ExtensionManager("PreviewExtensions");
             TaskbarIconContainer = FindResource("TaskbarIconContainer") as UserControl;
             

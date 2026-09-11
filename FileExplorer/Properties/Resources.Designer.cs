@@ -322,6 +322,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Color.
+        /// </summary>
+        public static string Color {
+            get {
+                return ResourceManager.GetString("Color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Column Name.
         /// </summary>
         public static string ColumnName {
@@ -399,6 +408,24 @@ namespace FileExplorer.Properties {
         public static string ConfirmCopyMessage {
             get {
                 return ResourceManager.GetString("ConfirmCopyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Delete.
+        /// </summary>
+        public static string ConfirmDelete {
+            get {
+                return ResourceManager.GetString("ConfirmDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete ?.
+        /// </summary>
+        public static string ConfirmDeleteMessage {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteMessage", resourceCulture);
             }
         }
         
@@ -1137,6 +1164,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Icon.
+        /// </summary>
+        public static string Icon {
+            get {
+                return ResourceManager.GetString("Icon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Integer.
         /// </summary>
         public static string Integer {
@@ -1169,6 +1205,15 @@ namespace FileExplorer.Properties {
         public static string InvertSelection {
             get {
                 return ResourceManager.GetString("InvertSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Count.
+        /// </summary>
+        public static string ItemCount {
+            get {
+                return ResourceManager.GetString("ItemCount", resourceCulture);
             }
         }
         
@@ -1340,6 +1385,15 @@ namespace FileExplorer.Properties {
         public static string ManageSavedLayouts {
             get {
                 return ResourceManager.GetString("ManageSavedLayouts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Tags.
+        /// </summary>
+        public static string ManageTags {
+            get {
+                return ResourceManager.GetString("ManageTags", resourceCulture);
             }
         }
         
@@ -2244,6 +2298,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string Tags {
+            get {
+                return ResourceManager.GetString("Tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text.
         /// </summary>
         public static string Text {
@@ -2384,6 +2447,15 @@ namespace FileExplorer.Properties {
         public static string UnifiedSorting {
             get {
                 return ResourceManager.GetString("UnifiedSorting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag names must be unique..
+        /// </summary>
+        public static string UniqueTagName {
+            get {
+                return ResourceManager.GetString("UniqueTagName", resourceCulture);
             }
         }
         
