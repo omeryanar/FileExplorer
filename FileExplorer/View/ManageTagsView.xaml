@@ -152,7 +152,7 @@
 									ToolTip="{Binding Edit, Source={StaticResource ResourceProvider}}" />
 							<Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconDelete}" ToolTip="{Binding Delete, Source={StaticResource ResourceProvider}}">
 								<dxmvvm:Interaction.Behaviors>
-									<dxmvvm:ConfirmationBehavior MessageIcon="Question" Command="{Binding View.Commands.DeleteFocusedRow}" 
+									<dxmvvm:ConfirmationBehavior MessageIcon="Question" Command="{Binding View.Commands.DeleteFocusedRow}"
 																 MessageTitle="{Binding ConfirmDelete, Source={StaticResource ResourceProvider}}"
 																 MessageText="{Binding ConfirmDeleteMessage, Source={StaticResource ResourceProvider}}" />
 								</dxmvvm:Interaction.Behaviors>
