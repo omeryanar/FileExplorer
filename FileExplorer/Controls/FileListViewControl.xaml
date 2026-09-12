@@ -167,7 +167,7 @@
         <controls:TableViewEx x:Key="ListView" AllowEditing="False" AllowMergedGrouping="True" AllowConditionalFormattingMenu="True"
                               AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
                               ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
-                              ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                              ColumnFilterPopupMode="ExcelSmart" FilterEditorShowOperandTypeIcon="True"
                               ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
                               ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                               HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
@@ -204,7 +204,7 @@
         <controls:CardViewEx x:Key="CardView" AllowEditing="False" AllowMergedGrouping="True"
                              AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
                              ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
-                             ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                             ColumnFilterPopupMode="ExcelSmart" FilterEditorShowOperandTypeIcon="True"
                              ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                              ScrollViewer.IsDeferredScrollingEnabled="True" EnableImmediatePosting="True" NavigationStyle="Row"
                              SeparatorThickness="0" CardMargin="0" Style="{StaticResource CardViewStyle}" FocusedCardBorderTemplate="{StaticResource FocusedCardBorderTemplate}">
@@ -222,7 +222,7 @@
         <controls:TreeViewEx x:Key="TreeView" AllowEditing="False" AllowConditionalFormattingMenu="True"
                              AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"                                    
                              ShowFocusedRectangle="False" ShowFixedTotalSummary="True"
-                             ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
+                             ColumnFilterPopupMode="ExcelSmart" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
                              ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                              ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
                              ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
@@ -384,7 +384,7 @@
                 <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
         </dxg:GridColumn>
-		<dxg:GridColumn FieldName="AllTags" Header="{Binding Tags, Source={StaticResource ResourceProvider}}" Visible="False" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True">
+		<dxg:GridColumn FieldName="AllTags" Header="{Binding Tags, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True">
 			<dxg:GridColumn.CellDisplayTemplate>
 				<DataTemplate>
 					<ItemsControl ItemsSource="{Binding RowData.Row.Tags}">
