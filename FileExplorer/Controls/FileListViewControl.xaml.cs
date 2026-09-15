@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -97,6 +98,8 @@ namespace FileExplorer.Controls
                     DefaultLayoutStream = new MemoryStream();
                     SaveLayoutToStream(DefaultLayoutStream);
                 }
+
+                LoadDefaultColumnSettins();
             };
 
             EndSorting += (s, e) =>
@@ -328,7 +331,9 @@ namespace FileExplorer.Controls
 			DefaultLayoutStream.Position = 0;
             RestoreLayoutFromStream(DefaultLayoutStream);
 
-            LayoutState = LayoutStatus.Default;
+            LoadDefaultColumnSettins();
+
+			LayoutState = LayoutStatus.Default;
         }
 
         public void ShowManageLayoutsDialog()
@@ -480,11 +485,47 @@ namespace FileExplorer.Controls
                 gridControl.View.SearchString = e.NewValue == null ? null : e.NewValue.ToString();
         }
 
+        private void LoadDefaultColumnSettins()
+        {
+            if (String.IsNullOrEmpty(Settings.Default.ColumnSettings))
+                return;
+
+			if (SurrogateFileGridControl == null)
+            {
+				SurrogateFileGridControl = new GridControl();
+                SurrogateFileGridControl.View = new TableView();
+
+				GridSerializationOptions.SetAddNewColumns(SurrogateFileGridControl, false);
+				GridSerializationOptions.SetRemoveOldColumns(SurrogateFileGridControl, false);
+			}
+
+			using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(Settings.Default.ColumnSettings)))
+			{
+				SurrogateFileGridControl.RestoreLayoutFromStream(stream);
+			}
+
+            foreach (GridColumn surrogateColumn in SurrogateFileGridControl.Columns)
+            {
+                if (Columns[surrogateColumn.FieldName] == null)
+                    continue;
+
+                Columns[surrogateColumn.FieldName].Visible = surrogateColumn.Visible;
+				Columns[surrogateColumn.FieldName].VisibleIndex = surrogateColumn.VisibleIndex;
+
+				Columns[surrogateColumn.FieldName].SortIndex = surrogateColumn.SortIndex;
+				Columns[surrogateColumn.FieldName].SortOrder = surrogateColumn.SortOrder;
+
+				Columns[surrogateColumn.FieldName].GroupIndex = surrogateColumn.GroupIndex;
+			}
+		}
+
         private Dictionary<string, IList> AutoRestoreItemsDictionary = new Dictionary<string, IList>();
 
         private Dictionary<string, IList> ManuelRestoreItemsDictionary = new Dictionary<string, IList>();
 
         private static MemoryStream DefaultLayoutStream;
+
+        private GridControl SurrogateFileGridControl;
 
 		private FolderLayout CurrentFolderLayout;
 

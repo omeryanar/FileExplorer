@@ -971,4 +971,13 @@
   <data name="UniqueTagName" xml:space="preserve">
     <value>標籤名稱必須是唯一的</value>
   </data>
+  <data name="Columns" xml:space="preserve">
+    <value>專欄</value>
+  </data>
+  <data name="AdjustColumnSettings" xml:space="preserve">
+    <value>透過重新排列欄位順序，並調整排序與分組選項，來自訂預設檢視</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>雙擊此處以建立一個新的...</value>
+  </data>
 </root>

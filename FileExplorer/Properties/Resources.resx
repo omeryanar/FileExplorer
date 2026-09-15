@@ -971,4 +971,13 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="UniqueTagName" xml:space="preserve">
     <value>Tag names must be unique.</value>
   </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Columns</value>
+  </data>
+  <data name="AdjustColumnSettings" xml:space="preserve">
+    <value>Customize the default view by reordering the columns and adjusting the sorting and grouping options</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Double-click here to create a new one...</value>
+  </data>
 </root>

@@ -971,4 +971,13 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="UniqueTagName" xml:space="preserve">
     <value>Etiket adları benzersiz olmalıdır</value>
   </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Sütunlar</value>
+  </data>
+  <data name="AdjustColumnSettings" xml:space="preserve">
+    <value>Sütunların sırasını değiştirerek ve sıralama ile gruplama seçeneklerini ayarlayarak varsayılan görünümü özelleştirin</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Yeni bir tane oluşturmak için buraya çift tıklayın...</value>
+  </data>
 </root>

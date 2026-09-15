@@ -80,7 +80,7 @@
 							<Viewbox Width="16" Height="16" Margin="8">
 								<Path Data="{Binding Row.IconData}" Fill="{Binding Row.IconColor}" />
 							</Viewbox>
-							<TextBlock VerticalAlignment="Center" Text="{Binding Row.Name}" />
+							<dxe:TextEdit x:Name="PART_Editor" NullText="{Binding CreateNew, Source={StaticResource ResourceProvider}}" />
 						</StackPanel>
 					</DataTemplate>
 				</dxg:GridColumn.CellDisplayTemplate>

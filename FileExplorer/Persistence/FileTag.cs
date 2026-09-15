@@ -10,19 +10,7 @@ namespace FileExplorer.Persistence
 	{
 		[Required]
 		[Unique(CollectionName = "TagFolders", ErrorMessageResourceName = "UniqueTagName", ErrorMessageResourceType = typeof(Properties.Resources))]
-		public string Name
-		{
-			get => name;
-			set
-			{
-				if (name != value)
-				{
-					name = value;
-					RaisePropertyChanged(nameof(Name));
-				}
-			}
-		}
-		private string name;
+		public string Name { get; set; }
 
 		[Required]
 		public string IconData

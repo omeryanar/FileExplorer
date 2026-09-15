@@ -97,6 +97,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customize the default view by reordering the columns and adjusting the sorting and grouping options.
+        /// </summary>
+        public static string AdjustColumnSettings {
+            get {
+                return ResourceManager.GetString("AdjustColumnSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced.
         /// </summary>
         public static string Advanced {
@@ -340,6 +349,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Columns.
+        /// </summary>
+        public static string Columns {
+            get {
+                return ResourceManager.GetString("Columns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Column Type.
         /// </summary>
         public static string ColumnType {
@@ -561,6 +579,15 @@ namespace FileExplorer.Properties {
         public static string CopyWindows {
             get {
                 return ResourceManager.GetString("CopyWindows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Double-click here to create a new one....
+        /// </summary>
+        public static string CreateNew {
+            get {
+                return ResourceManager.GetString("CreateNew", resourceCulture);
             }
         }
         

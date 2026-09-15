@@ -971,4 +971,13 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="UniqueTagName" xml:space="preserve">
     <value>Tag-Namen müssen eindeutig sein.</value>
   </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Spalten</value>
+  </data>
+  <data name="AdjustColumnSettings" xml:space="preserve">
+    <value>Passen Sie die Standardansicht an, indem Sie die Spalten neu anordnen und die Sortier- und Gruppierungsoptionen anpassen.</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Doppelklicken Sie hier, um ein neues zu erstellen...</value>
+  </data>
 </root>

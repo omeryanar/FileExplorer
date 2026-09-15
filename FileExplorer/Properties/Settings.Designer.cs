@@ -609,5 +609,17 @@ namespace FileExplorer.Properties {
                 this["LayoutType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnSettings {
+            get {
+                return ((string)(this["ColumnSettings"]));
+            }
+            set {
+                this["ColumnSettings"] = value;
+            }
+        }
     }
 }

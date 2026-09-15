@@ -18,7 +18,7 @@
         <dxg:GridControl ItemsSource="{Binding Extensions}">
             <dxg:GridControl.View>
                 <dxg:TableView AutoWidth="True" AllowColumnFiltering="False" AllowColumnMoving="False" AllowSorting="False"
-                               IsColumnMenuEnabled="False" ShowGroupPanel="False" VerticalScrollbarVisibility="Auto" NavigationStyle="Row" NewItemRowPosition="None"
+                               IsColumnMenuEnabled="False" ShowGroupPanel="False" VerticalScrollbarVisibility="Auto" NavigationStyle="Row"
                                EditFormShowMode="Inline" EditFormPostConfirmation="YesNoCancel" EditFormPostMode="Immediate" ValidateRow="{DXEvent 'Extensions.Update(@args.Row)'}">
                     <dxg:TableView.RowStyle>
                         <Style TargetType="dxg:RowControl">
