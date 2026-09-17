@@ -69,6 +69,12 @@ namespace FileExplorer.Controls
                     await ActivateExtension(File);
             };
 
+            Unloaded += async (s, e) =>
+            {
+                if (ActiveExtension != null)
+                    await ActiveExtension.UnloadFile();
+            };
+
             Messenger.Default.Register(this, async (NotificationMessage message) =>
             {
                 if (File == null || ActiveExtension == null)

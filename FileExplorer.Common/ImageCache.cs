@@ -31,6 +31,19 @@ namespace FileExplorer.Common.Helper
             if (!Cache.Storage.Exists(cacheKey))
                 return null;
 
+            FileInfo fileInfo = new FileInfo(filePath);
+            var cacheFileInfo = Cache.Storage.FindById(cacheKey);
+
+            if (!cacheFileInfo.Metadata.ContainsKey("LastWriteTime"))
+            {
+                cacheFileInfo.Metadata["LastWriteTime"] = fileInfo.LastWriteTime;
+                Cache.Storage.SetMetadata(cacheKey, cacheFileInfo.Metadata);
+            }
+
+            TimeSpan difference = fileInfo.LastWriteTime - cacheFileInfo.Metadata["LastWriteTime"].AsDateTime;
+            if (Math.Abs(difference.TotalSeconds) >= 1)
+                return null;
+
             try
             {
                 using (MemoryStream outputStream = new MemoryStream())
@@ -85,6 +98,7 @@ namespace FileExplorer.Common.Helper
 
 							FileInfo fileInfo = new FileInfo(filePath);
 							metadata["Directory"] = fileInfo.DirectoryName;
+							metadata["LastWriteTime"] = fileInfo.LastWriteTime;
 
 							if (processImageSettings.Width > 0)
                                 metadata["Width"] = processImageSettings.Width;

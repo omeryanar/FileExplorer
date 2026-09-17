@@ -57,7 +57,7 @@
 				<dxg:GridControl.View>
 					<dxg:TableView ShowIndicator="False" AllowEditing="False" AllowColumnFiltering="False"
 								   ShowVerticalLines="False" ShowHorizontalLines="False" ShowSearchPanelMode="Never"
-						           HorizontalScrollbarVisibility="Auto" VerticalScrollbarVisibility="Hidden" />
+						           HorizontalScrollbarVisibility="Visible" VerticalScrollbarVisibility="Hidden" />
 				</dxg:GridControl.View>
 				<dxg:GridControl.Columns>
 					<dxg:GridColumn FieldName="Name" SortOrder="Ascending" Header="{Binding Name, Source={StaticResource ResourceProvider}}" />
@@ -70,10 +70,10 @@
 					<dxg:GridColumn FieldName="Size" Header="{Binding Size, Source={StaticResource ResourceProvider}}" />
 					<dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" />
 					<dxg:GridColumn FieldName="DateModified" Header="{Binding DateModified, Source={StaticResource ResourceProvider}}" />
-					<dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" Visible="False" />					
+					<dxg:GridColumn FieldName="DateAccessed" Header="{Binding DateAccessed, Source={StaticResource ResourceProvider}}" Visible="False" />
 				</dxg:GridControl.Columns>
 			</dxg:GridControl>
-			<dxlc:GroupBox TitleVisibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Height="150" CornerRadius="0" Background="Transparent">
+			<dxlc:GroupBox TitleVisibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Margin="0,0,0,17" Height="150" CornerRadius="0" Background="Transparent">
 				<dxg:ExtendedColumnChooserControl Owner="{Binding View, ElementName=FileListView}" FlowDirection="{Binding View.FlowDirection, ElementName=FileListView}" />
 			</dxlc:GroupBox>
 		</Grid>
