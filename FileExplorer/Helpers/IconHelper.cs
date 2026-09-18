@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using AsyncKeyedLock;
+using DevExpress.Xpf.Editors;
 using FileExplorer.Core;
+using MahApps.Metro.IconPacks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using static Vanara.PInvoke.ComCtl32;
@@ -121,4 +126,94 @@ namespace FileExplorer.Helpers
 
         private static readonly Guid ImageListId = typeof(IImageList).GUID;
     }
+
+	public class FontIconHelper
+	{
+		public static List<FontIcon> AwesomeIcons
+		{
+			get
+			{
+				if (awesomeIcons == null)
+					awesomeIcons = GetIcons(typeof(PackIconFontAwesomeKind));
+
+				return awesomeIcons;
+			}
+		}
+		private static List<FontIcon> awesomeIcons;
+
+		public static List<FontIcon> GetIcons(Type enumType)
+		{
+			List<FontIcon> fontIcons = new List<FontIcon>();
+			Array array = Enum.GetValues(enumType);
+
+			for (int i = 1; i < array.Length; i++)
+			{
+				object icon = array.GetValue(i);
+				FieldInfo fieldInfo = enumType.GetField(icon.ToString());
+				DescriptionAttribute attribute = fieldInfo.GetCustomAttribute<DescriptionAttribute>();
+
+				string name = attribute.Description;
+				int startIndex = name.IndexOf('(');
+				if (startIndex != -1)
+					name = name.Substring(0, startIndex);
+
+				string description = attribute.Description;
+				if (startIndex != -1)
+				{
+					int endIndex = description.IndexOf(')');
+					if (endIndex == -1)
+						endIndex = description.Length;
+
+					description = description.Substring(startIndex + 1, endIndex - startIndex - 1);
+				}
+
+				FontIcon fontIcon = new FontIcon();
+				fontIcon.Data = GetIconData((PackIconFontAwesomeKind)icon);
+				fontIcon.Name = name.Trim();
+				fontIcon.Description = description.Trim();
+
+				fontIcons.Add(fontIcon);
+			}
+
+			return fontIcons;
+		}
+
+		public static string GetIconData(PackIconFontAwesomeKind packIcon)
+        {
+			string iconData = null;
+			PackIconDataFactory<PackIconFontAwesomeKind>.DataIndex.Value?.TryGetValue(packIcon, out iconData);
+
+            return iconData;
+		}
+
+		public static ImageSource GetIconImage(PackIconFontAwesomeKind packIcon, string iconColor)
+        {
+            string iconData = GetIconData(packIcon);
+			return GetIconImage(iconData, iconColor);
+		}
+
+		public static ImageSource GetIconImage(string iconData, string iconColor)
+		{
+			if (iconData == null)
+                return null;
+
+			GeometryDrawing geometryDrawing = new GeometryDrawing
+			{
+				Geometry = Geometry.Parse(iconData),
+				Brush = new SolidColorBrush(ColorHelper.ColorFromHex(iconColor))
+			};
+
+			DrawingImage drawingImage = new DrawingImage(geometryDrawing);
+			drawingImage.Freeze();
+
+			return drawingImage;
+		}
+
+		public class FontIcon
+		{
+			public string Name { get; set; }
+			public string Data { get; set; }
+			public string Description { get; set; }
+		}
+	}
 }

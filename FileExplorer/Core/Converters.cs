@@ -5,8 +5,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media;
 using DevExpress.Data;
 using DevExpress.Data.Filtering;
+using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
 
 namespace FileExplorer.Core
@@ -152,7 +154,28 @@ namespace FileExplorer.Core
         }
     }
 
-    public class StringToEnumerableObjectConverter : MarkupExtension, IValueConverter
+	public class StringToColorConverter : MarkupExtension, IValueConverter
+	{
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			return this;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+            if (value is string colorValue)
+                return ColorHelper.ColorFromHex(colorValue);
+
+			return Colors.Black;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+            return value?.ToString();
+		}
+	}
+
+	public class StringToEnumerableObjectConverter : MarkupExtension, IValueConverter
     {
         public string Separator { get; set; } = "|";
 

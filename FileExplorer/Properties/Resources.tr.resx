@@ -947,4 +947,37 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="ShowErrors" xml:space="preserve">
     <value>Hataları Göster</value>
   </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Etiketler</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Etiketleri Yönet</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Renk</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Simge</value>
+  </data>
+  <data name="ItemCount" xml:space="preserve">
+    <value>Öğe Sayısı</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Silmeyi Onayla</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>Silmek istediğinizden emin misiniz ?</value>
+  </data>
+  <data name="UniqueTagName" xml:space="preserve">
+    <value>Etiket adları benzersiz olmalıdır</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Sütunlar</value>
+  </data>
+  <data name="AdjustColumnSettings" xml:space="preserve">
+    <value>Sütunların sırasını değiştirerek ve sıralama ile gruplama seçeneklerini ayarlayarak varsayılan görünümü özelleştirin</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Yeni bir tane oluşturmak için buraya çift tıklayın...</value>
+  </data>
 </root>

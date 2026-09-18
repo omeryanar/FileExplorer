@@ -947,4 +947,37 @@
   <data name="ShowErrors" xml:space="preserve">
     <value>顯示錯誤</value>
   </data>
+  <data name="Tags" xml:space="preserve">
+    <value>標籤</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>管理標籤</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>顏色</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>圖示</value>
+  </data>
+  <data name="ItemCount" xml:space="preserve">
+    <value>項目數量</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>確認刪除</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>您確定要刪除嗎？</value>
+  </data>
+  <data name="UniqueTagName" xml:space="preserve">
+    <value>標籤名稱必須是唯一的</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>專欄</value>
+  </data>
+  <data name="AdjustColumnSettings" xml:space="preserve">
+    <value>透過重新排列欄位順序，並調整排序與分組選項，來自訂預設檢視</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>雙擊此處以建立一個新的...</value>
+  </data>
 </root>

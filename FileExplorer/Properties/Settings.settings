@@ -149,5 +149,8 @@
     <Setting Name="LayoutType" Type="FileExplorer.Core.Layout" Scope="User">
       <Value Profile="(Default)">Details</Value>
     </Setting>
+    <Setting Name="ColumnSettings" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

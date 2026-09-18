@@ -17,7 +17,38 @@ namespace FileExplorer.Persistence
         }
     }
 
-    public class PersistentCollection<T> : ObservableCollection<T> where T : PersistentItem
+    public abstract class PersistentTrackedItem : PersistentItem
+    {
+        public DateTime DateCreated
+        {
+            get => dateCreated;
+            set
+            {
+                if (dateCreated != value)
+                {
+                    dateCreated = value;
+                    RaisePropertyChanged(nameof(DateCreated));
+                }
+            }
+        }
+        private DateTime dateCreated;
+
+        public DateTime DateModified
+        {
+            get => dateModified;
+            set
+            {
+                if (dateModified != value)
+                {
+                    dateModified = value;
+                    RaisePropertyChanged(nameof(DateModified));
+                }
+            }
+        }
+        private DateTime dateModified;
+    }
+
+	public class PersistentCollection<T> : ObservableCollection<T> where T : PersistentItem
     {
         public PersistentCollection(LiteDatabase database, string collectionName)
             : base(database.GetCollection<T>(collectionName).FindAll())
@@ -29,6 +60,9 @@ namespace FileExplorer.Persistence
 
         public void Update(T item)
         {
+            if (item is PersistentTrackedItem trackedItem)
+                trackedItem.DateModified = DateTime.Now;
+
             Repository.Update(item);
             ItemUpdated?.Invoke(this, item);
         }
@@ -42,6 +76,12 @@ namespace FileExplorer.Persistence
 
         protected override void InsertItem(int index, T item)
         {
+            if (item is PersistentTrackedItem trackedItem && item.Id == 0)
+            {
+				trackedItem.DateCreated = DateTime.Now;
+				trackedItem.DateModified = DateTime.Now;
+			}
+
             if (!Contains(item))
                 base.InsertItem(index, item);
 

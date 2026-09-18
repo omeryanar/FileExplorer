@@ -11,7 +11,7 @@
         <common:ActiveWindowService />
     </dxmvvm:Interaction.Behaviors>
 
-    <dx:DXTabControl x:Name="TabControl" Padding="0" TabContentCacheMode="CacheAllTabs">
+    <dx:DXTabControl x:Name="MainTabControl" Padding="0" TabContentCacheMode="CacheAllTabs">
         <dxmvvm:Interaction.Behaviors>
             <dx:TabbedWindowDocumentUIService ShowNewItemOnStartup="False" />
         </dxmvvm:Interaction.Behaviors>
@@ -53,12 +53,12 @@
 
     <dx:DXTabbedWindow.InputBindings>
         <KeyBinding Gesture="Ctrl+T" Command="{Binding CreateNewTabCommand}" />
-        <KeyBinding Gesture="Ctrl+W" Command="{DXCommand '@ElementName(TabControl).SelectedItem.Close()'}" />
-        <KeyBinding Gesture="Alt+Left" Command="{Binding SelectedItemContent.DataContext.MoveBackCommand, ElementName=TabControl}" />
-        <KeyBinding Gesture="Alt+Right" Command="{Binding SelectedItemContent.DataContext.MoveNextCommand, ElementName=TabControl}" />
-        <KeyBinding Gesture="Alt+Up" Command="{Binding SelectedItemContent.DataContext.MoveUpCommand, ElementName=TabControl}" />
-        <KeyBinding Gesture="Ctrl+R" Command="{Binding SelectedItemContent.DataContext.RefreshCommand, ElementName=TabControl}" />
-        <KeyBinding Key="F5" Command="{Binding SelectedItemContent.DataContext.RefreshCommand, ElementName=TabControl}" />
+        <KeyBinding Gesture="Ctrl+W" Command="{DXCommand '@ElementName(MainTabControl).SelectedItem.Close()'}" />
+        <KeyBinding Gesture="Alt+Left" Command="{Binding SelectedItemContent.DataContext.MoveBackCommand, ElementName=MainTabControl}" />
+        <KeyBinding Gesture="Alt+Right" Command="{Binding SelectedItemContent.DataContext.MoveNextCommand, ElementName=MainTabControl}" />
+        <KeyBinding Gesture="Alt+Up" Command="{Binding SelectedItemContent.DataContext.MoveUpCommand, ElementName=MainTabControl}" />
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding SelectedItemContent.DataContext.RefreshCommand, ElementName=MainTabControl}" />
+        <KeyBinding Key="F5" Command="{Binding SelectedItemContent.DataContext.RefreshCommand, ElementName=MainTabControl}" />
     </dx:DXTabbedWindow.InputBindings>
 
 </dx:DXTabbedWindow>

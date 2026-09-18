@@ -167,7 +167,7 @@
         <controls:TableViewEx x:Key="ListView" AllowEditing="False" AllowMergedGrouping="True" AllowConditionalFormattingMenu="True"
                               AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
                               ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
-                              ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                              ColumnFilterPopupMode="ExcelSmart" FilterEditorShowOperandTypeIcon="True"
                               ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
                               ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                               HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
@@ -204,7 +204,7 @@
         <controls:CardViewEx x:Key="CardView" AllowEditing="False" AllowMergedGrouping="True"
                              AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"
                              ShowFocusedRectangle="False" ShowFixedTotalSummary="True" ShowGroupPanel="False" ShowGroupedColumns="True"
-                             ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True"
+                             ColumnFilterPopupMode="ExcelSmart" FilterEditorShowOperandTypeIcon="True"
                              ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                              ScrollViewer.IsDeferredScrollingEnabled="True" EnableImmediatePosting="True" NavigationStyle="Row"
                              SeparatorThickness="0" CardMargin="0" Style="{StaticResource CardViewStyle}" FocusedCardBorderTemplate="{StaticResource FocusedCardBorderTemplate}">
@@ -222,7 +222,7 @@
         <controls:TreeViewEx x:Key="TreeView" AllowEditing="False" AllowConditionalFormattingMenu="True"
                              AllowDragDrop="True" AllowSortedDataDragDrop="True" DragDropHintTemplate="{StaticResource DragDropHintTemplate}"                                    
                              ShowFocusedRectangle="False" ShowFixedTotalSummary="True"
-                             ColumnFilterPopupMode="Excel" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
+                             ColumnFilterPopupMode="ExcelSmart" FilterEditorShowOperandTypeIcon="True" ShowAutoFilterRow="True" AutoFilterRowPosition="Header" AutoFilterRowClearButtonMode="Always"
                              ShowSearchPanelMode="Never" SearchColumns="Name;Extension" IncrementalSearchMode="{Binding SearchText, Converter={common:StringToIncrementalSearchModeConverter}}"
                              ShowIndicator="False" NavigationStyle="Row" HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
                              ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
@@ -337,7 +337,30 @@
             </dxg:GridColumn.EditFormTemplate>
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" SortMode="Custom" SortFieldName="Extension" AllowAutoFilter="False" AllowIncrementalSearch="False" />
-        <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False">
+		<dxg:GridColumn FieldName="AllTags" Header="{Binding Tags, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True">
+			<dxg:GridColumn.CellDisplayTemplate>
+				<DataTemplate>
+					<ItemsControl ItemsSource="{Binding RowData.Row.Tags}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Margin="0,0,8,0" Height="20" Orientation="Horizontal">
+									<Viewbox Margin="4,2" Width="16" Height="16">
+										<Path Fill="{Binding IconColor}"  Data="{Binding IconData}" />
+									</Viewbox>
+									<TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+					</ItemsControl>
+				</DataTemplate>
+			</dxg:GridColumn.CellDisplayTemplate>
+		</dxg:GridColumn>
+		<dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False">
             <dxg:GridColumn.PredefinedFilters>
                 <dxfui:PredefinedFilterCollection>
                     <dxfui:PredefinedFilter Name="Image" Filter="?p IN ('.BMP','.PNG','.JPG','.JPEG','.GIF','.ICO','.SVG','.TIF','.TIFF','.PSD')" />
@@ -383,7 +406,7 @@
             <dxg:GridColumn.EditSettings>
                 <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
             </dxg:GridColumn.EditSettings>
-        </dxg:GridColumn>
+        </dxg:GridColumn>		
         <dxg:GridColumn FieldName="Width" Header="{Binding FrameWidth, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" Tag="StartNewGroup" />
         <dxg:GridColumn FieldName="Height" Header="{Binding FrameHeight, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
         <dxg:GridColumn FieldName="Duration" Header="{Binding Duration, Source={StaticResource ResourceProvider}}" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False">
@@ -438,10 +461,10 @@
                 <dxb:BarLinkContainerItem IsVisible="{Binding CurrentFolder.IsRecycleBin, Converter={dxmvvm:BooleanNegationConverter}}">
                     <dxb:BarLinkContainerItem.ItemLinks>
                         <dxb:BarButtonItemLink BarItemName="AddRemoveMenuItems" />
-                        <dxb:BarItemLinkSeparator />
-                        <dxb:BarSubItemLink BarItemName="ExpandToLevel" />
-                        <dxb:BarSubItemLink BarItemName="Selection" />
-                        <dxb:BarItemLinkSeparator />
+						<dxb:BarItemLinkSeparator />
+						<dxb:BarSubItemLink BarItemName="ExpandToLevel" />
+						<dxb:BarSubItemLink BarItemName="Selection" />
+						<dxb:BarItemLinkSeparator />
                         <dxb:BarButtonItemLink BarItemName="PinToQuickAccess" />
                         <dxb:BarButtonItemLink BarItemName="UnpinFromQuickAccess" />
                         <dxb:BarButtonItemLink BarItemName="Copy" />
@@ -451,7 +474,8 @@
                         <dxb:BarItemLinkSeparator />
                         <dxb:BarSubItemLink BarItemName="MoveTo" />
                         <dxb:BarSubItemLink BarItemName="CopyTo" />
-                        <dxb:BarSplitButtonItemLink BarItemName="Delete" />
+						<dxb:BarSubItemLink BarItemName="TagFiles" />
+						<dxb:BarSplitButtonItemLink BarItemName="Delete" />
                         <dxb:BarButtonItemLink BarItemName="Rename" />
                         <dxb:BarItemLinkSeparator />
                         <dxb:BarButtonItemLink BarItemName="NewFolder" />

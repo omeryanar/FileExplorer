@@ -947,4 +947,37 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="ShowErrors" xml:space="preserve">
     <value>Fehler anzeigen</value>
   </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Tags verwalten</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Farbe</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
+  <data name="ItemCount" xml:space="preserve">
+    <value>Anzahl der Artikel</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Löschen Bestätigen</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>Möchten Sie den Eintrag wirklich löschen ?</value>
+  </data>
+  <data name="UniqueTagName" xml:space="preserve">
+    <value>Tag-Namen müssen eindeutig sein.</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Spalten</value>
+  </data>
+  <data name="AdjustColumnSettings" xml:space="preserve">
+    <value>Passen Sie die Standardansicht an, indem Sie die Spalten neu anordnen und die Sortier- und Gruppierungsoptionen anpassen.</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Doppelklicken Sie hier, um ein neues zu erstellen...</value>
+  </data>
 </root>

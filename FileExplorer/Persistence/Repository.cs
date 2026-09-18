@@ -16,7 +16,9 @@ namespace FileExplorer.Persistence
 
         public PersistentCollection<ExtensionMetadata> Extensions { get; private set; }
 
-        public Repository(string databaseName)
+		public PersistentCollection<TagFolder> TagFolders { get; private set; }
+
+		public Repository(string databaseName)
         {
             string connectionString = $"Filename={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseName)}; Upgrade=true";
             Database = new LiteDatabase(connectionString);
@@ -25,6 +27,7 @@ namespace FileExplorer.Persistence
             Expressions = new PersistentCollection<Expression>(Database, "Expressions");
             FolderLayouts = new PersistentCollection<FolderLayout>(Database, "FolderLayouts");
             Extensions = new PersistentCollection<ExtensionMetadata>(Database, "Extensions");
-        }
+            TagFolders = new PersistentCollection<TagFolder>(Database, "TagFolders");
+		}
 	}
 }

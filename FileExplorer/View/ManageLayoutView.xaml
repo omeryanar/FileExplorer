@@ -35,9 +35,14 @@
                         <StackPanel Orientation="Horizontal" Visibility="{Binding RowData.IsNewItemRow, Converter={dxmvvm:BooleanToVisibilityConverter Inverse=True}}">
                             <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconEdit}" Command="{x:Static dxg:GridCommands.EditFocusedRow}"
                                     ToolTip="{Binding Edit, Source={StaticResource ResourceProvider}}" />
-                            <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconDelete}" Command="{x:Static dxg:GridCommands.DeleteFocusedRow}"
-                                    ToolTip="{Binding Delete, Source={StaticResource ResourceProvider}}" />
-                            <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconClone}" Command="{DXCommand 'View.DataContext.Duplicate(Row)'}"
+							<Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconDelete}" ToolTip="{Binding Delete, Source={StaticResource ResourceProvider}}">
+								<dxmvvm:Interaction.Behaviors>
+									<dxmvvm:ConfirmationBehavior MessageIcon="Question" Command="{Binding View.Commands.DeleteFocusedRow}"
+																 MessageTitle="{Binding ConfirmDelete, Source={StaticResource ResourceProvider}}"
+																 MessageText="{Binding ConfirmDeleteMessage, Source={StaticResource ResourceProvider}}" />
+								</dxmvvm:Interaction.Behaviors>
+							</Button>
+							<Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconClone}" Command="{DXCommand 'View.DataContext.Duplicate(Row)'}"
                                     ToolTip="{Binding Copy, Source={StaticResource ResourceProvider}}" IsEnabled="{Binding View.IsEditing, Converter={dxmvvm:BooleanNegationConverter}}" />
                         </StackPanel>
                     </DataTemplate>

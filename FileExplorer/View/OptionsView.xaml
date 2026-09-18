@@ -23,24 +23,24 @@
                 <Setter Property="CheckedStateContent" Value="{Binding Yes, Source={StaticResource ResourceProvider}}" />
                 <Setter Property="UncheckedStateContent" Value="{Binding No, Source={StaticResource ResourceProvider}}" />
             </Style>
-            <Style TargetType="dxe:ListBoxEdit">
-                <Setter Property="StyleSettings">
-                    <Setter.Value>
-                        <dxe:RadioListBoxEditStyleSettings />
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </dxlc:LayoutControl.Resources>
-        <dxlc:LayoutGroup View="Tabs">
+			<Style TargetType="dxe:ListBoxEdit">
+				<Setter Property="StyleSettings">
+					<Setter.Value>
+						<dxe:RadioListBoxEditStyleSettings />
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</dxlc:LayoutControl.Resources>
+		<dxlc:LayoutGroup View="Tabs">
             <dxlc:LayoutGroup.TabsStyle>
-                <Style TargetType="dx:DXTabControl">
-                    <Setter Property="View">
-                        <Setter.Value>
-                            <dx:TabControlMultiLineView />
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </dxlc:LayoutGroup.TabsStyle>
+				<Style TargetType="dx:DXTabControl">
+					<Setter Property="View">
+						<Setter.Value>
+							<dx:TabControlMultiLineView />
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</dxlc:LayoutGroup.TabsStyle>
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding General, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutItem Label="{Binding NewTab, Source={StaticResource ResourceProvider}}">
                     <dxe:ListBoxEdit SelectedIndex="{Binding FirstFolderToOpen, Source={x:Static settings:Settings.Default}}">
@@ -162,6 +162,9 @@
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>                
             </dxlc:LayoutGroup>
+			<dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Columns, Source={StaticResource ResourceProvider}}">
+				<controls:ColumnSettingsControl />
+			</dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Thumbnails, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutItem Label="{Binding Mode, Source={StaticResource ResourceProvider}}">
                     <dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True"

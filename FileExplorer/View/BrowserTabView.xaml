@@ -10,6 +10,7 @@
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:dxfui="http://schemas.devexpress.com/winfx/2008/xaml/core/filteringui"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+			 xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:main="clr-namespace:FileExplorer"
              xmlns:common="clr-namespace:FileExplorer.Core"
              xmlns:controls="clr-namespace:FileExplorer.Controls"
@@ -138,7 +139,31 @@
                                     </DataTemplate>
                                 </dxb:BarSubItem.ItemTemplate>
                             </dxb:BarSubItem>
-                            <dxb:BarItemSeparator />
+							<dxb:BarSubItem x:Name="TagFiles" Content="{Binding Tags, Source={StaticResource ResourceProvider}}"
+											IsVisible="{Binding SelectedItems.Count, ElementName=FileList, Converter={dxmvvm:NumericToBooleanConverter}}"
+										    Glyph="{icons:FontAwesomeImage Kind=TagsSolid, Brush=#FDD835}" LargeGlyph="{icons:FontAwesomeImage Kind=TagsSolid, Brush=#FDD835}">
+								<dxb:BarLinkContainerItem ItemLinksSource="{Binding SelectedItems.Count, ElementName=FileList, Converter={common:TagBarCheckItemConverter}, ConverterParameter={x:Reference Name=FileList}}">
+									<dxb:BarLinkContainerItem.ItemTemplate>
+										<DataTemplate>
+											<ContentControl>
+												<dxb:BarCheckItem Content="{Binding}" IsChecked="{Binding IsChecked}" Command="{Binding TagItemsCommand}" CloseSubMenuOnClick="False">
+													<dxb:BarCheckItem.ContentTemplate>
+														<DataTemplate>
+															<StackPanel Orientation="Horizontal">
+																<Image Width="16" Height="16" Source="{Binding Glyph}" />
+																<TextBlock Margin="8,0,0,0" Text="{Binding Name}" />
+															</StackPanel>
+														</DataTemplate>
+													</dxb:BarCheckItem.ContentTemplate>
+												</dxb:BarCheckItem>
+											</ContentControl>
+										</DataTemplate>
+									</dxb:BarLinkContainerItem.ItemTemplate>
+								</dxb:BarLinkContainerItem>
+								<dxb:BarItemSeparator />
+								<dxb:BarButtonItem Content="{Binding ManageTags, Source={StaticResource ResourceProvider}}" Command="{Binding ShowManageTagsDialogCommand}" />
+							</dxb:BarSubItem>
+							<dxb:BarItemSeparator />
                             <dxb:BarSplitButtonItem x:Name="Delete" Content="{Binding Delete, Source={StaticResource ResourceProvider}}" KeyGesture="Ctrl+D"
                                                     Command="{Binding RecycleItemsCommand}" CommandParameter="{Binding SelectedItems, ElementName=FileList}"
                                                     common:IconGlyph.Source="Delete">
@@ -429,22 +454,22 @@
                 <dxr:RibbonPageCategory IsVisible="False">
                     <dxr:RibbonPage>
                         <dxr:RibbonPageGroup>
-                            <dxb:BarButtonItem x:Name="AddRemoveMenuItems" Content="{Binding AddRemoveMenuItems, Source={StaticResource ResourceProvider}}"
+							<dxb:BarButtonItem x:Name="AddRemoveMenuItems" Content="{Binding AddRemoveMenuItems, Source={StaticResource ResourceProvider}}"
                                                Glyph="/Assets/SVG/AddRemoveMenuItems.svg" LargeGlyph="/Assets/SVG/AddRemoveMenuItems.svg" Command="{DXCommand '@ElementName(FileList).ShowCustomMenuDialog()'}" />
-                            <dxb:BarSubItem x:Name="ExpandToLevel" Content="{Binding Expand, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="Content"
-                                            IsVisible="{DXBinding 'Settings.LayoutType==$common:Layout.Content'}" IsEnabled="{DXBinding '@ElementName(FileList).SelectedItem.IsDirectory'}">                               
-                                <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 1`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(1)'}" KeyGesture="CTRL + 1" />
+							<dxb:BarSubItem x:Name="ExpandToLevel" Content="{Binding Expand, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="Content"
+                                            IsVisible="{DXBinding 'Settings.LayoutType==$common:Layout.Content'}" IsEnabled="{DXBinding '@ElementName(FileList).SelectedItem.IsDirectory'}">
+								<dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 1`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(1)'}" KeyGesture="CTRL + 1" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 2`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(2)'}" KeyGesture="CTRL + 2" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 3`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(3)'}" KeyGesture="CTRL + 3" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 4`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(4)'}" KeyGesture="CTRL + 4" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 5`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(5)'}" KeyGesture="CTRL + 5" />
                             </dxb:BarSubItem>
-                            <dxb:BarSubItem x:Name="Selection" Content="{Binding Selection, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="SelectAll">
-                                <dxb:BarButtonItem Content="{Binding SaveSelection, Source={StaticResource ResourceProvider}}" Command="{Binding SaveSelectionCommand, ElementName=FileList}" />
-                                <dxb:BarButtonItem Content="{Binding RestoreSelection, Source={StaticResource ResourceProvider}}" Command="{Binding RestoreSelectionCommand, ElementName=FileList}" />
-                                <dxb:BarCheckItem Content="{Binding AutoRestoreSelection, Source={StaticResource ResourceProvider}}" IsChecked="{Binding LocalSettings.AutoRestoreSelection, ElementName=FileList}" />
-                            </dxb:BarSubItem>                            
-                        </dxr:RibbonPageGroup>
+							<dxb:BarSubItem x:Name="Selection" Content="{Binding Selection, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="SelectAll">
+								<dxb:BarButtonItem Content="{Binding SaveSelection, Source={StaticResource ResourceProvider}}" Command="{Binding SaveSelectionCommand, ElementName=FileList}" />
+								<dxb:BarButtonItem Content="{Binding RestoreSelection, Source={StaticResource ResourceProvider}}" Command="{Binding RestoreSelectionCommand, ElementName=FileList}" />
+								<dxb:BarCheckItem Content="{Binding AutoRestoreSelection, Source={StaticResource ResourceProvider}}" IsChecked="{Binding LocalSettings.AutoRestoreSelection, ElementName=FileList}" />
+							</dxb:BarSubItem>
+						</dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonPageCategory>
             </dxr:RibbonControl>

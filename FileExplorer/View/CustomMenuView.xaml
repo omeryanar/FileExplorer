@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"             
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
@@ -142,7 +142,13 @@
         </dxg:GridControl.View>
 
         <dxg:GridControl.Columns>
-            <dxg:GridColumn FieldName="Name" Header="{Binding Name, Source={StaticResource ResourceProvider}}" Width="100" />
+			<dxg:GridColumn FieldName="Name" Header="{Binding Name, Source={StaticResource ResourceProvider}}" Width="100">
+				<dxg:GridColumn.CellDisplayTemplate>
+					<DataTemplate>
+						<dxe:TextEdit x:Name="PART_Editor" NullText="{Binding CreateNew, Source={StaticResource ResourceProvider}}" />
+					</DataTemplate>
+				</dxg:GridColumn.CellDisplayTemplate>
+			</dxg:GridColumn>
             <dxg:GridColumn FieldName="GroupName" Header="{Binding GroupName, Source={StaticResource ResourceProvider}}" Width="100" />
             <dxg:GridColumn FieldName="Shortcut" Header="{Binding Shortcut, Source={StaticResource ResourceProvider}}" Visible="False">
                 <dxg:GridColumn.EditFormTemplate>
@@ -178,8 +184,13 @@
                         <StackPanel Orientation="Horizontal" Visibility="{Binding RowData.IsNewItemRow, Converter={dxmvvm:BooleanToVisibilityConverter Inverse=True}}">
                             <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconEdit}" Command="{x:Static dxg:GridCommands.EditFocusedRow}"
                                     ToolTip="{Binding Edit, Source={StaticResource ResourceProvider}}" />
-                            <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconDelete}" Command="{x:Static dxg:GridCommands.DeleteFocusedRow}"
-                                    ToolTip="{Binding Delete, Source={StaticResource ResourceProvider}}" />
+							<Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconDelete}" ToolTip="{Binding Delete, Source={StaticResource ResourceProvider}}">
+								<dxmvvm:Interaction.Behaviors>
+									<dxmvvm:ConfirmationBehavior MessageIcon="Question" Command="{Binding View.Commands.DeleteFocusedRow}"
+																 MessageTitle="{Binding ConfirmDelete, Source={StaticResource ResourceProvider}}"
+																 MessageText="{Binding ConfirmDeleteMessage, Source={StaticResource ResourceProvider}}" />
+								</dxmvvm:Interaction.Behaviors>
+							</Button>
                             <Button Style="{StaticResource FlatButtonStyle}" Content="{StaticResource IconClone}" Command="{DXCommand 'View.DataContext.Duplicate(Row)'}"
                                     ToolTip="{Binding Copy, Source={StaticResource ResourceProvider}}" IsEnabled="{Binding View.IsEditing, Converter={dxmvvm:BooleanNegationConverter}}" />
                         </StackPanel>
