@@ -947,4 +947,37 @@
   <data name="ShowErrors" xml:space="preserve">
     <value>显示错误</value>
   </data>
+  <data name="Tags" xml:space="preserve">
+    <value>标签</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>管理标签</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>颜色</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>图标</value>
+  </data>
+  <data name="ItemCount" xml:space="preserve">
+    <value>项目数量</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>您确定要删除吗 ?</value>
+  </data>
+  <data name="UniqueTagName" xml:space="preserve">
+    <value>标签名称必须是唯一的。</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>专栏</value>
+  </data>
+  <data name="AdjustColumnSettings" xml:space="preserve">
+    <value>通过重新排列列的顺序以及调整排序和分组选项，自定义默认视图</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>双击此处以创建一个新的...</value>
+  </data>
 </root>
