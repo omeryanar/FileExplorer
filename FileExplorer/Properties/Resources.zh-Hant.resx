@@ -980,4 +980,13 @@
   <data name="CreateNew" xml:space="preserve">
     <value>雙擊此處以建立一個新的...</value>
   </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>未找到</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>系統無法找到指定的檔案或資料夾。</value>
+  </data>
+  <data name="DeleteUpdateTag" xml:space="preserve">
+    <value>如果您知道該檔案或資料夾的位置，可以使用下方的編輯器進行更新。否則，您可以點擊「刪除」按鈕將其刪除。</value>
+  </data>
 </root>

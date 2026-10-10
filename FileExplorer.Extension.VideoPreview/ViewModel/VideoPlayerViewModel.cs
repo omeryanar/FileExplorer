@@ -78,7 +78,8 @@ namespace FileExplorer.Extension.VideoPreview.ViewModel
 		public virtual async Task PreviewFile(string filePath)
 		{
 			FilePath = filePath;
-			Duration = 0;
+			Position = 0;
+			Duration = 0;			
 
 			File mediaInfo = null;
 			bool isVideo, isAudio;

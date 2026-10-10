@@ -980,4 +980,13 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="CreateNew" xml:space="preserve">
     <value>Yeni bir tane oluşturmak için buraya çift tıklayın...</value>
   </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>Bulunamadı</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>Sistem, belirtilen dosyayı veya klasörü bulamıyor.</value>
+  </data>
+  <data name="DeleteUpdateTag" xml:space="preserve">
+    <value>Dosyanın veya klasörün konumunu biliyorsanız, aşağıdaki editörü kullanarak güncelleyebilirsiniz. Aksi takdirde, 'Sil' düğmesine tıklayarak silebilirsiniz.</value>
+  </data>
 </root>

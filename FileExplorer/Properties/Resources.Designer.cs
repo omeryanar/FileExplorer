@@ -736,6 +736,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you know the location of the file or folder, you can update it using the editor below. Otherwise, you can delete it by clicking the &apos;Delete&apos; button..
+        /// </summary>
+        public static string DeleteUpdateTag {
+            get {
+                return ResourceManager.GetString("DeleteUpdateTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Details.
         /// </summary>
         public static string Details {
@@ -1583,6 +1592,24 @@ namespace FileExplorer.Properties {
         public static string NoPreviewAvailable {
             get {
                 return ResourceManager.GetString("NoPreviewAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Found.
+        /// </summary>
+        public static string NotFound {
+            get {
+                return ResourceManager.GetString("NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The system cannot find the specified file or folder..
+        /// </summary>
+        public static string NotFoundMessage {
+            get {
+                return ResourceManager.GetString("NotFoundMessage", resourceCulture);
             }
         }
         

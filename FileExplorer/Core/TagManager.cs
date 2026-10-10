@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using DevExpress.Mvvm;
+using FileExplorer.Helpers;
 using FileExplorer.Messages;
 using FileExplorer.Persistence;
 using Vanara.Windows.Shell;
@@ -12,7 +13,9 @@ namespace FileExplorer.Core
 {
 	public class TagManager
 	{
-		public ICollection<TagFolder> GetTagFolders(string filePath)
+		public static readonly string RootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Shortcuts\Tags");
+
+		public ObservableCollection<TagFolder> GetTagFolders(string filePath)
 		{
 			if (TagDictionary.ContainsKey(filePath))
 				return TagDictionary[filePath].TagFolders;
@@ -26,7 +29,7 @@ namespace FileExplorer.Core
 
 			foreach (string name in tagFolder.TaggedFiles)
 			{
-				FileInfo file = new FileInfo(Path.Combine(RootDirectory.FullName, $"{name}.lnk"));
+				FileInfo file = new FileInfo(Path.Combine(RootPath, $"{name}.lnk"));
 				if (file.Exists)
 				{
 					FileSystemInfo fileSystemInfo = file.GetTargetInfoFromLinkInfo();
@@ -65,7 +68,7 @@ namespace FileExplorer.Core
 			}
 			else
 			{
-				ShellLink link = ShellLink.Create(Path.Combine(RootDirectory.FullName, $"{Guid.NewGuid()}.lnk"), filePath);
+				ShellLink link = ShellLink.Create(Path.Combine(RootPath, $"{Guid.NewGuid()}.lnk"), filePath);
 				TagInfo tagInfo = new TagInfo(link.Name, tagFolder);
 
 				TagDictionary.Add(filePath, tagInfo);
@@ -92,26 +95,69 @@ namespace FileExplorer.Core
 			return false;
 		}
 
+		public void DeleteInvalidTag(string linkPath)
+		{
+			FileInfo file = new FileInfo(linkPath);
+			if (file.Exists)
+			{
+				using (ShellLink shellLink = file.GetShellLinkFromFileInfo(false))
+				{
+					if (shellLink != null && TagDictionary.ContainsKey(shellLink.TargetPath))
+					{
+						TagInfo tagInfo = TagDictionary[shellLink.TargetPath];
+						foreach (TagFolder tagFolder in tagInfo.TagFolders)
+						{
+							if (tagFolder.TaggedFiles.Remove(tagInfo.LinkName))
+								App.Repository.TagFolders.Update(tagFolder);
+						}
+					}
+				}
+
+				file.Delete();
+			}
+		}
+
+		public void UpdateInvalidTag(string linkPath, string targetPath)
+		{
+			FileInfo file = new FileInfo(linkPath);
+			if (file.Exists)
+			{
+				using (ShellLink shellLink = file.GetShellLinkFromFileInfo(false))
+				{
+					if (shellLink != null && TagDictionary.ContainsKey(shellLink.TargetPath))
+					{
+						TagInfo tagInfo = TagDictionary[shellLink.TargetPath];
+
+						TagDictionary.Remove(shellLink.TargetPath);
+						shellLink.TargetPath = targetPath;
+						TagDictionary.Add(targetPath, tagInfo);
+					}
+				}
+			}
+		}
+
 		public TagManager()
 		{
-			RootDirectory = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tags"));
-			if (!RootDirectory.Exists)
+			DirectoryInfo rootDirectory = new DirectoryInfo(RootPath);
+			if (!rootDirectory.Exists)
 			{
-				RootDirectory.Create();
-				RootDirectory.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+				rootDirectory.Create();
+				rootDirectory.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
 			}
 			else
 			{
-				foreach (FileInfo file in RootDirectory.GetFiles("*.lnk"))
+				foreach (FileInfo file in rootDirectory.GetFiles("*.lnk"))
 				{
-					ShellLink shellLink = file.GetShellLinkFromFileInfo();
-					if (shellLink == null)
-						continue;
-
-					foreach (TagFolder tagFolder in App.Repository.TagFolders)
+					using (ShellLink shellLink = file.GetShellLinkFromFileInfo())
 					{
-						if (tagFolder.TaggedFiles?.Any(x => file.Name.OrdinalEquals($"{x}.lnk")) == true)
-							AddToDictionary(shellLink, tagFolder);
+						if (shellLink == null)
+							continue;
+
+						foreach (TagFolder tagFolder in App.Repository.TagFolders)
+						{
+							if (tagFolder.TaggedFiles.Any(x => file.Name.OrdinalEquals($"{x}.lnk")))
+								AddToDictionary(shellLink, tagFolder);
+						}
 					}
 				}
 			}
@@ -125,19 +171,26 @@ namespace FileExplorer.Core
 					switch (message.NotificationType)
 					{
 						case NotificationType.Remove:							
-							foreach (TagFolder tagFolder in tagInfo.TagFolders)
-								tagFolder.TaggedFiles?.Remove(tagInfo.LinkName);
+							FileInfo linkInfo = new FileInfo(Path.Combine(RootPath, $"{tagInfo.LinkName}.lnk"));
+							if (linkInfo != null)
+							{
+								FileSystemInfo targetInfo = linkInfo.GetTargetInfoFromLinkInfo();
+								if (targetInfo != null && !message.Path.OrdinalEquals(targetInfo.FullName))
+								{
+									foreach (TagFolder tagFolder in tagInfo.TagFolders)
+										tagFolder.TaggedFiles.Remove(tagInfo.LinkName);
+
+									TagDictionary.Remove(message.Path);
+									TagDictionary.Add(targetInfo.FullName, tagInfo);
+
+									foreach (TagFolder tagFolder in tagInfo.TagFolders)
+										tagFolder.TaggedFiles.Add(tagInfo.LinkName);
+
+									break;
+								}
+							}
 
 							TagDictionary.Remove(message.Path);
-
-							FileInfo file = new FileInfo(Path.Combine(RootDirectory.FullName, $"{tagInfo.LinkName}.lnk"));
-							ShellLink link = file.GetShellLinkFromFileInfo();
-							if (link != null)
-							{
-								TagDictionary.Add(link.TargetPath, tagInfo);
-								foreach (TagFolder tagFolder in tagInfo.TagFolders)
-									tagFolder.TaggedFiles.Add(tagInfo.LinkName);
-							}
 							break;
 
 						case NotificationType.Rename:
@@ -159,8 +212,6 @@ namespace FileExplorer.Core
 
 		private static Dictionary<string, TagInfo> TagDictionary = new Dictionary<string, TagInfo>(StringComparer.OrdinalIgnoreCase);
 
-		private static DirectoryInfo RootDirectory;
-
 		private class TagInfo
 		{
 			public string LinkName { get; set; }
@@ -171,41 +222,6 @@ namespace FileExplorer.Core
 			{
 				LinkName = linkName;
 				TagFolders = new ObservableCollection<TagFolder> { tagFolder };
-			}
-		}
-	}
-
-	public static class LinkHelper
-	{
-		public static ShellLink GetShellLinkFromFileInfo(this FileInfo fileInfo)
-		{
-			try
-			{
-				ShellLink shellLink = new ShellLink(fileInfo.FullName, LinkResolution.NoUI | LinkResolution.Update);
-				if ((shellLink.IsFolder && Directory.Exists(shellLink.TargetPath)) || File.Exists(shellLink.TargetPath))
-					return shellLink;
-
-				return null;
-			}
-			catch (Exception)
-			{
-				return null;
-			}
-		}
-
-		public static FileSystemInfo GetTargetInfoFromLinkInfo(this FileInfo fileInfo)
-		{
-			try
-			{
-				ShellLink shellLink = new ShellLink(fileInfo.FullName, LinkResolution.NoUI | LinkResolution.Update);
-				if (shellLink.IsFolder)
-					return new DirectoryInfo(shellLink.TargetPath);
-				else
-					return new FileInfo(shellLink.TargetPath);
-			}
-			catch (Exception)
-			{
-				return null;
 			}
 		}
 	}

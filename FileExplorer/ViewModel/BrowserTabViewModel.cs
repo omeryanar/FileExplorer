@@ -139,12 +139,55 @@ namespace FileExplorer.ViewModel
             if (CanOpenItem(fileModel))
             {
                 if (fileModel.IsDirectory)
-                    CurrentFolder = fileModel;
-                else if (!String.IsNullOrEmpty(fileModel.LinkPath))
-                    Utilities.OpenFile(Utilities.AppPath, $"\"{fileModel.LinkPath}\"");
-                else
-                    Utilities.OpenFile(fileModel.FullPath);
-            }
+                {
+					CurrentFolder = fileModel;
+                    return;
+				}
+
+                if (fileModel.IsLinkDirectory && fileModel.IsLinkValid)
+                {
+                    NavigatePath(fileModel.LinkPath);
+                    return;
+                }
+
+                if (fileModel.IsLink && !fileModel.IsLinkValid)
+                {
+                    if (fileModel.LinkPath.OrdinalStartsWith(TagManager.RootPath))
+                    {
+                        ShortcutViewModel shortcutViewModel = ViewModelSource.Create(() => new ShortcutViewModel());
+                        shortcutViewModel.Filter = $"{fileModel.Description} (*{fileModel.Extension})|*{fileModel.Extension}";
+						shortcutViewModel.IsFolder = fileModel.IsLinkDirectory;
+						shortcutViewModel.Path = fileModel.FullPath;
+
+						UICommand command = DialogService.ShowDialog(shortcutViewModel.UICommandList, Properties.Resources.Error, "ShortcutView", shortcutViewModel);
+						if (command?.IsCancel == true)
+                            return;
+
+						if (command?.IsDefault == true)
+                        {
+                            App.TagManager.DeleteInvalidTag(fileModel.LinkPath);
+							Refresh();
+                        }
+                        else
+                        {
+							App.TagManager.UpdateInvalidTag(fileModel.LinkPath, shortcutViewModel.Path);
+							fileModel.FullPath = shortcutViewModel.Path;
+						}
+
+                        return;
+					}
+
+					MessageViewModel messageViewModel = ViewModelSource.Create(() => new MessageViewModel());
+					messageViewModel.Icon = IconType.Exclamation;
+					messageViewModel.Title = Properties.Resources.NotFound;
+					messageViewModel.Content = $"{Properties.Resources.NotFoundMessage}\r\n\r\n" + fileModel.LinkPath;
+
+					DialogService.ShowDialog(MessageButton.OK, Properties.Resources.Error, "MessageView", messageViewModel);
+					return;
+				}
+
+				Utilities.OpenFile(fileModel.FullPath);
+			}
         }
 
         public bool CanOpenInNewTab(FileModel fileModel)
@@ -271,7 +314,7 @@ namespace FileExplorer.ViewModel
             finally { IsLoading = false; }
         }
 
-        public async Task Refresh()
+        public async void Refresh()
         {
             try
             {
@@ -386,7 +429,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanMoveUp()
         {
-            return CurrentFolder?.IsRoot == false;
+            return CurrentFolder?.Parent != null;
         }
 
         public void MoveUp()
@@ -467,7 +510,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanCreateNewFolder(FileModel fileModel)
         {
-            if (fileModel == null)
+            if (fileModel == null || !fileModel.IsDirectory)
                 fileModel = CurrentFolder;
 
             return fileModel?.IsRoot == false && fileModel.Parent?.IsRecycleBin == false;
@@ -492,8 +535,8 @@ namespace FileExplorer.ViewModel
 
         public bool CanCreateNewFile(FileModel fileModel)
         {
-            if (fileModel == null)
-                fileModel = CurrentFolder;
+			if (fileModel == null || !fileModel.IsDirectory)
+				fileModel = CurrentFolder;
 
             return fileModel?.IsRoot == false && fileModel.Parent?.IsRecycleBin == false;
         }
@@ -644,7 +687,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanPasteFromClipboard(FileModel fileModel)
         {
-            if (fileModel == null)
+            if (fileModel == null || !fileModel.IsDirectory)
                 fileModel = CurrentFolder;
 
             return fileModel?.IsRoot == false && Utilities.FileExistsInClipboard();

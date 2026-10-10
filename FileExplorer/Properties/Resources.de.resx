@@ -980,4 +980,13 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="CreateNew" xml:space="preserve">
     <value>Doppelklicken Sie hier, um ein neues zu erstellen...</value>
   </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>Nicht gefunden</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>Das System kann die angegebene Datei oder den angegebenen Ordner nicht finden.</value>
+  </data>
+  <data name="DeleteUpdateTag" xml:space="preserve">
+    <value>Wenn Sie den Speicherort der Datei oder des Ordners kennen, können Sie diese bzw. diesen über den untenstehenden Editor aktualisieren. Andernfalls können Sie sie bzw. ihn löschen, indem Sie auf die Schaltfläche 'Löschen' klicken.</value>
+  </data>
 </root>

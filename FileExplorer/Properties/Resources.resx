@@ -980,4 +980,13 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="CreateNew" xml:space="preserve">
     <value>Double-click here to create a new one...</value>
   </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>Not Found</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>The system cannot find the specified file or folder.</value>
+  </data>
+  <data name="DeleteUpdateTag" xml:space="preserve">
+    <value>If you know the location of the file or folder, you can update it using the editor below. Otherwise, you can delete it by clicking the 'Delete' button.</value>
+  </data>
 </root>

@@ -10,7 +10,7 @@
              xmlns:common="clr-namespace:FileExplorer.Core"
              xmlns:controls="clr-namespace:FileExplorer.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             MinWidth="700" MinHeight="350">
+             MinWidth="700" MinHeight="360">
 
     <dxlc:LayoutControl>
         <dxlc:LayoutControl.Resources>

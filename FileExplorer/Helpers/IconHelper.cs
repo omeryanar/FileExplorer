@@ -129,6 +129,10 @@ namespace FileExplorer.Helpers
 
 	public class FontIconHelper
 	{
+        public static readonly ImageSource ErrorIcon = FontIconHelper.GetIconImage(PackIconFontAwesomeKind.CircleXmarkSolid, "#FFF44336");
+
+		public static readonly ImageSource RefreshIcon = FontIconHelper.GetIconImage(PackIconFontAwesomeKind.ArrowsRotateSolid, "#FF2196F3");
+
 		public static List<FontIcon> AwesomeIcons
 		{
 			get
@@ -214,6 +218,17 @@ namespace FileExplorer.Helpers
 			public string Name { get; set; }
 			public string Data { get; set; }
 			public string Description { get; set; }
+		}
+	}
+
+	public class InvalidPathIconSelector : IPathIconSelector
+	{
+        public ImageSource Select(string path)
+		{
+            if (File.Exists(path) || Directory.Exists(path))
+                return IconHelper.GetIcon(path);
+            else
+                return FontIconHelper.ErrorIcon;
 		}
 	}
 }

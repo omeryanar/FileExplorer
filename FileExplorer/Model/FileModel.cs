@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -69,7 +70,7 @@ namespace FileExplorer.Model
         [GenerateProperty]
         private string linkPath;
 
-        [GenerateProperty]
+		[GenerateProperty]
         private DateTime dateCreated;
 
         [GenerateProperty]
@@ -130,7 +131,7 @@ namespace FileExplorer.Model
 
         #region Properties
 
-        public bool IsDirectory { get; internal set; }
+		public bool IsDirectory { get; internal set; }
 
         public bool IsDrive { get; internal set; }
 
@@ -140,7 +141,13 @@ namespace FileExplorer.Model
 
         public bool IsRoot { get; internal set; }
 
-        public bool IsMedia => IsImage || IsVideo || IsAudio;
+        public bool IsLink { get; internal set; }
+
+		public bool IsLinkValid { get; internal set; }
+
+		public bool IsLinkDirectory { get; internal set; }
+
+		public bool IsMedia => IsImage || IsVideo || IsAudio;
 
         #region MediaInfo
 
@@ -344,7 +351,7 @@ namespace FileExplorer.Model
             }
         }
 
-        public bool ReadMediaInfo()
+        private bool ReadMediaInfo()
         {
             if (IsMedia == false)
                 return false;
@@ -519,17 +526,21 @@ namespace FileExplorer.Model
         }
         private NotifyTask<ImageSource> extraLargeIcon;
 
-        public ICollection<TagFolder> Tags
+        public ObservableCollection<TagFolder> Tags
         {
             get
             {
                 if (tags == null)
-                    tags = App.TagManager.GetTagFolders(FullPath);
+                {
+					tags = App.TagManager.GetTagFolders(FullPath);
+					if (tags != null)
+						tags.CollectionChanged += (s, e) => { RaisePropertyChanged(AllTagsChangedEventArgs); };
+				}
 
                 return tags;
             }
         }
-        private ICollection<TagFolder> tags;
+        private ObservableCollection<TagFolder> tags;
 
         public string AllTags => Tags != null ? Tags.Select(x => x.Name).Join("; ") : null;
 
@@ -666,7 +677,11 @@ namespace FileExplorer.Model
                 return fileModel;
 
             fileModel = new FileModel();
-            fileModel.Initialize(fileSystemInfo, parentModel);
+
+            if (fileSystemInfo is LinkFileInfo linkFileInfo)
+				fileModel.Initialize(linkFileInfo);
+            else
+                fileModel.Initialize(fileSystemInfo, parentModel);
 
             FileModelCache.TryAdd(fileSystemInfo.FullName, fileModel);
 
@@ -729,34 +744,115 @@ namespace FileExplorer.Model
 
                 if (Extension.OrdinalEndsWith(".lnk"))
                 {
-                    using (ShellLink shellLink = new ShellLink(FullPath, LinkResolution.NoUI | LinkResolution.NoSearch))
+                    using (ShellLink shellLink = fileSystemInfo.GetShellLinkFromFileInfo(false))
                     {
-                        if (shellLink.Target.IsFolder)
-                            LinkPath = shellLink.TargetPath;
+                        IsLink = true;
+                        LinkPath = shellLink.TargetPath;
+                        IsLinkDirectory = shellLink.Target.IsFolder;
+                        IsLinkValid = (IsLinkDirectory && Directory.Exists(shellLink.TargetPath)) || System.IO.File.Exists(shellLink.TargetPath);
                     }
                 }
             }
 
             Parent = parentModel;
             if (Parent == null)
+				Parent = Create(FileSystemHelper.GetParentFolderPath(FullPath));
+
+            if (Parent != null)
             {
-                FileSystemInfo parentDirectory = null;
-                if (fileSystemInfo is FileInfo fileInfo)
-                    parentDirectory = fileInfo.Directory;
-                else if (fileSystemInfo is DirectoryInfo directoryInfo)
-                    parentDirectory = directoryInfo.Parent;
-
-                if (FileModelCache.TryGetValue(parentDirectory.FullName, out FileModel parent))
-                    Parent = parent;
-                else
-                    Parent = Create(parentDirectory.FullName);
-            }
-
-            ParentName = Parent?.Name;
-            ParentPath = Parent?.FullPath;
+				ParentPath = Parent.IsRoot ? FileSystemHelper.GetParentFolderPath(FullPath) : Parent.FullPath;
+				ParentName = Parent.IsRoot ? GetParentName(ParentPath) : Parent.Name;
+			}
         }
 
-        protected void Update(FileSystemInfo fileSystemInfo)
+		protected void Initialize(LinkFileInfo linkFileInfo)
+		{
+			FullName = linkFileInfo.Name;
+			FullPath = linkFileInfo.FullName;
+
+			IsDirectory = linkFileInfo.Attributes.HasFlag(FileAttributes.Directory);
+			IsHidden = linkFileInfo.Attributes.HasFlag(FileAttributes.Hidden);
+			IsSystem = linkFileInfo.Attributes.HasFlag(FileAttributes.System);
+
+			DateCreated = linkFileInfo.CreationTime;
+			DateModified = linkFileInfo.LastWriteTime;
+			DateAccessed = linkFileInfo.LastAccessTime;
+
+            IsLink = true;
+            IsLinkDirectory = IsDirectory;
+			LinkPath = linkFileInfo.LinkPath;
+			IsLinkValid = linkFileInfo.Exists;
+
+			if (!IsLinkValid)
+            {
+                smallIcon = NotifyTask.Create(Task.FromResult(FontIconHelper.ErrorIcon));
+				mediumIcon = NotifyTask.Create(Task.FromResult(FontIconHelper.ErrorIcon));
+				largeIcon = NotifyTask.Create(Task.FromResult(FontIconHelper.ErrorIcon));
+				extraLargeIcon = NotifyTask.Create(Task.FromResult(FontIconHelper.ErrorIcon));
+                thumbnailImage = NotifyTask.Create(Task.FromResult(FontIconHelper.ErrorIcon));
+			}
+
+			if (IsDirectory)
+			{
+				Name = linkFileInfo.Name;
+				Extension = String.Empty;
+				Description = Properties.Resources.Folder;
+			}
+			else
+			{
+				Name = Path.GetFileNameWithoutExtension(linkFileInfo.Name);
+				Extension = linkFileInfo.Extension;
+				Description = FileSystemHelper.GetFileFriendlyDocName(Extension);
+				Size = linkFileInfo.Length;
+
+				MimeType = MimeTypeMap.GetMimeType(Extension);
+				IsImage = MimeType?.StartsWith("image") == true;
+				IsVideo = MimeType?.StartsWith("video") == true;
+				IsAudio = MimeType?.StartsWith("audio") == true;
+			}
+
+            if (linkFileInfo.Parent.Exists)
+            {
+				Parent = Create(linkFileInfo.Parent);
+				if (Parent != null)
+				{
+					ParentPath = Parent.IsRoot ? FileSystemHelper.GetParentFolderPath(FullPath) : Parent.FullPath;
+					ParentName = Parent.IsRoot ? GetParentName(ParentPath) : Parent.Name;
+				}
+			}
+
+            PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(FullPath))
+                {
+                    FileModelCache.TryRemove(linkFileInfo.FullName, out _);
+
+					LinkPath = null;
+					IsLink = false;
+					IsLinkValid = false;
+					IsLinkDirectory = false;                    
+
+                    if (IsDirectory)
+                        Initialize(new DirectoryInfo(FullPath));
+                    else
+						Initialize(new FileInfo(FullPath));
+
+					smallIcon = null;
+					mediumIcon = null;
+					largeIcon = null;
+					extraLargeIcon = null;
+
+					RaisePropertyChanged(SmallIconChangedEventArgs);
+					RaisePropertyChanged(MediumIconChangedEventArgs);
+					RaisePropertyChanged(LargeIconChangedEventArgs);
+					RaisePropertyChanged(ExtraLargeIconChangedEventArgs);
+
+					FileModelCache.TryAdd(FullPath, this);
+				}
+            };
+		}
+
+		protected void Update(FileSystemInfo fileSystemInfo)
         {
             IsHidden = fileSystemInfo.Attributes.HasFlag(FileAttributes.Hidden);
             IsSystem = fileSystemInfo.Attributes.HasFlag(FileAttributes.System);
@@ -797,6 +893,25 @@ namespace FileExplorer.Model
             mediaInfo = null;
         }
 
+        private static string GetParentName(string parentPath)
+        {
+            switch (parentPath)
+            {
+				case FileSystemHelper.QuickAccessPath:
+				case FileSystemHelper.RecycleBinPath:
+				case FileSystemHelper.ComputerPath:				
+                case FileSystemHelper.NetworkPath:
+					if (FileModelCache.TryGetValue(parentPath, out FileModel fileModel))
+                        return fileModel.Name;
+                    else
+                        return String.Empty;
+
+				default:
+					DirectoryInfo directoryInfo = new DirectoryInfo(parentPath);
+                    return directoryInfo.Name;
+			}
+        }
+
 		#endregion
 
 		#region Static
@@ -813,7 +928,9 @@ namespace FileExplorer.Model
 
         private static PropertyChangedEventArgs ThumbnailImageChangedEventArgs = new PropertyChangedEventArgs(nameof(ThumbnailImage));
 
-        static FileModel()
+		private static PropertyChangedEventArgs AllTagsChangedEventArgs = new PropertyChangedEventArgs(nameof(AllTags));
+
+		static FileModel()
         {
             QuickAccess = new QuickAccessModel();
             Computer = new ComputerModel();
@@ -1123,7 +1240,7 @@ namespace FileExplorer.Model
                 Parent = Network;
                 ParentPath = FileSystemHelper.NetworkPath;
 
-                FileModelCache.TryAdd(path, this);
+                FileModelCache.TryAdd(FullPath, this);
             }
 
             public async override Task EnumerateChildren()
@@ -1322,7 +1439,6 @@ namespace FileExplorer.Model
 				IsDirectory = true;
 				ParentPath = String.Empty;
 
-				FileModelCache.TryAdd(Name, this);
 				FileModelCache.TryAdd(FullPath, this);
 
                 App.Repository.TagFolders.CollectionChanged += (s, e) =>
@@ -1441,7 +1557,7 @@ namespace FileExplorer.Model
 						RaisePropertyChanged(ExtraLargeIconChangedEventArgs);
 					}
 				};
-                TagFolder.TaggedFiles.CollectionChanged += async (s, e) =>
+                TagFolder.TaggedFiles.CollectionChanged += (s, e) =>
                 {
                     if (Children != null)
                     {
@@ -1453,7 +1569,7 @@ namespace FileExplorer.Model
                                     string filePath = App.TagManager.GetTaggedFilePath(name);
                                     if (filePath != null)
 										Children.Add(FileModel.Create(filePath));
-								}
+								}                                
                                 break;
 
                             case NotifyCollectionChangedAction.Remove:
@@ -1463,16 +1579,13 @@ namespace FileExplorer.Model
 									if (filePath != null)
                                     {
 										FileModel fileModel = Children.FirstOrDefault(x => x.FullPath.OrdinalEquals(filePath));
-										Children.Remove(fileModel);
+                                        if (fileModel != null)
+                                            Children.Remove(fileModel);
 									}
 								}
 								break;
-
-							case NotifyCollectionChangedAction.Reset:
-                                await EnumerateChildren();
-                                break;
                         }
-                    }
+					}
                 };
 
 				Name = tagFolder.Name;
@@ -1487,6 +1600,7 @@ namespace FileExplorer.Model
 				IsDirectory = true;
 
                 Parent = TagRoot;
+                ParentName = TagRoot.Name;
 				ParentPath = TagRoot.FullPath;
 
 				FileModelCache.TryAdd(FullPath, this);
@@ -1517,18 +1631,14 @@ namespace FileExplorer.Model
 
                 await Task.Run(() =>
                 {
-					if (TagFolder.TaggedFiles != null)
-					{
-						foreach (FileSystemInfo fileSystemInfo in App.TagManager.GetTaggedFiles(TagFolder))
-                        {
-                            if (fileSystemInfo.Exists)
-								items.Add(FileModel.Create(fileSystemInfo));
-						}
-					}
+					foreach (FileSystemInfo fileSystemInfo in App.TagManager.GetTaggedFiles(TagFolder))
+						items.Add(FileModel.Create(fileSystemInfo, this));
 				});
 
 				Children = new FileModelCollection(items);
-            }
+				if (items.Count > 0)
+					LargestFileSize = items.Max(x => x.Size);
+			}
 		}
 
 		private static readonly Dictionary<string, string> DefaultTags = new Dictionary<string, string>
