@@ -101,20 +101,20 @@ namespace FileExplorer
 
         public static void ParseArgumentsAndRun(IEnumerable<string> args, bool firstRun = false)
         {
-            Parser.Default.ParseArguments<Options>(args).WithParsed(async (options) =>
+            Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
             {
                 if (options.Shutdown)
                     SaveSessionAndShutdown();
                 else if (options.Background)
                     Preload();
                 else if (options.Folders.Count() == 0)
-                    await RestoreLastSession(firstRun);
+                    RestoreLastSession(firstRun);
                 else
-                    await CreateNewMultiTabWindow(options.Folders);
+                    CreateNewMultiTabWindow(options.Folders);
 
-            }).WithNotParsed(async (errors) =>
+            }).WithNotParsed(errors =>
             {
-                await CreateFolderTabs();
+                CreateFolderTabs();
             });
         }
 
@@ -132,12 +132,12 @@ namespace FileExplorer
             });
         }
 
-        public static async Task CreateNewMultiTabWindow(IEnumerable<string> folders)
+        public static void CreateNewMultiTabWindow(IEnumerable<string> folders)
         {
             MainView mainView = new MainView();
             mainView.DataContext = ViewModelSource.Create<MainViewModel>();
 
-            await CreateFolderTabs(folders, mainView, true);
+            CreateFolderTabs(folders, mainView, true);
         }
 
         private static void Preload()
@@ -157,7 +157,7 @@ namespace FileExplorer
             );
         }
 
-        private static async Task CreateFolderTabs(IEnumerable<string> folders = null, MainView mainView = null, bool bringToFront = true)
+        private static void CreateFolderTabs(IEnumerable<string> folders = null, MainView mainView = null, bool bringToFront = true)
         {
             mainView = mainView ?? Current.Windows.OfType<MainView>().FirstOrDefault();
             if (mainView == null)
@@ -168,7 +168,7 @@ namespace FileExplorer
             mainView.Show();
 
             MainViewModel mainViewModel = mainView.DataContext as MainViewModel;
-            await mainViewModel.CreateFolderTabs(folders);
+            mainViewModel.CreateFolderTabs(folders);
 
             if (bringToFront)
                 App.BringToFront(mainView);
@@ -260,7 +260,7 @@ namespace FileExplorer
             Current.Shutdown();
         }
 
-        private static async Task RestoreLastSession(bool firstRun)
+        private static void RestoreLastSession(bool firstRun)
         {
             if (Settings.Default.SaveLastSession)
             {
@@ -271,7 +271,7 @@ namespace FileExplorer
                         MainView mainView = new MainView();
                         mainView.DataContext = ViewModelSource.Create<MainViewModel>();
 
-                        await CreateFolderTabs(groups.Split(";"), mainView, false);
+                        CreateFolderTabs(groups.Split(";"), mainView, false);
                     }
                 }
                 else if (!String.IsNullOrWhiteSpace(MainViewModel.LastClosedWindowSession))
@@ -279,13 +279,13 @@ namespace FileExplorer
                     MainView mainView = new MainView();
                     mainView.DataContext = ViewModelSource.Create<MainViewModel>();
 
-                    await CreateFolderTabs(MainViewModel.LastClosedWindowSession.Split(";"), mainView, true);
+                    CreateFolderTabs(MainViewModel.LastClosedWindowSession.Split(";"), mainView, true);
                 }
                 else
-                    await CreateFolderTabs();
+                    CreateFolderTabs();
             }
             else
-                await CreateFolderTabs();
+                CreateFolderTabs();
         }
 
         #endregion

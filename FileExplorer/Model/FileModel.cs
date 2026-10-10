@@ -593,27 +593,6 @@ namespace FileExplorer.Model
             }
         }
 
-        public async Task<List<FileModel>> EnumerateParents()
-        {
-            List<FileModel> list = new List<FileModel> ();
-            FileModel fileModel = this;
-
-            await Task.Run(() =>
-            {                
-                while (fileModel != null)
-                {
-                    list.Add(fileModel);
-
-                    if (!fileModel.IsRoot && fileModel.Parent == null)
-                        fileModel.Parent = Create(fileModel.ParentPath);
-
-                    fileModel = fileModel.Parent;
-                }
-            });            
-
-            return list;
-        }
-
         public virtual async Task EnumerateChildren()
         {
             if (IsDirectory)

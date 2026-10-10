@@ -78,7 +78,7 @@ namespace FileExplorer.ViewModel
             document.Show();
         }
 
-        public async Task CreateFolderTabs(IEnumerable<string> folders = null)
+        public void CreateFolderTabs(IEnumerable<string> folders = null)
         {
             List<string> validFolders = folders?.Where(x => FileModel.FolderExists(x)).ToList();
             if (validFolders?.Count > 0)
@@ -87,11 +87,8 @@ namespace FileExplorer.ViewModel
                 {
                     FileModel selectedFolder = FileModel.Create(folder);
                     if (selectedFolder != null)
-                    {
-                        await selectedFolder.EnumerateParents();
-                        CreateNewTab(selectedFolder);
-                    }
-                }
+						CreateNewTab(selectedFolder);
+				}
             }
             else
                 CreateNewTab();

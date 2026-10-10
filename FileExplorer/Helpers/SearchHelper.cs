@@ -54,11 +54,8 @@ namespace FileExplorer.Helpers
 
                     FileModel fileModel = FileModel.Create(item);
                     if (fileModel != null)
-                    {
-                        await fileModel.EnumerateParents();
-                        itemModelList.Add(fileModel);
-                    }
-                }
+						itemModelList.Add(fileModel);
+				}
             }
 
             return itemModelList;
@@ -89,11 +86,8 @@ namespace FileExplorer.Helpers
 
                     FileModel fileModel = FileModel.Create(item);
                     if (fileModel != null)
-                    {
-                        await fileModel.EnumerateParents();
-                        itemModelList.Add(fileModel);
-                    }
-                }
+						itemModelList.Add(fileModel);
+				}
             }
 
             return itemModelList;

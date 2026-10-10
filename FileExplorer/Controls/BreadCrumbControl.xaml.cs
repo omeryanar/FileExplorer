@@ -187,13 +187,18 @@ namespace FileExplorer.Controls
                 Text = fileModel.IsRoot ? fileModel.Name : fileModel.FullPath;
         }
 
-        private static async void OnCurrentItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnCurrentItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is BreadCrumbControl breadCrumbControl && e.NewValue is FileModel fileModel)
             {
                 breadCrumbControl.EditValue = fileModel.IsRoot ? fileModel.Name : fileModel.FullPath;
 
-                List<FileModel> breadCrumbs = await fileModel.EnumerateParents();
+                List<FileModel> breadCrumbs = new List<FileModel>();
+                while (fileModel != null)
+                {
+                    breadCrumbs.Add(fileModel);
+                    fileModel = fileModel.Parent;
+                }
                 breadCrumbs.Reverse();
 
                 breadCrumbControl.BreadCrumbs = breadCrumbs;
