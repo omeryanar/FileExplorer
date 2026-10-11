@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
@@ -7,51 +10,66 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using DevExpress.Mvvm;
-using DevExpress.Xpf.Grid;
 using FileExplorer.Helpers;
 using FileExplorer.Model;
 using FileExplorer.Persistence;
 
 namespace FileExplorer.Core
 {
-	public abstract class SelectedItemsConverter : MarkupExtension, IValueConverter
+	public abstract class SelectedItemsConverter : MarkupExtension, IMultiValueConverter
 	{
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
 			return this;
 		}
 
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (parameter is GridControl gridControl && gridControl.SelectedItems.Count > 0)
-				return Convert(gridControl.SelectedItems.OfType<FileModel>().ToList());
+			if (values.Length > 0 && values[0] is IList selectedItems)
+			{
+				foreach (INotifyCollectionChanged collection in values)
+					collection.CollectionChanged += (s, e) => { Convert(selectedItems); };
+
+				return Convert(selectedItems);
+			}
 
 			return null;
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
 		{
 			return null;
 		}
 
-		public abstract object Convert(IList<FileModel> items);
+		public abstract object Convert(IList items);
 	}
 
 	public class TagBarCheckItemConverter : SelectedItemsConverter
 	{
-		public override object Convert(IList<FileModel> items)
-		{
-			List<TagBarCheckItemModel> tags = new List<TagBarCheckItemModel>();
-			
-			foreach (TagFolder tagFolder in App.Repository.TagFolders)
-			{
-				TagBarCheckItemModel tagBarCheckItemModel = new TagBarCheckItemModel(tagFolder, items);
-				tagBarCheckItemModel.IsChecked = items.All(x => App.TagManager.GetTagFolders(x.FullPath)?.Any(y => y == tagFolder) == true);
+		public ObservableCollection<TagBarCheckItemModel> TagBarCheckItems { get; private set; }
 
-				tags.Add(tagBarCheckItemModel);
+		public override object Convert(IList items)
+		{
+			if (TagBarCheckItems == null)
+			{
+				TagBarCheckItems = new ObservableCollection<TagBarCheckItemModel>();
+				App.Repository.TagFolders.ItemUpdated += (s, e) => { Convert(items); };
 			}
 
-			return tags;
+			TagBarCheckItems.Clear();
+			if (items.Count == 0)
+				return TagBarCheckItems;
+
+			List<FileModel> fileModels = items.OfType<FileModel>().ToList();
+			foreach (TagFolder tagFolder in App.Repository.TagFolders)
+			{
+				TagBarCheckItemModel tagBarCheckItemModel = new TagBarCheckItemModel(tagFolder, fileModels);
+				tagBarCheckItemModel.IsChecked = fileModels.All(x => App.TagManager.GetTagFolders(x.FullPath)?.Any(y => y == tagFolder) == true);
+
+				TagBarCheckItems.Add(tagBarCheckItemModel);
+			}
+
+			return TagBarCheckItems;
 		}
 
 		public class TagBarCheckItemModel
@@ -87,6 +105,9 @@ namespace FileExplorer.Core
 							addOrRemove = TagFolder.AddFileTag(item.FullPath);
 						else
 							addOrRemove = TagFolder.RemoveFileTag(item.FullPath);
+
+						if (addOrRemove)
+							item.Tags = App.TagManager.GetTagFolders(item.FullPath);
 
 						needUpdate |= addOrRemove;
 					}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -526,21 +525,26 @@ namespace FileExplorer.Model
         }
         private NotifyTask<ImageSource> extraLargeIcon;
 
-        public ObservableCollection<TagFolder> Tags
+        public ICollection<TagFolder> Tags
         {
             get
             {
                 if (tags == null)
-                {
 					tags = App.TagManager.GetTagFolders(FullPath);
-					if (tags != null)
-						tags.CollectionChanged += (s, e) => { RaisePropertyChanged(AllTagsChangedEventArgs); };
-				}
 
-                return tags;
+				return tags;
+            }
+            set
+            {
+                if (tags != value)
+                {
+                    tags = value;
+					RaisePropertyChanged(TagsChangedEventArgs);
+					RaisePropertyChanged(AllTagsChangedEventArgs);
+                }
             }
         }
-        private ObservableCollection<TagFolder> tags;
+        private ICollection<TagFolder> tags;
 
         public string AllTags => Tags != null ? Tags.Select(x => x.Name).Join("; ") : null;
 
@@ -906,6 +910,8 @@ namespace FileExplorer.Model
         private static PropertyChangedEventArgs ExtraLargeIconChangedEventArgs = new PropertyChangedEventArgs(nameof(ExtraLargeIcon));
 
         private static PropertyChangedEventArgs ThumbnailImageChangedEventArgs = new PropertyChangedEventArgs(nameof(ThumbnailImage));
+
+		private static PropertyChangedEventArgs TagsChangedEventArgs = new PropertyChangedEventArgs(nameof(Tags));
 
 		private static PropertyChangedEventArgs AllTagsChangedEventArgs = new PropertyChangedEventArgs(nameof(AllTags));
 

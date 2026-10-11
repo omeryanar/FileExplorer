@@ -12,6 +12,7 @@
                         <dxg:GridColumn FieldName="RowNumber" Header="{Binding Row, Source={StaticResource ResourceProvider}}" />
                         <dxg:GridColumn FieldName="Name" Header="{Binding Name, Source={StaticResource ResourceProvider}}" />
                         <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" />
+						<dxg:GridColumn FieldName="AllTags" Header="{Binding Tags, Source={StaticResource ResourceProvider}}" />
                         <dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" />
                         <dxg:GridColumn FieldName="ParentName" Header="{Binding ParentName, Source={StaticResource ResourceProvider}}" />
                         <dxg:GridColumn FieldName="ParentPath" Header="{Binding ParentPath, Source={StaticResource ResourceProvider}}" />

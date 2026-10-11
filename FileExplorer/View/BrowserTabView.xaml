@@ -142,7 +142,13 @@
 							<dxb:BarSubItem x:Name="TagFiles" Content="{Binding Tags, Source={StaticResource ResourceProvider}}"
 											IsVisible="{Binding SelectedItems.Count, ElementName=FileList, Converter={dxmvvm:NumericToBooleanConverter}}"
 										    Glyph="{icons:FontAwesomeImage Kind=TagsSolid, Brush=#FDD835}" LargeGlyph="{icons:FontAwesomeImage Kind=TagsSolid, Brush=#FDD835}">
-								<dxb:BarLinkContainerItem ItemLinksSource="{Binding SelectedItems.Count, ElementName=FileList, Converter={common:TagBarCheckItemConverter}, ConverterParameter={x:Reference Name=FileList}}">
+								<dxb:BarLinkContainerItem>
+									<dxb:BarLinkContainerItem.ItemLinksSource>
+										<MultiBinding Converter="{common:TagBarCheckItemConverter}">
+											<Binding Path="SelectedItems" ElementName="FileList" />
+											<Binding Path="TagFolders" Source="{x:Static main:App.Repository}" />
+										</MultiBinding>
+									</dxb:BarLinkContainerItem.ItemLinksSource>
 									<dxb:BarLinkContainerItem.ItemTemplate>
 										<DataTemplate>
 											<ContentControl>

@@ -42,7 +42,7 @@
 
 	<dxg:GridControl ItemsSource="{Binding}">
 		<dxg:GridControl.View>
-			<dxg:TableView AutoWidth="True" AllowColumnFiltering="False" AllowColumnMoving="False" AllowSorting="False"
+			<dxg:TableView AutoWidth="True" AllowColumnFiltering="False" AllowColumnMoving="False"
                            IsColumnMenuEnabled="False" ShowGroupPanel="False" VerticalScrollbarVisibility="Auto" NavigationStyle="Row"
                            EditFormShowMode="Inline" EditFormPostConfirmation="YesNoCancel" EditFormPostMode="Immediate" NewItemRowPosition="Bottom" ValidateRow="{DXEvent 'Update(@args.Row)'}">
 				<dxg:TableView.EditFormTemplate>
@@ -80,7 +80,7 @@
 							<Viewbox Width="16" Height="16" Margin="8">
 								<Path Data="{Binding Row.IconData}" Fill="{Binding Row.IconColor}" />
 							</Viewbox>
-							<dxe:TextEdit x:Name="PART_Editor" NullText="{Binding CreateNew, Source={StaticResource ResourceProvider}}" />
+							<dxe:TextEdit x:Name="PART_Editor" Style="{StaticResource NullTextValidator}" />
 						</StackPanel>
 					</DataTemplate>
 				</dxg:GridColumn.CellDisplayTemplate>

@@ -145,7 +145,7 @@
 			<dxg:GridColumn FieldName="Name" Header="{Binding Name, Source={StaticResource ResourceProvider}}" Width="100">
 				<dxg:GridColumn.CellDisplayTemplate>
 					<DataTemplate>
-						<dxe:TextEdit x:Name="PART_Editor" NullText="{Binding CreateNew, Source={StaticResource ResourceProvider}}" />
+						<dxe:TextEdit x:Name="PART_Editor" Style="{StaticResource NullTextValidator}" />
 					</DataTemplate>
 				</dxg:GridColumn.CellDisplayTemplate>
 			</dxg:GridColumn>

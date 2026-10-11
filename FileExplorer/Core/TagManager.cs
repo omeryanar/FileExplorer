@@ -15,10 +15,10 @@ namespace FileExplorer.Core
 	{
 		public static readonly string RootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Shortcuts\Tags");
 
-		public ObservableCollection<TagFolder> GetTagFolders(string filePath)
+		public ICollection<TagFolder> GetTagFolders(string filePath)
 		{
 			if (TagDictionary.ContainsKey(filePath))
-				return TagDictionary[filePath].TagFolders;
+				return TagDictionary[filePath].TagFolders.OrderBy(x => x.Name).ToArray();
 
 			return null;
 		}
@@ -143,6 +143,7 @@ namespace FileExplorer.Core
 			{
 				rootDirectory.Create();
 				rootDirectory.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+				rootDirectory.Parent.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
 			}
 			else
 			{

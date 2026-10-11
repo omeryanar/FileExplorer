@@ -20,9 +20,21 @@ namespace FileExplorer.Persistence
     public class MenuItem : PersistentItem
     {
         [Required]
-        public string Name { get; set; }
+		public string Name
+		{
+			get => name;
+			set
+			{
+				if (name != value)
+				{
+					name = value;
+					RaisePropertyChanged(nameof(Name));
+				}
+			}
+		}
+		private string name;
 
-        [Required]
+		[Required]
         public CommandType Command
         {
             get { return command; }

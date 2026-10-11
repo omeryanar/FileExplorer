@@ -95,6 +95,15 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+			<Style x:Key="NullTextValidator" TargetType="dxe:TextEdit">
+				<Setter Property="dxe:ValidationService.IsValidationContainer" Value="True" />
+				<Setter Property="NullText" Value="{Binding CreateNew, Source={StaticResource ResourceProvider}}" />
+				<Style.Triggers>
+					<Trigger Property="HasValidationError" Value="True">
+						<Setter Property="NullText" Value="{Binding Path=(dxe:ValidationService.ValidationErrors)[0].ErrorContent, RelativeSource={RelativeSource Self}}" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
         </ResourceDictionary>
         <ResourceDictionary>
             <DataTemplate x:Key="DragDropHintTemplate">

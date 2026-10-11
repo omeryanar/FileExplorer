@@ -10,7 +10,19 @@ namespace FileExplorer.Persistence
 	{
 		[Required]
 		[Unique(CollectionName = "TagFolders", ErrorMessageResourceName = "UniqueTagName", ErrorMessageResourceType = typeof(Properties.Resources))]
-		public string Name { get; set; }
+		public string Name
+		{
+			get => name;
+			set
+			{
+				if (name != value)
+				{
+					name = value;
+					RaisePropertyChanged(nameof(Name));
+				}
+			}
+		}
+		private string name;
 
 		[Required]
 		public string IconData
@@ -54,16 +66,16 @@ namespace FileExplorer.Persistence
 			return App.TagManager.RemoveFileTag(filePath, this);
 		}
 
+		public override string ToString()
+		{
+			return Name;
+		}
+
 		public TagFolder()
 		{
 			Name = Properties.Resources.New;
 			IconColor = "#FFFFEB3B";
 			IconData = FontIconHelper.GetIconData(PackIconFontAwesomeKind.TagSolid);
-		}
-
-		public override string ToString()
-		{
-			return Name;
 		}
 	}
 }
