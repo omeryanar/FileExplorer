@@ -989,4 +989,10 @@ Beim Scrollen wird der Unschärfeeffekt angezeigt, während Dateien und Ordner i
   <data name="DeleteUpdateTag" xml:space="preserve">
     <value>Wenn Sie den Speicherort der Datei oder des Ordners kennen, können Sie diese bzw. diesen über den untenstehenden Editor aktualisieren. Andernfalls können Sie sie bzw. ihn löschen, indem Sie auf die Schaltfläche 'Löschen' klicken.</value>
   </data>
+  <data name="IconAndName" xml:space="preserve">
+    <value>Symbol und Name</value>
+  </data>
+  <data name="TagDisplayFormat" xml:space="preserve">
+    <value>Anzeigeformat für Tags</value>
+  </data>
 </root>

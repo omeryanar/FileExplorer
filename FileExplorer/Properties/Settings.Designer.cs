@@ -621,5 +621,17 @@ namespace FileExplorer.Properties {
                 this["ColumnSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("IconAndName")]
+        public global::FileExplorer.Core.TagDisplayMode TagDisplayMode {
+            get {
+                return ((global::FileExplorer.Core.TagDisplayMode)(this["TagDisplayMode"]));
+            }
+            set {
+                this["TagDisplayMode"] = value;
+            }
+        }
     }
 }

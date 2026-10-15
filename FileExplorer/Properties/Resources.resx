@@ -989,4 +989,10 @@ When scrolling, the blur effect is shown while files and folders are loading in 
   <data name="DeleteUpdateTag" xml:space="preserve">
     <value>If you know the location of the file or folder, you can update it using the editor below. Otherwise, you can delete it by clicking the 'Delete' button.</value>
   </data>
+  <data name="IconAndName" xml:space="preserve">
+    <value>Icon and Name</value>
+  </data>
+  <data name="TagDisplayFormat" xml:space="preserve">
+    <value>Tag Display Format</value>
+  </data>
 </root>

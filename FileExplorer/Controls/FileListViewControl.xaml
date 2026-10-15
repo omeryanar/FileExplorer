@@ -343,11 +343,13 @@
 					<ItemsControl ItemsSource="{Binding RowData.Row.Tags}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<StackPanel Margin="0,0,8,0" Height="20" Orientation="Horizontal">
-									<Viewbox Margin="4,2" Width="16" Height="16">
+								<StackPanel Margin="0,0,10,0" Height="20" Orientation="Horizontal">
+									<Viewbox Margin="5,2" Width="16" Height="16"
+											 Visibility="{Binding TagDisplayMode, Source={x:Static settings:Settings.Default}, Converter={common:EnumToVisibilityConverter}, ConverterParameter={x:Static common:TagDisplayMode.Icon}}">
 										<Path Fill="{Binding IconColor}"  Data="{Binding IconData}" />
 									</Viewbox>
-									<TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+									<TextBlock VerticalAlignment="Center" Text="{Binding Name}"
+											   Visibility="{Binding TagDisplayMode, Source={x:Static settings:Settings.Default}, Converter={common:EnumToVisibilityConverter}, ConverterParameter={x:Static common:TagDisplayMode.Name}}" />
 								</StackPanel>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>

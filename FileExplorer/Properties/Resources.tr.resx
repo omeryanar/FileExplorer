@@ -989,4 +989,10 @@ Kaydırma sırasında, dosyalar ve klasörler arka planda yüklenirken bulanıkl
   <data name="DeleteUpdateTag" xml:space="preserve">
     <value>Dosyanın veya klasörün konumunu biliyorsanız, aşağıdaki editörü kullanarak güncelleyebilirsiniz. Aksi takdirde, 'Sil' düğmesine tıklayarak silebilirsiniz.</value>
   </data>
+  <data name="IconAndName" xml:space="preserve">
+    <value>Simge ve İsim</value>
+  </data>
+  <data name="TagDisplayFormat" xml:space="preserve">
+    <value>Etiket Gösterim Formatı</value>
+  </data>
 </root>

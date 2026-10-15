@@ -152,5 +152,8 @@
     <Setting Name="ColumnSettings" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="TagDisplayMode" Type="FileExplorer.Core.TagDisplayMode" Scope="User">
+      <Value Profile="(Default)">IconAndName</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

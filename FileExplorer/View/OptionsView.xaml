@@ -5,6 +5,7 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+			 xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:settings="clr-namespace:FileExplorer.Properties"
              xmlns:common="clr-namespace:FileExplorer.Core"
@@ -133,6 +134,21 @@
                         <dxe:TextEdit IsReadOnly="True" ShowBorder="False" EditValue="2020-01-31T13:45:30" EditValueType="{x:Type sys:DateTime}" DisplayFormatString="{Binding EditValue, ElementName=dateTimeFormatSelector}" />
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>
+				<dxlc:LayoutItem Label="{Binding TagDisplayFormat, Source={StaticResource ResourceProvider}}">
+					<dxlc:LayoutGroup Orientation="Horizontal">
+						<dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True" EditValue="{Binding TagDisplayMode, UpdateSourceTrigger=PropertyChanged, Source={x:Static settings:Settings.Default}}">
+							<dxmvvm:Interaction.Behaviors>
+								<dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type common:TagDisplayMode}"/>
+							</dxmvvm:Interaction.Behaviors>
+						</dxe:ComboBoxEdit>
+						<dxlc:LayoutGroup Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="8,0">
+							<Image Width="16" Height="16" Margin="0,0,4,0" Source="{icons:FontAwesomeImage Kind=TagsSolid, Brush=#FDD835}"
+								   Visibility="{Binding TagDisplayMode, Source={x:Static settings:Settings.Default}, Converter={common:EnumToVisibilityConverter}, ConverterParameter={x:Static common:TagDisplayMode.Icon}}" />
+							<TextBlock VerticalAlignment="Center" Text="{Binding Tags, Source={StaticResource ResourceProvider}}"
+									   Visibility="{Binding TagDisplayMode, Source={x:Static settings:Settings.Default}, Converter={common:EnumToVisibilityConverter}, ConverterParameter={x:Static common:TagDisplayMode.Name}}" />
+						</dxlc:LayoutGroup>
+					</dxlc:LayoutGroup>
+				</dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="{Binding Virtualization, Source={StaticResource ResourceProvider}}">
                     <dxlc:LayoutGroup Orientation="Horizontal">
                         <dxe:ToggleSwitch IsChecked="{Binding Virtualization, Source={x:Static settings:Settings.Default}}" />

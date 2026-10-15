@@ -244,7 +244,28 @@ namespace FileExplorer.Core
         }
     }
 
-    public class NumericToBooleanConverter : MarkupExtension, IValueConverter
+	public class EnumToVisibilityConverter : MarkupExtension, IValueConverter
+    {
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			return this;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value is Enum enumValue && parameter is Enum enumParameter && enumValue.HasFlag(enumParameter))
+				return Visibility.Visible;
+
+			return Visibility.Collapsed;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+            return null;
+		}
+	}
+
+	public class NumericToBooleanConverter : MarkupExtension, IValueConverter
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

@@ -1209,6 +1209,15 @@ namespace FileExplorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Icon and Name.
+        /// </summary>
+        public static string IconAndName {
+            get {
+                return ResourceManager.GetString("IconAndName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Integer.
         /// </summary>
         public static string Integer {
@@ -2348,6 +2357,15 @@ namespace FileExplorer.Properties {
         public static string SupportedFileTypes {
             get {
                 return ResourceManager.GetString("SupportedFileTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Display Format.
+        /// </summary>
+        public static string TagDisplayFormat {
+            get {
+                return ResourceManager.GetString("TagDisplayFormat", resourceCulture);
             }
         }
         

@@ -171,6 +171,18 @@ namespace FileExplorer.Core
         BottomRight = 10
     }
 
+    public enum TagDisplayMode
+    {
+		[Display(Name = "Icon", ResourceType = typeof(Properties.Resources))]
+		Icon = 1,
+
+		[Display(Name = "Name", ResourceType = typeof(Properties.Resources))]
+		Name = 2,
+
+		[Display(Name = "IconAndName", ResourceType = typeof(Properties.Resources))]
+		IconAndName = 3
+    }
+
     public enum NotificationType
     {
         Add,

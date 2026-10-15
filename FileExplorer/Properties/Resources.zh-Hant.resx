@@ -989,4 +989,10 @@
   <data name="DeleteUpdateTag" xml:space="preserve">
     <value>如果您知道該檔案或資料夾的位置，可以使用下方的編輯器進行更新。否則，您可以點擊「刪除」按鈕將其刪除。</value>
   </data>
+  <data name="IconAndName" xml:space="preserve">
+    <value>圖示與名稱</value>
+  </data>
+  <data name="TagDisplayFormat" xml:space="preserve">
+    <value>標籤顯示格式</value>
+  </data>
 </root>
