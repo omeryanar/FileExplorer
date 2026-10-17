@@ -148,9 +148,11 @@ namespace FileExplorer.Model
 
 		public bool IsMedia => IsImage || IsVideo || IsAudio;
 
-        #region MediaInfo
+        public bool IsPathRooted => Path.IsPathRooted(ParentPath);
 
-        private TagLib.File mediaInfo;
+		#region MediaInfo
+
+		private TagLib.File mediaInfo;
 
         public int? Width
         {
@@ -744,7 +746,7 @@ namespace FileExplorer.Model
             if (Parent != null)
             {
 				ParentPath = Parent.IsRoot ? FileSystemHelper.GetParentFolderPath(FullPath) : Parent.FullPath;
-				ParentName = Parent.IsRoot ? GetParentName(ParentPath) : Parent.Name;
+				ParentName = IsPathRooted ? FileSystemHelper.GetFolderName(ParentPath) : Parent.Name;
 			}
         }
 
@@ -800,7 +802,7 @@ namespace FileExplorer.Model
 				if (Parent != null)
 				{
 					ParentPath = Parent.IsRoot ? FileSystemHelper.GetParentFolderPath(FullPath) : Parent.FullPath;
-					ParentName = Parent.IsRoot ? GetParentName(ParentPath) : Parent.Name;
+					ParentName = IsPathRooted ? FileSystemHelper.GetFolderName(ParentPath) : Parent.Name;
 				}
 			}
 
@@ -876,25 +878,6 @@ namespace FileExplorer.Model
             mediaInfo = null;
         }
 
-        private static string GetParentName(string parentPath)
-        {
-            switch (parentPath)
-            {
-				case FileSystemHelper.QuickAccessPath:
-				case FileSystemHelper.RecycleBinPath:
-				case FileSystemHelper.ComputerPath:				
-                case FileSystemHelper.NetworkPath:
-					if (FileModelCache.TryGetValue(parentPath, out FileModel fileModel))
-                        return fileModel.Name;
-                    else
-                        return String.Empty;
-
-				default:
-					DirectoryInfo directoryInfo = new DirectoryInfo(parentPath);
-                    return directoryInfo.Name;
-			}
-        }
-
 		#endregion
 
 		#region Static
@@ -944,7 +927,12 @@ namespace FileExplorer.Model
                             fileSystemInfo = new FileInfo(parsingName);
 
                         if (FileModelCache.TryGetValue(parsingName, out FileModel fileModel))
-                            fileModel.Initialize(fileSystemInfo, parent);
+                        {
+							fileModel.Initialize(fileSystemInfo, parent);
+
+                            if (!parent.Children.Contains(fileModel))
+								parent.Children.Add(fileModel);
+						}
                         else
                         {
                             fileModel = FileModel.Create(fileSystemInfo, parent);

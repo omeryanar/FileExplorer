@@ -73,7 +73,12 @@ namespace FileExplorer.Helpers
             return path.Split(Separator).First();
         }
 
-        public static string GetFileParsingName(string path)
+		public static string GetFolderName(string path)
+		{
+			return path.Split([Separator], StringSplitOptions.RemoveEmptyEntries).Last();
+		}
+
+		public static string GetFileParsingName(string path)
         {
             try
             {
@@ -112,7 +117,7 @@ namespace FileExplorer.Helpers
             }
         }
 
-        public static string[] GetFolderPaths(string path, bool includeHidden, bool includeSystem)
+		public static string[] GetFolderPaths(string path, bool includeHidden, bool includeSystem)
         {
             try
             {

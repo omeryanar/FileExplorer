@@ -61,7 +61,7 @@ namespace FileExplorer.Core
 				return TagBarCheckItems;
 
 			List<FileModel> fileModels = items.OfType<FileModel>().ToList();
-			foreach (TagFolder tagFolder in App.Repository.TagFolders)
+			foreach (TagFolder tagFolder in App.Repository.TagFolders.OrderBy(x => x.Name))
 			{
 				TagBarCheckItemModel tagBarCheckItemModel = new TagBarCheckItemModel(tagFolder, fileModels);
 				tagBarCheckItemModel.IsChecked = fileModels.All(x => App.TagManager.GetTagFolders(x.FullPath)?.Any(y => y == tagFolder) == true);

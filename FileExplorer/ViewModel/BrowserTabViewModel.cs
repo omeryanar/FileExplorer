@@ -674,7 +674,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanCutToClipboard(IList<object> items)
         {
-            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.IsPathRooted);
         }
 
         public void CutToClipboard(IList<object> items)
@@ -766,7 +766,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanMoveToItems(IList<object> items)
         {
-            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.IsPathRooted);
         }
 
         public void MoveToItems(IList<object> items, string path)
@@ -826,7 +826,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanRecycleItems(IList<object> items)
         {
-            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.IsPathRooted);
         }
 
         public void RecycleItems(IList<object> items)
@@ -836,7 +836,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanDeleteItems(IList<object> items)
         {
-            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRecycleBin == true || x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRecycleBin == true || x.IsPathRooted);
         }
 
         public void DeleteItems(IList<object> items)
@@ -846,7 +846,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanRename(FileModel fileModel)
         {
-            return fileModel?.Parent?.IsRoot == false;
+            return fileModel?.IsPathRooted == true;
         }
 
         public void Rename(FileModel fileModel)
@@ -882,7 +882,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanRenameItems(IList<object> items)
         {
-            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.Parent?.IsRoot == false);
+            return items?.Count > 0 && items.OfType<FileModel>().All(x => x.IsPathRooted);
         }
 
         public void RenameItems(IList<object> items)

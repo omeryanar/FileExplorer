@@ -16,7 +16,7 @@
                  dx:DXSerializer.StoreLayoutMode="All" dxg:GridSerializationOptions.AddNewColumns="False" dxg:GridSerializationOptions.RemoveOldColumns="False">
 
     <dxg:GridControl.Resources>
-        <dxmvvm:BooleanToObjectConverter x:Key="BooleanToEditFormShowModeConverter" TrueValue="None" FalseValue="InlineHideRow" />
+		<dxmvvm:BooleanToObjectConverter x:Key="BooleanToEditFormShowModeConverter" TrueValue="InlineHideRow" FalseValue="None" />
         <Style TargetType="dxg:GridColumnHeader">
             <Setter Property="FontWeight" Value="Medium" />
         </Style>
@@ -177,7 +177,7 @@
                               IndicatorWidth="{DXBinding '(@a($dxg:GridControl).VisibleRowCount.ToString().Length * 6) + 16'}"
                               EditFormPostConfirmation="None" EditFormPostMode="Immediate" NavigationStyle="Row"
                               ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
-                              EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={StaticResource BooleanToEditFormShowModeConverter}}">
+                              EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.IsPathRooted, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={StaticResource BooleanToEditFormShowModeConverter}}">
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomColumnBehavior />
                 <common:AllowDragDropBehavior />
@@ -231,7 +231,7 @@
                              HasChildNodesPath="IsDirectory" FetchSublevelChildrenOnExpand="False" PrintExpandButtons="False"
                              EditFormPostConfirmation="None" EditFormPostMode="Immediate"
                              ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
-                             EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.Parent.IsRoot, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={StaticResource BooleanToEditFormShowModeConverter}}">
+                             EditFormTemplate="{StaticResource EditFormTemplate}" EditFormShowMode="{Binding CurrentItem.IsPathRooted, RelativeSource={RelativeSource AncestorType=dxg:GridControl}, Converter={StaticResource BooleanToEditFormShowModeConverter}}">
             <dxmvvm:Interaction.Behaviors>
                 <common:CustomColumnBehavior />
                 <common:DragDropFilesBehavior />

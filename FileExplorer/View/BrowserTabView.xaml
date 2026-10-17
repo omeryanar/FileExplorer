@@ -140,7 +140,6 @@
                                 </dxb:BarSubItem.ItemTemplate>
                             </dxb:BarSubItem>
 							<dxb:BarSubItem x:Name="TagFiles" Content="{Binding Tags, Source={StaticResource ResourceProvider}}"
-											IsVisible="{Binding SelectedItems.Count, ElementName=FileList, Converter={dxmvvm:NumericToBooleanConverter}}"
 										    Glyph="{icons:FontAwesomeImage Kind=TagsSolid, Brush=#FDD835}" LargeGlyph="{icons:FontAwesomeImage Kind=TagsSolid, Brush=#FDD835}">
 								<dxb:BarLinkContainerItem>
 									<dxb:BarLinkContainerItem.ItemLinksSource>
