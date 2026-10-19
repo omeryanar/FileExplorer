@@ -35,6 +35,9 @@ namespace FileExplorer.Native
             StringBuilder filePath = new StringBuilder(260);
             uint numResults = EverythingNative.Everything_GetNumResults();
 
+            if (numResults > 1000)
+                numResults = 1000;
+
             FileSystemInfo[] results = new FileSystemInfo[numResults];
 
             for (uint index = 0U; index < numResults; index = index + 1U)

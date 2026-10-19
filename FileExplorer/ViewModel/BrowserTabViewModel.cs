@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using DevExpress.Data.Filtering;
@@ -334,7 +335,7 @@ namespace FileExplorer.ViewModel
                 HighlightedText = SearchText.RemoveSearchWildcards();
                 Show();
 
-                if (Settings.DefaultSearch == 1)
+                if (Settings.DefaultSearch == 1 && !CurrentFolder.IsRecycleBin)
                 {
                     try
                     {
@@ -348,32 +349,66 @@ namespace FileExplorer.ViewModel
                             SearchText = String.Format("*{0}*", SearchText);
 
                         CancellationToken cancellationToken = this.GetAsyncCommand(x => x.Search()).CancellationTokenSource.Token;
-                        if (Settings.Default.SearchWithEverything && SearchHelper.IsSearchEverythingAvailable(CurrentFolder.FullPath))
-                        {
-                            try
-                            {
-                                DataUpdateService.BeginUpdate();
 
-                                IList<FileModel> results = await SearchHelper.SearchWithEverything(CurrentFolder.FullPath, SearchText, cancellationToken);
-                                SearchResults.AddRange(results);
-
-                                if (results.Count > 0)
-                                    LargestFileSize = results.Max(x => x.Size);
-                            }
-                            finally
-                            {
-                                DataUpdateService.EndUpdate();
-                            }
-                        }
-                        else
-                            await Search(CurrentFolder.FullPath, cancellationToken);
-                    }
+						if (Settings.Default.SearchWithEverything && SearchHelper.IsSearchEverythingAvailable(CurrentFolder.FullPath))
+							await SearchWithEverything(CurrentFolder.FullPath, cancellationToken);
+						else if (CurrentFolder.IsRoot)
+							await SearchWithEnumeration(CurrentFolder, cancellationToken);
+						else
+							await Search(CurrentFolder.FullPath, cancellationToken);
+					}
                     finally { IsLoading = false; }
                 }
             }
         }
 
-        protected async Task Search(string path, CancellationToken cancellationToken)
+		protected async Task SearchWithEnumeration(FileModel fileModel, CancellationToken cancellationToken)
+        {
+            await fileModel.EnumerateChildren();
+
+			string searchPattern = "^" + Regex.Escape(SearchText).Replace("\\*", ".*").Replace("\\?", ".") + "$";
+			Regex regex = new Regex(searchPattern, RegexOptions.IgnoreCase);
+
+			IList<FileModel> results = fileModel.Content.Where(x => regex.IsMatch(x.FullName)).ToList();
+			SearchResults.AddRange(results);
+
+			foreach (FileModel childModel in fileModel.Folders)
+			{
+				if (cancellationToken.IsCancellationRequested)
+					break;
+
+                if (Settings.Default.SearchWithEverything && SearchHelper.IsSearchEverythingAvailable(childModel.FullPath))
+                    await SearchWithEverything(childModel.FullPath, cancellationToken);
+                else if (childModel.IsRoot)
+                    await SearchWithEnumeration(childModel, cancellationToken);
+                else
+                    await Search(childModel.FullPath, cancellationToken);
+			}
+		}
+
+		protected async Task SearchWithEverything(string path, CancellationToken cancellationToken)
+        {
+			try
+			{
+				DataUpdateService.BeginUpdate();
+
+				IList<FileModel> results = await SearchHelper.SearchWithEverything(path, SearchText, cancellationToken);
+				SearchResults.AddRange(results);
+
+				if (results.Count > 0)
+				{
+					long currentLargestFileSize = results.Max(x => x.Size);
+					if (currentLargestFileSize > LargestFileSize)
+						LargestFileSize = currentLargestFileSize;
+				}
+			}
+			finally
+			{
+				DataUpdateService.EndUpdate();
+			}
+		}
+
+		protected async Task Search(string path, CancellationToken cancellationToken)
         {
             try
             {
@@ -387,7 +422,7 @@ namespace FileExplorer.ViewModel
                     long currentLargestFileSize = results.Max(x => x.Size);
                     if (currentLargestFileSize > LargestFileSize)
                         LargestFileSize = currentLargestFileSize;
-                }                
+                }
             }
             finally
             {

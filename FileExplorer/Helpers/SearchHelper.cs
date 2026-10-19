@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using FileExplorer.Core;
 using FileExplorer.Model;
 using FileExplorer.Native;
 
@@ -12,7 +13,10 @@ namespace FileExplorer.Helpers
     {
         public static bool IsSearchEverythingAvailable(string path)
         {
-            string rootPath = Path.GetPathRoot(path);
+            if (path.OrdinalEquals(FileSystemHelper.ComputerPath))
+				return SearchEverything.IsAvailable;
+
+			string rootPath = Path.GetPathRoot(path);
             if (!FileSystemHelper.IsDrive(rootPath))
                 return false;
 
@@ -23,7 +27,7 @@ namespace FileExplorer.Helpers
             return SearchEverything.IsAvailable;
         }
 
-        public static async Task<IList<FileModel>> SearchFolder(string path, string searchPattern, CancellationToken cancellationToken = default)
+		public static async Task<IList<FileModel>> SearchFolder(string path, string searchPattern, CancellationToken cancellationToken = default)
         {
             FileSystemInfo[] items = null;
             await Task.Run(() =>
@@ -52,9 +56,13 @@ namespace FileExplorer.Helpers
                     if (cancellationToken.IsCancellationRequested)
                         break;
 
-                    FileModel fileModel = FileModel.Create(item);
-                    if (fileModel != null)
-						itemModelList.Add(fileModel);
+					try
+					{
+						FileModel fileModel = FileModel.Create(item);
+						if (fileModel != null)
+							itemModelList.Add(fileModel);
+					}
+					catch { }
 				}
             }
 
@@ -70,7 +78,8 @@ namespace FileExplorer.Helpers
                 {
                     using (SearchEverything searchEverything = new SearchEverything())
                     {
-                        items = searchEverything.Search($"{path}\\ {searchPattern}");
+                        string query = path.OrdinalEquals(FileSystemHelper.ComputerPath) ? searchPattern : $"{path}\\ {searchPattern}";
+						items = searchEverything.Search(query);
                     }
                 }
                 catch { }
@@ -84,9 +93,13 @@ namespace FileExplorer.Helpers
                     if (cancellationToken.IsCancellationRequested)
                         break;
 
-                    FileModel fileModel = FileModel.Create(item);
-                    if (fileModel != null)
-						itemModelList.Add(fileModel);
+                    try
+                    {
+						FileModel fileModel = FileModel.Create(item);
+						if (fileModel != null)
+							itemModelList.Add(fileModel);
+					}
+					catch { }
 				}
             }
 
