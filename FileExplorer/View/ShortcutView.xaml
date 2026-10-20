@@ -21,8 +21,8 @@
 				<Label Width="75" FontSize="64" VerticalAlignment="Center" Content="{Binding Icon, Converter={StaticResource MessageIconConverter}}" Style="{StaticResource IconLabel}" />
 				<dxlc:LayoutGroup ItemSpace="10" Orientation="Vertical">
 					<dxe:TextEdit HorizontalAlignment="Stretch" TextWrapping="Wrap" ShowBorder="False" IsReadOnly="{Binding ContentReadOnly}" Text="{Binding Content}" />
-					<dxlc:LayoutItem AddColonToLabel="True" Label="{Binding Location, Source={StaticResource ResourceProvider}}">
-						<dxe:BrowsePathEdit IsTextEditable="False" VerticalAlignment="Bottom" PathIconSelector="{StaticResource InvalidPathIconSelector}"											
+					<dxlc:LayoutItem Margin="10,0" AddColonToLabel="True" Label="{Binding Location, Source={StaticResource ResourceProvider}}">
+						<dxe:BrowsePathEdit Margin="5,0" IsTextEditable="False" VerticalAlignment="Bottom" PathIconSelector="{StaticResource InvalidPathIconSelector}"											
 											DialogType="{Binding IsFolder, Converter={StaticResource BooleanToDialogTypeConverter}}" DialogFilter="{Binding Filter}"
 											EditValue="{Binding Path, UpdateSourceTrigger=PropertyChanged}" />
 					</dxlc:LayoutItem>

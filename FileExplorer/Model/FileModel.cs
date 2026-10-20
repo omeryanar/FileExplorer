@@ -1472,21 +1472,6 @@ namespace FileExplorer.Model
 
                 await Task.Run(() =>
                 {
-					if (App.Repository.TagFolders.Count == 0)
-					{
-						foreach (var defaultTag in DefaultTags)
-						{
-							TagFolder tagFolder = new TagFolder
-							{
-								Name = defaultTag.Key,
-								IconData = FontIconHelper.GetIconData(PackIconFontAwesomeKind.TagSolid),
-								IconColor = defaultTag.Value
-							};
-
-							App.Repository.TagFolders.Add(tagFolder);
-						}
-					}
-
 					foreach (TagFolder tagFolder in App.Repository.TagFolders)
 						items.Add(new TagFolderModel(tagFolder));
 				});
@@ -1613,16 +1598,6 @@ namespace FileExplorer.Model
 					LargestFileSize = items.Max(x => x.Size);
 			}
 		}
-
-		private static readonly Dictionary<string, string> DefaultTags = new Dictionary<string, string>
-		{
-			{ "Red", "#FFF44336" },
-			{ "Blue", "#FF2196F3" },
-			{ "Green", "#FF4CAF50" },
-			{ "Purple", "#FF9C27B0" },
-			{ "Orange", "#FFFB8C00" },
-			{ "Yellow", "#FFFFEB3B" }
-		};
 
 		#endregion
 	}

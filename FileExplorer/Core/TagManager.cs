@@ -7,6 +7,7 @@ using DevExpress.Mvvm;
 using FileExplorer.Helpers;
 using FileExplorer.Messages;
 using FileExplorer.Persistence;
+using MahApps.Metro.IconPacks;
 using Vanara.Windows.Shell;
 
 namespace FileExplorer.Core
@@ -138,6 +139,21 @@ namespace FileExplorer.Core
 
 		public TagManager()
 		{
+			if (App.Repository.TagFolders.Count == 0)
+			{
+				foreach (var defaultTag in DefaultTags)
+				{
+					TagFolder tagFolder = new TagFolder
+					{
+						Name = defaultTag.Key,
+						IconData = FontIconHelper.GetIconData(PackIconFontAwesomeKind.TagSolid),
+						IconColor = defaultTag.Value
+					};
+
+					App.Repository.TagFolders.Add(tagFolder);
+				}
+			}
+
 			DirectoryInfo rootDirectory = new DirectoryInfo(RootPath);
 			if (!rootDirectory.Exists)
 			{
@@ -225,5 +241,15 @@ namespace FileExplorer.Core
 				TagFolders = new ObservableCollection<TagFolder> { tagFolder };
 			}
 		}
+
+		private static readonly Dictionary<string, string> DefaultTags = new Dictionary<string, string>
+		{
+			{ "Red", "#FFF44336" },
+			{ "Blue", "#FF2196F3" },
+			{ "Green", "#FF4CAF50" },
+			{ "Purple", "#FF9C27B0" },
+			{ "Orange", "#FFFB8C00" },
+			{ "Yellow", "#FFFFEB3B" }
+		};
 	}
 }
