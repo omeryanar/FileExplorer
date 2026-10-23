@@ -659,12 +659,12 @@ namespace FileExplorer.Model
         public static FileModel Create(FileSystemInfo fileSystemInfo, FileModel parentModel = null)
         {
             if (FileModelCache.TryGetValue(fileSystemInfo.FullName, out FileModel fileModel))
-                return fileModel;
+				return fileModel;
 
-            fileModel = new FileModel();
+			fileModel = new FileModel();
 
             if (fileSystemInfo is LinkFileInfo linkFileInfo)
-				fileModel.Initialize(linkFileInfo);
+				fileModel.Initialize(linkFileInfo, parentModel);
             else
                 fileModel.Initialize(fileSystemInfo, parentModel);
 
@@ -750,7 +750,7 @@ namespace FileExplorer.Model
 			}
         }
 
-		protected void Initialize(LinkFileInfo linkFileInfo)
+		protected void Initialize(LinkFileInfo linkFileInfo, FileModel parentModel = null)
 		{
 			FullName = linkFileInfo.Name;
 			FullPath = linkFileInfo.FullName;
@@ -796,17 +796,14 @@ namespace FileExplorer.Model
 				IsAudio = MimeType?.StartsWith("audio") == true;
 			}
 
-            if (linkFileInfo.Parent.Exists)
-            {
+			Parent = parentModel;
+			if (Parent == null && linkFileInfo.Parent.Exists)
 				Parent = Create(linkFileInfo.Parent);
-				if (Parent != null)
-				{
-					ParentPath = Parent.IsRoot ? FileSystemHelper.GetParentFolderPath(FullPath) : Parent.FullPath;
-					ParentName = IsPathRooted ? FileSystemHelper.GetFolderName(ParentPath) : Parent.Name;
-				}
-			}
 
-            PropertyChanged += (s, e) =>
+            ParentPath = linkFileInfo.Parent.FullName;
+            ParentName = linkFileInfo.Parent.Name;
+
+			PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(FullPath))
                 {
@@ -831,6 +828,7 @@ namespace FileExplorer.Model
 					RaisePropertyChanged(MediumIconChangedEventArgs);
 					RaisePropertyChanged(LargeIconChangedEventArgs);
 					RaisePropertyChanged(ExtraLargeIconChangedEventArgs);
+                    RaisePropertyChanged(SizeChangedEventArgs);
 
 					FileModelCache.TryAdd(FullPath, this);
 				}
@@ -945,19 +943,36 @@ namespace FileExplorer.Model
                 }
                 else if (message.NotificationType == NotificationType.Remove)
                 {
-                    string parentPath = FileSystemHelper.GetParentFolderPath(message.Path);
-                    if (FileModelCache.TryGetValue(parentPath, out FileModel parent) && FileModelCache.ContainsKey(message.Path))
+					if (FileModelCache.ContainsKey(message.Path))
                     {
-                        FileModelCache.TryRemove(message.Path, out FileModel fileModel);
+						FileModelCache.TryRemove(message.Path, out FileModel fileModel);
 
-                        if (parent.Children != null)
+						if (fileModel.Parent?.Children != null)
+						{
+							fileModel.Parent.Children.Remove(fileModel);
+
+							if (fileModel.Parent.LargestFileSize == fileModel.Size && fileModel.Parent.Children.Count > 0)
+								fileModel.Parent.LargestFileSize = fileModel.Parent.Children.Max(x => x.Size);
+						}
+
+						string parentPath = FileSystemHelper.GetParentFolderPath(message.Path);
+						if (FileModelCache.TryGetValue(parentPath, out FileModel parent) && parent != fileModel.Parent && parent.Children != null)
+						{
+							parent.Children.Remove(fileModel);
+
+							if (parent.LargestFileSize == fileModel.Size && parent.Children.Count > 0)
+								parent.LargestFileSize = parent.Children.Max(x => x.Size);
+						}
+
+                        if (fileModel.Tags?.Count > 0 && TagRoot.Children != null)
                         {
-                            parent.Children.Remove(fileModel);
-
-                            if (parent.LargestFileSize == fileModel.Size && parent.Children.Count > 0)
-                                parent.LargestFileSize = parent.Children.Max(x => x.Size);
+                            foreach (TagFolder tagFolder in fileModel.Tags)
+                            {
+                                TagFolderModel tagFolderModel = TagRoot.Children.OfType<TagFolderModel>().FirstOrDefault(x => x.TagFolder == tagFolder);
+								tagFolderModel.Children?.Remove(fileModel);
+							}
                         }
-                    }
+					}
                 }
                 else if (message.NotificationType == NotificationType.Rename)
                 {
@@ -1416,6 +1431,19 @@ namespace FileExplorer.Model
 
                 App.Repository.TagFolders.CollectionChanged += (s, e) =>
                 {
+                    if (e.Action == NotifyCollectionChangedAction.Remove)
+                    {
+						foreach (TagFolder tagFolder in e.OldItems.OfType<TagFolder>())
+                        {
+							foreach (FileSystemInfo fileSystemInfo in App.TagManager.GetTaggedFiles(tagFolder))
+							{
+                                App.TagManager.RemoveFileTag(fileSystemInfo.FullName, tagFolder);
+                                if (FileModelCache.TryGetValue(fileSystemInfo.FullName, out FileModel fileModel))
+                                    fileModel.Tags = App.TagManager.GetTagFolders(fileSystemInfo.FullName);
+							}
+						}
+                    }
+
                     if (Children == null)
                         return;
 

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -386,6 +387,11 @@ namespace FileExplorer.Core
                             break;
                     }
                 }
+                catch (COMException ex)
+                {
+					if (ex.ErrorCode != (HRESULT)(Win32Error)Win32Error.ERROR_CANCELLED && ex.ErrorCode != HRESULT.COPYENGINE_E_USER_CANCELLED)
+						ShowMessage(ex);
+				}
                 catch (Exception ex)
                 {
                     ShowMessage(ex);
