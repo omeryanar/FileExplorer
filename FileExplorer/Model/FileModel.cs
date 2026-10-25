@@ -1500,11 +1500,11 @@ namespace FileExplorer.Model
 
                 await Task.Run(() =>
                 {
-					foreach (TagFolder tagFolder in App.Repository.TagFolders)
+					foreach (TagFolder tagFolder in App.Repository.TagFolders.OrderBy(x => x.Name))
 						items.Add(new TagFolderModel(tagFolder));
 				});
 
-                Children = new FileModelCollection(items);
+				Children = new FileModelCollection(items);
 			}
 		}
 

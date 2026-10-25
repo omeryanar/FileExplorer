@@ -1,4 +1,5 @@
-﻿using DevExpress.Data.Filtering;
+﻿using System.Linq;
+using DevExpress.Data.Filtering;
 using DevExpress.Xpf.Core.FilteringUI;
 using FileExplorer.Persistence;
 
@@ -48,7 +49,7 @@ namespace FileExplorer.Helpers
 				];
 
 			FileTagFilters = new PredefinedFilterCollection();
-			foreach (TagFolder tagFolder in App.Repository.TagFolders)
+			foreach (TagFolder tagFolder in App.Repository.TagFolders.OrderBy(x => x.Name))
 				FileTagFilters.Add(new PredefinedFilter { Name = tagFolder.Name, Filter = CriteriaOperator.Parse($"Contains(?p, '{tagFolder.Name}')") });
 		}
 	}

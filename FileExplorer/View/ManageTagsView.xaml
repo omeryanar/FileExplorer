@@ -72,7 +72,7 @@
 			</dxg:TableView>
 		</dxg:GridControl.View>
 		<dxg:GridControl.Columns>
-			<dxg:GridColumn FieldName="Name" Header="{Binding Name, Source={StaticResource ResourceProvider}}">
+			<dxg:GridColumn FieldName="Name" SortOrder="Ascending" Header="{Binding Name, Source={StaticResource ResourceProvider}}">
 				<dxg:GridColumn.CellDisplayTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
