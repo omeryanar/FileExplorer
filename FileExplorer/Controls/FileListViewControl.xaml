@@ -10,6 +10,7 @@
                  xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
                  xmlns:main="clr-namespace:FileExplorer"
                  xmlns:common="clr-namespace:FileExplorer.Core"
+				 xmlns:helpers="clr-namespace:FileExplorer.Helpers"
                  xmlns:controls="clr-namespace:FileExplorer.Controls"
                  xmlns:settings="clr-namespace:FileExplorer.Properties"
                  SelectionMode="Row" AutoExpandAllGroups="True" AllowInitiallyFocusedRow="False" ClipboardCopyMode="None"
@@ -157,6 +158,9 @@
                 <dxe:TextEdit Name="PART_Editor" Style="{StaticResource FileNameEditStyle}" />
             </StackPanel>
         </DataTemplate>
+		<DataTemplate x:Key="PredefinedFilterPopupTemplate">
+			<dxfui:ExcelStyleFilterElement x:Name="PART_FilterElement" DefaultFilterType="Rules"/>
+		</DataTemplate>
         <ControlTemplate x:Key="{dxgt:LWKey GridCard.ContainerTemplate}" TargetType="{x:Type ContentControl}">
             <ContentPresenter />
         </ControlTemplate>
@@ -337,7 +341,8 @@
             </dxg:GridColumn.EditFormTemplate>
         </dxg:GridColumn>
         <dxg:GridColumn FieldName="Description" Header="{Binding Type, Source={StaticResource ResourceProvider}}" SortMode="Custom" SortFieldName="Extension" AllowAutoFilter="False" AllowIncrementalSearch="False" />
-		<dxg:GridColumn FieldName="AllTags" Header="{Binding Tags, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True">
+		<dxg:GridColumn FieldName="AllTags" Header="{Binding Tags, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowIncrementalSearch="False" AutoFilterCriteria="Contains" ShowCriteriaInAutoFilterRow="True"
+						CustomColumnFilterPopupTemplate="{StaticResource PredefinedFilterPopupTemplate}" PredefinedFilters="{x:Static helpers:FilterHelper.FileTagFilters}">
 			<dxg:GridColumn.CellDisplayTemplate>
 				<DataTemplate>
 					<ItemsControl ItemsSource="{Binding RowData.Row.Tags}">
@@ -362,38 +367,18 @@
 				</DataTemplate>
 			</dxg:GridColumn.CellDisplayTemplate>
 		</dxg:GridColumn>
-		<dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False">
-            <dxg:GridColumn.PredefinedFilters>
-                <dxfui:PredefinedFilterCollection>
-                    <dxfui:PredefinedFilter Name="Image" Filter="?p IN ('.BMP','.PNG','.JPG','.JPEG','.GIF','.ICO','.SVG','.TIF','.TIFF','.PSD')" />
-                    <dxfui:PredefinedFilter Name="Video" Filter="?p IN ('.AVI','.WMV','.MP4','.MKV','.MOV','.MPG','.MPEG','.M4V','.SWF','.3GP','.FLV','.RM','.VOB')" />
-                    <dxfui:PredefinedFilter Name="Audio" Filter="?p IN ('.WAV','.WMA','.MP3','.MPA','.OGG','.MID','.MIDI')" />
-                    <dxfui:PredefinedFilter Name="Archive" Filter="?p IN ('.7Z','.ZIP','.RAR','.TAR','.GZIP','.LZMA','.CAB')" />
-                    <dxfui:PredefinedFilter Name="Document" Filter="?p IN ('.DOC','.DOCX','.XLS','.XLSX','.PPT','.PPTX','.PPS','.PPSX','.RTF','.CSV','.PDF')" />
-                    <dxfui:PredefinedFilter Name="Executable" Filter="?p IN ('.EXE','.DLL','.MSI','.COM','.JAR','.BIN','.SCR')" />
-                </dxfui:PredefinedFilterCollection>
-            </dxg:GridColumn.PredefinedFilters>
-        </dxg:GridColumn>
+		<dxg:GridColumn FieldName="Extension" Header="{Binding Extension, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False"
+						CustomColumnFilterPopupTemplate="{StaticResource PredefinedFilterPopupTemplate}" PredefinedFilters="{x:Static helpers:FilterHelper.FileExtensionFilters}">
+		</dxg:GridColumn>
         <dxg:GridColumn FieldName="ParentName" Header="{Binding ParentName, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
         <dxg:GridColumn FieldName="ParentPath" Header="{Binding ParentPath, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
         <dxg:GridColumn FieldName="FullPath" Header="{Binding Path, Source={StaticResource ResourceProvider}}" SortMode="Custom" Visible="False" AllowAutoFilter="False" AllowIncrementalSearch="False" />
         <dxg:GridColumn FieldName="Size" Header="{Binding Size, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowAutoFilter="False" AllowIncrementalSearch="False"
-                        CellTemplateSelector="{StaticResource FileSizeTemplateSelector}">
-            <dxg:GridColumn.EditSettings>
-                <dxe:TextEditSettings DisplayTextConverter="{common:IntToFileSizeConverter}"/>
-            </dxg:GridColumn.EditSettings>
-            <dxg:GridColumn.PredefinedFilters>
-                <dxfui:PredefinedFilterCollection>
-                    <dxfui:PredefinedFilter Name="Empty (0 KB)" Filter="?p = 0" />
-                    <dxfui:PredefinedFilter Name="Tiny (0 - 16 KB)" Filter="?p > 0 AND ?p &lt; 16384" />
-                    <dxfui:PredefinedFilter Name="Small (16 KB - 1 MB)" Filter="?p >= 16384 AND ?p &lt; 1048576" />
-                    <dxfui:PredefinedFilter Name="Medium (1 - 128 MB)" Filter="?p >= 1048576 AND ?p &lt; 134217728" />
-                    <dxfui:PredefinedFilter Name="Large (128 MB - 1 GB)" Filter="?p >= 134217728 AND ?p &lt; 1073741824" />
-                    <dxfui:PredefinedFilter Name="Huge (1 - 4 GB)" Filter="?p >= 1073741824 AND ?p &lt; 4294967296" />
-                    <dxfui:PredefinedFilter Name="Gigantic (> 4 GB)" Filter="?p >= 4294967296" />
-                </dxfui:PredefinedFilterCollection>
-            </dxg:GridColumn.PredefinedFilters>
-        </dxg:GridColumn>
+                        CellTemplateSelector="{StaticResource FileSizeTemplateSelector}" CustomColumnFilterPopupTemplate="{StaticResource PredefinedFilterPopupTemplate}" PredefinedFilters="{x:Static helpers:FilterHelper.FileSizeFilters}">
+			<dxg:GridColumn.EditSettings>
+				<dxe:TextEditSettings DisplayTextConverter="{common:IntToFileSizeConverter}"/>
+			</dxg:GridColumn.EditSettings>
+		</dxg:GridColumn>
         <dxg:GridColumn FieldName="DateCreated" Header="{Binding DateCreated, Source={StaticResource ResourceProvider}}" SortMode="Custom" AllowAutoFilter="False" AllowIncrementalSearch="False">
             <dxg:GridColumn.EditSettings>
                 <dxe:TextEditSettings DisplayFormat="{Binding DateTimeFormatString, Mode=TwoWay, Source={x:Static settings:Settings.Default}}" />
@@ -491,7 +476,7 @@
                         <dxb:BarButtonItemLink BarItemName="OpenInNewWindow" />
                         <dxb:BarButtonItemLink BarItemName="Properties" />
                         <dxb:BarItemLinkSeparator />
-                        <dxb:BarButtonItemLink BarItemName="OpenContainingFolder" IsVisible="{Binding HighlightedText, Converter={dxmvvm:StringToBooleanConverter}}" />
+                        <dxb:BarButtonItemLink BarItemName="OpenContainingFolder" />
                     </dxb:BarLinkContainerItem.ItemLinks>
                 </dxb:BarLinkContainerItem>
                 <dxb:BarLinkContainerItem IsVisible="{Binding CurrentFolder.IsRecycleBin}">

@@ -427,7 +427,7 @@
                         <dxr:RibbonPageGroup Caption="{Binding Options, Source={StaticResource ResourceProvider}}">
                             <dxb:BarButtonItem x:Name="OpenContainingFolder" Content="{Binding OpenContainingFolder, Source={StaticResource ResourceProvider}}"
                                                Command="{Binding OpenInNewTabCommand}" CommandParameter="{Binding SelectedItem.Parent, ElementName=FileList}"
-                                               common:IconGlyph.Source="OpenFolder" />
+                                               common:IconGlyph.Source="OpenFolder" IsVisible="{Binding HighlightedText, Converter={dxmvvm:StringToBooleanConverter}}" />
                             <dxb:BarButtonItem Content="{Binding Close, Source={StaticResource ResourceProvider}}" Command="{DXCommand 'SearchText = ``'}"
                                                common:IconGlyph.Source="Delete" />
                         </dxr:RibbonPageGroup>
