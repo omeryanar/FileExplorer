@@ -9,6 +9,18 @@ https://github.com/omeryanar/FileExplorer/releases/latest/download/FileExplorer.
 
 ## Features
 
+### File & Folder Tagging
+
+File Explorer allows you to add custom tags to any type of file or folder. Tagging does not change the names or contents of your files, and their modification dates remain unchanged. If files are renamed or moved to another folder, the tag information is preserved even if File Explorer is not running.
+
+![Tags](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Tags1.png)
+
+You can create as many tags as you want by choosing a name, color, and icon.
+
+![Tags](https://github.com/omeryanar/Resources/blob/master/FileExplorer/Tags2.png)
+
+Details: https://github.com/omeryanar/FileExplorer/wiki#file--folder-tagging
+
 ### Tabbed Browsing
 
 When you click a folder with the middle mouse button or the CTRL key and the left mouse button, the folder opens in a new tab.
